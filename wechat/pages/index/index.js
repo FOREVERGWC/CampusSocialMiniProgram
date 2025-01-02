@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    activeTab: '1',
     records: [],
     loading: true,
     refreshing: false,
@@ -25,7 +26,9 @@ Page({
   },
 
   onTabsChange(event) {
-    console.log(`Change tab, tab-panel value is ${event.detail.value}.`);
+    this.setData({
+      activeTab: event.detail.value
+    });
   },
 
   onTabsClick(event) {
@@ -86,7 +89,7 @@ Page({
     this.setData({
       refreshing: true
     })
-    
+
     setTimeout(() => {
       this.setData({
         records: records,
@@ -102,7 +105,7 @@ Page({
     this.setData({
       loading: true
     })
-    
+
     setTimeout(() => {
       this.setData({
         records: this.data.records.concat(records),

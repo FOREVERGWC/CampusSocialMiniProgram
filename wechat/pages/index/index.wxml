@@ -1,7 +1,7 @@
 <!--pages/index/index.wxml-->
 <cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}" />
 
-<t-tabs defaultValue="{{ 1 }}" bind:change="onTabsChange" bind:click="onTabsClick">
+<t-tabs defaultValue="{{ activeTab }}" bind:change="onTabsChange" bind:click="onTabsClick">
   <t-tab-panel icon="view-list" label="" value="0" />
   <t-tab-panel label="校园趣事" value="1" />
   <t-tab-panel label="校园评分" value="2" />
@@ -12,7 +12,8 @@
 <view wx:if="{{ loading }}" class="cu-load loading" />
 
 <scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="scroll-container padding-bottom-xl" lower-threshold="100">
-  <view class="cu-card case">
+  <!-- 校园趣事 -->
+  <view class="cu-card case" wx:if="{{ activeTab === '1' }}">
     <view class="flex flex-wrap">
       <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="cu-item bg-white shadow flex-sub margin-xs radius">
         <view class="image" style="margin: 0;">
@@ -31,5 +32,16 @@
       </view>
     </view>
   </view>
+
+  <!-- 校园评分 -->
+  <view wx:if="{{ activeTab === '2' }}" class="padding-lg text-center text-grey">
+    校园评分功能开发中...
+  </view>
+
+  <!-- 找搭子 -->
+  <view wx:if="{{ activeTab === '3' }}" class="padding-lg text-center text-grey">
+    找搭子功能开发中...
+  </view>
+
   <view class="cu-load over" />
 </scroll-view>
