@@ -13,35 +13,13 @@
 
 <scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="scroll-container padding-bottom-xl" lower-threshold="100">
   <!-- 校园趣事 -->
-  <view class="cu-card case" wx:if="{{ activeTab === '1' }}">
-    <view class="flex flex-wrap">
-      <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="cu-item bg-white shadow flex-sub margin-xs radius">
-        <view class="image" style="margin: 0;">
-          <image src="{{ item.img }}" />
-        </view>
-        <view class="text-content padding-xs">
-          <view class="margin-bottom-xs">{{ item.title }}</view>
-          <view class="flex justify-between text-grey text-sm">
-            <view class="flex align-center" style="gap: 8rpx;">
-              <view class="cu-avatar round xs" style="background-image:url({{item.author.avatar}});"></view>
-              <text>{{ item.author.username }}</text>
-            </view>
-            <text class="cuIcon-appreciatefill margin-lr-xs">{{ item.like }}</text>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
+  <campus-fun wx:if="{{ activeTab === '1' }}" records="{{ records }}" />
 
   <!-- 校园评分 -->
-  <view wx:if="{{ activeTab === '2' }}" class="padding-lg text-center text-grey">
-    校园评分功能开发中...
-  </view>
+  <campus-rating wx:if="{{ activeTab === '2' }}" />
 
   <!-- 找搭子 -->
-  <view wx:if="{{ activeTab === '3' }}" class="padding-lg text-center text-grey">
-    找搭子功能开发中...
-  </view>
+  <find-partner wx:if="{{ activeTab === '3' }}" />
 
   <view class="cu-load over" />
 </scroll-view>

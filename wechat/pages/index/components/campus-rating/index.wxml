@@ -1,0 +1,4 @@
+<!--pages/index/components/campus-rating/index.wxml-->
+<view class="padding-lg text-center text-grey">
+  校园评分功能开发中...
+</view>
