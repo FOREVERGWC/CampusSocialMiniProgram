@@ -1,0 +1,9 @@
+/* pages/my/index.wxss */
+.cu-avatar.xs {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.scroll-container {
+  height: calc(100vh - 100rpx);
+}

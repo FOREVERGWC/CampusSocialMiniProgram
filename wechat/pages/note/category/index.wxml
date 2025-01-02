@@ -1,0 +1,35 @@
+<!--pages/note/category/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}" />
+
+<view class="padding-sm">
+  <view class="grid col-5 grid-square">
+    <view class="padding-xs" wx:for="{{ categoryList }}" wx:key="id" bindtap="onToCategoryDetail" data-id="{{ item.id }}">
+      <view class="bg-white padding-sm radius text-center">
+        <text class="cuIcon-{{ item.icon }} text-xxl"></text>
+        <view class="text-sm padding-top-xs">{{ item.name }}</view>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="padding-sm">
+  <view class="cu-card case">
+    <view class="flex flex-wrap">
+      <view wx:for="{{ records }}" wx:key="id" class="cu-item bg-white shadow flex-sub margin-xs radius">
+        <view class="image">
+          <image src="{{ item.img }}" mode="aspectFill"></image>
+        </view>
+        <view class="text-content padding-xs">
+          <view class="margin-bottom-xs">{{ item.title }}</view>
+          <view class="flex justify-between text-grey text-sm">
+            <view class="flex align-center" style="gap: 8rpx;">
+              <view class="cu-avatar round xs" style="background-image:url({{item.author.avatar}});"></view>
+              <text>{{ item.author.username }}</text>
+            </view>
+            <text class="cuIcon-appreciatefill margin-lr-xs">{{ item.like }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

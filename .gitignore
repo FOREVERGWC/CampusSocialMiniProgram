@@ -1,0 +1,9 @@
+/wechat/node_modules/
+/wechat/miniprogram_npm/
+/.idea/
+/springboot/.idea/
+/springboot/.mvn/
+/springboot/HELP.md
+/springboot/mvnw
+/springboot/mvnw.cmd
+/springboot/target/

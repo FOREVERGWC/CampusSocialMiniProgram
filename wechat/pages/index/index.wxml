@@ -1,0 +1,35 @@
+<!--pages/index/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}" />
+
+<t-tabs defaultValue="{{ 1 }}" bind:change="onTabsChange" bind:click="onTabsClick">
+  <t-tab-panel icon="view-list" label="" value="0" />
+  <t-tab-panel label="校园趣事" value="1" />
+  <t-tab-panel label="校园评分" value="2" />
+  <t-tab-panel label="找搭子" value="3" />
+  <t-tab-panel icon="search" label="" value="4" />
+</t-tabs>
+
+<view wx:if="{{ loading }}" class="cu-load loading" />
+
+<scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="scroll-container padding-bottom-xl" lower-threshold="100">
+  <view class="cu-card case">
+    <view class="flex flex-wrap">
+      <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="cu-item bg-white shadow flex-sub margin-xs radius">
+        <view class="image" style="margin: 0;">
+          <image src="{{ item.img }}" />
+        </view>
+        <view class="text-content padding-xs">
+          <view class="margin-bottom-xs">{{ item.title }}</view>
+          <view class="flex justify-between text-grey text-sm">
+            <view class="flex align-center" style="gap: 8rpx;">
+              <view class="cu-avatar round xs" style="background-image:url({{item.author.avatar}});"></view>
+              <text>{{ item.author.username }}</text>
+            </view>
+            <text class="cuIcon-appreciatefill margin-lr-xs">{{ item.like }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="cu-load over" />
+</scroll-view>

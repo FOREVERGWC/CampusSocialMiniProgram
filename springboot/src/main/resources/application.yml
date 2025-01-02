@@ -1,0 +1,19 @@
+server:
+  port: 9091
+  servlet:
+    context-path: /
+    encoding:
+      force-response: true
+  compression:
+    enabled: true
+    mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
+  tomcat:
+    uri-encoding: UTF-8
+    accept-count: 1000
+    threads:
+      max: 800
+      min-spare: 100
+
+spring:
+  application:
+    name: CampusSocialMiniProgram

@@ -1,0 +1,5 @@
+/* pages/note/detail/index.wxss */
+.detail-image {
+  width: 100%;
+  height: 60vh;
+}
