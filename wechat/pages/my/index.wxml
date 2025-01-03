@@ -1,2 +1,57 @@
 <!--pages/my/index.wxml-->
-<text>pages/my/index.wxml</text>
+<view class="bg-white padding-top-xl" style="height: 100vh;">
+  <t-sticky offset-top="40">
+    <view class="flex padding-lr padding-tb-lg">
+      <view class="cu-tag radius padding-lr-sm">XXX大学</view>
+    </view>
+  </t-sticky>
+
+  <!-- 用户信息 -->
+  <view class="flex align-center padding user-info-box">
+    <t-avatar image="{{ userInfo.avatarUrl || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
+    <view class="user-detail">
+      <view class="nickname">{{ userInfo.nickName || '未登录' }}</view>
+      <view class="user-id">用户ID：{{ userInfo.userId || '--' }}</view>
+    </view>
+    <t-button variant="text" shape="circle" icon="edit" bind:tap="editProfile" />
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="flex justify-between margin-top">
+    <view class="flex justify-around flex-sub">
+      <view class="text-center text-sm">
+        <view class="text-bold">{{ stats.follows || 0 }}</view>
+        <view class="margin-top-xs">关注</view>
+      </view>
+      <view class="text-center text-sm">
+        <view class="text-bold">{{ stats.fans || 0 }}</view>
+        <view class="margin-top-xs">粉丝</view>
+      </view>
+      <view class="text-center text-sm">
+        <view class="text-bold">{{ stats.likes || 0 }}</view>
+        <view class="margin-top-xs">获赞与收藏</view>
+      </view>
+    </view>
+    <view class="flex justify-between padding-right-xs" style="gap: 16rpx;">
+      <t-button size="small" theme="light" shape="round">编辑资料</t-button>
+      <t-button size="small" theme="light" icon="setting" shape="round" />
+    </view>
+  </view>
+
+  <!-- 笔记标签页 -->
+  <t-tabs value="{{ activeTab }}" bind:change="onTabChange">
+    <t-tab-panel label="笔记" value="0">
+      <view class="notes-stats">
+        <text>公开 {{ stats.public || 0 }}</text>
+        <text class="cuIcon-lock"> 私密 {{ stats.private || 0 }}</text>
+        <text>合集 {{ stats.collections || 0 }}</text>
+      </view>
+      <view class="empty-notes" wx:if="{{ !hasNotes }}">
+        <image src="/images/empty-notes.png" mode="aspectFit" />
+        <text>还没有笔记哦</text>
+      </view>
+    </t-tab-panel>
+    <t-tab-panel label="收藏" value="1" />
+    <t-tab-panel label="赞过" value="2" />
+  </t-tabs>
+</view>

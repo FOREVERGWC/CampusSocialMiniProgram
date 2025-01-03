@@ -5,14 +5,24 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    userInfo: {},
+    stats: {
+      follows: 0,
+      fans: 0,
+      likes: 0,
+      public: 0,
+      private: 0,
+      collections: 0
+    },
+    activeTab: '0',
+    hasNotes: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    this.getUserInfo()
   },
 
   /**
@@ -62,5 +72,21 @@ Page({
    */
   onShareAppMessage() {
 
+  },
+
+  getUserInfo() {
+    // 获取用户信息的逻辑
+  },
+
+  editProfile() {
+    wx.navigateTo({
+      url: '/pages/profile/edit/index'
+    })
+  },
+
+  onTabChange(e) {
+    this.setData({
+      activeTab: e.detail.value
+    })
   }
 })

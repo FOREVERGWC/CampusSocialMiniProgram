@@ -47,9 +47,13 @@
   },
   "usingComponents": {
     "cu-custom": "/colorui/components/cu-custom",
+    "t-avatar": "tdesign-miniprogram/avatar/avatar",
     "t-button": "tdesign-miniprogram/button/button",
+    "t-cell": "tdesign-miniprogram/cell/cell",
+    "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-rate": "tdesign-miniprogram/rate/rate",
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
+    "t-sticky": "tdesign-miniprogram/sticky/sticky",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel"
   }
