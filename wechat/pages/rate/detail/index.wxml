@@ -1,0 +1,12 @@
+<!--pages/rate/detail/index.wxml-->
+<view class="bg-white">
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+    <view slot="content">
+      <text>校园之花</text>
+    </view>
+  </cu-custom>
+
+  <view>
+    <t-rate value="{{ value }}" bind:change="onChange" />
+  </view>
+</view>

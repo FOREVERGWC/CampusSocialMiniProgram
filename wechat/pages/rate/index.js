@@ -1,11 +1,34 @@
 // pages/rate/index.js
+import {
+  records
+} from '../../utils/common'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    records: [],
+    loading: true,
+    refreshing: false,
+    end: true
+  },
 
+  getRecords() {
+    setTimeout(() => {
+      this.setData({
+        records: records,
+        loading: false
+      })
+    }, 1000)
+  },
+
+  onToDetail(event) {
+    const id = event.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: `/pages/rate/detail/index?id=${id}`
+    });
   },
 
   /**
@@ -26,7 +49,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getRecords()
   },
 
   /**
@@ -47,14 +70,32 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
+    this.setData({
+      refreshing: true
+    })
 
+    setTimeout(() => {
+      this.setData({
+        records: records,
+        refreshing: false
+      })
+    }, 1000)
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
+    this.setData({
+      loading: true
+    })
 
+    setTimeout(() => {
+      this.setData({
+        records: this.data.records.concat(records),
+        loading: false
+      })
+    }, 1000)
   },
 
   /**

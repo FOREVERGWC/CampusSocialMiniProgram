@@ -6,6 +6,7 @@
     "pages/note/save/index",
     "pages/note/category/index",
     "pages/rate/index",
+    "pages/rate/detail/index",
     "pages/message/index",
     "pages/my/index",
     "pages/logs/logs"
@@ -47,6 +48,7 @@
   "usingComponents": {
     "cu-custom": "/colorui/components/cu-custom",
     "t-button": "tdesign-miniprogram/button/button",
+    "t-rate": "tdesign-miniprogram/rate/rate",
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel"

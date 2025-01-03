@@ -16,7 +16,7 @@
   <campus-fun wx:if="{{ activeTab === '1' }}" records="{{ records }}" />
 
   <!-- 校园评分 -->
-  <campus-rating wx:if="{{ activeTab === '2' }}" />
+  <campus-rating wx:if="{{ activeTab === '2' }}" records="{{ records }}" />
 
   <!-- 找搭子 -->
   <find-partner wx:if="{{ activeTab === '3' }}" />
