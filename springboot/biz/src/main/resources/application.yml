@@ -1,0 +1,126 @@
+server:
+  port: 9091
+  servlet:
+    context-path: /
+    encoding:
+      force-response: true
+  compression:
+    enabled: true
+    mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
+  tomcat:
+    uri-encoding: UTF-8
+    accept-count: 1000
+    threads:
+      max: 800
+      min-spare: 100
+
+spring:
+  application:
+    name: 校园社交小程序
+  profiles:
+    active: @profiles.active@
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  data:
+    redis:
+      timeout: 10s
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1
+          max-idle: 8
+          min-idle: 0
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      cache-null-values: true
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+  main:
+    banner-mode: off
+  mvc:
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations: file:${upload.path}
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 916586595@qq.com
+    password: qjjzsjumncrwbefg
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: WEB-INF/**
+
+logging:
+  pattern:
+    dateformat: "yyyy-MM-dd HH:mm:ss.SSS"
+  level:
+    com.baomidou.mybatisplus: DEBUG
+    org.example.springboot.system.mapper: DEBUG
+    org.example.springboot.biz.mapper: DEBUG
+  file:
+    name: ../logs/${spring.application.name}.log
+  logback:
+    rollingpolicy:
+      max-file-size: 500KB
+      file-name-pattern: ../logs/${spring.application.name}.%d.%i.log
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: org.example.springboot.**.domain.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    map-underscore-to-camel-case: true
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    banner: off
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: '系统模块'
+      paths-to-match: '/**'
+      packages-to-scan: org.example.springboot.system
+    - group: '业务模块'
+      paths-to-match: '/**'
+      packages-to-scan: org.example.springboot.biz
+
+knife4j:
+  setting:
+    language: zh_cn
+    swagger-model-name: 实体列表
+
+captcha:
+  enabled: false
+
+alipay:
+  appId: 11111
+  pid: 1111
+  privateKey: aaa
+  publicKey: bbbb
+  notifyUrl: http://localhost:${server.port}/alipay/callback
+  returnUrl: http://localhost:8082/#/paySuccess
+  signType: RSA2
+  charset: utf-8
+  format: json
+  gateway: https://openapi-sandbox.dl.alipaydev.com/gateway.do
