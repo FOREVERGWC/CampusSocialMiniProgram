@@ -43,7 +43,7 @@ public class Comment extends BaseEntity {
      * 业务类型
      */
     @Schema(description = "业务类型")
-    private Byte bizType;
+    private Integer bizType;
     /**
      * 内容
      */

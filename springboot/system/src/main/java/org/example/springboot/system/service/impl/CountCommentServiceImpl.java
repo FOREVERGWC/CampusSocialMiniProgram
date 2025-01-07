@@ -1,7 +1,6 @@
 package org.example.springboot.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,7 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 /**
  * <p>
@@ -64,6 +63,21 @@ public class CountCommentServiceImpl extends ServiceImpl<CountCommentMapper, Cou
         return vo;
     }
 
+    @Override
+    public void countPlus(Long bizId, Integer bizType) {
+        CountComment count = Optional.ofNullable(lambdaQuery()
+                        .eq(CountComment::getBizId, bizId)
+                        .eq(CountComment::getBizType, bizType)
+                        .one())
+                .orElse(CountComment.builder()
+                        .bizId(bizId)
+                        .bizType(bizType)
+                        .count(1L)
+                        .build());
+
+        saveOrUpdate(count);
+    }
+
     /**
      * 组装查询包装器
      *
@@ -71,21 +85,10 @@ public class CountCommentServiceImpl extends ServiceImpl<CountCommentMapper, Cou
      * @return 结果
      */
     private LambdaQueryChainWrapper<CountComment> getWrapper(CountComment entity) {
-        LambdaQueryChainWrapper<CountComment> wrapper = lambdaQuery()
+        return lambdaQuery()
                 .eq(entity.getId() != null, CountComment::getId, entity.getId())
                 .eq(entity.getBizId() != null, CountComment::getBizId, entity.getBizId())
                 .eq(entity.getBizType() != null, CountComment::getBizType, entity.getBizType())
                 .eq(entity.getCount() != null, CountComment::getCount, entity.getCount());
-        if (entity instanceof CountCommentDto dto) {
-            Map<String, Object> params = dto.getParams();
-            // 创建时间
-            Object startCreateTime = params == null ? null : params.get("startCreateTime");
-            Object endCreateTime = params == null ? null : params.get("endCreateTime");
-
-            wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
-                    CountComment::getCreateTime,
-                    startCreateTime, endCreateTime);
-        }
-        return wrapper;
     }
 }

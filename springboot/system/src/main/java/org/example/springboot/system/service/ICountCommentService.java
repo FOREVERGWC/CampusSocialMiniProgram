@@ -37,4 +37,12 @@ public interface ICountCommentService extends IService<CountComment> {
      * @return 结果
      */
     CountCommentVo getOne(CountCommentDto dto);
+
+    /**
+     * 增加评论量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     */
+    void countPlus(Long bizId, Integer bizType);
 }

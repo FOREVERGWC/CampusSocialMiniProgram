@@ -3,20 +3,27 @@ package org.example.springboot.system.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.useragent.UserAgent;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import org.example.springboot.common.utils.AddressUtils;
+import org.example.springboot.common.utils.ServletUtils;
 import org.example.springboot.system.domain.dto.CommentDto;
 import org.example.springboot.system.domain.entity.Comment;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.vo.CommentVo;
 import org.example.springboot.system.mapper.CommentMapper;
 import org.example.springboot.system.service.ICommentService;
+import org.example.springboot.system.service.ICountCommentService;
 import org.example.springboot.system.service.IUserService;
+import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +39,37 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements ICommentService {
     @Resource
     private IUserService userService;
+    @Resource
+    private ICountCommentService countCommentService;
+
+    @Transactional
+    @Override
+    public boolean save(Comment entity) {
+        HttpServletRequest request = ServletUtils.getRequest();
+        UserAgent ua = ServletUtils.getUserAgent(request);
+        String ip = ServletUtils.getUserIp(request);
+        String location = AddressUtils.getRealAddressByIP(ip);
+        Long userId = UserUtils.getLoginUserId();
+
+        entity.setReplyId(entity.getReplyId() == null ? 0L : entity.getReplyId());
+        entity.setUserId(userId);
+        entity.setOs(ua.getOs().getName());
+        entity.setIp(ip);
+        entity.setLocation(location);
+
+        boolean flag = super.save(entity);
+        countCommentService.countPlus(entity.getBizId(), entity.getBizType());
+        return flag;
+    }
+
+    @Transactional
+    @Override
+    public boolean saveOrUpdate(Comment entity) {
+        if (entity.getId() == null) {
+            return save(entity);
+        }
+        return super.updateById(entity);
+    }
 
     @Override
     public List<CommentVo> getList(CommentDto dto) {
