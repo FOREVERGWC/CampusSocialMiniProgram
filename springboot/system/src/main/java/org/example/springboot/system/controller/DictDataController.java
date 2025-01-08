@@ -88,20 +88,6 @@ public class DictDataController {
     /**
      * 查询字典数据
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @PreAuthorize("hasAuthority('system:dict:data:query')")
-    @GetMapping("/{id}")
-    @Operation(summary = "查询字典数据", description = "查询字典数据", method = "GET")
-    public Result<DictData> getById(@PathVariable Long id) {
-        DictData vo = dictDataService.getById(id);
-        return Result.success(vo);
-    }
-
-    /**
-     * 查询字典数据
-     *
      * @param dto 字典数据
      * @return 结果
      */
@@ -114,16 +100,30 @@ public class DictDataController {
     }
 
     /**
+     * 查询字典数据
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @PreAuthorize("hasAuthority('system:dict:data:query')")
+    @GetMapping("/{id}")
+    @Operation(summary = "查询字典数据", description = "查询字典数据", method = "GET")
+    public Result<DictDataVo> getById(@PathVariable Long id) {
+        DictDataVo vo = dictDataService.getOne(DictDataDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
      * 导出字典数据
      *
-     * @param dictData 字典数据
+     * @param entity   字典数据
      * @param response 响应对象
      */
     @PreAuthorize("hasAnyAuthority('system:dict:data:export')")
     @GetMapping("/export")
     @Operation(summary = "导出字典数据", description = "导出字典数据", method = "GET")
-    public void exportExcel(DictData dictData, HttpServletResponse response) {
-        dictDataService.exportExcel(dictData, response);
+    public void exportExcel(DictData entity, HttpServletResponse response) {
+        dictDataService.exportExcel(entity, response);
     }
 
     /**

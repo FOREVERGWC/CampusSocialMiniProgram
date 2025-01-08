@@ -2,6 +2,7 @@ package org.example.springboot.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.system.domain.dto.FollowDto;
 import org.example.springboot.system.domain.entity.Follow;
 import org.example.springboot.system.domain.vo.FollowVo;
@@ -37,4 +38,12 @@ public interface IFollowService extends IService<Follow> {
      * @return 结果
      */
     FollowVo getOne(FollowDto dto);
+
+    /**
+     * 导出关注
+     *
+     * @param entity   关注
+     * @param response 响应对象
+     */
+    void exportExcel(Follow entity, HttpServletResponse response);
 }

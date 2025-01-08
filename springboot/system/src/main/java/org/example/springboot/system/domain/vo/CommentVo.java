@@ -8,6 +8,7 @@ import org.example.springboot.system.domain.entity.Comment;
 import org.example.springboot.system.domain.entity.User;
 
 import java.io.Serial;
+import java.util.List;
 
 /**
  * <p>
@@ -35,4 +36,9 @@ public class CommentVo extends Comment {
      */
     @Schema(description = "用户")
     private User user;
+    /**
+     * 子菜单
+     */
+    @Schema(description = "子菜单")
+    List<CommentVo> children;
 }

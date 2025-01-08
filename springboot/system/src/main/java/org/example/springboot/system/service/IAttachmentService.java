@@ -8,6 +8,7 @@ import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.vo.AttachmentVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -71,5 +72,14 @@ public interface IAttachmentService extends IService<Attachment> {
      * @param bizType   业务类型
      * @return 结果
      */
-    List<Attachment> listByBizIdAndBizType(List<Long> bizIdList, Integer bizType);
+    List<Attachment> listByBizIdsAndBizType(List<Long> bizIdList, Integer bizType);
+
+    /**
+     * 根据业务ID列表和业务类型查询附件列表分组
+     *
+     * @param bizIdList 业务ID列表
+     * @param bizType   业务类型
+     * @return 结果
+     */
+    Map<Long, List<Attachment>> groupByBizIdsAndBizType(List<Long> bizIdList, Integer bizType);
 }

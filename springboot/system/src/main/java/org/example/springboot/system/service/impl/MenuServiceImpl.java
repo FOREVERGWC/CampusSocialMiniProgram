@@ -62,7 +62,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     @Override
     public boolean saveOrUpdate(Menu entity) {
         // 祖级菜单ID
-        if (entity.getParentId() == 0L) {
+        if (entity.getParentId() == null || entity.getParentId() == 0L) {
+            entity.setParentId(0L);
             entity.setAncestorId(0L);
         } else {
             Long ancestorId = DataUtils.getAncestorId(entity.getParentId(), this::getById, Menu::getParentId);
@@ -89,12 +90,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 
     @Override
     public List<MenuVo> getList(MenuDto dto) {
-        List<Menu> menuList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(menuList)) {
+        List<Menu> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return menuList.stream().map(item -> {
+        return list.stream().map(item -> {
             MenuVo vo = new MenuVo();
             BeanUtils.copyProperties(item, vo);
             return vo;

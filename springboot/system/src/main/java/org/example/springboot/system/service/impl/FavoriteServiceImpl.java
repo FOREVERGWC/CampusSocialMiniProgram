@@ -6,12 +6,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.springboot.common.service.IBaseService;
+import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.domain.dto.FavoriteDto;
 import org.example.springboot.system.domain.entity.Favorite;
 import org.example.springboot.system.domain.vo.FavoriteVo;
 import org.example.springboot.system.mapper.FavoriteMapper;
 import org.example.springboot.system.service.IFavoriteService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,15 +28,18 @@ import java.util.Map;
  * </p>
  */
 @Service
-public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> implements IFavoriteService {
+public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> implements IFavoriteService, IBaseService<Favorite> {
+    @Resource
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     @Override
     public List<FavoriteVo> getList(FavoriteDto dto) {
-        List<Favorite> favoriteList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(favoriteList)) {
+        List<Favorite> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return favoriteList.stream().map(item -> {
+        return list.stream().map(item -> {
             FavoriteVo vo = new FavoriteVo();
             BeanUtils.copyProperties(item, vo);
             return vo;
@@ -64,13 +72,22 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
         return vo;
     }
 
-    /**
-     * 组装查询包装器
-     *
-     * @param entity 收藏
-     * @return 结果
-     */
-    private LambdaQueryChainWrapper<Favorite> getWrapper(Favorite entity) {
+    @Override
+    public void exportExcel(Favorite entity, HttpServletResponse response) {
+        ExcelUtils.exportExcel(response, this, entity, Favorite.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public List<Favorite> getPageList(Favorite entity, IPage<Favorite> page) {
+        IPage<Favorite> info = getWrapper(entity).page(page);
+        if (CollectionUtil.isEmpty(info.getRecords())) {
+            return List.of();
+        }
+        return info.getRecords();
+    }
+
+    @Override
+    public LambdaQueryChainWrapper<Favorite> getWrapper(Favorite entity) {
         LambdaQueryChainWrapper<Favorite> wrapper = lambdaQuery()
                 .eq(entity.getId() != null, Favorite::getId, entity.getId())
                 .eq(entity.getBizId() != null, Favorite::getBizId, entity.getBizId())

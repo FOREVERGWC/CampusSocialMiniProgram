@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.FavoriteDto;
 import org.example.springboot.system.domain.entity.Favorite;
@@ -88,5 +89,30 @@ public class FavoriteController {
     public Result<FavoriteVo> getOne(FavoriteDto dto) {
         FavoriteVo vo = favoriteService.getOne(dto);
         return Result.success(vo);
+    }
+
+    /**
+     * 查询收藏
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询收藏", description = "查询收藏", method = "GET")
+    public Result<FavoriteVo> getById(@PathVariable Long id) {
+        FavoriteVo vo = favoriteService.getOne(FavoriteDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
+     * 导出收藏
+     *
+     * @param entity   收藏
+     * @param response 响应对象
+     */
+    @GetMapping("/export")
+    @Operation(summary = "导出收藏", description = "导出收藏", method = "GET")
+    public void exportExcel(Favorite entity, HttpServletResponse response) {
+        favoriteService.exportExcel(entity, response);
     }
 }

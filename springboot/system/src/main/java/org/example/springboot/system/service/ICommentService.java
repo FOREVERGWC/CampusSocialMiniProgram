@@ -2,6 +2,7 @@ package org.example.springboot.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.system.domain.dto.CommentDto;
 import org.example.springboot.system.domain.entity.Comment;
 import org.example.springboot.system.domain.vo.CommentVo;
@@ -37,4 +38,12 @@ public interface ICommentService extends IService<Comment> {
      * @return 结果
      */
     CommentVo getOne(CommentDto dto);
+
+    /**
+     * 导出评论
+     *
+     * @param entity   评论
+     * @param response 响应对象
+     */
+    void exportExcel(Comment entity, HttpServletResponse response);
 }

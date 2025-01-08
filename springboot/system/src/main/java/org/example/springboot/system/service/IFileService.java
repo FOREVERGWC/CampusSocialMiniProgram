@@ -14,10 +14,12 @@ public interface IFileService {
      * 文件校验
      *
      * @param hashCode   散列值
+     * @param bizId      业务ID
+     * @param bizType    业务类型
      * @param chunkTotal 分片数量
      * @return 结果
      */
-    AttachmentCheckVo checkFile(String hashCode, Integer chunkTotal);
+    AttachmentCheckVo checkFile(String hashCode, Long bizId, Integer bizType, Integer chunkTotal);
 
     /**
      * 文件上传

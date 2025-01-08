@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.CountViewDto;
 import org.example.springboot.system.domain.entity.CountView;
@@ -88,5 +89,30 @@ public class CountViewController {
     public Result<CountViewVo> getOne(CountViewDto dto) {
         CountViewVo vo = countViewService.getOne(dto);
         return Result.success(vo);
+    }
+
+    /**
+     * 查询浏览量
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询浏览量", description = "查询浏览量", method = "GET")
+    public Result<CountViewVo> getById(@PathVariable Long id) {
+        CountViewVo vo = countViewService.getOne(CountViewDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
+     * 导出浏览量
+     *
+     * @param entity   浏览量
+     * @param response 响应对象
+     */
+    @GetMapping("/export")
+    @Operation(summary = "导出浏览量", description = "导出浏览量", method = "GET")
+    public void exportExcel(CountView entity, HttpServletResponse response) {
+        countViewService.exportExcel(entity, response);
     }
 }

@@ -22,13 +22,33 @@ public enum BizType {
      */
     OTHER(0, "其他"),
     /**
-     * 系统
+     * 头像
      */
-    SYSTEM(1, "系统"),
+    AVATAR(1, "头像"),
     /**
      * 二手车
      */
-    BIZ_CAR(2, "二手车");
+    BIZ_CAR(2, "二手车"),
+    /**
+     * 二手车品牌
+     */
+    BIZ_CAR_BRAND(3, "二手车品牌"),
+    /**
+     * 二手车型号
+     */
+    BIZ_CAR_MODEL(4, "二手车型号"),
+    /**
+     * 评论
+     */
+    SYS_COMMENT(5, "评论"),
+    /**
+     * 排行榜
+     */
+    BIZ_RANK(6, "排行榜"),
+    /**
+     * 品牌服务
+     */
+    BIZ_SERVER(7, "品牌服务");
 
 
     private static final Map<Integer, BizType> map = new HashMap<>();

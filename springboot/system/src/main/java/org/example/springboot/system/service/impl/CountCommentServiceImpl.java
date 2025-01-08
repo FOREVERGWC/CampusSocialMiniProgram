@@ -14,7 +14,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -25,12 +27,12 @@ import java.util.Optional;
 public class CountCommentServiceImpl extends ServiceImpl<CountCommentMapper, CountComment> implements ICountCommentService {
     @Override
     public List<CountCommentVo> getList(CountCommentDto dto) {
-        List<CountComment> countCommentList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(countCommentList)) {
+        List<CountComment> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return countCommentList.stream().map(item -> {
+        return list.stream().map(item -> {
             CountCommentVo vo = new CountCommentVo();
             BeanUtils.copyProperties(item, vo);
             return vo;
@@ -76,6 +78,35 @@ public class CountCommentServiceImpl extends ServiceImpl<CountCommentMapper, Cou
                         .build());
 
         saveOrUpdate(count);
+    }
+
+    @Override
+    public Long getByBizIdAndBizType(Long bizId, Integer bizType) {
+        CountComment one = lambdaQuery()
+                .eq(CountComment::getBizId, bizId)
+                .eq(CountComment::getBizType, bizType)
+                .one();
+
+        if (one == null) {
+            return 0L;
+        }
+
+        return one.getCount();
+    }
+
+    @Override
+    public Map<Long, Long> mapByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
+        List<CountComment> list = lambdaQuery()
+                .in(CountComment::getBizId, bizIds)
+                .eq(CountComment::getBizType, bizType)
+                .list();
+
+        if (CollectionUtil.isEmpty(list)) {
+            return Map.of();
+        }
+
+        return list.stream()
+                .collect(Collectors.toMap(CountComment::getId, CountComment::getCount));
     }
 
     /**

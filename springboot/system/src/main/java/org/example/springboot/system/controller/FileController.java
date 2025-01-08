@@ -44,13 +44,15 @@ public class FileController {
      * 校验文件
      *
      * @param hashCode   散列值
+     * @param bizId      业务ID
+     * @param bizType    业务类型
      * @param chunkTotal 分片数量
      * @return 结果
      */
     @GetMapping("/check")
     @Operation(summary = "校验文件", description = "校验文件", method = "GET")
-    public Result<AttachmentCheckVo> check(String hashCode, Integer chunkTotal) {
-        AttachmentCheckVo vo = fileService.checkFile(hashCode, chunkTotal);
+    public Result<AttachmentCheckVo> check(String hashCode, Long bizId, Integer bizType, Integer chunkTotal) {
+        AttachmentCheckVo vo = fileService.checkFile(hashCode, bizId, bizType, chunkTotal);
         return Result.success(vo);
     }
 

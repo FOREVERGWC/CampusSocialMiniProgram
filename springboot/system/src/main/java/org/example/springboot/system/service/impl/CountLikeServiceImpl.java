@@ -6,12 +6,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.springboot.common.service.IBaseService;
+import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.domain.dto.CountLikeDto;
 import org.example.springboot.system.domain.entity.CountLike;
 import org.example.springboot.system.domain.vo.CountLikeVo;
 import org.example.springboot.system.mapper.CountLikeMapper;
 import org.example.springboot.system.service.ICountLikeService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,15 +28,18 @@ import java.util.Map;
  * </p>
  */
 @Service
-public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike> implements ICountLikeService {
+public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike> implements ICountLikeService, IBaseService<CountLike> {
+    @Resource
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     @Override
     public List<CountLikeVo> getList(CountLikeDto dto) {
-        List<CountLike> countLikeList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(countLikeList)) {
+        List<CountLike> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return countLikeList.stream().map(item -> {
+        return list.stream().map(item -> {
             CountLikeVo vo = new CountLikeVo();
             BeanUtils.copyProperties(item, vo);
             return vo;
@@ -64,13 +72,22 @@ public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike
         return vo;
     }
 
-    /**
-     * 组装查询包装器
-     *
-     * @param entity 点赞量
-     * @return 结果
-     */
-    private LambdaQueryChainWrapper<CountLike> getWrapper(CountLike entity) {
+    @Override
+    public void exportExcel(CountLike entity, HttpServletResponse response) {
+        ExcelUtils.exportExcel(response, this, entity, CountLike.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public List<CountLike> getPageList(CountLike entity, IPage<CountLike> page) {
+        IPage<CountLike> info = getWrapper(entity).page(page);
+        if (CollectionUtil.isEmpty(info.getRecords())) {
+            return List.of();
+        }
+        return info.getRecords();
+    }
+
+    @Override
+    public LambdaQueryChainWrapper<CountLike> getWrapper(CountLike entity) {
         LambdaQueryChainWrapper<CountLike> wrapper = lambdaQuery()
                 .eq(entity.getId() != null, CountLike::getId, entity.getId())
                 .eq(entity.getBizId() != null, CountLike::getBizId, entity.getBizId())

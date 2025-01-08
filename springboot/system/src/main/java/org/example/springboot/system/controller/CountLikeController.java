@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.CountLikeDto;
 import org.example.springboot.system.domain.entity.CountLike;
@@ -88,5 +89,30 @@ public class CountLikeController {
     public Result<CountLikeVo> getOne(CountLikeDto dto) {
         CountLikeVo vo = countLikeService.getOne(dto);
         return Result.success(vo);
+    }
+
+    /**
+     * 查询点赞量
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询点赞量", description = "查询点赞量", method = "GET")
+    public Result<CountLikeVo> getById(@PathVariable Long id) {
+        CountLikeVo vo = countLikeService.getOne(CountLikeDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
+     * 导出点赞量
+     *
+     * @param entity   点赞量
+     * @param response 响应对象
+     */
+    @GetMapping("/export")
+    @Operation(summary = "导出点赞量", description = "导出点赞量", method = "GET")
+    public void exportExcel(CountLike entity, HttpServletResponse response) {
+        countLikeService.exportExcel(entity, response);
     }
 }

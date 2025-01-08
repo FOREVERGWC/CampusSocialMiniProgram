@@ -114,20 +114,6 @@ public class MenuController {
     /**
      * 查询菜单
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @PreAuthorize("hasAuthority('system:menu:query')")
-    @GetMapping("/{id}")
-    @Operation(summary = "查询菜单", description = "查询菜单", method = "GET")
-    public Result<Menu> getById(@PathVariable Long id) {
-        Menu vo = menuService.getById(id);
-        return Result.success(vo);
-    }
-
-    /**
-     * 查询菜单
-     *
      * @param dto 菜单
      * @return 结果
      */
@@ -140,16 +126,30 @@ public class MenuController {
     }
 
     /**
+     * 查询菜单
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @PreAuthorize("hasAuthority('system:menu:query')")
+    @GetMapping("/{id}")
+    @Operation(summary = "查询菜单", description = "查询菜单", method = "GET")
+    public Result<MenuVo> getById(@PathVariable Long id) {
+        MenuVo vo = menuService.getOne(MenuDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
      * 导出菜单
      *
-     * @param menu     菜单
+     * @param entity   菜单
      * @param response 响应对象
      */
     @PreAuthorize("hasAnyAuthority('system:menu:export')")
     @GetMapping("/export")
     @Operation(summary = "导出菜单", description = "导出菜单", method = "GET")
-    public void exportExcel(Menu menu, HttpServletResponse response) {
-        menuService.exportExcel(menu, response);
+    public void exportExcel(Menu entity, HttpServletResponse response) {
+        menuService.exportExcel(entity, response);
     }
 
     /**

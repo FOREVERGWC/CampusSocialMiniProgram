@@ -42,11 +42,24 @@ public class FileServiceImpl implements IFileService {
     private IAttachmentChunkService attachmentChunkService;
 
     @Override
-    public AttachmentCheckVo checkFile(String hashCode, Integer chunkTotal) {
+    public AttachmentCheckVo checkFile(String hashCode, Long bizId, Integer bizType, Integer chunkTotal) {
         AttachmentCheckVo vo = AttachmentCheckVo.builder().hasUpload(false).indexList(List.of()).build();
         Attachment attachment = attachmentService.getByHashCode(hashCode);
         if (attachment != null && attachment.getStatus()) {
             vo.setHasUpload(true);
+            Attachment object = Attachment.builder()
+                    .hashCode(hashCode)
+                    .bizId(bizId)
+                    .bizType(bizType)
+                    .bucketName("")
+                    .filePath(attachment.getFilePath())
+                    .fileName(attachment.getFileName())
+                    .fileSize(attachment.getFileSize())
+                    .chunkTotal(attachment.getChunkTotal())
+                    .chunkSize(attachment.getChunkSize())
+                    .status(true)
+                    .build();
+            attachmentService.save(object);
             return vo;
         }
         List<AttachmentChunk> attachmentChunkList = attachmentChunkService.listByHashCode(hashCode);
@@ -60,6 +73,7 @@ public class FileServiceImpl implements IFileService {
         return vo;
     }
 
+    @Transactional
     @Override
     public String uploadFile(FileChunkDto dto) {
         if (dto.getFile() == null || dto.getFile().isEmpty()) {

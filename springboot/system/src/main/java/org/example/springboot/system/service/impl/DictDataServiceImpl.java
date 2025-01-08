@@ -59,16 +59,16 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
 
     @Override
     public List<DictDataVo> getList(DictDataDto dto) {
-        List<DictData> dictDataList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(dictDataList)) {
+        List<DictData> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 类型
-        List<Long> typeIdList = dictDataList.stream().map(DictData::getTypeId).toList();
+        List<Long> typeIdList = list.stream().map(DictData::getTypeId).toList();
         List<DictType> typeList = dictTypeService.listByIds(typeIdList);
         Map<Long, DictType> typeMap = typeList.stream().collect(Collectors.toMap(DictType::getId, item -> item));
         // 组装VO
-        return dictDataList.stream().map(item -> {
+        return list.stream().map(item -> {
             DictDataVo vo = new DictDataVo();
             BeanUtils.copyProperties(item, vo);
             vo.setType(typeMap.getOrDefault(item.getTypeId(), DictType.builder().name("已删除").build()));

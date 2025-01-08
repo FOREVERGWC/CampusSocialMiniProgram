@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -36,12 +37,12 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
 
     @Override
     public List<AttachmentVo> getList(AttachmentDto dto) {
-        List<Attachment> attachmentList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(attachmentList)) {
+        List<Attachment> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return attachmentList.stream().map(item -> {
+        return list.stream().map(item -> {
             AttachmentVo vo = new AttachmentVo();
             BeanUtils.copyProperties(item, vo);
             return vo;
@@ -88,16 +89,22 @@ public class AttachmentServiceImpl extends ServiceImpl<AttachmentMapper, Attachm
 
     @Override
     public List<Attachment> listByBizIdAndBizType(Long bizId, Integer bizType) {
-        return listByBizIdAndBizType(List.of(bizId), bizType);
+        return listByBizIdsAndBizType(List.of(bizId), bizType);
     }
 
     @Override
-    public List<Attachment> listByBizIdAndBizType(List<Long> bizIdList, Integer bizType) {
+    public List<Attachment> listByBizIdsAndBizType(List<Long> bizIdList, Integer bizType) {
         return Optional.ofNullable(lambdaQuery()
                         .in(Attachment::getBizId, bizIdList)
                         .eq(Attachment::getBizType, bizType)
                         .list())
                 .orElse(List.of());
+    }
+
+    @Override
+    public Map<Long, List<Attachment>> groupByBizIdsAndBizType(List<Long> bizIdList, Integer bizType) {
+        List<Attachment> attachmentList = listByBizIdsAndBizType(bizIdList, bizType);
+        return attachmentList.stream().collect(Collectors.groupingBy(Attachment::getBizId));
     }
 
     @Override

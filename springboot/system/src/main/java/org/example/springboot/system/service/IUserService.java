@@ -8,6 +8,7 @@ import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.vo.UserVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -84,4 +85,12 @@ public interface IUserService extends IService<User> {
      * @param id 用户ID
      */
     void resetPassword(Long id);
+
+    /**
+     * 根据用户ID列表查询用户集合
+     *
+     * @param userIds 用户ID列表
+     * @return 结果
+     */
+    Map<Long, User> mapByUserIds(List<Long> userIds);
 }

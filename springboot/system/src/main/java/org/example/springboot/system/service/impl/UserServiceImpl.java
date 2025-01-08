@@ -32,6 +32,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -44,8 +46,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private IRoleService roleService;
     @Resource
     private IUserRoleLinkService userRoleLinkService;
-    //    @Resource
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -80,16 +80,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public List<UserVo> getList(UserDto dto) {
-        List<User> userList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(userList)) {
+        List<User> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 角色
-        List<Long> userIdList = userList.stream().map(User::getId).toList();
+        List<Long> userIdList = list.stream().map(User::getId).toList();
         Map<Long, List<Long>> roleIdListMap = roleService.mapRoleIdsByUserIds(userIdList);
         Map<Long, List<Role>> roleMap = roleService.mapByUserIds(userIdList);
         // 组装VO
-        return userList.stream().map(item -> {
+        return list.stream().map(item -> {
             UserVo vo = new UserVo();
             BeanUtils.copyProperties(item, vo);
             vo.setRoleIdList(roleIdListMap.getOrDefault(item.getId(), List.of()));
@@ -184,6 +184,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // TODO 整理逻辑解决循环依赖
 //        user.setPassword(bCryptPasswordEncoder.encode(Constants.RESET_PASSWORD));
         updateById(user);
+    }
+
+    @Override
+    public Map<Long, User> mapByUserIds(List<Long> userIds) {
+        List<User> userList = listByIds(userIds);
+
+        if (CollectionUtil.isEmpty(userList)) {
+            return Map.of();
+        }
+
+        return userList.stream().collect(Collectors.toMap(User::getId, Function.identity()));
     }
 
     @Override

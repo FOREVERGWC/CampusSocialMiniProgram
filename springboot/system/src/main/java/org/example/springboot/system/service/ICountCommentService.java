@@ -7,6 +7,7 @@ import org.example.springboot.system.domain.entity.CountComment;
 import org.example.springboot.system.domain.vo.CountCommentVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -45,4 +46,22 @@ public interface ICountCommentService extends IService<CountComment> {
      * @param bizType 业务类型
      */
     void countPlus(Long bizId, Integer bizType);
+
+    /**
+     * 根据业务ID和业务类型查询评论量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     * @return 结果
+     */
+    Long getByBizIdAndBizType(Long bizId, Integer bizType);
+
+    /**
+     * 根据业务ID列表和业务类型查询评论量
+     *
+     * @param bizIds  业务ID列表
+     * @param bizType 业务类型
+     * @return 结果
+     */
+    Map<Long, Long> mapByBizIdsAndBizType(List<Long> bizIds, Integer bizType);
 }

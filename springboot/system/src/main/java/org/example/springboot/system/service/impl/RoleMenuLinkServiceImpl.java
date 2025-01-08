@@ -162,20 +162,20 @@ public class RoleMenuLinkServiceImpl extends ServiceImpl<RoleMenuLinkMapper, Rol
 
     @Override
     public List<RoleMenuLinkVo> getList(RoleMenuLinkDto dto) {
-        List<RoleMenuLink> roleMenuLinkList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(roleMenuLinkList)) {
+        List<RoleMenuLink> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 角色
-        List<Long> roleIdList = roleMenuLinkList.stream().map(RoleMenuLink::getRoleId).toList();
+        List<Long> roleIdList = list.stream().map(RoleMenuLink::getRoleId).toList();
         List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>().in(Role::getId, roleIdList));
         Map<Long, Role> roleMap = roleList.stream().collect(Collectors.toMap(Role::getId, item -> item));
         // 菜单
-        List<Long> menuIdList = roleMenuLinkList.stream().map(RoleMenuLink::getMenuId).toList();
+        List<Long> menuIdList = list.stream().map(RoleMenuLink::getMenuId).toList();
         List<Menu> menuList = menuMapper.selectList(new LambdaQueryWrapper<Menu>().in(Menu::getId, menuIdList));
         Map<Long, Menu> menuMap = menuList.stream().collect(Collectors.toMap(Menu::getId, item -> item));
         // 组装VO
-        return roleMenuLinkList.stream().map(item -> {
+        return list.stream().map(item -> {
             RoleMenuLinkVo vo = new RoleMenuLinkVo();
             BeanUtils.copyProperties(item, vo);
             vo.setRole(roleMap.getOrDefault(item.getRoleId(), Role.builder().name("已删除").build()));

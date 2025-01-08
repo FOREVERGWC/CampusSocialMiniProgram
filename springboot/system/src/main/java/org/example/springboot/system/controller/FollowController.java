@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.FollowDto;
 import org.example.springboot.system.domain.entity.Follow;
@@ -88,5 +89,30 @@ public class FollowController {
     public Result<FollowVo> getOne(FollowDto dto) {
         FollowVo vo = followService.getOne(dto);
         return Result.success(vo);
+    }
+
+    /**
+     * 查询关注
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询关注", description = "查询关注", method = "GET")
+    public Result<FollowVo> getById(@PathVariable Long id) {
+        FollowVo vo = followService.getOne(FollowDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
+     * 导出关注
+     *
+     * @param entity   关注
+     * @param response 响应对象
+     */
+    @GetMapping("/export")
+    @Operation(summary = "导出关注", description = "导出关注", method = "GET")
+    public void exportExcel(Follow entity, HttpServletResponse response) {
+        followService.exportExcel(entity, response);
     }
 }

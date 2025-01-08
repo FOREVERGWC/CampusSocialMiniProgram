@@ -6,12 +6,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.springboot.common.service.IBaseService;
+import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.domain.dto.CountFavoriteDto;
 import org.example.springboot.system.domain.entity.CountFavorite;
 import org.example.springboot.system.domain.vo.CountFavoriteVo;
 import org.example.springboot.system.mapper.CountFavoriteMapper;
 import org.example.springboot.system.service.ICountFavoriteService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,15 +28,18 @@ import java.util.Map;
  * </p>
  */
 @Service
-public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, CountFavorite> implements ICountFavoriteService {
+public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, CountFavorite> implements ICountFavoriteService, IBaseService<CountFavorite> {
+    @Resource
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     @Override
     public List<CountFavoriteVo> getList(CountFavoriteDto dto) {
-        List<CountFavorite> countFavoriteList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(countFavoriteList)) {
+        List<CountFavorite> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return countFavoriteList.stream().map(item -> {
+        return list.stream().map(item -> {
             CountFavoriteVo vo = new CountFavoriteVo();
             BeanUtils.copyProperties(item, vo);
             return vo;
@@ -64,13 +72,22 @@ public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, C
         return vo;
     }
 
-    /**
-     * 组装查询包装器
-     *
-     * @param entity 收藏量
-     * @return 结果
-     */
-    private LambdaQueryChainWrapper<CountFavorite> getWrapper(CountFavorite entity) {
+    @Override
+    public void exportExcel(CountFavorite entity, HttpServletResponse response) {
+        ExcelUtils.exportExcel(response, this, entity, CountFavorite.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public List<CountFavorite> getPageList(CountFavorite entity, IPage<CountFavorite> page) {
+        IPage<CountFavorite> info = getWrapper(entity).page(page);
+        if (CollectionUtil.isEmpty(info.getRecords())) {
+            return List.of();
+        }
+        return info.getRecords();
+    }
+
+    @Override
+    public LambdaQueryChainWrapper<CountFavorite> getWrapper(CountFavorite entity) {
         LambdaQueryChainWrapper<CountFavorite> wrapper = lambdaQuery()
                 .eq(entity.getId() != null, CountFavorite::getId, entity.getId())
                 .eq(entity.getBizId() != null, CountFavorite::getBizId, entity.getBizId())

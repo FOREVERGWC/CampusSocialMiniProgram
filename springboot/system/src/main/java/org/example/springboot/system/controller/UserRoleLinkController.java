@@ -80,20 +80,6 @@ public class UserRoleLinkController {
     /**
      * 查询用户、角色关系
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @GetMapping("/{id}")
-    @Operation(summary = "查询用户、角色关系", description = "查询用户、角色关系", method = "GET")
-    public Result<UserRoleLink> getById(@PathVariable Long id) {
-        UserRoleLink vo = userRoleLinkService.getById(id);
-        return Result.success(vo);
-    }
-
-
-    /**
-     * 查询用户、角色关系
-     *
      * @param dto 用户、角色关系
      * @return 结果
      */
@@ -101,6 +87,19 @@ public class UserRoleLinkController {
     @Operation(summary = "查询用户、角色关系", description = "查询用户、角色关系", method = "GET")
     public Result<UserRoleLinkVo> getOne(UserRoleLinkDto dto) {
         UserRoleLinkVo vo = userRoleLinkService.getOne(dto);
+        return Result.success(vo);
+    }
+
+    /**
+     * 查询用户、角色关系
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询用户、角色关系", description = "查询用户、角色关系", method = "GET")
+    public Result<UserRoleLinkVo> getById(@PathVariable Long id) {
+        UserRoleLinkVo vo = userRoleLinkService.getOne(UserRoleLinkDto.builder().id(id).build());
         return Result.success(vo);
     }
 }

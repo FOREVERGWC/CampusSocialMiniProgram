@@ -78,12 +78,12 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
     @Override
     public List<PermissionVo> getList(PermissionDto dto) {
-        List<Permission> permissionList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(permissionList)) {
+        List<Permission> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return permissionList.stream().map(item -> {
+        return list.stream().map(item -> {
             PermissionVo vo = new PermissionVo();
             BeanUtils.copyProperties(item, vo);
             return vo;

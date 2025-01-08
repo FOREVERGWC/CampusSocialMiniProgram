@@ -2,6 +2,7 @@ package org.example.springboot.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.system.domain.dto.CountLikeDto;
 import org.example.springboot.system.domain.entity.CountLike;
 import org.example.springboot.system.domain.vo.CountLikeVo;
@@ -37,4 +38,12 @@ public interface ICountLikeService extends IService<CountLike> {
      * @return 结果
      */
     CountLikeVo getOne(CountLikeDto dto);
+
+    /**
+     * 导出点赞量
+     *
+     * @param entity   点赞量
+     * @param response 响应对象
+     */
+    void exportExcel(CountLike entity, HttpServletResponse response);
 }

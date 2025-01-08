@@ -86,20 +86,6 @@ public class DictTypeController {
     /**
      * 查询字典类型
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @PreAuthorize("hasAuthority('system:dict:type:query')")
-    @GetMapping("/{id}")
-    @Operation(summary = "查询字典类型", description = "查询字典类型", method = "GET")
-    public Result<DictType> getById(@PathVariable Long id) {
-        DictType vo = dictTypeService.getById(id);
-        return Result.success(vo);
-    }
-
-    /**
-     * 查询字典类型
-     *
      * @param dto 字典类型
      * @return 结果
      */
@@ -112,16 +98,30 @@ public class DictTypeController {
     }
 
     /**
+     * 查询字典类型
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @PreAuthorize("hasAuthority('system:dict:type:query')")
+    @GetMapping("/{id}")
+    @Operation(summary = "查询字典类型", description = "查询字典类型", method = "GET")
+    public Result<DictTypeVo> getById(@PathVariable Long id) {
+        DictTypeVo vo = dictTypeService.getOne(DictTypeDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
      * 导出字典类型
      *
-     * @param dictType 字典类型
+     * @param entity   字典类型
      * @param response 响应对象
      */
     @PreAuthorize("hasAnyAuthority('system:dict:type:export')")
     @GetMapping("/export")
     @Operation(summary = "导出字典类型", description = "导出字典类型", method = "GET")
-    public void exportExcel(DictType dictType, HttpServletResponse response) {
-        dictTypeService.exportExcel(dictType, response);
+    public void exportExcel(DictType entity, HttpServletResponse response) {
+        dictTypeService.exportExcel(entity, response);
     }
 
     /**

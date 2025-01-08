@@ -39,5 +39,5 @@ public class FollowVo extends Follow {
      * 关注用户
      */
     @Schema(description = "关注用户")
-    private Follow follow;
+    private User follow;
 }

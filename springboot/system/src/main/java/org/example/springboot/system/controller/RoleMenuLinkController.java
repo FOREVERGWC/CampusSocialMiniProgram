@@ -80,19 +80,6 @@ public class RoleMenuLinkController {
     /**
      * 查询角色、菜单关系
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @GetMapping("/{id}")
-    @Operation(summary = "查询角色、菜单关系", description = "查询角色、菜单关系", method = "GET")
-    public Result<RoleMenuLink> getById(@PathVariable Long id) {
-        RoleMenuLink vo = roleMenuLinkService.getById(id);
-        return Result.success(vo);
-    }
-
-    /**
-     * 查询角色、菜单关系
-     *
      * @param dto 角色、菜单关系
      * @return 结果
      */
@@ -100,6 +87,19 @@ public class RoleMenuLinkController {
     @Operation(summary = "查询角色、菜单关系", description = "查询角色、菜单关系", method = "GET")
     public Result<RoleMenuLinkVo> getOne(RoleMenuLinkDto dto) {
         RoleMenuLinkVo vo = roleMenuLinkService.getOne(dto);
+        return Result.success(vo);
+    }
+
+    /**
+     * 查询角色、菜单关系
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询角色、菜单关系", description = "查询角色、菜单关系", method = "GET")
+    public Result<RoleMenuLinkVo> getById(@PathVariable Long id) {
+        RoleMenuLinkVo vo = roleMenuLinkService.getOne(RoleMenuLinkDto.builder().id(id).build());
         return Result.success(vo);
     }
 }

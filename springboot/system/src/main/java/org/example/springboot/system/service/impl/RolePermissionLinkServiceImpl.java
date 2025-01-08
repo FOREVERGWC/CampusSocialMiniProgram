@@ -162,20 +162,20 @@ public class RolePermissionLinkServiceImpl extends ServiceImpl<RolePermissionLin
 
     @Override
     public List<RolePermissionLinkVo> getList(RolePermissionLinkDto dto) {
-        List<RolePermissionLink> rolePermissionLinkList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(rolePermissionLinkList)) {
+        List<RolePermissionLink> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 角色
-        List<Long> roleIdList = rolePermissionLinkList.stream().map(RolePermissionLink::getRoleId).toList();
+        List<Long> roleIdList = list.stream().map(RolePermissionLink::getRoleId).toList();
         List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>().in(Role::getId, roleIdList));
         Map<Long, Role> roleMap = roleList.stream().collect(Collectors.toMap(Role::getId, item -> item));
         // 权限
-        List<Long> permissionIdList = rolePermissionLinkList.stream().map(RolePermissionLink::getPermissionId).toList();
+        List<Long> permissionIdList = list.stream().map(RolePermissionLink::getPermissionId).toList();
         List<Permission> permissionList = permissionMapper.selectList(new LambdaQueryWrapper<Permission>().in(Permission::getId, permissionIdList));
         Map<Long, Permission> permissionMap = permissionList.stream().collect(Collectors.toMap(Permission::getId, item -> item));
         // 组装VO
-        return rolePermissionLinkList.stream().map(item -> {
+        return list.stream().map(item -> {
             RolePermissionLinkVo vo = new RolePermissionLinkVo();
             BeanUtils.copyProperties(item, vo);
             vo.setRole(roleMap.getOrDefault(item.getRoleId(), Role.builder().name("已删除").build()));

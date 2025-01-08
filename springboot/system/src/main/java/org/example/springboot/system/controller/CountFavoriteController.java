@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.CountFavoriteDto;
 import org.example.springboot.system.domain.entity.CountFavorite;
@@ -88,5 +89,30 @@ public class CountFavoriteController {
     public Result<CountFavoriteVo> getOne(CountFavoriteDto dto) {
         CountFavoriteVo vo = countFavoriteService.getOne(dto);
         return Result.success(vo);
+    }
+
+    /**
+     * 查询收藏量
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询收藏量", description = "查询收藏量", method = "GET")
+    public Result<CountFavoriteVo> getById(@PathVariable Long id) {
+        CountFavoriteVo vo = countFavoriteService.getOne(CountFavoriteDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
+     * 导出收藏量
+     *
+     * @param entity   收藏量
+     * @param response 响应对象
+     */
+    @GetMapping("/export")
+    @Operation(summary = "导出收藏量", description = "导出收藏量", method = "GET")
+    public void exportExcel(CountFavorite entity, HttpServletResponse response) {
+        countFavoriteService.exportExcel(entity, response);
     }
 }

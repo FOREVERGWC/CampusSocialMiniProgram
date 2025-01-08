@@ -35,12 +35,12 @@ public class LogLoginServiceImpl extends ServiceImpl<LogLoginMapper, LogLogin> i
 
     @Override
     public List<LogLoginVo> getList(LogLoginDto dto) {
-        List<LogLogin> logLoginList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(logLoginList)) {
+        List<LogLogin> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return logLoginList.stream().map(item -> {
+        return list.stream().map(item -> {
             LogLoginVo vo = new LogLoginVo();
             BeanUtils.copyProperties(item, vo);
             return vo;

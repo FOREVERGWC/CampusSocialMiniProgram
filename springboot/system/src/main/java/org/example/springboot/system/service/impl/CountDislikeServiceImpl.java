@@ -6,12 +6,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.springboot.common.service.IBaseService;
+import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.domain.dto.CountDislikeDto;
 import org.example.springboot.system.domain.entity.CountDislike;
 import org.example.springboot.system.domain.vo.CountDislikeVo;
 import org.example.springboot.system.mapper.CountDislikeMapper;
 import org.example.springboot.system.service.ICountDislikeService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,15 +28,18 @@ import java.util.Map;
  * </p>
  */
 @Service
-public class CountDislikeServiceImpl extends ServiceImpl<CountDislikeMapper, CountDislike> implements ICountDislikeService {
+public class CountDislikeServiceImpl extends ServiceImpl<CountDislikeMapper, CountDislike> implements ICountDislikeService, IBaseService<CountDislike> {
+    @Resource
+    private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     @Override
     public List<CountDislikeVo> getList(CountDislikeDto dto) {
-        List<CountDislike> countDislikeList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(countDislikeList)) {
+        List<CountDislike> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return countDislikeList.stream().map(item -> {
+        return list.stream().map(item -> {
             CountDislikeVo vo = new CountDislikeVo();
             BeanUtils.copyProperties(item, vo);
             return vo;
@@ -64,13 +72,22 @@ public class CountDislikeServiceImpl extends ServiceImpl<CountDislikeMapper, Cou
         return vo;
     }
 
-    /**
-     * 组装查询包装器
-     *
-     * @param entity 点踩量
-     * @return 结果
-     */
-    private LambdaQueryChainWrapper<CountDislike> getWrapper(CountDislike entity) {
+    @Override
+    public void exportExcel(CountDislike entity, HttpServletResponse response) {
+        ExcelUtils.exportExcel(response, this, entity, CountDislike.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public List<CountDislike> getPageList(CountDislike entity, IPage<CountDislike> page) {
+        IPage<CountDislike> info = getWrapper(entity).page(page);
+        if (CollectionUtil.isEmpty(info.getRecords())) {
+            return List.of();
+        }
+        return info.getRecords();
+    }
+
+    @Override
+    public LambdaQueryChainWrapper<CountDislike> getWrapper(CountDislike entity) {
         LambdaQueryChainWrapper<CountDislike> wrapper = lambdaQuery()
                 .eq(entity.getId() != null, CountDislike::getId, entity.getId())
                 .eq(entity.getBizId() != null, CountDislike::getBizId, entity.getBizId())

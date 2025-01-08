@@ -194,20 +194,20 @@ public class UserRoleLinkServiceImpl extends ServiceImpl<UserRoleLinkMapper, Use
 
     @Override
     public List<UserRoleLinkVo> getList(UserRoleLinkDto dto) {
-        List<UserRoleLink> userRoleLinkList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(userRoleLinkList)) {
+        List<UserRoleLink> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 用户
-        List<Long> userIdList = userRoleLinkList.stream().map(UserRoleLink::getUserId).toList();
+        List<Long> userIdList = list.stream().map(UserRoleLink::getUserId).toList();
         List<User> userList = userMapper.selectList(new LambdaQueryWrapper<User>().in(User::getId, userIdList));
         Map<Long, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, item -> item));
         // 角色
-        List<Long> roleIdList = userRoleLinkList.stream().map(UserRoleLink::getRoleId).toList();
+        List<Long> roleIdList = list.stream().map(UserRoleLink::getRoleId).toList();
         List<Role> roleList = roleMapper.selectList(new LambdaQueryWrapper<Role>().in(Role::getId, roleIdList));
         Map<Long, Role> roleMap = roleList.stream().collect(Collectors.toMap(Role::getId, item -> item));
         // 组装VO
-        return userRoleLinkList.stream().map(item -> {
+        return list.stream().map(item -> {
             UserRoleLinkVo vo = new UserRoleLinkVo();
             BeanUtils.copyProperties(item, vo);
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));

@@ -121,15 +121,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     @Override
     public List<RoleVo> getList(RoleDto dto) {
-        List<Role> roleList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(roleList)) {
+        List<Role> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 用户数量
-        List<Long> roleIdList = roleList.stream().map(Role::getId).toList();
+        List<Long> roleIdList = list.stream().map(Role::getId).toList();
         Map<Long, Long> countMap = userRoleLinkService.countByRoleIds(roleIdList);
         // 组装VO
-        return roleList.stream().map(item -> {
+        return list.stream().map(item -> {
             RoleVo vo = new RoleVo();
             BeanUtils.copyProperties(item, vo);
             vo.setCount(countMap.getOrDefault(item.getId(), 0L));

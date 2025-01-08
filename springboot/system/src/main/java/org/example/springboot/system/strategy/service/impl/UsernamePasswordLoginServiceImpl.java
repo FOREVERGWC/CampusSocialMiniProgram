@@ -1,10 +1,12 @@
 package org.example.springboot.system.strategy.service.impl;
 
 import jakarta.annotation.Resource;
-import org.example.springboot.common.domain.Result;
+import org.example.springboot.common.common.enums.ResultCode;
+import org.example.springboot.common.common.exception.ServiceException;
 import org.example.springboot.system.common.enums.LoginType;
 import org.example.springboot.system.common.manager.AsyncManager;
 import org.example.springboot.system.common.manager.factory.AsyncFactory;
+import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.model.LoginBody;
 import org.example.springboot.system.domain.model.LoginUser;
 import org.example.springboot.system.service.ITokenService;

@@ -114,20 +114,6 @@ public class PermissionController {
     /**
      * 查询权限
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @PreAuthorize("hasAuthority('system:permission:query')")
-    @GetMapping("/{id}")
-    @Operation(summary = "查询权限", description = "查询权限", method = "GET")
-    public Result<Permission> getById(@PathVariable Long id) {
-        Permission vo = permissionService.getById(id);
-        return Result.success(vo);
-    }
-
-    /**
-     * 查询权限
-     *
      * @param dto 权限
      * @return 结果
      */
@@ -140,16 +126,30 @@ public class PermissionController {
     }
 
     /**
+     * 查询权限
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @PreAuthorize("hasAuthority('system:permission:query')")
+    @GetMapping("/{id}")
+    @Operation(summary = "查询权限", description = "查询权限", method = "GET")
+    public Result<PermissionVo> getById(@PathVariable Long id) {
+        PermissionVo vo = permissionService.getOne(PermissionDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
      * 导出权限
      *
-     * @param permission 权限
-     * @param response   响应对象
+     * @param entity   权限
+     * @param response 响应对象
      */
     @PreAuthorize("hasAnyAuthority('system:permission:export')")
     @GetMapping("/export")
     @Operation(summary = "导出权限", description = "导出权限", method = "GET")
-    public void exportExcel(Permission permission, HttpServletResponse response) {
-        permissionService.exportExcel(permission, response);
+    public void exportExcel(Permission entity, HttpServletResponse response) {
+        permissionService.exportExcel(entity, response);
     }
 
     /**

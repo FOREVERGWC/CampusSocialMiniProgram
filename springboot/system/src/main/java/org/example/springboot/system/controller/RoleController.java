@@ -95,20 +95,6 @@ public class RoleController {
     /**
      * 查询角色
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @PreAuthorize("hasAuthority('system:role:query')")
-    @GetMapping("/{id}")
-    @Operation(summary = "查询角色", description = "查询角色", method = "GET")
-    public Result<Role> getById(@PathVariable Long id) {
-        Role vo = roleService.getById(id);
-        return Result.success(vo);
-    }
-
-    /**
-     * 查询角色
-     *
      * @param dto 角色
      * @return 结果
      */
@@ -121,16 +107,30 @@ public class RoleController {
     }
 
     /**
+     * 查询角色
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @PreAuthorize("hasAuthority('system:role:query')")
+    @GetMapping("/{id}")
+    @Operation(summary = "查询角色", description = "查询角色", method = "GET")
+    public Result<RoleVo> getById(@PathVariable Long id) {
+        RoleVo vo = roleService.getOne(RoleDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
      * 导出角色
      *
-     * @param role     角色
+     * @param entity   角色
      * @param response 响应对象
      */
     @PreAuthorize("hasAnyAuthority('system:role:export')")
     @GetMapping("/export")
     @Operation(summary = "导出角色", description = "导出角色", method = "GET")
-    public void exportExcel(Role role, HttpServletResponse response) {
-        roleService.exportExcel(role, response);
+    public void exportExcel(Role entity, HttpServletResponse response) {
+        roleService.exportExcel(entity, response);
     }
 
     /**

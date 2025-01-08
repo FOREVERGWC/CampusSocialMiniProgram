@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.CountDislikeDto;
 import org.example.springboot.system.domain.entity.CountDislike;
@@ -88,5 +89,30 @@ public class CountDislikeController {
     public Result<CountDislikeVo> getOne(CountDislikeDto dto) {
         CountDislikeVo vo = countDislikeService.getOne(dto);
         return Result.success(vo);
+    }
+
+    /**
+     * 查询点踩量
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询点踩量", description = "查询点踩量", method = "GET")
+    public Result<CountDislikeVo> getById(@PathVariable Long id) {
+        CountDislikeVo vo = countDislikeService.getOne(CountDislikeDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
+     * 导出点踩量
+     *
+     * @param entity   点踩量
+     * @param response 响应对象
+     */
+    @GetMapping("/export")
+    @Operation(summary = "导出点踩量", description = "导出点踩量", method = "GET")
+    public void exportExcel(CountDislike entity, HttpServletResponse response) {
+        countDislikeService.exportExcel(entity, response);
     }
 }

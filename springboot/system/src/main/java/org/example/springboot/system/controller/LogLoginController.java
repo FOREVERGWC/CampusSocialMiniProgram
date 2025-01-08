@@ -81,19 +81,6 @@ public class LogLoginController {
     /**
      * 查询登录日志
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @GetMapping("/{id}")
-    @Operation(summary = "查询登录日志", description = "查询登录日志", method = "GET")
-    public Result<LogLogin> getById(@PathVariable Long id) {
-        LogLogin vo = logLoginService.getById(id);
-        return Result.success(vo);
-    }
-
-    /**
-     * 查询登录日志
-     *
      * @param dto 登录日志
      * @return 结果
      */
@@ -105,14 +92,27 @@ public class LogLoginController {
     }
 
     /**
+     * 查询登录日志
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询登录日志", description = "查询登录日志", method = "GET")
+    public Result<LogLoginVo> getById(@PathVariable Long id) {
+        LogLoginVo vo = logLoginService.getOne(LogLoginDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
      * 导出登录日志
      *
-     * @param logLogin 登录日志
+     * @param entity   登录日志
      * @param response 响应对象
      */
     @GetMapping("/export")
     @Operation(summary = "导出登录日志", description = "导出登录日志", method = "GET")
-    public void exportExcel(LogLogin logLogin, HttpServletResponse response) {
-        logLoginService.exportExcel(logLogin, response);
+    public void exportExcel(LogLogin entity, HttpServletResponse response) {
+        logLoginService.exportExcel(entity, response);
     }
 }

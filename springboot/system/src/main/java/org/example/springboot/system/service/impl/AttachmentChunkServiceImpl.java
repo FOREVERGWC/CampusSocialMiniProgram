@@ -36,12 +36,12 @@ public class AttachmentChunkServiceImpl extends ServiceImpl<AttachmentChunkMappe
 
     @Override
     public List<AttachmentChunkVo> getList(AttachmentChunkDto dto) {
-        List<AttachmentChunk> attachmentChunkList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(attachmentChunkList)) {
+        List<AttachmentChunk> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return attachmentChunkList.stream().map(item -> {
+        return list.stream().map(item -> {
             AttachmentChunkVo vo = new AttachmentChunkVo();
             BeanUtils.copyProperties(item, vo);
             return vo;

@@ -91,20 +91,6 @@ public class UserController {
     /**
      * 查询用户信息
      *
-     * @param id 主键ID
-     * @return 结果
-     */
-    @PreAuthorize("hasAuthority('system:user:query')")
-    @GetMapping("/{id}")
-    @Operation(summary = "查询用户信息", description = "查询用户信息", method = "GET")
-    public Result<User> getById(@PathVariable Long id) {
-        User vo = userService.getById(id);
-        return Result.success(vo);
-    }
-
-    /**
-     * 查询用户信息
-     *
      * @param dto 用户信息
      * @return 结果
      */
@@ -117,16 +103,30 @@ public class UserController {
     }
 
     /**
+     * 查询用户信息
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @PreAuthorize("hasAuthority('system:user:query')")
+    @GetMapping("/{id}")
+    @Operation(summary = "查询用户信息", description = "查询用户信息", method = "GET")
+    public Result<UserVo> getById(@PathVariable Long id) {
+        UserVo vo = userService.getOne(UserDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
      * 导出用户
      *
-     * @param user     用户
+     * @param entity   用户
      * @param response 响应对象
      */
     @PreAuthorize("hasAnyAuthority('system:user:export')")
     @GetMapping("/export")
     @Operation(summary = "导出用户", description = "导出用户", method = "GET")
-    public void exportExcel(User user, HttpServletResponse response) {
-        userService.exportExcel(user, response);
+    public void exportExcel(User entity, HttpServletResponse response) {
+        userService.exportExcel(entity, response);
     }
 
     /**

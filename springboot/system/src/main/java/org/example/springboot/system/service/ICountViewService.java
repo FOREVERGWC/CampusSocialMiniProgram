@@ -2,6 +2,7 @@ package org.example.springboot.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.system.domain.dto.CountViewDto;
 import org.example.springboot.system.domain.entity.CountView;
 import org.example.springboot.system.domain.vo.CountViewVo;
@@ -37,4 +38,12 @@ public interface ICountViewService extends IService<CountView> {
      * @return 结果
      */
     CountViewVo getOne(CountViewDto dto);
+
+    /**
+     * 导出浏览量
+     *
+     * @param entity   浏览量
+     * @param response 响应对象
+     */
+    void exportExcel(CountView entity, HttpServletResponse response);
 }

@@ -2,6 +2,7 @@ package org.example.springboot.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.system.domain.dto.CountDislikeDto;
 import org.example.springboot.system.domain.entity.CountDislike;
 import org.example.springboot.system.domain.vo.CountDislikeVo;
@@ -37,4 +38,12 @@ public interface ICountDislikeService extends IService<CountDislike> {
      * @return 结果
      */
     CountDislikeVo getOne(CountDislikeDto dto);
+
+    /**
+     * 导出点踩量
+     *
+     * @param entity   点踩量
+     * @param response 响应对象
+     */
+    void exportExcel(CountDislike entity, HttpServletResponse response);
 }

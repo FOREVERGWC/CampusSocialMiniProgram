@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.CommentDto;
 import org.example.springboot.system.domain.entity.Comment;
@@ -88,5 +89,30 @@ public class CommentController {
     public Result<CommentVo> getOne(CommentDto dto) {
         CommentVo vo = commentService.getOne(dto);
         return Result.success(vo);
+    }
+
+    /**
+     * 查询评论
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询评论", description = "查询评论", method = "GET")
+    public Result<CommentVo> getById(@PathVariable Long id) {
+        CommentVo vo = commentService.getOne(CommentDto.builder().id(id).build());
+        return Result.success(vo);
+    }
+
+    /**
+     * 导出评论
+     *
+     * @param entity   评论
+     * @param response 响应对象
+     */
+    @GetMapping("/export")
+    @Operation(summary = "导出评论", description = "导出评论", method = "GET")
+    public void exportExcel(Comment entity, HttpServletResponse response) {
+        commentService.exportExcel(entity, response);
     }
 }

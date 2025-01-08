@@ -55,6 +55,16 @@ public class Comment extends BaseEntity {
     @Schema(description = "回复ID")
     private Long replyId;
     /**
+     * 回复用户ID
+     */
+    @Schema(description = "回复用户ID")
+    private Long replyUserId;
+    /**
+     * 祖级回复ID
+     */
+    @Schema(description = "回复用户ID")
+    private Long ancestorId;
+    /**
      * 用户ID
      */
     @Schema(description = "用户ID")

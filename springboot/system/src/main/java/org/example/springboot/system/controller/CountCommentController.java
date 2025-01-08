@@ -19,7 +19,7 @@ import java.util.List;
  * </p>
  */
 @RestController
-@RequestMapping("/countComment")
+@RequestMapping("/count/comment")
 @Tag(name = "评论量", description = "评论量")
 public class CountCommentController {
     @Resource
@@ -87,6 +87,19 @@ public class CountCommentController {
     @Operation(summary = "查询评论量", description = "查询评论量", method = "GET")
     public Result<CountCommentVo> getOne(CountCommentDto dto) {
         CountCommentVo vo = countCommentService.getOne(dto);
+        return Result.success(vo);
+    }
+
+    /**
+     * 查询评论量
+     *
+     * @param id 主键ID
+     * @return 结果
+     */
+    @GetMapping("/{id}")
+    @Operation(summary = "查询评论量", description = "查询评论量", method = "GET")
+    public Result<CountCommentVo> getById(@PathVariable Long id) {
+        CountCommentVo vo = countCommentService.getOne(CountCommentDto.builder().id(id).build());
         return Result.success(vo);
     }
 }

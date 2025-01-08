@@ -55,12 +55,12 @@ public class DictTypeServiceImpl extends ServiceImpl<DictTypeMapper, DictType> i
 
     @Override
     public List<DictTypeVo> getList(DictTypeDto dto) {
-        List<DictType> dictTypeList = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(dictTypeList)) {
+        List<DictType> list = getWrapper(dto).list();
+        if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
         // 组装VO
-        return dictTypeList.stream().map(item -> {
+        return list.stream().map(item -> {
             DictTypeVo vo = new DictTypeVo();
             BeanUtils.copyProperties(item, vo);
             return vo;
