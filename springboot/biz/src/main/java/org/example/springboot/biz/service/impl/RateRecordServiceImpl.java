@@ -14,6 +14,7 @@ import org.example.springboot.biz.domain.entity.RateItem;
 import org.example.springboot.biz.domain.entity.RateRecord;
 import org.example.springboot.biz.domain.vo.RateRecordVo;
 import org.example.springboot.biz.mapper.RateRecordMapper;
+import org.example.springboot.biz.service.ICountRateService;
 import org.example.springboot.biz.service.IRateItemService;
 import org.example.springboot.biz.service.IRateRecordService;
 import org.example.springboot.biz.service.IRateService;
@@ -21,6 +22,7 @@ import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.service.IUserService;
+import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -44,7 +46,30 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
     @Resource
     private IUserService userService;
     @Resource
+    private ICountRateService countRateService;
+    @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+    @Override
+    public boolean save(RateRecord entity) {
+        RateItem rateItem = rateItemService.getById(entity.getRateItemId());
+        Long userId = UserUtils.getLoginUserId();
+
+        entity.setRateId(rateItem.getRateId());
+        entity.setUserId(userId);
+
+        boolean flag = super.save(entity);
+        countRateService.countPlus(rateItem.getRateId());
+        return flag;
+    }
+
+    @Override
+    public boolean saveOrUpdate(RateRecord entity) {
+        if (entity.getId() == null) {
+            return save(entity);
+        }
+        return super.updateById(entity);
+    }
 
     @Override
     public List<RateRecordVo> getList(RateRecordDto dto) {

@@ -3,6 +3,7 @@ package org.example.springboot.biz.domain.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -42,6 +43,7 @@ public class CountRate extends BaseEntity {
     /**
      * 评分量
      */
+    @Version
     @Schema(description = "评分量")
     private Long count;
 }

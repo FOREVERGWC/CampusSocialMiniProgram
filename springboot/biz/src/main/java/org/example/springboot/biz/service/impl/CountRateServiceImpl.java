@@ -97,6 +97,19 @@ public class CountRateServiceImpl extends ServiceImpl<CountRateMapper, CountRate
     }
 
     @Override
+    public void countPlus(Long rateId) {
+        CountRate count = Optional.ofNullable(lambdaQuery()
+                        .eq(CountRate::getRateId, rateId)
+                        .one())
+                .orElse(CountRate.builder()
+                        .rateId(rateId)
+                        .count(1L)
+                        .build());
+
+        saveOrUpdate(count);
+    }
+
+    @Override
     public List<CountRate> getPageList(CountRate entity, IPage<CountRate> page) {
         IPage<CountRate> info = getWrapper(entity).page(page);
         if (CollectionUtil.isEmpty(info.getRecords())) {

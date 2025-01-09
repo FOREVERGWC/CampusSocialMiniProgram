@@ -31,8 +31,8 @@ public class RateItemVo extends RateItem {
     @Schema(description = "占位符")
     private String placeholder;
     /**
-     * 用户
+     * 评分
      */
-    @Schema(description = "用户")
+    @Schema(description = "评分")
     private Rate rate;
 }

@@ -16,6 +16,7 @@ import org.example.springboot.biz.mapper.NoteCategoryMapper;
 import org.example.springboot.biz.service.INoteCategoryService;
 import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
+import org.example.springboot.system.common.enums.DeleteEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,20 @@ import java.util.Map;
 public class NoteCategoryServiceImpl extends ServiceImpl<NoteCategoryMapper, NoteCategory> implements INoteCategoryService, IBaseService<NoteCategory> {
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+    @Override
+    public boolean save(NoteCategory entity) {
+        entity.setDeleted(DeleteEnum.NORMAL.getCode());
+        return super.save(entity);
+    }
+
+    @Override
+    public boolean saveOrUpdate(NoteCategory entity) {
+        if (entity.getId() == null) {
+            return save(entity);
+        }
+        return super.updateById(entity);
+    }
 
     @Override
     public List<NoteCategoryVo> getList(NoteCategoryDto dto) {

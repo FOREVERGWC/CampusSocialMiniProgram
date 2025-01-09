@@ -35,9 +35,9 @@ public class RateItem extends BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
-     * 用户ID
+     * 评分ID
      */
-    @Schema(description = "用户ID")
+    @Schema(description = "评分ID")
     private Long rateId;
     /**
      * 标题
@@ -53,5 +53,5 @@ public class RateItem extends BaseEntity {
      * 逻辑删除(0正常、1删除)
      */
     @Schema(description = "逻辑删除(0正常、1删除)")
-    private Boolean deleted;
+    private Integer deleted;
 }

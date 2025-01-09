@@ -16,8 +16,10 @@ import org.example.springboot.biz.mapper.RateMapper;
 import org.example.springboot.biz.service.IRateService;
 import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
+import org.example.springboot.system.common.enums.DeleteEnum;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.service.IUserService;
+import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,22 @@ public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IR
     private IUserService userService;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+    @Override
+    public boolean save(Rate entity) {
+        Long userId = UserUtils.getLoginUserId();
+        entity.setUserId(userId);
+        entity.setDeleted(DeleteEnum.NORMAL.getCode());
+        return super.save(entity);
+    }
+
+    @Override
+    public boolean saveOrUpdate(Rate entity) {
+        if (entity.getId() == null) {
+            return save(entity);
+        }
+        return super.updateById(entity);
+    }
 
     @Override
     public List<RateVo> getList(RateDto dto) {

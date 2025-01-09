@@ -46,4 +46,11 @@ public interface ICountRateService extends IService<CountRate> {
      * @param response 响应对象
      */
     void exportExcel(CountRate entity, HttpServletResponse response);
+
+    /**
+     * 增加评分量
+     *
+     * @param rateId 评分ID
+     */
+    void countPlus(Long rateId);
 }

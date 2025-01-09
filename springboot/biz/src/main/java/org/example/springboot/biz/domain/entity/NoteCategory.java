@@ -43,5 +43,5 @@ public class NoteCategory extends BaseEntity {
      * 逻辑删除(0正常、1删除)
      */
     @Schema(description = "逻辑删除(0正常、1删除)")
-    private Boolean deleted;
+    private Integer deleted;
 }
