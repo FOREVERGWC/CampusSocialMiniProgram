@@ -22,7 +22,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ToString(callSuper = true)
+@ToString
 @EqualsAndHashCode(callSuper = false)
 @TableName("biz_count_rate")
 @Schema(name = "评分量实体", description = "评分量")

@@ -1,5 +1,10 @@
 package org.example.springboot.system.service;
 
+/**
+ * <p>
+ * 邮件服务类
+ * </p>
+ */
 public interface IEmailService {
     /**
      * 根据邮箱发送注册验证码邮件
