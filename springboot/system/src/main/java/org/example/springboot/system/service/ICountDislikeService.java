@@ -49,6 +49,14 @@ public interface ICountDislikeService extends IService<CountDislike> {
     void exportExcel(CountDislike entity, HttpServletResponse response);
 
     /**
+     * 增加点踩量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     */
+    void countPlus(Long bizId, Integer bizType);
+
+    /**
      * 根据业务ID和业务类型查询点踩量
      *
      * @param bizId   业务ID

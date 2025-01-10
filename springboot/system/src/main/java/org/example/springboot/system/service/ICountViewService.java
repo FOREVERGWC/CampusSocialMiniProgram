@@ -49,6 +49,14 @@ public interface ICountViewService extends IService<CountView> {
     void exportExcel(CountView entity, HttpServletResponse response);
 
     /**
+     * 增加浏览量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     */
+    void countPlus(Long bizId, Integer bizType);
+
+    /**
      * 根据业务ID和业务类型查询浏览量
      *
      * @param bizId   业务ID

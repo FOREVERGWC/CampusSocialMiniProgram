@@ -49,6 +49,14 @@ public interface ICountFavoriteService extends IService<CountFavorite> {
     void exportExcel(CountFavorite entity, HttpServletResponse response);
 
     /**
+     * 增加收藏量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     */
+    void countPlus(Long bizId, Integer bizType);
+
+    /**
      * 根据业务ID和业务类型查询收藏量
      *
      * @param bizId   业务ID

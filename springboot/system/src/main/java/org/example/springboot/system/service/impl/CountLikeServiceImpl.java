@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -76,6 +77,21 @@ public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike
     @Override
     public void exportExcel(CountLike entity, HttpServletResponse response) {
         ExcelUtils.exportExcel(response, this, entity, CountLike.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public void countPlus(Long bizId, Integer bizType) {
+        CountLike count = Optional.ofNullable(lambdaQuery()
+                        .eq(CountLike::getBizId, bizId)
+                        .eq(CountLike::getBizType, bizType)
+                        .one())
+                .orElse(CountLike.builder()
+                        .bizId(bizId)
+                        .bizType(bizType)
+                        .count(1L)
+                        .build());
+
+        saveOrUpdate(count);
     }
 
     @Override

@@ -49,6 +49,14 @@ public interface ICountLikeService extends IService<CountLike> {
     void exportExcel(CountLike entity, HttpServletResponse response);
 
     /**
+     * 增加点赞量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     */
+    void countPlus(Long bizId, Integer bizType);
+
+    /**
      * 根据业务ID和业务类型查询点赞量
      *
      * @param bizId   业务ID

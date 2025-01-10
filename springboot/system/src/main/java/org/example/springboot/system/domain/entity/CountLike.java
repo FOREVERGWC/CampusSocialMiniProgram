@@ -3,6 +3,7 @@ package org.example.springboot.system.domain.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -43,10 +44,11 @@ public class CountLike extends BaseEntity {
      * 业务类型
      */
     @Schema(description = "业务类型")
-    private Byte bizType;
+    private Integer bizType;
     /**
      * 赞
      */
+    @Version
     @Schema(description = "赞")
     private Long count;
 }
