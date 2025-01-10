@@ -46,4 +46,18 @@ public interface INoteService extends IService<Note> {
      * @param response 响应对象
      */
     void exportExcel(Note entity, HttpServletResponse response);
+
+    /**
+     * 置顶或取消置顶笔记
+     *
+     * @param id 文章ID
+     */
+    void handleTop(Long id);
+
+    /**
+     * 允许或禁止笔记评论
+     *
+     * @param id 文章ID
+     */
+    void handleComment(Long id);
 }

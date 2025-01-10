@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -75,6 +76,36 @@ public class CountViewServiceImpl extends ServiceImpl<CountViewMapper, CountView
     @Override
     public void exportExcel(CountView entity, HttpServletResponse response) {
         ExcelUtils.exportExcel(response, this, entity, CountView.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public Long getCountByBizIdAndBizType(Long bizId, Integer bizType) {
+        CountView one = lambdaQuery()
+                .select(CountView::getCount)
+                .eq(CountView::getBizId, bizId)
+                .eq(CountView::getBizType, bizType)
+                .one();
+
+        if (one == null) {
+            return 0L;
+        }
+
+        return one.getCount();
+    }
+
+    @Override
+    public Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
+        List<CountView> countList = lambdaQuery()
+                .select(CountView::getCount)
+                .in(CountView::getBizId, bizIds)
+                .eq(CountView::getBizType, bizType)
+                .list();
+
+        if (CollectionUtil.isEmpty(countList)) {
+            return Map.of();
+        }
+
+        return countList.stream().collect(Collectors.toMap(CountView::getBizId, CountView::getCount));
     }
 
     @Override

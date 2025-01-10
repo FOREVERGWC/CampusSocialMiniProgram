@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -75,6 +76,36 @@ public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, C
     @Override
     public void exportExcel(CountFavorite entity, HttpServletResponse response) {
         ExcelUtils.exportExcel(response, this, entity, CountFavorite.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public Long getCountByBizIdAndBizType(Long bizId, Integer bizType) {
+        CountFavorite one = lambdaQuery()
+                .select(CountFavorite::getCount)
+                .eq(CountFavorite::getBizId, bizId)
+                .eq(CountFavorite::getBizType, bizType)
+                .one();
+
+        if (one == null) {
+            return 0L;
+        }
+
+        return one.getCount();
+    }
+
+    @Override
+    public Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
+        List<CountFavorite> countList = lambdaQuery()
+                .select(CountFavorite::getCount)
+                .in(CountFavorite::getBizId, bizIds)
+                .eq(CountFavorite::getBizType, bizType)
+                .list();
+
+        if (CollectionUtil.isEmpty(countList)) {
+            return Map.of();
+        }
+
+        return countList.stream().collect(Collectors.toMap(CountFavorite::getBizId, CountFavorite::getCount));
     }
 
     @Override

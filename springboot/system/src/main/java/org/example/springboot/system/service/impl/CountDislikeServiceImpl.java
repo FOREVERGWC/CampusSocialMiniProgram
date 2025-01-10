@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -75,6 +76,36 @@ public class CountDislikeServiceImpl extends ServiceImpl<CountDislikeMapper, Cou
     @Override
     public void exportExcel(CountDislike entity, HttpServletResponse response) {
         ExcelUtils.exportExcel(response, this, entity, CountDislike.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public Long getCountByBizIdAndBizType(Long bizId, Integer bizType) {
+        CountDislike one = lambdaQuery()
+                .select(CountDislike::getCount)
+                .eq(CountDislike::getBizId, bizId)
+                .eq(CountDislike::getBizType, bizType)
+                .one();
+
+        if (one == null) {
+            return 0L;
+        }
+
+        return one.getCount();
+    }
+
+    @Override
+    public Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
+        List<CountDislike> countList = lambdaQuery()
+                .select(CountDislike::getCount)
+                .in(CountDislike::getBizId, bizIds)
+                .eq(CountDislike::getBizType, bizType)
+                .list();
+
+        if (CollectionUtil.isEmpty(countList)) {
+            return Map.of();
+        }
+
+        return countList.stream().collect(Collectors.toMap(CountDislike::getBizId, CountDislike::getCount));
     }
 
     @Override

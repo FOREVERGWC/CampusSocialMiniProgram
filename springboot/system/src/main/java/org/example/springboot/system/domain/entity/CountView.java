@@ -43,7 +43,7 @@ public class CountView extends BaseEntity {
      * 业务类型
      */
     @Schema(description = "业务类型")
-    private Byte bizType;
+    private Integer bizType;
     /**
      * 浏览
      */

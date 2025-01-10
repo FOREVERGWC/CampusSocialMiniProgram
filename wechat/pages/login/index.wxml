@@ -1,0 +1,23 @@
+<!--pages/login/index.wxml-->
+<view class="bg-white flex align-center justify-center" style="height: 100vh;">
+  <view class="basis-xl">
+    <view class="text-center padding-bottom">
+      <view class="text-xl">帐密登录</view>
+    </view>
+
+    <view>
+      <t-input class="margin-bottom" value="{{ username }}" placeholder="请输入用户名" bind:change="onUsernameChange" prefixIcon="user" clearable />
+
+      <t-input class="margin-bottom-lg" value="{{ password }}" placeholder="请输入密码" bind:change="onPasswordChange" prefixIcon="lock-on" type="password" clearable />
+
+      <t-button theme="primary" size="large" block bind:tap="handleLogin">
+        登录
+      </t-button>
+
+      <view class="flex justify-between padding-top">
+        <view class="text-blue" bindtap="navigateToRegister">注册账号</view>
+        <view class="text-blue" bindtap="navigateToForget">忘记密码</view>
+      </view>
+    </view>
+  </view>
+</view>

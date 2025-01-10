@@ -1,6 +1,11 @@
 // pages/note/category/index.js
-import { categoryList, records } from '../../../utils/common'
-
+import {
+  categoryList,
+  records
+} from '../../../utils/common'
+import {
+  getNoteCategoryList
+} from '../../../api/note/category'
 Page({
 
   /**
@@ -9,6 +14,12 @@ Page({
   data: {
     categoryList: [],
     records: []
+  },
+
+  getRecords() {
+    getNoteCategoryList({}).then(res => {
+      console.log(res.data || []);
+    })
   },
 
   /**
@@ -33,6 +44,7 @@ Page({
    */
   onShow() {
     this.getTabBar().init()
+    this.getRecords()
   },
 
   /**

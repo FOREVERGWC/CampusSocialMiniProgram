@@ -10,7 +10,7 @@
   <view class="flex align-center padding user-info-box">
     <t-avatar image="{{ userInfo.avatarUrl || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
     <view class="user-detail">
-      <view class="nickname">{{ userInfo.nickName || '未登录' }}</view>
+      <view class="nickname" bind:tap="goToLogin">{{ userInfo.nickName || '未登录' }}</view>
       <view class="user-id">用户ID：{{ userInfo.userId || '--' }}</view>
     </view>
     <t-button variant="text" shape="circle" icon="edit" bind:tap="editProfile" />

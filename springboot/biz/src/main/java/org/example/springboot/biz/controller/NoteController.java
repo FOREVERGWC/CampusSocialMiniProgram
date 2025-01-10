@@ -115,4 +115,30 @@ public class NoteController {
     public void exportExcel(Note entity, HttpServletResponse response) {
         noteService.exportExcel(entity, response);
     }
+
+    /**
+     * 置顶或取消置顶笔记
+     *
+     * @param id 笔记ID
+     * @return 结果
+     */
+    @PutMapping("/top/{id}")
+    @Operation(summary = "置顶或取消置顶笔记", description = "置顶或取消置顶笔记", method = "PUT")
+    public Result<Void> handleTop(@PathVariable Long id) {
+        noteService.handleTop(id);
+        return Result.success();
+    }
+
+    /**
+     * 允许或禁止笔记评论
+     *
+     * @param id 笔记ID
+     * @return 结果
+     */
+    @PutMapping("/comment/{id}")
+    @Operation(summary = "允许或禁止笔记评论", description = "允许或禁止笔记评论", method = "PUT")
+    public Result<Void> handleComment(@PathVariable Long id) {
+        noteService.handleComment(id);
+        return Result.success();
+    }
 }

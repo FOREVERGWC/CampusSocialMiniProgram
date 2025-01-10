@@ -88,5 +88,14 @@ Page({
     this.setData({
       activeTab: e.detail.value
     })
+  },
+
+  goToLogin() {
+    if (this.data.userInfo.nickName) {
+      return
+    }
+    wx.navigateTo({
+      url: '/pages/login/index'
+    })
   }
 })

@@ -8,6 +8,7 @@ import org.example.springboot.biz.domain.entity.RateRecord;
 import org.example.springboot.biz.domain.vo.RateRecordVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -46,4 +47,6 @@ public interface IRateRecordService extends IService<RateRecord> {
      * @param response 响应对象
      */
     void exportExcel(RateRecord entity, HttpServletResponse response);
+
+    Map<Long, Double> mapRateItemAvgScoreByRateItemIdList(List<Long> rateItemIds);
 }

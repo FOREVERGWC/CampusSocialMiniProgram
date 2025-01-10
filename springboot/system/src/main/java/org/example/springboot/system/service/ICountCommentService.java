@@ -54,7 +54,7 @@ public interface ICountCommentService extends IService<CountComment> {
      * @param bizType 业务类型
      * @return 结果
      */
-    Long getByBizIdAndBizType(Long bizId, Integer bizType);
+    Long getCountByBizIdAndBizType(Long bizId, Integer bizType);
 
     /**
      * 根据业务ID列表和业务类型查询评论量
@@ -63,5 +63,6 @@ public interface ICountCommentService extends IService<CountComment> {
      * @param bizType 业务类型
      * @return 结果
      */
-    Map<Long, Long> mapByBizIdsAndBizType(List<Long> bizIds, Integer bizType);
+    Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType);
+
 }

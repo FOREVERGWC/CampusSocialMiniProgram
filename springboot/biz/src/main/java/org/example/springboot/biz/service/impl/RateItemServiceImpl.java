@@ -15,6 +15,7 @@ import org.example.springboot.biz.domain.entity.RateItem;
 import org.example.springboot.biz.domain.vo.RateItemVo;
 import org.example.springboot.biz.mapper.RateItemMapper;
 import org.example.springboot.biz.service.IRateItemService;
+import org.example.springboot.biz.service.IRateRecordService;
 import org.example.springboot.biz.service.IRateService;
 import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
@@ -37,6 +38,8 @@ import java.util.stream.Collectors;
 public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> implements IRateItemService, IBaseService<RateItem> {
     @Resource
     private IRateService rateService;
+    @Resource
+    private IRateRecordService rateRecordService;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -64,11 +67,15 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
         List<Long> rateIdList = list.stream().map(RateItem::getRateId).toList();
         List<Rate> rateList = rateService.listByIds(rateIdList);
         Map<Long, Rate> rateMap = rateList.stream().collect(Collectors.toMap(Rate::getId, item -> item));
+        // 分数
+        List<Long> idList = list.stream().map(RateItem::getId).toList();
+        Map<Long, Double> scoreMap = rateRecordService.mapRateItemAvgScoreByRateItemIdList(idList);
         // 组装VO
         return list.stream().map(item -> {
             RateItemVo vo = new RateItemVo();
             BeanUtils.copyProperties(item, vo);
             vo.setRate(rateMap.getOrDefault(item.getRateId(), Rate.builder().build()));
+            vo.setScore(scoreMap.getOrDefault(item.getRateId(), 10D));
             return vo;
         }).toList();
     }
@@ -83,11 +90,15 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
         List<Long> rateIdList = info.getRecords().stream().map(RateItem::getRateId).toList();
         List<Rate> rateList = rateService.listByIds(rateIdList);
         Map<Long, Rate> rateMap = rateList.stream().collect(Collectors.toMap(Rate::getId, item -> item));
+        // 分数
+        List<Long> idList = info.getRecords().stream().map(RateItem::getId).toList();
+        Map<Long, Double> scoreMap = rateRecordService.mapRateItemAvgScoreByRateItemIdList(idList);
         // 组装VO
         return info.convert(item -> {
             RateItemVo vo = new RateItemVo();
             BeanUtils.copyProperties(item, vo);
             vo.setRate(rateMap.getOrDefault(item.getRateId(), Rate.builder().build()));
+            vo.setScore(scoreMap.getOrDefault(item.getRateId(), 10D));
             return vo;
         });
     }

@@ -20,7 +20,7 @@ import java.util.List;
  * </p>
  */
 @RestController
-@RequestMapping("/rateRecord")
+@RequestMapping("/rate/record")
 @Tag(name = "评分记录", description = "评分记录")
 public class RateRecordController {
     @Resource

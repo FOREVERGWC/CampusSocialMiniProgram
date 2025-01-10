@@ -8,6 +8,7 @@ import org.example.springboot.system.domain.entity.CountLike;
 import org.example.springboot.system.domain.vo.CountLikeVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -46,4 +47,22 @@ public interface ICountLikeService extends IService<CountLike> {
      * @param response 响应对象
      */
     void exportExcel(CountLike entity, HttpServletResponse response);
+
+    /**
+     * 根据业务ID和业务类型查询点赞量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     * @return 结果
+     */
+    Long getCountByBizIdAndBizType(Long bizId, Integer bizType);
+
+    /**
+     * 根据业务ID列表和业务类型查询点赞量分组
+     *
+     * @param bizIds  业务ID列表
+     * @param bizType 业务类型
+     * @return 结果
+     */
+    Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType);
 }

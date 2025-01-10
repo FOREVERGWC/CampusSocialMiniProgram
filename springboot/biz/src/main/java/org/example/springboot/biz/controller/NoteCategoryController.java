@@ -20,7 +20,7 @@ import java.util.List;
  * </p>
  */
 @RestController
-@RequestMapping("/noteCategory")
+@RequestMapping("/note/category")
 @Tag(name = "笔记类别", description = "笔记类别")
 public class NoteCategoryController {
     @Resource

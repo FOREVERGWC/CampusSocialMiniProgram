@@ -8,9 +8,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
-import org.example.springboot.common.domain.BaseEntity;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -26,7 +26,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = false)
 @TableName("biz_count_rate")
 @Schema(name = "评分量实体", description = "评分量")
-public class CountRate extends BaseEntity {
+public class CountRate implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     /**

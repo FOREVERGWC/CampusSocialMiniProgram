@@ -13,9 +13,9 @@ import org.example.springboot.biz.domain.entity.Rate;
 import org.example.springboot.biz.domain.entity.RateItem;
 import org.example.springboot.biz.domain.entity.RateRecord;
 import org.example.springboot.biz.domain.vo.RateRecordVo;
+import org.example.springboot.biz.mapper.RateItemMapper;
 import org.example.springboot.biz.mapper.RateRecordMapper;
 import org.example.springboot.biz.service.ICountRateService;
-import org.example.springboot.biz.service.IRateItemService;
 import org.example.springboot.biz.service.IRateRecordService;
 import org.example.springboot.biz.service.IRateService;
 import org.example.springboot.common.service.IBaseService;
@@ -42,7 +42,7 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
     @Resource
     private IRateService rateService;
     @Resource
-    private IRateItemService rateItemService;
+    private RateItemMapper rateItemMapper;
     @Resource
     private IUserService userService;
     @Resource
@@ -52,7 +52,7 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
 
     @Override
     public boolean save(RateRecord entity) {
-        RateItem rateItem = rateItemService.getById(entity.getRateItemId());
+        RateItem rateItem = rateItemMapper.selectById(entity.getRateItemId());
         Long userId = UserUtils.getLoginUserId();
 
         entity.setRateId(rateItem.getRateId());
@@ -83,7 +83,7 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
         Map<Long, Rate> rateMap = rateList.stream().collect(Collectors.toMap(Rate::getId, item -> item));
         // 评分项
         List<Long> rateItemIdList = list.stream().map(RateRecord::getRateItemId).toList();
-        List<RateItem> rateItemList = rateItemService.listByIds(rateItemIdList);
+        List<RateItem> rateItemList = rateItemMapper.selectBatchIds(rateItemIdList);
         Map<Long, RateItem> rateItemMap = rateItemList.stream().collect(Collectors.toMap(RateItem::getId, item -> item));
         // 用户
         List<Long> userIdList = list.stream().map(RateRecord::getUserId).toList();
@@ -112,7 +112,7 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
         Map<Long, Rate> rateMap = rateList.stream().collect(Collectors.toMap(Rate::getId, item -> item));
         // 评分项
         List<Long> rateItemIdList = info.getRecords().stream().map(RateRecord::getRateItemId).toList();
-        List<RateItem> rateItemList = rateItemService.listByIds(rateItemIdList);
+        List<RateItem> rateItemList = rateItemMapper.selectBatchIds(rateItemIdList);
         Map<Long, RateItem> rateItemMap = rateItemList.stream().collect(Collectors.toMap(RateItem::getId, item -> item));
         // 用户
         List<Long> userIdList = info.getRecords().stream().map(RateRecord::getUserId).toList();
@@ -138,7 +138,7 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
         // 评分
         Rate rate = Optional.ofNullable(rateService.getById(one.getRateId())).orElse(Rate.builder().build());
         // 评分项
-        RateItem rateItem = Optional.ofNullable(rateItemService.getById(one.getRateItemId())).orElse(RateItem.builder().build());
+        RateItem rateItem = Optional.ofNullable(rateItemMapper.selectById(one.getRateItemId())).orElse(RateItem.builder().build());
         // 用户
         User user = Optional.ofNullable(userService.getById(one.getUserId())).orElse(User.builder().name("已删除").build());
         // 组装VO
@@ -153,6 +153,23 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
     @Override
     public void exportExcel(RateRecord entity, HttpServletResponse response) {
         ExcelUtils.exportExcel(response, this, entity, RateRecord.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public Map<Long, Double> mapRateItemAvgScoreByRateItemIdList(List<Long> rateItemIds) {
+        List<RateRecord> rateRecordList = lambdaQuery()
+                .in(RateRecord::getRateItemId, rateItemIds)
+                .list();
+
+        if (CollectionUtil.isEmpty(rateRecordList)) {
+            return Map.of();
+        }
+
+        return rateRecordList.stream()
+                .collect(Collectors.groupingBy(
+                        RateRecord::getRateItemId,
+                        Collectors.averagingDouble(RateRecord::getScore)
+                ));
     }
 
     @Override

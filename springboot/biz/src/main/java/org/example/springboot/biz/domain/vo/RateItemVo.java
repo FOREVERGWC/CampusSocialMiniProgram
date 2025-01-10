@@ -26,13 +26,13 @@ public class RateItemVo extends RateItem {
     @Serial
     private static final long serialVersionUID = 1L;
     /**
-     * 占位符
-     */
-    @Schema(description = "占位符")
-    private String placeholder;
-    /**
      * 评分
      */
     @Schema(description = "评分")
     private Rate rate;
+    /**
+     * 分数
+     */
+    @Schema(description = "分数")
+    private Double score;
 }

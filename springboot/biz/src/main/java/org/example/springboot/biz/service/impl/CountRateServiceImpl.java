@@ -1,7 +1,6 @@
 package org.example.springboot.biz.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -120,20 +119,9 @@ public class CountRateServiceImpl extends ServiceImpl<CountRateMapper, CountRate
 
     @Override
     public LambdaQueryChainWrapper<CountRate> getWrapper(CountRate entity) {
-        LambdaQueryChainWrapper<CountRate> wrapper = lambdaQuery()
+        return lambdaQuery()
                 .eq(entity.getId() != null, CountRate::getId, entity.getId())
                 .eq(entity.getRateId() != null, CountRate::getRateId, entity.getRateId())
                 .eq(entity.getCount() != null, CountRate::getCount, entity.getCount());
-        if (entity instanceof CountRateDto dto) {
-            Map<String, Object> params = dto.getParams();
-            // 创建时间
-            Object startCreateTime = params == null ? null : params.get("startCreateTime");
-            Object endCreateTime = params == null ? null : params.get("endCreateTime");
-
-            wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
-                    CountRate::getCreateTime,
-                    startCreateTime, endCreateTime);
-        }
-        return wrapper;
     }
 }

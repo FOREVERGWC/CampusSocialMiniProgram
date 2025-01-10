@@ -12,3 +12,7 @@
 /springboot/common/target
 /springboot/system/target
 /springboot/biz/target
+/vue/.idea/
+/vue/.vscode/
+/vue/node_modules/
+/vue/dist/

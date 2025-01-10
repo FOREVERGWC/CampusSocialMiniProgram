@@ -158,6 +158,10 @@ public enum ResultCode {
      */
     ARTICLE_NOT_FOUND_ERROR(500, "操作失败！文章不存在"),
     /**
+     * 操作失败！笔记不存在
+     */
+    NOTE_NOT_FOUND_ERROR(500, "操作失败！笔记不存在"),
+    /**
      * 操作失败！订单不存在
      */
     ORDER_NOT_FOUND_ERROR(500, "操作失败！订单不存在"),

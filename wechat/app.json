@@ -9,7 +9,8 @@
     "pages/rate/detail/index",
     "pages/message/index",
     "pages/my/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/login/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -51,6 +52,7 @@
     "t-button": "tdesign-miniprogram/button/button",
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
+    "t-input": "tdesign-miniprogram/input/input",
     "t-rate": "tdesign-miniprogram/rate/rate",
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
     "t-sticky": "tdesign-miniprogram/sticky/sticky",

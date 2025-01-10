@@ -81,8 +81,9 @@ public class CountCommentServiceImpl extends ServiceImpl<CountCommentMapper, Cou
     }
 
     @Override
-    public Long getByBizIdAndBizType(Long bizId, Integer bizType) {
+    public Long getCountByBizIdAndBizType(Long bizId, Integer bizType) {
         CountComment one = lambdaQuery()
+                .select(CountComment::getCount)
                 .eq(CountComment::getBizId, bizId)
                 .eq(CountComment::getBizType, bizType)
                 .one();
@@ -95,18 +96,18 @@ public class CountCommentServiceImpl extends ServiceImpl<CountCommentMapper, Cou
     }
 
     @Override
-    public Map<Long, Long> mapByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
-        List<CountComment> list = lambdaQuery()
+    public Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
+        List<CountComment> countList = lambdaQuery()
+                .select(CountComment::getCount)
                 .in(CountComment::getBizId, bizIds)
                 .eq(CountComment::getBizType, bizType)
                 .list();
 
-        if (CollectionUtil.isEmpty(list)) {
+        if (CollectionUtil.isEmpty(countList)) {
             return Map.of();
         }
 
-        return list.stream()
-                .collect(Collectors.toMap(CountComment::getId, CountComment::getCount));
+        return countList.stream().collect(Collectors.toMap(CountComment::getBizId, CountComment::getCount));
     }
 
     /**
