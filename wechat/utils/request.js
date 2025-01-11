@@ -11,8 +11,8 @@ const service = {
         config.header.token = `Bearer ${token}`;
       }
 
-      if (config.method === 'GET' && config.data) {
-        config.url = `${config.url}?${tansParams(config.data)}`;
+      if (config.method === 'GET' && config.params) {
+        config.url = `${config.url}?${tansParams(config.params)}`;
         config.data = {};
       }
       return config;
@@ -26,7 +26,8 @@ const service = {
           title: '请先登录！',
           icon: 'none'
         });
-        // 可以在这里处理登出逻辑
+        getApp().globalData.userInfo = {}
+        getApp().globalData.token = ''
         return Promise.reject(res);
       }
       return res;
@@ -63,13 +64,15 @@ const request = (options = {}) => {
     url,
     method = 'GET',
     data = {},
+    params = {},
     header = {}
   } = options;
 
   const config = {
     url: service.baseURL + url,
     method: method.toUpperCase(),
-    data,
+    data: data,
+    params: params,
     header: {
       ...service.header,
       ...header

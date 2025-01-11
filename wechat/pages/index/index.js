@@ -2,6 +2,9 @@
 import {
   records
 } from '../../utils/common'
+import {
+  getNotePage
+} from '../../api/note/index'
 
 Page({
 
@@ -9,6 +12,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    queryParams: {
+      pageNo: 1,
+      pageSize: 8
+    },
     activeTab: '1',
     records: [],
     loading: true,
@@ -17,12 +24,45 @@ Page({
   },
 
   getRecords() {
-    setTimeout(() => {
+    if (this.data.activeTab === '1') {
+      this.getNoteRecords()
+    } else if (this.data.activeTab === '2') {
+      this.getRateRecords()
+    } else if (this.data.activeTab == '3') {
+      console.log('待完成');
+    }
+    this.setData({
+      loading: false,
+      refreshing: false
+    })
+  },
+
+  getNoteRecords() {
+    getNotePage(this.data.queryParams).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
       this.setData({
-        records: records,
-        loading: false
+        records: res.data?.records || []
       })
-    }, 1000)
+    }).catch(error => {
+      if (error.code === 401) {
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }, 3000)
+      }
+    })
+  },
+
+  getRateRecords() {
+
   },
 
   onTabsChange(event) {
@@ -87,15 +127,14 @@ Page({
    */
   onPullDownRefresh() {
     this.setData({
+      queryParams: {
+        pageNo: 1,
+        pageSize: 8
+      },
       refreshing: true
     })
 
-    setTimeout(() => {
-      this.setData({
-        records: records,
-        refreshing: false
-      })
-    }, 1000)
+    this.getRecords()
   },
 
   /**

@@ -1,8 +1,10 @@
 // pages/note/detail/index.js
 import {
-  records,
   comments
 } from '../../../utils/common'
+import {
+  getNoteById
+} from '../../../api/note/index'
 
 Page({
 
@@ -16,12 +18,11 @@ Page({
   },
 
   getDetail() {
-    const detail = records.find(record => record.id === this.data.id);
-    this.setData({
-      detail: detail
+    getNoteById(this.data.id).then(res => {
+      this.setData({
+        detail: res.data
+      })
     })
-
-    // TODO 调用接口查询详情
   },
 
   handleLike() {

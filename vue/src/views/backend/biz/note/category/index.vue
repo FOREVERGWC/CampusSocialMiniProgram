@@ -56,6 +56,7 @@
         <el-table-column type="selection" width="55"/>
         <el-table-column label="序号" type="index" width="70"/>
         <el-table-column label="名称" prop="name"/>
+        <el-table-column label="图标" prop="icon"/>
         <el-table-column label="操作" width="180">
           <template v-slot="{ row }">
             <el-button icon="Edit" plain type="primary" @click="showEdit(row)">编辑</el-button>
@@ -85,6 +86,9 @@
       <el-form ref="formRef" :model="form.data" :rules="rules" label-width="80px">
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.data.name" autocomplete="new"/>
+        </el-form-item>
+        <el-form-item label="图标" prop="icon">
+          <el-input v-model="form.data.icon" autocomplete="new"/>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.data.remark" :rows="5" autocomplete="new" type="textarea"/>
@@ -127,7 +131,8 @@ const form = ref({
 })
 const formRef = ref(null)
 const rules = {
-  name: [{required: true, message: '请输入名称', trigger: 'blur'}]
+  name: [{required: true, message: '请输入名称', trigger: 'blur'}],
+  icon: [{required: true, message: '请输入图标', trigger: 'blur'}]
 }
 
 const getPage = () => {
@@ -149,6 +154,7 @@ const showAdd = () => {
     title: '添加笔记类别',
     data: {
       name: '',
+      icon: '',
       remark: ''
     }
   }

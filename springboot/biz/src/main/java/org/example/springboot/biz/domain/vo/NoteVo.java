@@ -7,9 +7,11 @@ import lombok.experimental.SuperBuilder;
 import org.example.springboot.biz.domain.entity.Note;
 import org.example.springboot.biz.domain.entity.NoteCategory;
 import org.example.springboot.system.domain.dto.CountDto;
+import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
 
 import java.io.Serial;
+import java.util.List;
 
 /**
  * <p>
@@ -42,6 +44,11 @@ public class NoteVo extends Note {
      */
     @Schema(description = "类别")
     private NoteCategory category;
+    /**
+     * 附件列表
+     */
+    @Schema(description = "附件列表")
+    private List<Attachment> attachmentList;
     /**
      * 类别
      */

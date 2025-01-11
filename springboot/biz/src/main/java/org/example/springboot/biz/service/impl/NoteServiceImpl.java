@@ -24,6 +24,7 @@ import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.common.enums.BizType;
 import org.example.springboot.system.common.enums.DeleteEnum;
 import org.example.springboot.system.domain.dto.CountDto;
+import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.service.*;
 import org.example.springboot.system.utils.UserUtils;
@@ -58,6 +59,8 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     @Resource
     private ICountFavoriteService countFavoriteService;
     @Resource
+    private IAttachmentService attachmentService;
+    @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Override
@@ -91,8 +94,11 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         List<Long> categoryIdList = list.stream().map(Note::getCategoryId).toList();
         List<NoteCategory> categoryList = noteCategoryService.listByIds(categoryIdList);
         Map<Long, NoteCategory> categoryMap = categoryList.stream().collect(Collectors.toMap(NoteCategory::getId, item -> item));
-        // 浏览量
+        // ID列表
         List<Long> idList = list.stream().map(Note::getId).toList();
+        // 笔记附件
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
+        // 浏览量
         Map<Long, Long> viewCountMap = countViewService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 点赞量
         Map<Long, Long> likeCountMap = countLikeService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
@@ -108,6 +114,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
             BeanUtils.copyProperties(item, vo);
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));
             vo.setCategory(categoryMap.getOrDefault(item.getCategoryId(), NoteCategory.builder().name("已删除").build()));
+            vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             vo.setCount(CountDto.builder()
                     .view(viewCountMap.getOrDefault(item.getId(), 0L))
                     .like(likeCountMap.getOrDefault(item.getId(), 0L))
@@ -133,8 +140,11 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         List<Long> categoryIdList = info.getRecords().stream().map(Note::getCategoryId).toList();
         List<NoteCategory> categoryList = noteCategoryService.listByIds(categoryIdList);
         Map<Long, NoteCategory> categoryMap = categoryList.stream().collect(Collectors.toMap(NoteCategory::getId, item -> item));
-        // 浏览量
+        // ID列表
         List<Long> idList = info.getRecords().stream().map(Note::getId).toList();
+        // 笔记附件
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
+        // 浏览量
         Map<Long, Long> viewCountMap = countViewService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 点赞量
         Map<Long, Long> likeCountMap = countLikeService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
@@ -150,6 +160,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
             BeanUtils.copyProperties(item, vo);
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));
             vo.setCategory(categoryMap.getOrDefault(item.getCategoryId(), NoteCategory.builder().name("已删除").build()));
+            vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             vo.setCount(CountDto.builder()
                     .view(viewCountMap.getOrDefault(item.getId(), 0L))
                     .like(likeCountMap.getOrDefault(item.getId(), 0L))
@@ -171,8 +182,11 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         User user = Optional.ofNullable(userService.getById(one.getUserId())).orElse(User.builder().name("已删除").build());
         // 类别
         NoteCategory category = Optional.ofNullable(noteCategoryService.getById(one.getCategoryId())).orElse(NoteCategory.builder().name("已删除").build());
-        // 浏览量
+        // ID
         Long id = one.getId();
+        // 笔记附件
+        List<Attachment> attachmentList = attachmentService.listByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
+        // 浏览量
         Long viewCount = countViewService.getCountByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
         // 点赞量
         Long likeCount = countLikeService.getCountByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
@@ -187,6 +201,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         BeanUtils.copyProperties(one, vo);
         vo.setUser(user);
         vo.setCategory(category);
+        vo.setAttachmentList(attachmentList);
         vo.setCount(CountDto.builder()
                 .view(viewCount)
                 .like(likeCount)

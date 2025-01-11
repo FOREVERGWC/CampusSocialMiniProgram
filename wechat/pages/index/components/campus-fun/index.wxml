@@ -9,10 +9,16 @@
         <view class="margin-bottom-xs">{{ item.title }}</view>
         <view class="flex justify-between text-grey text-sm">
           <view class="flex align-center" style="gap: 8rpx;">
-            <view class="cu-avatar round xs" style="background-image:url({{item.author.avatar}});"></view>
-            <text>{{ item.author.username }}</text>
+            <view class="cu-avatar round xs" style="background-image:url({{item.user.avatar}});"></view>
+            <text>{{ item.user.username }}</text>
           </view>
-          <text class="cuIcon-appreciatefill margin-lr-xs">{{ item.like }}</text>
+          <view>
+            <text class="cuIcon-attention margin-lr-xs"> {{ item.count.view }}</text>
+            <text class="cuIcon-appreciate margin-lr-xs"> {{ item.count.like }}</text>
+            <text class="cuIcon-bad margin-lr-xs"> {{ item.count.dislike }}</text>
+            <text class="cuIcon-comment margin-lr-xs"> {{ item.count.comment }}</text>
+            <text class="cuIcon-favor margin-lr-xs"> {{ item.count.favorite }}</text>
+          </view>
         </view>
       </view>
     </view>

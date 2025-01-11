@@ -1,24 +1,68 @@
 // pages/note/category/index.js
 import {
-  categoryList,
-  records
-} from '../../../utils/common'
-import {
   getNoteCategoryList
 } from '../../../api/note/category'
+import {
+  getNotePage
+} from '../../../api/note/index'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    queryParams: {
+      pageNo: 1,
+      pageSize: 8,
+      categoryId: null
+    },
     categoryList: [],
     records: []
   },
 
   getRecords() {
     getNoteCategoryList({}).then(res => {
-      console.log(res.data || []);
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      this.setData({
+        categoryList: res.data || []
+      })
+    }).catch(error => {
+      if (error.code === 401) {
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }, 3000)
+      }
+    })
+    getNotePage(this.data.queryParams).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      this.setData({
+        records: res.data?.records || []
+      })
+    }).catch(error => {
+      if (error.code === 401) {
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }, 3000)
+      }
     })
   },
 
@@ -26,10 +70,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.setData({
-      categoryList,
-      records
-    })
+
   },
 
   /**

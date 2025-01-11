@@ -40,6 +40,11 @@ public class NoteCategory extends BaseEntity {
     @Schema(description = "名称")
     private String name;
     /**
+     * 图标
+     */
+    @Schema(description = "图标")
+    private String icon;
+    /**
      * 逻辑删除(0正常、1删除)
      */
     @Schema(description = "逻辑删除(0正常、1删除)")

@@ -3,15 +3,15 @@
   <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
     <view slot="content">
       <view class="flex align-center" style="gap: 8rpx;">
-        <view class="cu-avatar radius sm" style="background-image:url({{detail.author.avatar}});" />
-        <text class="text-black">{{ detail.author.username }}</text>
+        <view class="cu-avatar radius sm" style="background-image:url({{detail.user.avatar}});" />
+        <text class="text-black">{{ detail.user.username }}</text>
       </view>
     </view>
   </cu-custom>
 
   <scroll-view scroll-y="true" style="height: 100vh;">
     <!-- 内容 -->
-    <image src="{{ detail.img }}" class="detail-image" />
+    <image src="{{ detail.attachmentList }}" class="detail-image" />
     <view class="padding-lr-sm">
       <view class="padding-tb-lg">
         <view class="margin-bottom-sm">{{ detail.title }}</view>

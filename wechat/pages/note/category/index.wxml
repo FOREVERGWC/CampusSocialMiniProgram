@@ -23,10 +23,10 @@
           <view class="margin-bottom-xs">{{ item.title }}</view>
           <view class="flex justify-between text-grey text-sm">
             <view class="flex align-center" style="gap: 8rpx;">
-              <view class="cu-avatar round xs" style="background-image:url({{item.author.avatar}});"></view>
-              <text>{{ item.author.username }}</text>
+              <view class="cu-avatar round xs" style="background-image:url({{item.user.avatar}});"></view>
+              <text>{{ item.user.username }}</text>
             </view>
-            <text class="cuIcon-appreciatefill margin-lr-xs">{{ item.like }}</text>
+            <text class="cuIcon-appreciatefill margin-lr-xs"> {{ item.count.like }}</text>
           </view>
         </view>
       </view>
