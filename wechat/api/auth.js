@@ -12,3 +12,14 @@ export const login = (data) => {
     data: data
   })
 }
+
+/**
+ * 获取当前用户信息
+ * @returns {*} 结果
+ */
+export const getByToken = () => {
+  return request({
+    url: '/token',
+    method: 'GET'
+  })
+}

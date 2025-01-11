@@ -1,3 +1,7 @@
+import {
+  getRateItemById
+} from "../../../api/rate/item";
+
 // pages/rate/detail/index.js
 Page({
 
@@ -5,7 +9,17 @@ Page({
    * 页面的初始数据
    */
   data: {
+    id: null,
+    detail: {},
     value: 3
+  },
+
+  getDetail() {
+    getRateItemById(this.data.id).then(res => {
+      this.setData({
+        detail: res.data
+      })
+    })
   },
 
   onChange(e) {
@@ -16,12 +30,16 @@ Page({
       value,
     });
   },
-  
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    const id = options.id;
+    this.setData({
+      id: id
+    });
+    this.getDetail()
   },
 
   /**

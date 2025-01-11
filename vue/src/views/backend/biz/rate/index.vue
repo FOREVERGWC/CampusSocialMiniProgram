@@ -104,6 +104,9 @@
         <el-form-item label="内容" prop="content">
           <el-input v-model="form.data.content" :rows="10" autocomplete="new" type="textarea"/>
         </el-form-item>
+        <el-form-item v-if="form.data.id" label="图片">
+          <picture-upload v-model="form.data.attachmentList" :bizId="form.data.id" :bizType="9"/>
+        </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.data.remark" :rows="5" autocomplete="new" type="textarea"/>
         </el-form-item>

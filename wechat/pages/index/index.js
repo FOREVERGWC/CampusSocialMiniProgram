@@ -5,6 +5,9 @@ import {
 import {
   getNotePage
 } from '../../api/note/index'
+import {
+  getRatePage
+} from '../../api/rate/index'
 
 Page({
 
@@ -62,7 +65,27 @@ Page({
   },
 
   getRateRecords() {
+    getRatePage(this.data.queryParams).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
 
+      this.setData({
+        records: res.data?.records || []
+      })
+    }).catch(error => {
+      if (error.code === 401) {
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }, 3000)
+      }
+    })
   },
 
   onTabsChange(event) {
@@ -72,7 +95,7 @@ Page({
   },
 
   onTabsClick(event) {
-    console.log(`Click tab, tab-panel value is ${event.detail.value}.`);
+    this.getRecords()
   },
 
   onStickyScroll(event) {

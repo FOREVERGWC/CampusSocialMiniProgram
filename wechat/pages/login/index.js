@@ -1,6 +1,7 @@
 // pages/login/index.js
 import {
-  login
+  login,
+  getByToken
 } from '../../api/auth.js'
 
 Page({
@@ -117,6 +118,11 @@ Page({
       wx.showToast({
         title: '登录成功！',
         icon: 'success'
+      })
+
+      getByToken().then(res => {
+        getApp().globalData.userInfo = res.data || {}
+        // TODO 设置头像完整路径
       })
 
       wx.switchTab({

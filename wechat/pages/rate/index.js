@@ -2,6 +2,9 @@
 import {
   records
 } from '../../utils/common'
+import {
+  getRateItemList
+} from '../../api/rate/item'
 
 Page({
 
@@ -9,6 +12,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    queryParams: {
+      rateId: null
+    },
     records: [],
     loading: true,
     refreshing: false,
@@ -16,12 +22,27 @@ Page({
   },
 
   getRecords() {
-    setTimeout(() => {
+    getRateItemList(this.data.queryParams).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
       this.setData({
-        records: records,
-        loading: false
+        records: res.data || []
       })
-    }, 1000)
+    }).catch(error => {
+      if (error.code === 401) {
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }, 3000)
+      }
+    })
   },
 
   onToDetail(event) {
@@ -35,7 +56,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    const id = options.id;
+    this.setData({
+      queryParams: {
+        rateId: id
+      }
+    });
+    this.getRecords()
   },
 
   /**

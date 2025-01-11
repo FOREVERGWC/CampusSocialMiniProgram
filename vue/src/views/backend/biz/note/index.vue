@@ -171,6 +171,9 @@
             <el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value"/>
           </el-select>
         </el-form-item>
+        <el-form-item v-if="form.data.id" label="图片">
+          <picture-upload v-model="form.data.attachmentList" :bizId="form.data.id" :bizType="8"/>
+        </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.data.remark" :rows="5" autocomplete="new" type="textarea"/>
         </el-form-item>

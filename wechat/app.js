@@ -25,6 +25,7 @@ App({
   },
   globalData: {
     userInfo: {},
+    avatar: 'https://tdesign.gtimg.com/mobile/demos/avatar1.png',
     token: ''
   }
 })
