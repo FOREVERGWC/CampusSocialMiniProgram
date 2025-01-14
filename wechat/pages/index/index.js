@@ -1,8 +1,5 @@
 // pages/my/index.js
 import {
-  records
-} from '../../utils/common'
-import {
   getNotePage
 } from '../../api/note/index'
 import {
@@ -29,6 +26,10 @@ Page({
   },
 
   getRecords() {
+    this.setData({
+      end: false
+    })
+
     if (this.data.activeTab === '1') {
       this.getNoteRecords()
     } else if (this.data.activeTab === '2') {
@@ -36,6 +37,7 @@ Page({
     } else if (this.data.activeTab == '3') {
       console.log('待完成');
     }
+
     this.setData({
       loading: false,
       refreshing: false
@@ -160,26 +162,114 @@ Page({
         pageNo: 1,
         pageSize: 8
       },
-      refreshing: true
-    })
+      refreshing: true,
+      records: []
+    });
 
-    this.getRecords()
+    this.getRecords();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-    this.setData({
-      loading: true
-    })
+    if (this.data.loading) {
+      return
+    }
 
-    setTimeout(() => {
-      this.setData({
-        records: this.data.records.concat(records),
-        loading: false
+    if (this.data.end) {
+      wx.showToast({
+        title: '已经到底啦！~',
+        icon: 'none'
       })
-    }, 1000)
+
+      return
+    }
+
+    if (this.data.queryParams.pageNo >= this.data.pages) {
+      this.setData({
+        loading: false,
+        end: true
+      });
+
+      wx.showToast({
+        title: '已经到底啦！~',
+        icon: 'none'
+      });
+
+      return
+    }
+
+    this.setData({
+      'queryParams.pageNo': this.data.queryParams.pageNo + 1,
+      loading: true
+    });
+
+    if (this.data.activeTab === '1') {
+      getNotePage(this.data.queryParams).then(res => {
+        if (res.code === 200) {
+          const records = res.data?.records || [];
+          if (records.length === 0) {
+            this.setData({
+              end: true,
+              loading: false
+            });
+            wx.showToast({
+              title: '已经到底啦！~',
+              icon: 'none'
+            });
+            return;
+          }
+
+          this.setData({
+            records: [...this.data.records, ...records],
+            total: res.data?.total || 0,
+            pages: res.data?.pages || 0,
+            loading: false
+          });
+        } else {
+          this.setData({
+            loading: false
+          });
+          wx.showToast({
+            title: res.msg,
+            icon: 'none'
+          });
+        }
+      });
+    } else if (this.data.activeTab === '2') {
+      getRatePage(this.data.queryParams).then(res => {
+        if (res.code === 200) {
+          const records = res.data?.records || [];
+          if (records.length === 0) {
+            this.setData({
+              end: true,
+              loading: false
+            });
+            wx.showToast({
+              title: '已经到底啦！~',
+              icon: 'none'
+            });
+            return;
+          }
+
+          this.setData({
+            records: [...this.data.records, ...records],
+            total: res.data?.total || 0,
+            pages: res.data?.pages || 0,
+            loading: false
+          });
+        } else {
+          this.setData({
+            loading: false
+          });
+          wx.showToast({
+            title: res.msg,
+            icon: 'none'
+          });
+        }
+      });
+    }
   },
 
   /**
