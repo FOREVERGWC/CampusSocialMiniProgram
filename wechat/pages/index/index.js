@@ -21,6 +21,8 @@ Page({
     },
     activeTab: '1',
     records: [],
+    total: 0,
+    pages: 0,
     loading: true,
     refreshing: false,
     end: true
@@ -51,7 +53,9 @@ Page({
       }
 
       this.setData({
-        records: res.data?.records || []
+        records: res.data?.records || [],
+        total: res.data?.total || 0,
+        pages: res.data?.pages || 0
       })
     }).catch(error => {
       if (error.code === 401) {
@@ -75,7 +79,9 @@ Page({
       }
 
       this.setData({
-        records: res.data?.records || []
+        records: res.data?.records || [],
+        total: res.data?.total || 0,
+        pages: res.data?.pages || 0
       })
     }).catch(error => {
       if (error.code === 401) {
