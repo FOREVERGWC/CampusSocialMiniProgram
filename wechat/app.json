@@ -10,7 +10,8 @@
     "pages/message/index",
     "pages/my/index",
     "pages/logs/logs",
-    "pages/login/index"
+    "pages/login/index",
+    "pages/setting/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -57,6 +58,7 @@
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
     "t-sticky": "tdesign-miniprogram/sticky/sticky",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
-    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel"
+    "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "t-navbar": "tdesign-miniprogram/navbar/navbar"
   }
 }

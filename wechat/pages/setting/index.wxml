@@ -1,0 +1,70 @@
+<!--pages/setting/index.wxml-->
+<view class="padding-top-xl" style="height: 100vh; background-color: #f7f7f7;">
+  <t-navbar title="设置" left-arrow bind:go-back="onBack" />
+
+  <t-cell-group theme="card">
+    <t-cell hover arrow>
+      <text class="cuIcon-people text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">账号与安全</text>
+    </t-cell>
+    <t-cell hover arrow>
+      <text class="cuIcon-settings text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">通用设置</text>
+    </t-cell>
+    <t-cell hover arrow>
+      <text class="cuIcon-notification text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">通知设置</text>
+    </t-cell>
+    <t-cell hover arrow>
+      <text class="cuIcon-lock text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">隐私设置</text>
+    </t-cell>
+  </t-cell-group>
+
+  <t-cell-group theme="card" style="margin-top: 50rpx; margin-bottom: 50rpx;">
+    <t-cell hover arrow>
+      <text class="cuIcon-delete text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">存储空间</text>
+      <text class="text-grey text-sm" slot="note">1.37 GB</text>
+    </t-cell>
+    <t-cell hover arrow>
+      <text class="cuIcon-favor text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">内容偏好调节</text>
+    </t-cell>
+    <t-cell hover arrow>
+      <text class="cuIcon-location text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">收货地址</text>
+    </t-cell>
+    <t-cell hover arrow>
+      <text class="cuIcon-safe text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">未成年人模式</text>
+      <text class="text-grey text-sm" slot="note">未开启</text>
+    </t-cell>
+  </t-cell-group>
+
+  <t-cell-group theme="card" style="margin-top: 24rpx;">
+    <t-cell hover arrow>
+      <text class="cuIcon-service text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">帮助与客服</text>
+    </t-cell>
+    <t-cell hover arrow>
+      <text class="cuIcon-info text-gray" slot="left-icon" />
+      <text class="text-grey" slot="title">关于</text>
+    </t-cell>
+  </t-cell-group>
+
+  <view>
+    <!-- 底部按钮 -->
+    <view class="padding-tb-xl padding-lr">
+      <t-button block theme="light" bind:tap="switchAccount">切换账号</t-button>
+      <view class="padding-xs"></view>
+      <t-button block theme="light" bind:tap="logout">退出登录</t-button>
+    </view>
+
+    <!-- 底部信息 -->
+    <view class="text-center padding-bottom-xl text-gray text-sm">
+      <text class="margin-lr-xs">《个人信息收集清单》</text>
+      <text class="margin-lr-xs">《第三方信息共享清单》</text>
+    </view>
+  </view>
+</view>

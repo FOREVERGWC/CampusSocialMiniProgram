@@ -13,7 +13,6 @@
       <view class="nickname" bind:tap="goToLogin">{{ userInfo.nickname || userInfo.username || '未登录' }}</view>
       <view class="user-id">用户ID：{{ userInfo.id || '--' }}</view>
     </view>
-    <t-button variant="text" shape="circle" icon="edit" bind:tap="editProfile" />
   </view>
 
   <!-- 数据统计 -->
@@ -34,7 +33,7 @@
     </view>
     <view class="flex justify-between padding-right-xs" style="gap: 16rpx;">
       <t-button size="small" theme="light" shape="round">编辑资料</t-button>
-      <t-button size="small" theme="light" icon="setting" shape="round" />
+      <t-button size="small" theme="light" icon="setting" shape="round" bind:tap="goToSetting" />
     </view>
   </view>
 

@@ -97,5 +97,11 @@ Page({
     wx.navigateTo({
       url: '/pages/login/index'
     })
+  },
+
+  goToSetting() {
+    wx.navigateTo({
+      url: '/pages/setting/index'
+    });
   }
 })
