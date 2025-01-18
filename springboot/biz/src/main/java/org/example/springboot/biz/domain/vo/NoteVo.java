@@ -6,9 +6,9 @@ import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.springboot.biz.domain.entity.Note;
 import org.example.springboot.biz.domain.entity.NoteCategory;
-import org.example.springboot.system.domain.dto.CountDto;
 import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
+import org.example.springboot.system.domain.vo.CountVo;
 
 import java.io.Serial;
 import java.util.List;
@@ -30,11 +30,6 @@ public class NoteVo extends Note {
     @Serial
     private static final long serialVersionUID = 1L;
     /**
-     * 占位符
-     */
-    @Schema(description = "占位符")
-    private String placeholder;
-    /**
      * 用户
      */
     @Schema(description = "用户")
@@ -53,5 +48,5 @@ public class NoteVo extends Note {
      * 类别
      */
     @Schema(description = "数量")
-    private CountDto count;
+    private CountVo count;
 }

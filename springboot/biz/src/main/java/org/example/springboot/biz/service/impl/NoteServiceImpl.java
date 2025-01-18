@@ -23,9 +23,10 @@ import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.common.enums.BizType;
 import org.example.springboot.system.common.enums.DeleteEnum;
-import org.example.springboot.system.domain.dto.CountDto;
 import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
+import org.example.springboot.system.domain.vo.CountVo;
+import org.example.springboot.system.domain.vo.LikeCountVo;
 import org.example.springboot.system.service.*;
 import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
@@ -101,7 +102,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         // 浏览量
         Map<Long, Long> viewCountMap = countViewService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 点赞量
-        Map<Long, Long> likeCountMap = countLikeService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
+        Map<Long, LikeCountVo> countLikeVoMap = countLikeService.mapCountVoByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 点踩量
         Map<Long, Long> dislikeCountMap = countDislikeService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 评论量
@@ -115,9 +116,9 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));
             vo.setCategory(categoryMap.getOrDefault(item.getCategoryId(), NoteCategory.builder().name("已删除").build()));
             vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
-            vo.setCount(CountDto.builder()
+            vo.setCount(CountVo.builder()
                     .view(viewCountMap.getOrDefault(item.getId(), 0L))
-                    .like(likeCountMap.getOrDefault(item.getId(), 0L))
+                    .like(countLikeVoMap.getOrDefault(item.getId(), LikeCountVo.builder().hasDone(false).num(0L).build()))
                     .dislike(dislikeCountMap.getOrDefault(item.getId(), 0L))
                     .comment(commentCountMap.getOrDefault(item.getId(), 0L))
                     .favorite(favoriteCountMap.getOrDefault(item.getId(), 0L))
@@ -147,7 +148,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         // 浏览量
         Map<Long, Long> viewCountMap = countViewService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 点赞量
-        Map<Long, Long> likeCountMap = countLikeService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
+        Map<Long, LikeCountVo> countLikeVoMap = countLikeService.mapCountVoByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 点踩量
         Map<Long, Long> dislikeCountMap = countDislikeService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 评论量
@@ -161,9 +162,9 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));
             vo.setCategory(categoryMap.getOrDefault(item.getCategoryId(), NoteCategory.builder().name("已删除").build()));
             vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
-            vo.setCount(CountDto.builder()
+            vo.setCount(CountVo.builder()
                     .view(viewCountMap.getOrDefault(item.getId(), 0L))
-                    .like(likeCountMap.getOrDefault(item.getId(), 0L))
+                    .like(countLikeVoMap.getOrDefault(item.getId(), LikeCountVo.builder().hasDone(false).num(0L).build()))
                     .dislike(dislikeCountMap.getOrDefault(item.getId(), 0L))
                     .comment(commentCountMap.getOrDefault(item.getId(), 0L))
                     .favorite(favoriteCountMap.getOrDefault(item.getId(), 0L))
@@ -191,7 +192,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         // 浏览量
         Long viewCount = countViewService.getCountByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
         // 点赞量
-        Long likeCount = countLikeService.getCountByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
+        LikeCountVo like = countLikeService.getCountVoByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
         // 点踩量
         Long dislikeCount = countDislikeService.getCountByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
         // 评论量
@@ -204,9 +205,9 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         vo.setUser(user);
         vo.setCategory(category);
         vo.setAttachmentList(attachmentList);
-        vo.setCount(CountDto.builder()
+        vo.setCount(CountVo.builder()
                 .view(viewCount)
-                .like(likeCount)
+                .like(like)
                 .dislike(dislikeCount)
                 .comment(commentCount)
                 .favorite(favoriteCount)

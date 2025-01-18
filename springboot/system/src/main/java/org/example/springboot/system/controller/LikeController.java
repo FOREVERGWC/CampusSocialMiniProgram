@@ -31,8 +31,8 @@ public class LikeController {
      */
     @PutMapping
     @Operation(summary = "点赞或取消点赞", description = "点赞或取消点赞", method = "PUT")
-    public Result<Void> handleLike(@RequestBody Like like) {
-        likeService.handleLike(like);
-        return Result.success();
+    public Result<Long> handleLike(@RequestBody Like like) {
+        Long count = likeService.handleLike(like);
+        return Result.success(count);
     }
 }

@@ -1,4 +1,4 @@
-package org.example.springboot.system.domain.dto;
+package org.example.springboot.system.domain.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -19,22 +19,27 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
 @Schema(name = "数量实体", description = "数量")
-public class CountDto implements Serializable {
+public class CountVo implements Serializable {
     /**
      * 浏览量
      */
     @Schema(description = "浏览量")
     private Long view;
     /**
-     * 点赞量
+     * 点赞数量
      */
-    @Schema(description = "点赞量")
-    private Long like;
+    @Schema(description = "点赞数量")
+    private LikeCountVo like;
     /**
      * 点踩量
      */
     @Schema(description = "点踩量")
     private Long dislike;
+    /**
+     * 已点踩
+     */
+    @Schema(description = "已点踩")
+    private Boolean hasDislike;
     /**
      * 评论量
      */
@@ -45,4 +50,9 @@ public class CountDto implements Serializable {
      */
     @Schema(description = "收藏量")
     private Long favorite;
+    /**
+     * 已收藏
+     */
+    @Schema(description = "已收藏")
+    private Boolean hasFavorite;
 }

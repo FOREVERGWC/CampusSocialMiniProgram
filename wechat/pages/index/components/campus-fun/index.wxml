@@ -14,7 +14,7 @@
           </view>
           <view>
             <text class="cuIcon-attention margin-lr-xs"> {{ item.count.view }}</text>
-            <text class="cuIcon-appreciate margin-lr-xs"> {{ item.count.like }}</text>
+            <text class="cuIcon-appreciate{{ item.count.like.hasDone ? 'fill' : '' }} margin-lr-xs"> {{ item.count.like.num }}</text>
             <!-- <text class="cuIcon-bad margin-lr-xs"> {{ item.count.dislike }}</text> -->
             <text class="cuIcon-comment margin-lr-xs"> {{ item.count.comment }}</text>
             <text class="cuIcon-favor margin-lr-xs"> {{ item.count.favorite }}</text>

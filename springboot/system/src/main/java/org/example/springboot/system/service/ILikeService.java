@@ -12,6 +12,7 @@ public interface ILikeService {
      * 点赞或取消点赞
      *
      * @param like 点赞
+     * @return 结果
      */
-    void handleLike(Like like);
+    Long handleLike(Like like);
 }

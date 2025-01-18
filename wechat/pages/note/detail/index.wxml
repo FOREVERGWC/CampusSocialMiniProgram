@@ -53,19 +53,19 @@
 
   <view class="cu-bar bg-white tabbar border shop foot">
     <view class="submit">说点什么</view>
-    <button class="action text-red" bindtap="handleLike">
-      <view class="{{ detail.hasLike ? 'cuIcon-likefill' : 'cuIcon-like' }}">
-        <view class="cu-tag badge">{{ detail.like }}</view>
+    <button class="action text-red" bindtap="handleLikeNote">
+      <view class="{{ detail.count.like.hasDone ? 'cuIcon-likefill' : 'cuIcon-like' }}">
+        <view class="cu-tag badge">{{ detail.count.like.num }}</view>
       </view>
     </button>
     <view class="action text-orange" bindtap="handleCollection">
       <view class="{{ detail.hasCollection ? 'cuIcon-favorfill' : 'cuIcon-favor' }}">
-        <view class="cu-tag badge">{{ detail.collection }}</view>
+        <view class="cu-tag badge">{{ detail.count.favorite }}</view>
       </view>
     </view>
     <view class="action">
       <view class="cuIcon-comment">
-        <view class="cu-tag badge">{{ detail.comment }}</view>
+        <view class="cu-tag badge">{{ detail.count.comment }}</view>
       </view>
     </view>
   </view>

@@ -6,6 +6,9 @@ import {
   getNoteById
 } from '../../../api/note/index'
 import {
+  handleLike
+} from '../../../api/like/index'
+import {
   baseUrl,
   defaultAvatar
 } from '../../../utils/common'
@@ -34,13 +37,25 @@ Page({
     })
   },
 
-  handleLike() {
-    const detail = this.data.detail;
-    detail.hasLike = !detail.hasLike;
-    detail.like += detail.hasLike ? 1 : -1;
-    this.setData({
-      detail: detail
-    });
+  handleLikeNote() {
+    const data = {
+      bizType: 8,
+      bizId: this.data.id
+    }
+    handleLike(data).then(res => {
+      if (res.code !== 200) {
+        return
+      }
+      const detail = this.data.detail;
+      detail.count.like.hasDone = !detail.count.like.hasDone;
+      detail.count.like.num = res.data;
+      this.setData({
+        detail: detail
+      });
+      // TODO 操作成功
+    }).catch(() => {
+      // TODO 操作失败
+    })
   },
 
   handleCollection() {

@@ -102,7 +102,7 @@ public class CountViewServiceImpl extends ServiceImpl<CountViewMapper, CountView
         threadPoolTaskExecutor.execute(() -> {
             // TODO 这里暂时无法匿名访问，考虑允许匿名访问
             Long userId = UserUtils.getLoginUserId();
-            String key = "user:" + userId + ":bizType:" + bizType + ":bizId:" + bizId;
+            String key = "user:" + userId + ":view:bizType:" + bizType + ":bizId:" + bizId;
             String value = DateUtil.today();
             double score = Instant.now().toEpochMilli();
             redisTemplate.opsForZSet().add(key, value, score);
