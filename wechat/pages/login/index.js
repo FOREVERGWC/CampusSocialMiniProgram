@@ -11,14 +11,21 @@ Page({
    */
   data: {
     username: '',
-    password: ''
+    password: '',
+    jsCode: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    wx.login({
+      success: (res) => {
+        this.setData({
+          jsCode: res.code
+        })
+      }
+    })
   },
 
   /**
@@ -94,7 +101,8 @@ Page({
     const form = {
       username: this.data.username,
       password: this.data.password,
-      loginType: 1
+      loginType: 1,
+      jsCode: this.data.jsCode
     }
 
     wx.showLoading({
@@ -122,7 +130,6 @@ Page({
 
       getByToken().then(res => {
         getApp().globalData.userInfo = res.data || {}
-        // TODO 设置头像完整路径
       })
 
       wx.switchTab({

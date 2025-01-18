@@ -11,7 +11,7 @@
 
   <scroll-view scroll-y="true" style="height: 100vh;">
     <!-- 内容 -->
-    <image src="{{ detail.attachmentList }}" class="detail-image" />
+    <image src="{{ detail.attachmentList[0].filePath }}" />
     <view class="padding-lr-sm">
       <view class="padding-tb-lg">
         <view class="margin-bottom-sm">{{ detail.title }}</view>

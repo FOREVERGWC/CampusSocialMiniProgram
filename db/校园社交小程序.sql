@@ -11,7 +11,7 @@
  Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 10/01/2025 16:33:36
+ Date: 18/01/2025 22:12:31
 */
 
 SET NAMES utf8mb4;
@@ -54,12 +54,14 @@ CREATE TABLE `biz_note`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   `deleted` tinyint(1) NOT NULL COMMENT '逻辑删除(0正常、1删除)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '笔记表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '笔记表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of biz_note
 -- ----------------------------
-INSERT INTO `biz_note` VALUES (1, 3, '标题', '内容', 1, 1, '1', 1, '1', '1', '2025-01-10 14:09:12', '1', '2025-01-10 14:19:17', '', 0);
+INSERT INTO `biz_note` VALUES (1, 3, '标题', '内容', 1, 1, '1', 1, '1', '1', '2025-01-10 14:09:12', '1', '2025-01-11 15:12:31', '', 0);
+INSERT INTO `biz_note` VALUES (2, 3, '测试2', '测试2', 3, 0, '1', 1, '1', '1', '2025-01-14 22:34:55', '1', '2025-01-14 22:34:55', '测试2', 0);
+INSERT INTO `biz_note` VALUES (3, 3, '测试3', '测试3', 5, 0, '1', 0, '1', '1', '2025-01-14 22:35:23', '1', '2025-01-14 22:35:23', '', 0);
 
 -- ----------------------------
 -- Table structure for biz_note_category
@@ -68,6 +70,7 @@ DROP TABLE IF EXISTS `biz_note_category`;
 CREATE TABLE `biz_note_category`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '名称',
+  `icon` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '图标',
   `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建者',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '修改者',
@@ -75,12 +78,22 @@ CREATE TABLE `biz_note_category`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   `deleted` tinyint(1) NOT NULL COMMENT '逻辑删除(0正常、1删除)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '笔记类别表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '笔记类别表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of biz_note_category
 -- ----------------------------
-INSERT INTO `biz_note_category` VALUES (1, '美食', '1', '2025-01-09 21:05:01', '1', '2025-01-09 21:05:01', '', 0);
+INSERT INTO `biz_note_category` VALUES (1, '全部', 'all', '1', '2025-01-09 21:05:01', '1', '2025-01-10 22:01:50', '', 0);
+INSERT INTO `biz_note_category` VALUES (2, '美食', 'shop', '1', '2025-01-10 21:49:34', '1', '2025-01-10 21:55:23', '', 0);
+INSERT INTO `biz_note_category` VALUES (3, '家居', 'home', '1', '2025-01-10 21:49:42', '1', '2025-01-10 21:55:29', '', 0);
+INSERT INTO `biz_note_category` VALUES (4, '旅游', 'location', '1', '2025-01-10 21:49:48', '1', '2025-01-10 21:55:39', '', 0);
+INSERT INTO `biz_note_category` VALUES (5, '摄影', 'camera', '1', '2025-01-10 21:50:00', '1', '2025-01-10 21:55:47', '', 0);
+INSERT INTO `biz_note_category` VALUES (6, '运动', 'activity', '1', '2025-01-10 21:50:05', '1', '2025-01-10 21:55:53', '', 0);
+INSERT INTO `biz_note_category` VALUES (7, '游戏', 'game', '1', '2025-01-10 21:50:11', '1', '2025-01-10 21:56:00', '', 0);
+INSERT INTO `biz_note_category` VALUES (8, '兴趣', 'like', '1', '2025-01-10 21:50:17', '1', '2025-01-10 21:56:06', '', 0);
+INSERT INTO `biz_note_category` VALUES (9, '学习', 'read', '1', '2025-01-10 21:50:22', '1', '2025-01-10 21:56:12', '', 0);
+INSERT INTO `biz_note_category` VALUES (10, '护理', 'skin', '1', '2025-01-10 21:50:28', '1', '2025-01-10 21:56:19', '', 0);
+INSERT INTO `biz_note_category` VALUES (11, '情感', 'evaluate', '1', '2025-01-10 21:50:46', '1', '2025-01-10 21:56:25', '', 0);
 
 -- ----------------------------
 -- Table structure for biz_rate
@@ -126,7 +139,7 @@ CREATE TABLE `biz_rate_item`  (
 -- ----------------------------
 -- Records of biz_rate_item
 -- ----------------------------
-INSERT INTO `biz_rate_item` VALUES (1, 1, '川渝小厨', '川渝小厨', '1', '2025-01-10 14:35:14', '1', '2025-01-10 14:35:14', '', 0);
+INSERT INTO `biz_rate_item` VALUES (1, 1, '川渝小厨', '川渝小厨', '1', '2025-01-10 14:35:14', '1', '2025-01-18 21:33:36', '', 0);
 INSERT INTO `biz_rate_item` VALUES (2, 1, '江湖烫', '江湖烫', '1', '2025-01-10 14:36:04', '1', '2025-01-10 14:36:04', '', 0);
 INSERT INTO `biz_rate_item` VALUES (3, 1, '酸辣拌', '酸辣拌', '1', '2025-01-10 14:36:25', '1', '2025-01-10 14:36:25', '', 0);
 
@@ -177,11 +190,15 @@ CREATE TABLE `sys_attachment`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `hash_code`(`hash_code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '附件表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '附件表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_attachment
 -- ----------------------------
+INSERT INTO `sys_attachment` VALUES (11, '26ffd0f90ea98d32d1d4136893fc747f', 1, 8, '', '/file/26ffd0f90ea98d32d1d4136893fc747f.png', '屏幕截图 2024-09-18 163252.png', 42633, 1, 10485760, 1, '', '2025-01-11 15:12:28', '', '2025-01-11 15:12:28', '');
+INSERT INTO `sys_attachment` VALUES (12, '184a4ce9a181ba18f5875aef33462a0b', 1, 8, '', '/file/184a4ce9a181ba18f5875aef33462a0b.png', '屏幕截图 2024-12-29 085812.png', 6988, 1, 10485760, 1, '', '2025-01-11 15:12:30', '', '2025-01-11 15:12:30', '');
+INSERT INTO `sys_attachment` VALUES (13, '5d08ced39910341325c102af785beb54', 3, 1, '', '/file/5d08ced39910341325c102af785beb54.png', '安恩溥.png', 65927, 1, 10485760, 1, '', '2025-01-15 21:36:07', '', '2025-01-15 21:36:07', '');
+INSERT INTO `sys_attachment` VALUES (14, '56d6b8bd7ce6c764bcc854da0a532597', 1, 10, '', '/file/56d6b8bd7ce6c764bcc854da0a532597.png', '李济深.png', 52618, 1, 10485760, 1, '', '2025-01-18 21:33:33', '', '2025-01-18 21:33:33', '');
 
 -- ----------------------------
 -- Table structure for sys_attachment_chunk
@@ -308,11 +325,13 @@ CREATE TABLE `sys_count_view`  (
   `biz_type` tinyint NOT NULL COMMENT '业务类型',
   `count` bigint NOT NULL COMMENT '浏览',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '浏览量表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '浏览量表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_count_view
 -- ----------------------------
+INSERT INTO `sys_count_view` VALUES (1, 1, 8, 5);
+INSERT INTO `sys_count_view` VALUES (2, 2, 8, 1);
 
 -- ----------------------------
 -- Table structure for sys_dict_data
@@ -433,7 +452,7 @@ CREATE TABLE `sys_log_login`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `create_time`(`create_time` DESC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5000205 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5000258 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log_login
@@ -460,6 +479,59 @@ INSERT INTO `sys_log_login` VALUES (5000201, '1', 'iPhone', 'MicroMessenger', '0
 INSERT INTO `sys_log_login` VALUES (5000202, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-09 21:15:17', '1', '2025-01-09 21:15:17', '');
 INSERT INTO `sys_log_login` VALUES (5000203, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-09 21:17:27', '1', '2025-01-09 21:17:27', '');
 INSERT INTO `sys_log_login` VALUES (5000204, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-09 21:19:36', '1', '2025-01-09 21:19:36', '');
+INSERT INTO `sys_log_login` VALUES (5000205, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-10 21:42:53', '1', '2025-01-10 21:42:53', '');
+INSERT INTO `sys_log_login` VALUES (5000206, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-10 21:48:17', '1', '2025-01-10 21:48:17', '');
+INSERT INTO `sys_log_login` VALUES (5000207, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-10 22:00:55', '1', '2025-01-10 22:00:55', '');
+INSERT INTO `sys_log_login` VALUES (5000208, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-10 22:04:32', '1', '2025-01-10 22:04:32', '');
+INSERT INTO `sys_log_login` VALUES (5000209, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-10 22:04:49', '1', '2025-01-10 22:04:49', '');
+INSERT INTO `sys_log_login` VALUES (5000210, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-10 22:05:43', '1', '2025-01-10 22:05:43', '');
+INSERT INTO `sys_log_login` VALUES (5000211, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-10 22:08:23', '1', '2025-01-10 22:08:23', '');
+INSERT INTO `sys_log_login` VALUES (5000212, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-10 22:10:25', '1', '2025-01-10 22:10:25', '');
+INSERT INTO `sys_log_login` VALUES (5000213, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 13:41:14', '1', '2025-01-11 13:41:14', '');
+INSERT INTO `sys_log_login` VALUES (5000214, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 13:44:26', '1', '2025-01-11 13:44:26', '');
+INSERT INTO `sys_log_login` VALUES (5000215, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:17:25', '1', '2025-01-11 14:17:25', '');
+INSERT INTO `sys_log_login` VALUES (5000216, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:18:25', '1', '2025-01-11 14:18:25', '');
+INSERT INTO `sys_log_login` VALUES (5000217, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:20:15', '1', '2025-01-11 14:20:15', '');
+INSERT INTO `sys_log_login` VALUES (5000218, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:20:22', '1', '2025-01-11 14:20:22', '');
+INSERT INTO `sys_log_login` VALUES (5000219, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:20:43', '1', '2025-01-11 14:20:43', '');
+INSERT INTO `sys_log_login` VALUES (5000220, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:22:03', '1', '2025-01-11 14:22:03', '');
+INSERT INTO `sys_log_login` VALUES (5000221, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:24:20', '1', '2025-01-11 14:24:20', '');
+INSERT INTO `sys_log_login` VALUES (5000222, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:26:45', '1', '2025-01-11 14:26:45', '');
+INSERT INTO `sys_log_login` VALUES (5000223, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:28:03', '1', '2025-01-11 14:28:03', '');
+INSERT INTO `sys_log_login` VALUES (5000224, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:28:53', '1', '2025-01-11 14:28:53', '');
+INSERT INTO `sys_log_login` VALUES (5000225, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:31:42', '1', '2025-01-11 14:31:42', '');
+INSERT INTO `sys_log_login` VALUES (5000226, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 14:41:42', '1', '2025-01-11 14:41:42', '');
+INSERT INTO `sys_log_login` VALUES (5000227, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-11 15:02:53', '1', '2025-01-11 15:02:53', '');
+INSERT INTO `sys_log_login` VALUES (5000228, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-14 21:58:18', '1', '2025-01-14 21:58:18', '');
+INSERT INTO `sys_log_login` VALUES (5000229, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-14 22:06:14', '1', '2025-01-14 22:06:14', '');
+INSERT INTO `sys_log_login` VALUES (5000230, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-14 22:06:17', '1', '2025-01-14 22:06:17', '');
+INSERT INTO `sys_log_login` VALUES (5000231, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-14 22:06:55', '1', '2025-01-14 22:06:55', '');
+INSERT INTO `sys_log_login` VALUES (5000232, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-14 22:08:36', '1', '2025-01-14 22:08:36', '');
+INSERT INTO `sys_log_login` VALUES (5000233, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-14 22:12:57', '1', '2025-01-14 22:12:57', '');
+INSERT INTO `sys_log_login` VALUES (5000234, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-14 22:27:35', '1', '2025-01-14 22:27:35', '');
+INSERT INTO `sys_log_login` VALUES (5000235, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 20:10:48', '1', '2025-01-15 20:10:48', '');
+INSERT INTO `sys_log_login` VALUES (5000236, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 20:27:44', '1', '2025-01-15 20:27:44', '');
+INSERT INTO `sys_log_login` VALUES (5000237, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-15 20:30:10', '1', '2025-01-15 20:30:10', '');
+INSERT INTO `sys_log_login` VALUES (5000238, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-15 20:33:14', '1', '2025-01-15 20:33:14', '');
+INSERT INTO `sys_log_login` VALUES (5000239, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 20:37:48', '1', '2025-01-15 20:37:48', '');
+INSERT INTO `sys_log_login` VALUES (5000240, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 20:49:03', '1', '2025-01-15 20:49:03', '');
+INSERT INTO `sys_log_login` VALUES (5000241, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 21:10:42', '1', '2025-01-15 21:10:42', '');
+INSERT INTO `sys_log_login` VALUES (5000242, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 21:14:51', '1', '2025-01-15 21:14:51', '');
+INSERT INTO `sys_log_login` VALUES (5000243, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 21:25:03', '1', '2025-01-15 21:25:03', '');
+INSERT INTO `sys_log_login` VALUES (5000244, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 21:34:57', '1', '2025-01-15 21:34:57', '');
+INSERT INTO `sys_log_login` VALUES (5000245, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 21:37:24', '1', '2025-01-15 21:37:24', '');
+INSERT INTO `sys_log_login` VALUES (5000246, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 21:40:46', '1', '2025-01-15 21:40:46', '');
+INSERT INTO `sys_log_login` VALUES (5000247, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-15 21:44:33', '1', '2025-01-15 21:44:33', '');
+INSERT INTO `sys_log_login` VALUES (5000248, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 21:48:14', '1', '2025-01-15 21:48:14', '');
+INSERT INTO `sys_log_login` VALUES (5000249, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-15 21:50:13', '1', '2025-01-15 21:50:13', '');
+INSERT INTO `sys_log_login` VALUES (5000250, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 20:38:23', '1', '2025-01-18 20:38:23', '');
+INSERT INTO `sys_log_login` VALUES (5000251, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 20:53:13', '1', '2025-01-18 20:53:13', '');
+INSERT INTO `sys_log_login` VALUES (5000252, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 20:57:14', '1', '2025-01-18 20:57:14', '');
+INSERT INTO `sys_log_login` VALUES (5000253, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 21:19:48', '1', '2025-01-18 21:19:48', '');
+INSERT INTO `sys_log_login` VALUES (5000254, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 21:25:26', '1', '2025-01-18 21:25:26', '');
+INSERT INTO `sys_log_login` VALUES (5000255, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 0, 'Bad credentials', '1', '2025-01-18 21:31:45', '1', '2025-01-18 21:31:45', '');
+INSERT INTO `sys_log_login` VALUES (5000256, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 21:31:48', '1', '2025-01-18 21:31:48', '');
+INSERT INTO `sys_log_login` VALUES (5000257, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 21:51:33', '1', '2025-01-18 21:51:33', '');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -797,11 +869,34 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (3, '1', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '', '管理员', '\\file\\5d08ced39910341325c102af785beb54.png', '2', '2024-08-01', '1', '13037503398', '916586595@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2025-01-10 14:52:35', '', '2024-08-16 01:26:41', '', '2025-01-10 14:52:35', '');
+INSERT INTO `sys_user` VALUES (3, '1', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '', '管理员', '/file/5d08ced39910341325c102af785beb54.png', '2', '2024-08-01', '1', '13037503398', '916586595@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2025-01-18 21:51:33', '', '2024-08-16 01:26:41', '', '2025-01-18 21:51:33', '');
 INSERT INTO `sys_user` VALUES (4, '2', '$2a$10$elhEi/ohemfnXateL1BLZ.lLi.fJ31tDVKdSpr3xnr40pdMjAlqlG', '', '张三', '1', '2', '2024-08-22', '1', '13037503390', '1@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2024-11-25 16:38:54', '', '2024-08-16 09:00:11', '', '2024-11-25 16:38:54', '');
 INSERT INTO `sys_user` VALUES (5, '3', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1', '1', '/file/c3f7a394-7b91-43b3-b924-5d1592426f06.jpg', '2', '2024-08-27', '1', '13037503391', '2@qq.com', '1', 0.00, '', NULL, '1', '2024-08-21 14:25:56', '1', '2024-08-21 14:25:56', '');
 INSERT INTO `sys_user` VALUES (6, '4', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1', '1', '/file/a3336d6e-4ef8-46f0-99e6-a104122b9f88.jpg', '2', '2024-08-17', '0', '13037503392', '3@qq.com', '1', 0.00, '', NULL, '1', '2024-08-21 14:34:13', '1', '2024-08-21 15:13:15', '1');
 INSERT INTO `sys_user` VALUES (10, '11', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '11', '', '', '2', '2024-10-04', '1', '13037503314', '4@qq.com', '', 0.00, '', NULL, '', '2024-09-13 23:42:22', '', '2024-10-11 13:46:24', '');
+
+-- ----------------------------
+-- Table structure for sys_user_auth
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_auth`;
+CREATE TABLE `sys_user_auth`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `auth_type` int NOT NULL COMMENT '认证方式(0微信)',
+  `open_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '唯一标识',
+  `access_token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '授权令牌',
+  `create_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建者',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '修改者',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `user_id`(`user_id` ASC, `auth_type` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户三方授权表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_auth
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_user_role_link

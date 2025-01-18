@@ -5,6 +5,10 @@ import {
 import {
   getRatePage
 } from '../../api/rate/index'
+import {
+  baseUrl,
+  defaultAvatar
+} from '../../utils/common'
 
 Page({
 
@@ -54,6 +58,13 @@ Page({
         return
       }
 
+      res.data?.records.forEach(item => {
+        item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+        item.attachmentList.forEach(attachement => {
+          attachement.filePath = baseUrl + attachement.filePath
+        })
+      })
+
       this.setData({
         records: res.data?.records || [],
         total: res.data?.total || 0,
@@ -79,6 +90,12 @@ Page({
         });
         return
       }
+
+      res.data?.records.forEach(item => {
+        item.attachmentList.forEach(attachement => {
+          attachement.filePath = baseUrl + attachement.filePath
+        })
+      })
 
       this.setData({
         records: res.data?.records || [],

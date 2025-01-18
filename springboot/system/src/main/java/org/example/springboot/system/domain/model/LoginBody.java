@@ -59,6 +59,11 @@ public class LoginBody implements Serializable {
     @Schema(description = "验证码")
     private String code;
     /**
+     * 临时授权码
+     */
+    @Schema(description = "临时授权码")
+    private String jsCode;
+    /**
      * 登录类型
      */
     @Schema(description = "登录类型")

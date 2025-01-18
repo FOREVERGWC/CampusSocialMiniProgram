@@ -6,8 +6,10 @@ import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.springboot.biz.domain.entity.Rate;
 import org.example.springboot.biz.domain.entity.RateItem;
+import org.example.springboot.system.domain.entity.Attachment;
 
 import java.io.Serial;
+import java.util.List;
 
 /**
  * <p>
@@ -35,4 +37,9 @@ public class RateItemVo extends RateItem {
      */
     @Schema(description = "分数")
     private Double score;
+    /**
+     * 附件列表
+     */
+    @Schema(description = "附件列表")
+    private List<Attachment> attachmentList;
 }

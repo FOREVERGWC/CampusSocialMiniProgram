@@ -1,4 +1,8 @@
 // pages/index/components/campus-fun/index.js
+import {
+  baseUrl
+} from '../../../../utils/common'
+
 Component({
   options: {
     styleIsolation: 'apply-shared'
@@ -18,7 +22,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-
+    baseUrl: baseUrl
   },
 
   /**

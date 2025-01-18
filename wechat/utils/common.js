@@ -1,3 +1,5 @@
+export const baseUrl = 'http://localhost:9091'
+export const defaultAvatar = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 export const records = [{
     id: '1',
     img: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg',
@@ -84,15 +86,54 @@ export const comments = [{
   updateTime: '2024-12-12 20:12:20'
 }]
 
-export const categoryList = [
-  { id: 1, name: '美食', icon: 'shop' },
-  { id: 2, name: '家居', icon: 'home' },
-  { id: 3, name: '旅游', icon: 'location' },
-  { id: 4, name: '摄影', icon: 'camera' },
-  { id: 5, name: '运动', icon: 'activity' },
-  { id: 6, name: '游戏', icon: 'game' },
-  { id: 7, name: '兴趣', icon: 'like' },
-  { id: 8, name: '学习', icon: 'read' },
-  { id: 9, name: '护理', icon: 'skin' },
-  { id: 10, name: '情感', icon: 'evaluate' }
+export const categoryList = [{
+    id: 1,
+    name: '美食',
+    icon: 'shop'
+  },
+  {
+    id: 2,
+    name: '家居',
+    icon: 'home'
+  },
+  {
+    id: 3,
+    name: '旅游',
+    icon: 'location'
+  },
+  {
+    id: 4,
+    name: '摄影',
+    icon: 'camera'
+  },
+  {
+    id: 5,
+    name: '运动',
+    icon: 'activity'
+  },
+  {
+    id: 6,
+    name: '游戏',
+    icon: 'game'
+  },
+  {
+    id: 7,
+    name: '兴趣',
+    icon: 'like'
+  },
+  {
+    id: 8,
+    name: '学习',
+    icon: 'read'
+  },
+  {
+    id: 9,
+    name: '护理',
+    icon: 'skin'
+  },
+  {
+    id: 10,
+    name: '情感',
+    icon: 'evaluate'
+  }
 ]

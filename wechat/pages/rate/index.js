@@ -5,6 +5,9 @@ import {
 import {
   getRateItemList
 } from '../../api/rate/item'
+import {
+  baseUrl
+} from '../../utils/common'
 
 Page({
 
@@ -30,6 +33,12 @@ Page({
         });
         return
       }
+
+      res.data.forEach(item => {
+        item.attachmentList.forEach(attachement => {
+          attachement.filePath = baseUrl + attachement.filePath
+        })
+      })
 
       this.setData({
         records: res.data || []

@@ -79,13 +79,13 @@ public class FileServiceImpl implements IFileService {
         if (dto.getFile() == null || dto.getFile().isEmpty()) {
             throw new RuntimeException("上传失败！禁止上传空文件");
         }
-        String path = basePath + File.separator + dto.getHashCode();
+        String path = basePath + "/" + dto.getHashCode();
         if (dto.getChunkTotal() == 1) {
             uploadSingleFile(path, dto);
         } else {
             uploadChunkFile(path, dto);
         }
-        String filePath = File.separator + "file" + File.separator + dto.getHashCode() + "." + FileUtil.extName(dto.getFileName());
+        String filePath = "/" + "file" + "/" + dto.getHashCode() + "." + FileUtil.extName(dto.getFileName());
         saveAttachment(filePath, dto);
         return filePath;
     }

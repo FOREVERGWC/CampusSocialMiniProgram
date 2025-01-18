@@ -1,7 +1,7 @@
 package org.example.springboot.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,13 +15,17 @@ import org.example.springboot.system.domain.entity.CountView;
 import org.example.springboot.system.domain.vo.CountViewVo;
 import org.example.springboot.system.mapper.CountViewMapper;
 import org.example.springboot.system.service.ICountViewService;
+import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +37,8 @@ import java.util.stream.Collectors;
 public class CountViewServiceImpl extends ServiceImpl<CountViewMapper, CountView> implements ICountViewService, IBaseService<CountView> {
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public List<CountViewVo> getList(CountViewDto dto) {
@@ -92,6 +98,16 @@ public class CountViewServiceImpl extends ServiceImpl<CountViewMapper, CountView
                         .build());
 
         saveOrUpdate(count);
+        // 浏览历史
+        threadPoolTaskExecutor.execute(() -> {
+            // TODO 这里暂时无法匿名访问，考虑允许匿名访问
+            Long userId = UserUtils.getLoginUserId();
+            String key = "user:" + userId + ":bizType:" + bizType + ":bizId:" + bizId;
+            String value = DateUtil.today();
+            double score = Instant.now().toEpochMilli();
+            redisTemplate.opsForZSet().add(key, value, score);
+            redisTemplate.expire(key, 30, TimeUnit.DAYS);
+        });
     }
 
     @Override
@@ -112,7 +128,6 @@ public class CountViewServiceImpl extends ServiceImpl<CountViewMapper, CountView
     @Override
     public Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
         List<CountView> countList = lambdaQuery()
-                .select(CountView::getCount)
                 .in(CountView::getBizId, bizIds)
                 .eq(CountView::getBizType, bizType)
                 .list();
@@ -135,21 +150,10 @@ public class CountViewServiceImpl extends ServiceImpl<CountViewMapper, CountView
 
     @Override
     public LambdaQueryChainWrapper<CountView> getWrapper(CountView entity) {
-        LambdaQueryChainWrapper<CountView> wrapper = lambdaQuery()
+        return lambdaQuery()
                 .eq(entity.getId() != null, CountView::getId, entity.getId())
                 .eq(entity.getBizId() != null, CountView::getBizId, entity.getBizId())
                 .eq(entity.getBizType() != null, CountView::getBizType, entity.getBizType())
                 .eq(entity.getCount() != null, CountView::getCount, entity.getCount());
-        if (entity instanceof CountViewDto dto) {
-            Map<String, Object> params = dto.getParams();
-            // 创建时间
-            Object startCreateTime = params == null ? null : params.get("startCreateTime");
-            Object endCreateTime = params == null ? null : params.get("endCreateTime");
-
-            wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
-                    CountView::getCreateTime,
-                    startCreateTime, endCreateTime);
-        }
-        return wrapper;
     }
 }

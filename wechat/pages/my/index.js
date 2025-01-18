@@ -1,4 +1,8 @@
 // pages/my/index.js
+import {
+  baseUrl
+} from '../../utils/common'
+
 Page({
 
   /**
@@ -6,6 +10,7 @@ Page({
    */
   data: {
     userInfo: getApp().globalData.userInfo,
+    avatar: `${baseUrl}${getApp().globalData.userInfo.avatar}`,
     stats: {
       follows: 0,
       fans: 0,

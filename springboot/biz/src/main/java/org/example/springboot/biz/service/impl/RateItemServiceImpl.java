@@ -19,7 +19,10 @@ import org.example.springboot.biz.service.IRateRecordService;
 import org.example.springboot.biz.service.IRateService;
 import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
+import org.example.springboot.system.common.enums.BizType;
 import org.example.springboot.system.common.enums.DeleteEnum;
+import org.example.springboot.system.domain.entity.Attachment;
+import org.example.springboot.system.service.IAttachmentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -40,6 +43,8 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
     private IRateService rateService;
     @Resource
     private IRateRecordService rateRecordService;
+    @Resource
+    private IAttachmentService attachmentService;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -70,12 +75,15 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
         // 分数
         List<Long> idList = list.stream().map(RateItem::getId).toList();
         Map<Long, Double> scoreMap = rateRecordService.mapRateItemAvgScoreByRateItemIdList(idList);
+        // 评分项附件
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_RATE_ITEM.getCode());
         // 组装VO
         return list.stream().map(item -> {
             RateItemVo vo = new RateItemVo();
             BeanUtils.copyProperties(item, vo);
             vo.setRate(rateMap.getOrDefault(item.getRateId(), Rate.builder().build()));
             vo.setScore(scoreMap.getOrDefault(item.getRateId(), 10D));
+            vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             return vo;
         }).toList();
     }
@@ -93,12 +101,15 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
         // 分数
         List<Long> idList = info.getRecords().stream().map(RateItem::getId).toList();
         Map<Long, Double> scoreMap = rateRecordService.mapRateItemAvgScoreByRateItemIdList(idList);
+        // 评分项附件
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_RATE_ITEM.getCode());
         // 组装VO
         return info.convert(item -> {
             RateItemVo vo = new RateItemVo();
             BeanUtils.copyProperties(item, vo);
             vo.setRate(rateMap.getOrDefault(item.getRateId(), Rate.builder().build()));
             vo.setScore(scoreMap.getOrDefault(item.getRateId(), 10D));
+            vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             return vo;
         });
     }
@@ -111,10 +122,14 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
         }
         // 评分
         Rate rate = Optional.ofNullable(rateService.getById(one.getRateId())).orElse(Rate.builder().build());
+        // 评分项附件
+        List<Attachment> attachmentList = attachmentService.listByBizIdAndBizType(one.getId(), BizType.BIZ_RATE_ITEM.getCode());
         // 组装VO
         RateItemVo vo = new RateItemVo();
         BeanUtils.copyProperties(one, vo);
         vo.setRate(rate);
+        vo.setAttachmentList(attachmentList);
+
         return vo;
     }
 

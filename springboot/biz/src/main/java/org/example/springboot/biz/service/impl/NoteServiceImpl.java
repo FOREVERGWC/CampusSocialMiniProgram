@@ -178,12 +178,14 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         if (one == null) {
             return null;
         }
+        // ID
+        Long id = one.getId();
+        // 访问量
+        countViewService.countPlus(id, BizType.BIZ_NOTE.getCode());
         // 用户
         User user = Optional.ofNullable(userService.getById(one.getUserId())).orElse(User.builder().name("已删除").build());
         // 类别
         NoteCategory category = Optional.ofNullable(noteCategoryService.getById(one.getCategoryId())).orElse(NoteCategory.builder().name("已删除").build());
-        // ID
-        Long id = one.getId();
         // 笔记附件
         List<Attachment> attachmentList = attachmentService.listByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
         // 浏览量

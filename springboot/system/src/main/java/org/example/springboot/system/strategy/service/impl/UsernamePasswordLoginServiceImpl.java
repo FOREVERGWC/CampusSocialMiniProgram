@@ -83,6 +83,7 @@ public class UsernamePasswordLoginServiceImpl implements ILoginService {
         LoginUser user = (LoginUser) authentication.getPrincipal();
         String token = tokenService.createToken(user);
         AsyncManager.me().execute(AsyncFactory.updateLogin(user.getId()));
+        // TODO 异步根据username和jscode绑定微信账号(根据jscode获取openid和unionid)
         return token;
     }
 }

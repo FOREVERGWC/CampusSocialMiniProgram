@@ -8,7 +8,7 @@
 
   <!-- 用户信息 -->
   <view class="flex align-center padding user-info-box">
-    <t-avatar image="{{ userInfo.avatar || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
+    <t-avatar image="{{ avatar || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
     <view class="user-detail">
       <view class="nickname" bind:tap="goToLogin">{{ userInfo.nickname || userInfo.username || '未登录' }}</view>
       <view class="user-id">用户ID：{{ userInfo.id || '--' }}</view>

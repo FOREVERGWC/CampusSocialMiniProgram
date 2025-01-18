@@ -5,6 +5,10 @@ import {
 import {
   getNoteById
 } from '../../../api/note/index'
+import {
+  baseUrl,
+  defaultAvatar
+} from '../../../utils/common'
 
 Page({
 
@@ -19,6 +23,11 @@ Page({
 
   getDetail() {
     getNoteById(this.data.id).then(res => {
+      res.data.user.avatar = res.data.user.avatar ? baseUrl + res.data.user.avatar : defaultAvatar
+      res.data.attachmentList.forEach(item => {
+        item.filePath = baseUrl + item.filePath
+      })
+
       this.setData({
         detail: res.data
       })
