@@ -1,7 +1,6 @@
 package org.example.springboot.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -88,8 +87,10 @@ public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, C
                 .orElse(CountFavorite.builder()
                         .bizId(bizId)
                         .bizType(bizType)
-                        .count(1L)
+                        .count(0L)
                         .build());
+
+        count.setCount(count.getCount() + 1);
 
         saveOrUpdate(count);
     }
@@ -135,21 +136,10 @@ public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, C
 
     @Override
     public LambdaQueryChainWrapper<CountFavorite> getWrapper(CountFavorite entity) {
-        LambdaQueryChainWrapper<CountFavorite> wrapper = lambdaQuery()
+        return lambdaQuery()
                 .eq(entity.getId() != null, CountFavorite::getId, entity.getId())
                 .eq(entity.getBizId() != null, CountFavorite::getBizId, entity.getBizId())
                 .eq(entity.getBizType() != null, CountFavorite::getBizType, entity.getBizType())
                 .eq(entity.getCount() != null, CountFavorite::getCount, entity.getCount());
-        if (entity instanceof CountFavoriteDto dto) {
-            Map<String, Object> params = dto.getParams();
-            // 创建时间
-            Object startCreateTime = params == null ? null : params.get("startCreateTime");
-            Object endCreateTime = params == null ? null : params.get("endCreateTime");
-
-            wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
-                    CountFavorite::getCreateTime,
-                    startCreateTime, endCreateTime);
-        }
-        return wrapper;
     }
 }

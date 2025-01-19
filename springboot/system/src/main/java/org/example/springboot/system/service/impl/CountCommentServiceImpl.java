@@ -74,8 +74,10 @@ public class CountCommentServiceImpl extends ServiceImpl<CountCommentMapper, Cou
                 .orElse(CountComment.builder()
                         .bizId(bizId)
                         .bizType(bizType)
-                        .count(1L)
+                        .count(0L)
                         .build());
+
+        count.setCount(count.getCount() + 1);
 
         saveOrUpdate(count);
     }

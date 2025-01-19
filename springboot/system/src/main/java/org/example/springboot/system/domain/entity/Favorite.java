@@ -43,5 +43,10 @@ public class Favorite extends BaseEntity {
      * 业务类型
      */
     @Schema(description = "业务类型")
-    private Byte bizType;
+    private Integer bizType;
+    /**
+     * 用户ID
+     */
+    @Schema(description = "用户ID")
+    private Long userId;
 }

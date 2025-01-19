@@ -11,7 +11,7 @@
  Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 18/01/2025 22:12:31
+ Date: 19/01/2025 09:43:12
 */
 
 SET NAMES utf8mb4;
@@ -309,11 +309,13 @@ CREATE TABLE `sys_count_like`  (
   `biz_type` tinyint NOT NULL COMMENT '业务类型',
   `count` bigint NOT NULL COMMENT '赞',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '点赞量表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '点赞量表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_count_like
 -- ----------------------------
+INSERT INTO `sys_count_like` VALUES (2, 1, 8, 1);
+INSERT INTO `sys_count_like` VALUES (3, 3, 8, 1);
 
 -- ----------------------------
 -- Table structure for sys_count_view
@@ -325,13 +327,14 @@ CREATE TABLE `sys_count_view`  (
   `biz_type` tinyint NOT NULL COMMENT '业务类型',
   `count` bigint NOT NULL COMMENT '浏览',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '浏览量表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '浏览量表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_count_view
 -- ----------------------------
-INSERT INTO `sys_count_view` VALUES (1, 1, 8, 5);
+INSERT INTO `sys_count_view` VALUES (1, 1, 8, 33);
 INSERT INTO `sys_count_view` VALUES (2, 2, 8, 1);
+INSERT INTO `sys_count_view` VALUES (3, 3, 8, 2);
 
 -- ----------------------------
 -- Table structure for sys_dict_data
@@ -399,12 +402,14 @@ CREATE TABLE `sys_favorite`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `biz_id` bigint NOT NULL COMMENT '业务ID',
   `biz_type` tinyint NOT NULL COMMENT '业务类型',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建者',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '修改者',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `biz_id`(`biz_id` ASC, `biz_type` ASC, `user_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收藏表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -452,7 +457,7 @@ CREATE TABLE `sys_log_login`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `create_time`(`create_time` DESC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5000258 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5000266 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log_login
@@ -532,6 +537,14 @@ INSERT INTO `sys_log_login` VALUES (5000254, '1', 'iPhone', 'MicroMessenger', '0
 INSERT INTO `sys_log_login` VALUES (5000255, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 0, 'Bad credentials', '1', '2025-01-18 21:31:45', '1', '2025-01-18 21:31:45', '');
 INSERT INTO `sys_log_login` VALUES (5000256, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 21:31:48', '1', '2025-01-18 21:31:48', '');
 INSERT INTO `sys_log_login` VALUES (5000257, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 21:51:33', '1', '2025-01-18 21:51:33', '');
+INSERT INTO `sys_log_login` VALUES (5000258, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 22:28:13', '1', '2025-01-18 22:28:13', '');
+INSERT INTO `sys_log_login` VALUES (5000259, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 22:28:13', '1', '2025-01-18 22:28:13', '');
+INSERT INTO `sys_log_login` VALUES (5000260, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 22:31:30', '1', '2025-01-18 22:31:30', '');
+INSERT INTO `sys_log_login` VALUES (5000261, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 22:32:09', '1', '2025-01-18 22:32:09', '');
+INSERT INTO `sys_log_login` VALUES (5000262, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-18 23:00:22', '1', '2025-01-18 23:00:22', '');
+INSERT INTO `sys_log_login` VALUES (5000263, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-01-18 23:09:52', '1', '2025-01-18 23:09:52', '');
+INSERT INTO `sys_log_login` VALUES (5000264, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-19 00:00:43', '1', '2025-01-19 00:00:43', '');
+INSERT INTO `sys_log_login` VALUES (5000265, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-01-19 00:01:49', '1', '2025-01-19 00:01:49', '');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -869,7 +882,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (3, '1', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '', '管理员', '/file/5d08ced39910341325c102af785beb54.png', '2', '2024-08-01', '1', '13037503398', '916586595@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2025-01-18 21:51:33', '', '2024-08-16 01:26:41', '', '2025-01-18 21:51:33', '');
+INSERT INTO `sys_user` VALUES (3, '1', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '', '管理员', '/file/5d08ced39910341325c102af785beb54.png', '2', '2024-08-01', '1', '13037503398', '916586595@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2025-01-19 00:01:48', '', '2024-08-16 01:26:41', '', '2025-01-19 00:01:48', '');
 INSERT INTO `sys_user` VALUES (4, '2', '$2a$10$elhEi/ohemfnXateL1BLZ.lLi.fJ31tDVKdSpr3xnr40pdMjAlqlG', '', '张三', '1', '2', '2024-08-22', '1', '13037503390', '1@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2024-11-25 16:38:54', '', '2024-08-16 09:00:11', '', '2024-11-25 16:38:54', '');
 INSERT INTO `sys_user` VALUES (5, '3', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1', '1', '/file/c3f7a394-7b91-43b3-b924-5d1592426f06.jpg', '2', '2024-08-27', '1', '13037503391', '2@qq.com', '1', 0.00, '', NULL, '1', '2024-08-21 14:25:56', '1', '2024-08-21 14:25:56', '');
 INSERT INTO `sys_user` VALUES (6, '4', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1', '1', '/file/a3336d6e-4ef8-46f0-99e6-a104122b9f88.jpg', '2', '2024-08-17', '0', '13037503392', '3@qq.com', '1', 0.00, '', NULL, '1', '2024-08-21 14:34:13', '1', '2024-08-21 15:13:15', '1');

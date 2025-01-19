@@ -3,14 +3,13 @@ package org.example.springboot.system.domain.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
-import org.example.springboot.common.domain.BaseEntity;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -26,7 +25,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_count_favorite")
 @Schema(name = "收藏量实体", description = "收藏量")
-public class CountFavorite extends BaseEntity {
+public class CountFavorite implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     /**
@@ -48,7 +47,6 @@ public class CountFavorite extends BaseEntity {
     /**
      * 收藏
      */
-    @Version
     @Schema(description = "收藏")
     private Long count;
 }

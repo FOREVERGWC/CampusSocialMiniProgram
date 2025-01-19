@@ -14,7 +14,9 @@ import org.example.springboot.system.domain.dto.FavoriteDto;
 import org.example.springboot.system.domain.entity.Favorite;
 import org.example.springboot.system.domain.vo.FavoriteVo;
 import org.example.springboot.system.mapper.FavoriteMapper;
+import org.example.springboot.system.service.ICountFavoriteService;
 import org.example.springboot.system.service.IFavoriteService;
+import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,28 @@ import java.util.Map;
 @Service
 public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> implements IFavoriteService, IBaseService<Favorite> {
     @Resource
+    private ICountFavoriteService countFavoriteService;
+    @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+    @Override
+    public boolean save(Favorite entity) {
+        Long userId = UserUtils.getLoginUserId();
+
+        entity.setUserId(userId);
+
+        boolean flag = super.save(entity);
+        countFavoriteService.countPlus(entity.getBizId(), entity.getBizType());
+        return flag;
+    }
+
+    @Override
+    public boolean saveOrUpdate(Favorite entity) {
+        if (entity.getId() == null) {
+            return save(entity);
+        }
+        return super.updateById(entity);
+    }
 
     @Override
     public List<FavoriteVo> getList(FavoriteDto dto) {
