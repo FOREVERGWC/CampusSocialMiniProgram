@@ -1,5 +1,6 @@
 package org.example.springboot.system.common.enums;
 
+import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -11,44 +12,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 登录类型
+ * 认证方式
  */
 @Getter
 @AllArgsConstructor
-public enum LoginType {
+public enum AuthType {
     /**
-     * 账密
+     * 微信
      */
-    USERNAME_PASSWORD("1", "账密"),
-    /**
-     * 邮箱验证码
-     */
-    EMAIL_CODE("2", "邮箱验证码"),
-    /**
-     * 手机验证码
-     */
-    PHONE_CODE("3", "手机验证码"),
-    /**
-     * 微信授权
-     */
-    WECHAT_OPENID("4", "微信授权");
+    WECHAT(0, "微信");
 
-    private static final Map<String, LoginType> map = new HashMap<>();
+    private static final Map<Integer, AuthType> map = new HashMap<>();
 
     static {
-        for (LoginType item : LoginType.values()) {
+        for (AuthType item : AuthType.values()) {
             map.put(item.getCode(), item);
         }
     }
 
     @EnumValue
-    private final String code;
+    private final Integer code;
     @JsonValue
     private final String msg;
 
     @JsonCreator
-    private static LoginType jacksonInstance(final JsonNode jsonNode) {
-        String code = jsonNode.asText();
+    private static AuthType jacksonInstance(final JsonNode jsonNode) {
+        Integer code = Convert.toInt(jsonNode.asText());
         return map.get(code);
     }
 
@@ -58,7 +47,7 @@ public enum LoginType {
      * @param code 键
      * @return 结果
      */
-    public static LoginType getByCode(String code) {
+    public static AuthType getByCode(Integer code) {
         return map.get(code);
     }
 }

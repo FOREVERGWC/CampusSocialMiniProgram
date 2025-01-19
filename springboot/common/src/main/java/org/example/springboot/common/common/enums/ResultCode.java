@@ -50,6 +50,10 @@ public enum ResultCode {
      */
     LOGIN_PHONE_CODE_ERROR(500, "登录失败！手机或验证码错误"),
     /**
+     * 登录失败！微信唯一标识未绑定
+     */
+    LOGIN_WECHAT_OPENID_ERROR(500, "登录失败！微信唯一标识未绑定"),
+    /**
      * 登录失败！账户过期
      */
     LOGIN_ACCOUNT_EXPIRED_ERROR(702, "登录失败！账户过期"),

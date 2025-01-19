@@ -63,6 +63,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    public WechatOpenIdAuthenticationProvider wechatOpenIdAuthenticationProvider() {
+        return new WechatOpenIdAuthenticationProvider(userDetailsService);
+    }
+
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
@@ -72,6 +77,7 @@ public class SecurityConfig {
         authBuilder.authenticationProvider(daoAuthenticationProvider());
         authBuilder.authenticationProvider(emailCodeAuthenticationProvider());
         authBuilder.authenticationProvider(phoneCodeAuthenticationProvider());
+        authBuilder.authenticationProvider(wechatOpenIdAuthenticationProvider());
         http
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout.logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandlerImpl))

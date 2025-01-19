@@ -14,3 +14,8 @@ upload:
 
 knife4j:
   enable: true
+
+auth:
+  wechat:
+    appId: wx7d8fb6d8c483ee5a
+    secret: 49536e55b1bd08df025132bc737ed74f

@@ -8,8 +8,6 @@ import org.example.springboot.system.domain.model.LoginBody;
  * </p>
  */
 public interface ILoginService {
-    // TODO OpenIDSessionLogin
-
     /**
      * 登录
      *

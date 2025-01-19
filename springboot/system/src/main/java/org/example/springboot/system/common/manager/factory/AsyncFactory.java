@@ -4,13 +4,13 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.useragent.UserAgent;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.example.springboot.common.utils.AddressUtils;
+import org.example.springboot.common.utils.ServletUtils;
 import org.example.springboot.system.common.enums.LoginType;
 import org.example.springboot.system.domain.entity.LogLogin;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.service.impl.LogLoginServiceImpl;
 import org.example.springboot.system.service.impl.UserServiceImpl;
-import org.example.springboot.common.utils.AddressUtils;
-import org.example.springboot.common.utils.ServletUtils;
 
 import java.time.LocalDateTime;
 import java.util.TimerTask;
@@ -86,6 +86,12 @@ public class AsyncFactory {
         };
     }
 
+    /**
+     * 更新登录信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
     public static TimerTask updateLogin(Long userId) {
         String ip = ServletUtils.getUserIp();
         LocalDateTime now = LocalDateTime.now();

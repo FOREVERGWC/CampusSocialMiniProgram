@@ -13,12 +13,16 @@ public class LoginFactory {
 
     private final ILoginService phoneCodeLoginServiceImpl;
 
+    private final ILoginService jsCodeLoginServiceImpl;
+
     public LoginFactory(@Qualifier("usernamePasswordLoginServiceImpl") ILoginService usernamePasswordLoginServiceImpl,
                         @Qualifier("emailCodeLoginServiceImpl") ILoginService emailCodeLoginServiceImpl,
-                        @Qualifier("phoneCodeLoginServiceImpl") ILoginService phoneCodeLoginServiceImpl) {
+                        @Qualifier("phoneCodeLoginServiceImpl") ILoginService phoneCodeLoginServiceImpl,
+                        @Qualifier("jsCodeLoginServiceImpl") ILoginService jsCodeLoginServiceImpl) {
         this.usernamePasswordLoginServiceImpl = usernamePasswordLoginServiceImpl;
         this.emailCodeLoginServiceImpl = emailCodeLoginServiceImpl;
         this.phoneCodeLoginServiceImpl = phoneCodeLoginServiceImpl;
+        this.jsCodeLoginServiceImpl = jsCodeLoginServiceImpl;
     }
 
     /**
@@ -32,6 +36,7 @@ public class LoginFactory {
         switch (loginType) {
             case LoginType.EMAIL_CODE -> strategy = emailCodeLoginServiceImpl;
             case LoginType.PHONE_CODE -> strategy = phoneCodeLoginServiceImpl;
+            case LoginType.WECHAT_OPENID -> strategy = jsCodeLoginServiceImpl;
             default -> strategy = usernamePasswordLoginServiceImpl;
         }
         return strategy;

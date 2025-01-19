@@ -1,15 +1,10 @@
 package org.example.springboot.system.service.impl;
 
 import jakarta.annotation.Resource;
-import org.example.springboot.system.domain.entity.Menu;
-import org.example.springboot.system.domain.entity.Permission;
-import org.example.springboot.system.domain.entity.Role;
-import org.example.springboot.system.domain.entity.User;
+import org.example.springboot.system.common.enums.AuthType;
+import org.example.springboot.system.domain.entity.*;
 import org.example.springboot.system.domain.model.LoginUser;
-import org.example.springboot.system.service.IMenuService;
-import org.example.springboot.system.service.IPermissionService;
-import org.example.springboot.system.service.IRoleService;
-import org.example.springboot.system.service.IUserService;
+import org.example.springboot.system.service.*;
 import org.example.springboot.system.service.cache.ILoginCacheService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +17,8 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
     private IUserService userService;
+    @Resource
+    private IUserAuthService userAuthService;
     @Resource
     private IRoleService roleService;
     @Resource
@@ -71,6 +68,27 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         // 账户锁定
         boolean accountNonLocked = loginCacheService.getAccountNonLocked(phone);
+        // 角色列表
+        List<Role> roleList = roleService.listByUserId(user.getId());
+        // 菜单列表
+        List<Menu> menuList = menuService.listByUserId(user.getId());
+        // 权限列表
+        List<Permission> permissionList = permissionService.listByUserId(user.getId());
+        return new LoginUser(user, accountNonLocked, roleList, menuList, permissionList);
+    }
+
+    public UserDetails loadUserByOpenId(String openId) throws UsernameNotFoundException {
+        UserAuth userAuth = userAuthService.getByAuthTypeAndOpenIdAnd(AuthType.WECHAT.getCode(), openId);
+        if (userAuth == null) {
+            throw new UsernameNotFoundException("登录失败！用户未绑定账号");
+        }
+        Long userId = userAuth.getUserId();
+        User user = userService.getById(userId);
+        if (user == null) {
+            throw new UsernameNotFoundException("登录失败！账号不存在");
+        }
+        // 账户锁定
+        boolean accountNonLocked = loginCacheService.getAccountNonLocked(openId);
         // 角色列表
         List<Role> roleList = roleService.listByUserId(user.getId());
         // 菜单列表

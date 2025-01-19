@@ -11,21 +11,14 @@ Page({
    */
   data: {
     username: '',
-    password: '',
-    jsCode: ''
+    password: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    wx.login({
-      success: (res) => {
-        this.setData({
-          jsCode: res.code
-        })
-      }
-    })
+    this.autoLogin()
   },
 
   /**
@@ -102,7 +95,7 @@ Page({
       username: this.data.username,
       password: this.data.password,
       loginType: 1,
-      jsCode: this.data.jsCode
+      jsCode: getApp().globalData.jsCode
     }
 
     wx.showLoading({
@@ -140,6 +133,45 @@ Page({
       wx.showToast({
         title: '登录失败！服务器开小差啦',
         icon: 'none'
+      })
+    })
+  },
+
+  autoLogin() {
+    const form = {
+      jsCode: getApp().globalData.jsCode,
+      loginType: 4
+    }
+
+    wx.showLoading({
+      title: '登录中...',
+      icon: 'none'
+    })
+
+    login(form).then(res => {
+      wx.hideLoading()
+
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg || '登录失败！未绑定账号',
+          icon: 'none'
+        })
+        return
+      }
+
+      getApp().globalData.token = res.data
+
+      wx.showToast({
+        title: '登录成功！',
+        icon: 'success'
+      })
+
+      getByToken().then(res => {
+        getApp().globalData.userInfo = res.data || {}
+      })
+
+      wx.switchTab({
+        url: '/pages/index/index'
       })
     })
   },
