@@ -12,6 +12,7 @@ public interface IDislikeService {
      * 点踩或取消点踩
      *
      * @param dislike 点踩
+     * @return 结果
      */
-    void handleDislike(Dislike dislike);
+    Long handleDislike(Dislike dislike);
 }

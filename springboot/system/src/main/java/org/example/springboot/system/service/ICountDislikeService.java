@@ -53,8 +53,18 @@ public interface ICountDislikeService extends IService<CountDislike> {
      *
      * @param bizId   业务ID
      * @param bizType 业务类型
+     * @return 点踩量
      */
-    void countPlus(Long bizId, Integer bizType);
+    Long countPlus(Long bizId, Integer bizType);
+
+    /**
+     * 减少点踩量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     * @return 点踩量
+     */
+    Long countMinus(Long bizId, Integer bizType);
 
     /**
      * 根据业务ID和业务类型查询点踩量

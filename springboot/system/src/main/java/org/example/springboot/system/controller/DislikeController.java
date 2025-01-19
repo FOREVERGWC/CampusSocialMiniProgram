@@ -31,8 +31,8 @@ public class DislikeController {
      */
     @PutMapping
     @Operation(summary = "点踩或取消点踩", description = "点踩或取消点踩", method = "PUT")
-    public Result<Void> handleDislike(@RequestBody Dislike dislike) {
-        dislikeService.handleDislike(dislike);
-        return Result.success();
+    public Result<Long> handleDislike(@RequestBody Dislike dislike) {
+        Long count = dislikeService.handleDislike(dislike);
+        return Result.success(count);
     }
 }

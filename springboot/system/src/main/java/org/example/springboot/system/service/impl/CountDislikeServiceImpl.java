@@ -1,7 +1,6 @@
 package org.example.springboot.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -80,7 +79,26 @@ public class CountDislikeServiceImpl extends ServiceImpl<CountDislikeMapper, Cou
     }
 
     @Override
-    public void countPlus(Long bizId, Integer bizType) {
+    public Long countPlus(Long bizId, Integer bizType) {
+        CountDislike count = Optional.ofNullable(lambdaQuery()
+                        .eq(CountDislike::getBizId, bizId)
+                        .eq(CountDislike::getBizType, bizType)
+                        .one())
+                .orElse(CountDislike.builder()
+                        .bizId(bizId)
+                        .bizType(bizType)
+                        .count(0L)
+                        .build());
+
+        count.setCount(count.getCount() + 1);
+
+        saveOrUpdate(count);
+
+        return count.getCount();
+    }
+
+    @Override
+    public Long countMinus(Long bizId, Integer bizType) {
         CountDislike count = Optional.ofNullable(lambdaQuery()
                         .eq(CountDislike::getBizId, bizId)
                         .eq(CountDislike::getBizType, bizType)
@@ -91,7 +109,11 @@ public class CountDislikeServiceImpl extends ServiceImpl<CountDislikeMapper, Cou
                         .count(1L)
                         .build());
 
+        count.setCount(count.getCount() - 1);
+
         saveOrUpdate(count);
+
+        return count.getCount();
     }
 
     @Override
@@ -135,21 +157,10 @@ public class CountDislikeServiceImpl extends ServiceImpl<CountDislikeMapper, Cou
 
     @Override
     public LambdaQueryChainWrapper<CountDislike> getWrapper(CountDislike entity) {
-        LambdaQueryChainWrapper<CountDislike> wrapper = lambdaQuery()
+        return lambdaQuery()
                 .eq(entity.getId() != null, CountDislike::getId, entity.getId())
                 .eq(entity.getBizId() != null, CountDislike::getBizId, entity.getBizId())
                 .eq(entity.getBizType() != null, CountDislike::getBizType, entity.getBizType())
                 .eq(entity.getCount() != null, CountDislike::getCount, entity.getCount());
-        if (entity instanceof CountDislikeDto dto) {
-            Map<String, Object> params = dto.getParams();
-            // 创建时间
-            Object startCreateTime = params == null ? null : params.get("startCreateTime");
-            Object endCreateTime = params == null ? null : params.get("endCreateTime");
-
-            wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
-                    CountDislike::getCreateTime,
-                    startCreateTime, endCreateTime);
-        }
-        return wrapper;
     }
 }
