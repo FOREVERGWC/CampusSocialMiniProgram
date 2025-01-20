@@ -46,4 +46,12 @@ public interface IFavoriteService extends IService<Favorite> {
      * @param response 响应对象
      */
     void exportExcel(Favorite entity, HttpServletResponse response);
+
+    /**
+     * 收藏或取消收藏
+     *
+     * @param favorite 收藏
+     * @return 结果
+     */
+    Long handleFavorite(Favorite favorite);
 }

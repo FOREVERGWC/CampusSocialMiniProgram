@@ -115,4 +115,17 @@ public class FavoriteController {
     public void exportExcel(Favorite entity, HttpServletResponse response) {
         favoriteService.exportExcel(entity, response);
     }
+
+    /**
+     * 收藏或取消收藏
+     *
+     * @param favorite 收藏
+     * @return 结果
+     */
+    @PutMapping
+    @Operation(summary = "收藏或取消收藏", description = "收藏或取消收藏", method = "PUT")
+    public Result<Long> handleFavorite(@RequestBody Favorite favorite) {
+        Long count = favoriteService.handleFavorite(favorite);
+        return Result.success(count);
+    }
 }

@@ -9,6 +9,9 @@ import {
   handleLike
 } from '../../../api/like/index'
 import {
+  handleFavorite
+} from '../../../api/favorite/index'
+import {
   baseUrl,
   defaultAvatar
 } from '../../../utils/common'
@@ -58,13 +61,31 @@ Page({
     })
   },
 
-  handleCollection() {
-    const detail = this.data.detail;
-    detail.hasCollection = !detail.hasCollection;
-    detail.collection += detail.hasCollection ? 1 : -1;
-    this.setData({
-      detail: detail
-    });
+  handleFavoriteNote() {
+    // const detail = this.data.detail;
+    // detail.hasCollection = !detail.hasCollection;
+    // detail.collection += detail.hasCollection ? 1 : -1;
+    // this.setData({
+    //   detail: detail
+    // });
+    const data = {
+      bizType: 8,
+      bizId: this.data.id
+    }
+    handleFavorite(data).then(res => {
+      if (res.code !== 200) {
+        return
+      }
+      const detail = this.data.detail;
+      detail.count.favorite.hasDone = !detail.count.favorite.hasDone;
+      detail.count.favorite.num = res.data;
+      this.setData({
+        detail: detail
+      });
+      // TODO 操作成功
+    }).catch(() => {
+      // TODO 操作失败
+    })
   },
 
   /**

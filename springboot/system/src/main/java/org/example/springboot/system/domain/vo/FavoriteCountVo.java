@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 点赞数量
+ * 收藏数量
  * </p>
  */
 @Data
@@ -19,18 +19,18 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-@Schema(name = "点赞数量实体", description = "点赞数量")
-public class LikeCountVo implements Serializable {
+@Schema(name = "收藏数量实体", description = "收藏数量")
+public class FavoriteCountVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     /**
-     * 已点赞
+     * 已收藏
      */
-    @Schema(description = "已点赞")
+    @Schema(description = "已收藏")
     private Boolean hasDone;
     /**
-     * 点赞量
+     * 收藏量
      */
-    @Schema(description = "点赞量")
+    @Schema(description = "收藏量")
     private Long num;
 }

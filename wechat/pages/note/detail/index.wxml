@@ -58,9 +58,9 @@
         <view class="cu-tag badge">{{ detail.count.like.num }}</view>
       </view>
     </button>
-    <view class="action text-orange" bindtap="handleCollection">
-      <view class="{{ detail.hasCollection ? 'cuIcon-favorfill' : 'cuIcon-favor' }}">
-        <view class="cu-tag badge">{{ detail.count.favorite }}</view>
+    <view class="action text-orange" bindtap="handleFavoriteNote">
+      <view class="{{ detail.count.favorite.hasDone ? 'cuIcon-favorfill' : 'cuIcon-favor' }}">
+        <view class="cu-tag badge">{{ detail.count.favorite.num }}</view>
       </view>
     </view>
     <view class="action">

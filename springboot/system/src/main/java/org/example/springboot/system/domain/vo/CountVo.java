@@ -49,7 +49,7 @@ public class CountVo implements Serializable {
      * 收藏量
      */
     @Schema(description = "收藏量")
-    private Long favorite;
+    private FavoriteCountVo favorite;
     /**
      * 已收藏
      */

@@ -1,6 +1,7 @@
 package org.example.springboot.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,9 +12,13 @@ import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.domain.dto.CountFavoriteDto;
 import org.example.springboot.system.domain.entity.CountFavorite;
+import org.example.springboot.system.domain.entity.Favorite;
 import org.example.springboot.system.domain.vo.CountFavoriteVo;
+import org.example.springboot.system.domain.vo.FavoriteCountVo;
 import org.example.springboot.system.mapper.CountFavoriteMapper;
+import org.example.springboot.system.mapper.FavoriteMapper;
 import org.example.springboot.system.service.ICountFavoriteService;
+import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -21,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -30,6 +36,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, CountFavorite> implements ICountFavoriteService, IBaseService<CountFavorite> {
+    @Resource
+    private FavoriteMapper favoriteMapper;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -79,7 +87,7 @@ public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, C
     }
 
     @Override
-    public void countPlus(Long bizId, Integer bizType) {
+    public Long countPlus(Long bizId, Integer bizType) {
         CountFavorite count = Optional.ofNullable(lambdaQuery()
                         .eq(CountFavorite::getBizId, bizId)
                         .eq(CountFavorite::getBizType, bizType)
@@ -93,6 +101,27 @@ public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, C
         count.setCount(count.getCount() + 1);
 
         saveOrUpdate(count);
+
+        return count.getCount();
+    }
+
+    @Override
+    public Long countMinus(Long bizId, Integer bizType) {
+        CountFavorite count = Optional.ofNullable(lambdaQuery()
+                        .eq(CountFavorite::getBizId, bizId)
+                        .eq(CountFavorite::getBizType, bizType)
+                        .one())
+                .orElse(CountFavorite.builder()
+                        .bizId(bizId)
+                        .bizType(bizType)
+                        .count(1L)
+                        .build());
+
+        count.setCount(count.getCount() - 1);
+
+        saveOrUpdate(count);
+
+        return count.getCount();
     }
 
     @Override
@@ -111,6 +140,29 @@ public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, C
     }
 
     @Override
+    public FavoriteCountVo getCountVoByBizIdAndBizType(Long bizId, Integer bizType) {
+        Long userId = UserUtils.getLoginUserId();
+
+        CountFavorite one = lambdaQuery()
+                .select(CountFavorite::getCount)
+                .eq(CountFavorite::getBizId, bizId)
+                .eq(CountFavorite::getBizType, bizType)
+                .one();
+
+        if (one == null) {
+            return FavoriteCountVo.builder().hasDone(false).num(0L).build();
+        }
+
+        boolean flag = favoriteMapper.exists(new LambdaQueryWrapper<Favorite>()
+                .eq(Favorite::getBizId, bizId)
+                .eq(Favorite::getBizType, bizType)
+                .eq(Favorite::getUserId, userId));
+
+        return FavoriteCountVo.builder().hasDone(flag).num(one.getCount()).build();
+
+    }
+
+    @Override
     public Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
         List<CountFavorite> countList = lambdaQuery()
                 .select(CountFavorite::getCount)
@@ -123,6 +175,35 @@ public class CountFavoriteServiceImpl extends ServiceImpl<CountFavoriteMapper, C
         }
 
         return countList.stream().collect(Collectors.toMap(CountFavorite::getBizId, CountFavorite::getCount));
+    }
+
+    @Override
+    public Map<Long, FavoriteCountVo> mapCountVoByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
+        Long userId = UserUtils.getLoginUserId();
+
+        List<CountFavorite> countList = lambdaQuery()
+                .in(CountFavorite::getBizId, bizIds)
+                .eq(CountFavorite::getBizType, bizType)
+                .list();
+
+        if (CollectionUtil.isEmpty(countList)) {
+            return Map.of();
+        }
+
+        List<Favorite> favoriteList = favoriteMapper.selectList(new LambdaQueryWrapper<Favorite>()
+                .in(Favorite::getBizId, bizIds)
+                .eq(Favorite::getBizType, bizType)
+                .eq(Favorite::getUserId, userId));
+
+        Map<Long, Favorite> favoriteMap = favoriteList.stream()
+                .collect(Collectors.toMap(Favorite::getBizId, Function.identity()));
+
+        return countList.stream().collect(Collectors.toMap(
+                CountFavorite::getBizId,
+                count -> FavoriteCountVo.builder()
+                        .hasDone(favoriteMap.get(count.getBizId()) != null)
+                        .num(count.getCount())
+                        .build()));
     }
 
     @Override

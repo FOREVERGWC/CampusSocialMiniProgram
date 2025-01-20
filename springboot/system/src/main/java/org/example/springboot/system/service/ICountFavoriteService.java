@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.system.domain.dto.CountFavoriteDto;
 import org.example.springboot.system.domain.entity.CountFavorite;
 import org.example.springboot.system.domain.vo.CountFavoriteVo;
+import org.example.springboot.system.domain.vo.FavoriteCountVo;
 
 import java.util.List;
 import java.util.Map;
@@ -53,8 +54,18 @@ public interface ICountFavoriteService extends IService<CountFavorite> {
      *
      * @param bizId   业务ID
      * @param bizType 业务类型
+     * @return 收藏量
      */
-    void countPlus(Long bizId, Integer bizType);
+    Long countPlus(Long bizId, Integer bizType);
+
+    /**
+     * 减少收藏量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     * @return 收藏量
+     */
+    Long countMinus(Long bizId, Integer bizType);
 
     /**
      * 根据业务ID和业务类型查询收藏量
@@ -66,6 +77,15 @@ public interface ICountFavoriteService extends IService<CountFavorite> {
     Long getCountByBizIdAndBizType(Long bizId, Integer bizType);
 
     /**
+     * 根据业务ID和业务类型查询收藏数量
+     *
+     * @param bizId   业务ID
+     * @param bizType 业务类型
+     * @return 结果
+     */
+    FavoriteCountVo getCountVoByBizIdAndBizType(Long bizId, Integer bizType);
+
+    /**
      * 根据业务ID列表和业务类型查询收藏量分组
      *
      * @param bizIds  业务ID列表
@@ -73,4 +93,13 @@ public interface ICountFavoriteService extends IService<CountFavorite> {
      * @return 结果
      */
     Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType);
+
+    /**
+     * 根据业务ID列表和业务类型查询收藏数量分组
+     *
+     * @param bizIds  业务ID列表
+     * @param bizType 业务类型
+     * @return 结果
+     */
+    Map<Long, FavoriteCountVo> mapCountVoByBizIdsAndBizType(List<Long> bizIds, Integer bizType);
 }

@@ -20,6 +20,7 @@ import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -36,24 +37,24 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
-    @Override
-    public boolean save(Favorite entity) {
-        Long userId = UserUtils.getLoginUserId();
-
-        entity.setUserId(userId);
-
-        boolean flag = super.save(entity);
-        countFavoriteService.countPlus(entity.getBizId(), entity.getBizType());
-        return flag;
-    }
-
-    @Override
-    public boolean saveOrUpdate(Favorite entity) {
-        if (entity.getId() == null) {
-            return save(entity);
-        }
-        return super.updateById(entity);
-    }
+//    @Override
+//    public boolean save(Favorite entity) {
+//        Long userId = UserUtils.getLoginUserId();
+//
+//        entity.setUserId(userId);
+//
+//        boolean flag = super.save(entity);
+//        countFavoriteService.countPlus(entity.getBizId(), entity.getBizType());
+//        return flag;
+//    }
+//
+//    @Override
+//    public boolean saveOrUpdate(Favorite entity) {
+//        if (entity.getId() == null) {
+//            return save(entity);
+//        }
+//        return super.updateById(entity);
+//    }
 
     @Override
     public List<FavoriteVo> getList(FavoriteDto dto) {
@@ -98,6 +99,34 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
     @Override
     public void exportExcel(Favorite entity, HttpServletResponse response) {
         ExcelUtils.exportExcel(response, this, entity, Favorite.class, threadPoolTaskExecutor);
+    }
+
+    @Transactional
+    @Override
+    public Long handleFavorite(Favorite favorite) {
+        Long userId = UserUtils.getLoginUserId();
+        Long bizId = favorite.getBizId();
+        Integer bizType = favorite.getBizType();
+
+        favorite.setUserId(userId);
+
+        Favorite one = getWrapper(favorite).one();
+
+        Long count;
+
+        if (one != null) {
+            // 收藏量
+            count = countFavoriteService.countMinus(bizId, bizType);
+            // 收藏历史
+            removeById(one);
+        } else {
+            // 收藏量
+            count = countFavoriteService.countPlus(bizId, bizType);
+            // 收藏历史
+            save(favorite);
+        }
+
+        return count;
     }
 
     @Override

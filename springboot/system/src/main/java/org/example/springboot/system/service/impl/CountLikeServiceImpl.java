@@ -159,7 +159,6 @@ public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike
             return LikeCountVo.builder().hasDone(false).num(0L).build();
         }
 
-
         String key = "user:" + userId + "like:bizType:" + bizType + ":bizId:" + bizId;
         boolean flag = redisTemplate.opsForValue().get(key) != null;
 
@@ -207,8 +206,7 @@ public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike
                 count -> LikeCountVo.builder()
                         .hasDone(doneMap.get(count.getBizId()) != null)
                         .num(count.getCount())
-                        .build()
-        ));
+                        .build()));
     }
 
     @Override

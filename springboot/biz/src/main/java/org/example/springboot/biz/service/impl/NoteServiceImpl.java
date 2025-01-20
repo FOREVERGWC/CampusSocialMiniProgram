@@ -26,6 +26,7 @@ import org.example.springboot.system.common.enums.DeleteEnum;
 import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.vo.CountVo;
+import org.example.springboot.system.domain.vo.FavoriteCountVo;
 import org.example.springboot.system.domain.vo.LikeCountVo;
 import org.example.springboot.system.service.*;
 import org.example.springboot.system.utils.UserUtils;
@@ -108,7 +109,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         // 评论量
         Map<Long, Long> commentCountMap = countCommentService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 收藏量
-        Map<Long, Long> favoriteCountMap = countFavoriteService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
+        Map<Long, FavoriteCountVo> countFavoriteVoMap = countFavoriteService.mapCountVoByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 组装VO
         return list.stream().map(item -> {
             NoteVo vo = new NoteVo();
@@ -121,7 +122,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
                     .like(countLikeVoMap.getOrDefault(item.getId(), LikeCountVo.builder().hasDone(false).num(0L).build()))
                     .dislike(dislikeCountMap.getOrDefault(item.getId(), 0L))
                     .comment(commentCountMap.getOrDefault(item.getId(), 0L))
-                    .favorite(favoriteCountMap.getOrDefault(item.getId(), 0L))
+                    .favorite(countFavoriteVoMap.getOrDefault(item.getId(), FavoriteCountVo.builder().hasDone(false).num(0L).build()))
                     .build());
             return vo;
         }).toList();
@@ -154,7 +155,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         // 评论量
         Map<Long, Long> commentCountMap = countCommentService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 收藏量
-        Map<Long, Long> favoriteCountMap = countFavoriteService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
+        Map<Long, FavoriteCountVo> countFavoriteVoMap = countFavoriteService.mapCountVoByBizIdsAndBizType(idList, BizType.BIZ_NOTE.getCode());
         // 组装VO
         return info.convert(item -> {
             NoteVo vo = new NoteVo();
@@ -167,7 +168,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
                     .like(countLikeVoMap.getOrDefault(item.getId(), LikeCountVo.builder().hasDone(false).num(0L).build()))
                     .dislike(dislikeCountMap.getOrDefault(item.getId(), 0L))
                     .comment(commentCountMap.getOrDefault(item.getId(), 0L))
-                    .favorite(favoriteCountMap.getOrDefault(item.getId(), 0L))
+                    .favorite(countFavoriteVoMap.getOrDefault(item.getId(), FavoriteCountVo.builder().hasDone(false).num(0L).build()))
                     .build());
             return vo;
         });
@@ -198,7 +199,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         // 评论量
         Long commentCount = countCommentService.getCountByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
         // 收藏量
-        Long favoriteCount = countFavoriteService.getCountByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
+        FavoriteCountVo favorite = countFavoriteService.getCountVoByBizIdAndBizType(id, BizType.BIZ_NOTE.getCode());
         // 组装VO
         NoteVo vo = new NoteVo();
         BeanUtils.copyProperties(one, vo);
@@ -210,7 +211,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
                 .like(like)
                 .dislike(dislikeCount)
                 .comment(commentCount)
-                .favorite(favoriteCount)
+                .favorite(favorite)
                 .build());
         return vo;
     }
