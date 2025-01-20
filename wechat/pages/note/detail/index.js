@@ -62,12 +62,6 @@ Page({
   },
 
   handleFavoriteNote() {
-    // const detail = this.data.detail;
-    // detail.hasCollection = !detail.hasCollection;
-    // detail.collection += detail.hasCollection ? 1 : -1;
-    // this.setData({
-    //   detail: detail
-    // });
     const data = {
       bizType: 8,
       bizId: this.data.id
