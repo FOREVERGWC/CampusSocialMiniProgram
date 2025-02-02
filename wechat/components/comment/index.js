@@ -163,6 +163,7 @@ Component({
     },
 
     handleLikeComment(e) {
+      console.log(e.currentTarget);
       const data = {
         bizType: 5,
         bizId: e.currentTarget.id
@@ -175,13 +176,19 @@ Component({
         const {
           commentList
         } = this.data;
-        const index = commentList.findIndex(item => item.id === e.currentTarget.id);
+
+        const index = e.currentTarget.dataset.ancestorId !== '0' ?
+          commentList.findIndex(item => item.id === e.currentTarget.dataset.ancestorId) :
+          commentList.findIndex(item => item.id === e.currentTarget.id);
 
         if (index === -1) {
           return;
         }
 
-        const item = commentList[index];
+        const item = e.currentTarget.dataset.ancestorId !== '0' ?
+          commentList[index].children?.find(child => child.id === e.currentTarget.id) :
+          commentList[index];
+
         item.count.like.hasDone = !item.count.like.hasDone;
         item.count.like.num = res.data;
 

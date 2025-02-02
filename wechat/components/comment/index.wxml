@@ -17,7 +17,7 @@
           <view class="text-gray text-content text-df">{{ item.content }}</view>
           <view class="margin-tb-xs flex justify-between">
             <view class="text-gray">
-              <text class="{{ item.count.like.hasDone ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate' }}" bindtap="handleLikeComment" id="{{ item.id }}"> {{ item.count.like.num }}</text>
+              <text class="{{ item.count.like.hasDone ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate' }}" bindtap="handleLikeComment" id="{{ item.id }}" data-ancestor-id="0"> {{ item.count.like.num }}</text>
               <text class="cuIcon-bad margin-lr" />
               <text class="cuIcon-message" bindtap="onReplyClick" id="{{ item.id }}" data-user-id="{{ item.userId }}" data-username="{{ item.createBy }}" />
             </view>
@@ -30,9 +30,9 @@
                 <view class="text-gray text-content text-df">{{ child.user.username }}：{{ child.content }}</view>
                 <view class="margin-top-sm flex justify-between">
                   <view class="text-gray text-df">{{ child.updateTime }}</view>
-                  <view>
-                    <text class="cuIcon-appreciate text-gray" bindtap="handleLikeComment" id="{{ child.id }}"> 0</text>
-                    <text class="cuIcon-message text-gray margin-left-sm" bindtap="onReplyClick" id="{{ child.id }}" data-user-id="{{ child.userId }}" data-username="{{ child.createBy }}" />
+                  <view class="text-gray">
+                    <text class="{{ child.count.like.hasDone ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate' }}" bindtap="handleLikeComment" id="{{ child.id }}" data-ancestor-id="{{ item.id }}"> {{ child.count.like.num }}</text>
+                    <text class="cuIcon-message margin-left-sm" bindtap="onReplyClick" id="{{ child.id }}" data-user-id="{{ child.userId }}" data-username="{{ child.createBy }}" />
                   </view>
                 </view>
               </view>
