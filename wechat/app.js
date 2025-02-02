@@ -10,6 +10,7 @@ App({
     wx.login({
       success: res => {
         this.globalData.jsCode = res.code
+        console.log('jsCode', res.code)
       }
     })
 

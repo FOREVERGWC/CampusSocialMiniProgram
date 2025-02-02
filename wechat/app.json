@@ -7,6 +7,7 @@
     "pages/note/category/index",
     "pages/rate/index",
     "pages/rate/detail/index",
+    "pages/activity/index",
     "pages/message/index",
     "pages/my/index",
     "pages/logs/logs",
@@ -30,8 +31,8 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/note/category/index",
-        "text": "分类"
+        "pagePath": "pages/activity/index",
+        "text": "活动"
       },
       {
         "pagePath": "pages/note/save/index",

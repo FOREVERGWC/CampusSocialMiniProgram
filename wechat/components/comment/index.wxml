@@ -1,0 +1,45 @@
+<!--components/comment/index.wxml-->
+<view class="padding-tb-lg solids-top">
+  <view class="text-gray text-sm">共 {{ total }} 条评论</view>
+  <view class="cu-bar input">
+    <view class="cu-avatar round" style="background-image: url({{avatar}});" />
+    <input type="text" :adjust-position="false" placeholder="有话要说，快来评论" class="bg-gray round" cursor-spacing="10" confirm-type="send" bindinput="onInput" bindconfirm="onReply" value="{{ content }}" />
+  </view>
+
+  <view class="cu-card dynamic margin-bottom-xl">
+    <view class="cu-list menu-avatar comment padding-bottom-xl">
+      <!-- 主列表 -->
+      <view class="cu-item" wx:for="{{ commentList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
+        <view class="cu-avatar round" style="background-image:url({{item.user.avatar}});"></view>
+        <view class="content">
+          <view class="text-grey">{{ item.user.username }}</view>
+          <view class="text-gray margin-bottom-sm">{{ item.updateTime }} IP属地：{{ item.location }}</view>
+          <view class="text-gray text-content text-df">{{ item.content }}</view>
+          <view class="margin-tb-xs flex justify-between">
+            <view class="text-gray">
+              <text class="cuIcon-appreciate"> 0</text>
+              <text class="cuIcon-bad margin-lr" />
+              <text class="cuIcon-message" bindtap="onReplyClick" id="{{ item.id }}" data-user-id="{{ item.userId }}" data-username="{{ item.createBy }}" />
+            </view>
+          </view>
+
+          <!-- 子列表 -->
+          <view class="child-comments radius padding-sm">
+            <view class="cu-item" wx:for="{{ item.children }}" wx:for-item="child" wx:for-index="childIndex" wx:key="childIndex">
+              <view class="content">
+                <view class="text-gray text-content text-df">{{ child.user.username }}：{{ child.content }}</view>
+                <view class="margin-top-sm flex justify-between">
+                  <view class="text-gray text-df">{{ child.updateTime }}</view>
+                  <view>
+                    <text class="cuIcon-appreciate text-gray"> 0</text>
+                    <text class="cuIcon-message text-gray margin-left-sm" bindtap="onReplyClick" id="{{ child.id }}" data-user-id="{{ child.userId }}" data-username="{{ child.createBy }}" />
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

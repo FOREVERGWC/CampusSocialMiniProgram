@@ -1,0 +1,4 @@
+/* components/comment/index.wxss */
+.child-comments {
+  background-color: #f8f8fa;
+}

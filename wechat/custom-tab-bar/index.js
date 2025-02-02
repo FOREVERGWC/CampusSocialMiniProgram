@@ -20,8 +20,8 @@ Component({
       },
       {
         icon: 'app',
-        label: '分类',
-        url: "/pages/note/category/index"
+        label: '活动',
+        url: "/pages/activity/index"
       },
       {
         icon: 'plus',

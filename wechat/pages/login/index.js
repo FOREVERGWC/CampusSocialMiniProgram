@@ -3,6 +3,10 @@ import {
   login,
   getByToken
 } from '../../api/auth.js'
+import {
+  baseUrl,
+  defaultAvatar
+} from '../../utils/common'
 
 Page({
 
@@ -123,6 +127,7 @@ Page({
 
       getByToken().then(res => {
         getApp().globalData.userInfo = res.data || {}
+        getApp().globalData.avatar = res.data.avatar ? baseUrl + res.data.avatar : defaultAvatar
       })
 
       wx.switchTab({
@@ -168,6 +173,7 @@ Page({
 
       getByToken().then(res => {
         getApp().globalData.userInfo = res.data || {}
+        getApp().globalData.avatar = res.data.avatar ? baseUrl + res.data.avatar : defaultAvatar
       })
 
       wx.switchTab({

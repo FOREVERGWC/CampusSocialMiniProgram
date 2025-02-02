@@ -100,7 +100,6 @@ public class CountCommentServiceImpl extends ServiceImpl<CountCommentMapper, Cou
     @Override
     public Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType) {
         List<CountComment> countList = lambdaQuery()
-                .select(CountComment::getCount)
                 .in(CountComment::getBizId, bizIds)
                 .eq(CountComment::getBizType, bizType)
                 .list();

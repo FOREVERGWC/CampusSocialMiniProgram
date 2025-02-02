@@ -64,5 +64,4 @@ public interface ICountCommentService extends IService<CountComment> {
      * @return 结果
      */
     Map<Long, Long> mapCountByBizIdsAndBizType(List<Long> bizIds, Integer bizType);
-
 }

@@ -1,8 +1,5 @@
 // pages/note/detail/index.js
 import {
-  comments
-} from '../../../utils/common'
-import {
   getNoteById
 } from '../../../api/note/index'
 import {
@@ -23,8 +20,7 @@ Page({
    */
   data: {
     id: '',
-    detail: {},
-    comments: comments
+    detail: {}
   },
 
   getDetail() {
