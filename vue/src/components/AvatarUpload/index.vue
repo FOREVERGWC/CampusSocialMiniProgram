@@ -31,7 +31,7 @@ const props = defineProps({
     required: true
   },
   bizType: {
-    type: Number,
+    type: [String, Number],
     default: 0
   }
 })
@@ -114,24 +114,42 @@ const createChunks = (file, chunkSize) => {
 }
 
 const getHashCode = (chunks) => {
-	const spark = new SparkMD5()
-	return new Promise(resolve => {
-		const read = (i) => {
-			if (i >= chunks.length) {
-				resolve(spark.end())
-				return
-			}
-			const blob = chunks[i]
-			const reader = new FileReader()
-			reader.onload = e => {
-				spark.append(e.target.result)
-				read(i + 1)
-			}
-			reader.readAsArrayBuffer(blob)
-		}
-		read(0)
-	})
-}
+  return new Promise(resolve => {
+    const spark = new SparkMD5.ArrayBuffer();
+
+    const read = (i) => {
+      if (i >= chunks.length) {
+        const result = spark.end();
+        console.log('Final hash:', result);
+        resolve(result);
+        return;
+      }
+
+      const blob = chunks[i];
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        const arrayBuffer = e.target.result;
+        console.log(`Processing chunk ${i}:`, {
+          chunkSize: blob.size,
+          arrayBufferSize: arrayBuffer.byteLength,
+          chunkType: blob.type
+        });
+
+        spark.append(arrayBuffer);
+        read(i + 1);
+      };
+
+      reader.onerror = (error) => {
+        console.error('Error reading chunk:', error);
+      };
+
+      reader.readAsArrayBuffer(blob);
+    };
+
+    read(0);
+  });
+};
 
 const uploadChunk = (chunk, hashCode, fileName, fileSize, chunkSize, chunkIndex, chunkTotal) => {
 	const form = new FormData()
