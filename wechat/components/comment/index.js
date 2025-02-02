@@ -4,6 +4,9 @@ import {
   saveComment
 } from '../../api/comment/index'
 import {
+  handleLike
+} from '../../api/like/index'
+import {
   baseUrl,
   defaultAvatar,
   processUpdateTime
@@ -156,6 +159,38 @@ Component({
         this.getList()
       }).catch(error => {
         console.log('评论失败', error);
+      })
+    },
+
+    handleLikeComment(e) {
+      const data = {
+        bizType: 5,
+        bizId: e.currentTarget.id
+      }
+      handleLike(data).then(res => {
+        if (res.code !== 200) {
+          return
+        }
+
+        const {
+          commentList
+        } = this.data;
+        const index = commentList.findIndex(item => item.id === e.currentTarget.id);
+
+        if (index === -1) {
+          return;
+        }
+
+        const item = commentList[itemIndex];
+        item.count.like.hasDone = !item.count.like.hasDone;
+        item.count.like.num = res.data;
+
+        this.setData({
+          commentList: commentList
+        });
+        // TODO 操作成功
+      }).catch(() => {
+        // TODO 操作失败
       })
     }
   },

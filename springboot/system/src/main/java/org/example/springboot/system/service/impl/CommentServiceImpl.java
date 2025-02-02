@@ -16,13 +16,18 @@ import org.example.springboot.common.utils.AddressUtils;
 import org.example.springboot.common.utils.DataUtils;
 import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.common.utils.ServletUtils;
+import org.example.springboot.system.common.enums.BizType;
 import org.example.springboot.system.domain.dto.CommentDto;
 import org.example.springboot.system.domain.entity.Comment;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.vo.CommentVo;
+import org.example.springboot.system.domain.vo.CountVo;
+import org.example.springboot.system.domain.vo.FavoriteCountVo;
+import org.example.springboot.system.domain.vo.LikeCountVo;
 import org.example.springboot.system.mapper.CommentMapper;
 import org.example.springboot.system.service.ICommentService;
 import org.example.springboot.system.service.ICountCommentService;
+import org.example.springboot.system.service.ICountLikeService;
 import org.example.springboot.system.service.IUserService;
 import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
@@ -45,6 +50,8 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements ICommentService, IBaseService<Comment> {
     @Resource
     private IUserService userService;
+    @Resource
+    private ICountLikeService countLikeService;
     @Resource
     private ICountCommentService countCommentService;
     @Resource
@@ -130,11 +137,20 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<Long> userIdList = commentList.stream().map(Comment::getUserId).toList();
         List<User> userList = userService.listByIds(userIdList);
         Map<Long, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, item -> item));
+        // 点赞量
+        Map<Long, LikeCountVo> countLikeVoMap = countLikeService.mapCountVoByBizIdsAndBizType(idList, BizType.SYS_COMMENT.getCode());
         // 组装VO
         List<CommentVo> vos = commentList.stream().map(item -> {
             CommentVo vo = new CommentVo();
             BeanUtils.copyProperties(item, vo);
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().build()));
+            vo.setCount(CountVo.builder()
+                    .view(0L)
+                    .like(countLikeVoMap.getOrDefault(item.getId(), LikeCountVo.builder().hasDone(false).num(0L).build()))
+                    .dislike(0L)
+                    .comment(0L)
+                    .favorite(FavoriteCountVo.builder().hasDone(false).num(0L).build())
+                    .build());
             return vo;
         }).toList();
         // 树

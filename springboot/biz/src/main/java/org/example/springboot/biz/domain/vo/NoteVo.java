@@ -45,7 +45,7 @@ public class NoteVo extends Note {
     @Schema(description = "附件列表")
     private List<Attachment> attachmentList;
     /**
-     * 类别
+     * 数量
      */
     @Schema(description = "数量")
     private CountVo count;

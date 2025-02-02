@@ -37,6 +37,11 @@ public class CommentVo extends Comment {
     @Schema(description = "用户")
     private User user;
     /**
+     * 数量
+     */
+    @Schema(description = "数量")
+    private CountVo count;
+    /**
      * 子菜单
      */
     @Schema(description = "子菜单")
