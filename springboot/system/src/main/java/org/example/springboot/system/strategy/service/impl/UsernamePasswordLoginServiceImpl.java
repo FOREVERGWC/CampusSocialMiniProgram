@@ -106,6 +106,9 @@ public class UsernamePasswordLoginServiceImpl implements ILoginService {
         AsyncManager.me().execute(AsyncFactory.updateLogin(user.getId()));
         // 绑定微信
         threadPoolTaskExecutor.execute(() -> {
+            if (body.getJsCode() == null) {
+                return;
+            }
             Map<String, Object> map = new HashMap<>();
             map.put("appid", appId);
             map.put("secret", secret);
