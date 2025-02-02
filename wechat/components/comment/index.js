@@ -181,7 +181,7 @@ Component({
           return;
         }
 
-        const item = commentList[itemIndex];
+        const item = commentList[index];
         item.count.like.hasDone = !item.count.like.hasDone;
         item.count.like.num = res.data;
 
