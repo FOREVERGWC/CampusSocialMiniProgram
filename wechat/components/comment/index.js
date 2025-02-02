@@ -65,34 +65,39 @@ Component({
         return;
       }
 
-      getCommentPage(this.data.queryParams).then(res => {
-        if (res.code !== 200) {
-          wx.showToast({
-            title: res.msg,
-            icon: 'none'
-          });
-          return
-        }
+      this.setData({
+        'queryParams.bizId': this.properties.bizId,
+        'queryParams.bizType': this.properties.bizType
+      }, () => {
+        getCommentPage(this.data.queryParams).then(res => {
+          if (res.code !== 200) {
+            wx.showToast({
+              title: res.msg,
+              icon: 'none'
+            });
+            return
+          }
 
-        res.data?.records.forEach(item => {
-          item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+          res.data?.records.forEach(item => {
+            item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+          })
+
+          processUpdateTime(res.data?.records)
+
+          this.setData({
+            commentList: res.data?.records || [],
+            total: res.data?.total || 0,
+            pages: res.data?.pages || 0
+          })
+        }).catch(error => {
+          if (error.code === 401) {
+            setTimeout(() => {
+              wx.navigateTo({
+                url: '/pages/login/index'
+              })
+            }, 3000)
+          }
         })
-
-        processUpdateTime(res.data?.records)
-
-        this.setData({
-          commentList: res.data?.records || [],
-          total: res.data?.total || 0,
-          pages: res.data?.pages || 0
-        })
-      }).catch(error => {
-        if (error.code === 401) {
-          setTimeout(() => {
-            wx.navigateTo({
-              url: '/pages/login/index'
-            })
-          }, 3000)
-        }
       })
     },
 
