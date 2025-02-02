@@ -108,7 +108,7 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
             RateItemVo vo = new RateItemVo();
             BeanUtils.copyProperties(item, vo);
             vo.setRate(rateMap.getOrDefault(item.getRateId(), Rate.builder().build()));
-            vo.setScore(scoreMap.getOrDefault(item.getRateId(), 10D));
+            vo.setScore(scoreMap.getOrDefault(item.getId(), 10D));
             vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             return vo;
         });
