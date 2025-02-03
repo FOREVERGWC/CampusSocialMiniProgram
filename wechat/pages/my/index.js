@@ -93,6 +93,7 @@ Page({
     this.setData({
       activeTab: e.detail.value
     })
+    // TODO: 刷新对应的栏目
   },
 
   goToLogin() {

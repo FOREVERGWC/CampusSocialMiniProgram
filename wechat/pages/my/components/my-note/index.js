@@ -142,7 +142,7 @@ Component({
           refreshing: false
         })
       })
-    },
+    }
   },
 
   attached() {

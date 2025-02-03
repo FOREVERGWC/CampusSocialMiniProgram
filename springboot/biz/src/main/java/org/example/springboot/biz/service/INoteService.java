@@ -41,6 +41,14 @@ public interface INoteService extends IService<Note> {
     IPage<NoteVo> getMyPage(NoteDto dto);
 
     /**
+     * 查询我的收藏笔记分页
+     *
+     * @param dto 笔记
+     * @return 结果
+     */
+    IPage<NoteVo> getMyFavoritePage(NoteDto dto);
+
+    /**
      * 查询笔记
      *
      * @param dto 笔记

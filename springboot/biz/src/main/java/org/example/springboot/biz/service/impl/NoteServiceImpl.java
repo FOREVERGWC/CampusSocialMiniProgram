@@ -23,10 +23,12 @@ import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.common.enums.BizType;
 import org.example.springboot.system.common.enums.DeleteEnum;
+import org.example.springboot.system.domain.dto.FavoriteDto;
 import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.vo.CountVo;
 import org.example.springboot.system.domain.vo.FavoriteCountVo;
+import org.example.springboot.system.domain.vo.FavoriteVo;
 import org.example.springboot.system.domain.vo.LikeCountVo;
 import org.example.springboot.system.service.*;
 import org.example.springboot.system.utils.UserUtils;
@@ -63,6 +65,8 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     private ICountFavoriteService countFavoriteService;
     @Resource
     private IAttachmentService attachmentService;
+    @Resource
+    private IFavoriteService favoriteService;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -183,6 +187,30 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     }
 
     @Override
+    public IPage<NoteVo> getMyFavoritePage(NoteDto dto) {
+        FavoriteDto favorite = FavoriteDto.builder()
+                .pageNo(dto.getPageNo())
+                .pageSize(dto.getPageSize())
+                .bizType(BizType.BIZ_NOTE.getCode())
+                .build();
+        IPage<FavoriteVo> info = favoriteService.getMyPage(favorite);
+        if (CollectionUtil.isEmpty(info.getRecords())) {
+            return new Page<>(dto.getPageNo(), dto.getPageSize(), 0);
+        }
+        // ID列表
+        List<Long> idList = info.getRecords().stream().map(FavoriteVo::getBizId).toList();
+        dto.setIdList(idList);
+        List<NoteVo> list = getList(dto);
+        if (CollectionUtil.isEmpty(list)) {
+            return new Page<>(dto.getPageNo(), dto.getPageSize(), 0);
+        }
+        // 组装VO
+        IPage<NoteVo> page = new Page<>(info.getCurrent(), info.getSize(), info.getTotal());
+        page.setRecords(list);
+        return page;
+    }
+
+    @Override
     public NoteVo getOne(NoteDto dto) {
         Note one = getWrapper(dto).one();
         if (one == null) {
@@ -297,6 +325,8 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
                 .eq(entity.getStatus() != null, Note::getStatus, entity.getStatus())
                 .eq(entity.getDeleted() != null, Note::getDeleted, entity.getDeleted());
         if (entity instanceof NoteDto dto) {
+            // ID列表
+            wrapper.in(CollectionUtil.isNotEmpty(dto.getIdList()), Note::getId, dto.getIdList());
             Map<String, Object> params = dto.getParams();
             // 创建时间
             Object startCreateTime = params == null ? null : params.get("startCreateTime");

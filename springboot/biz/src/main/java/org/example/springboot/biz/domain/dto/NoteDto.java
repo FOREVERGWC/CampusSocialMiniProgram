@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.example.springboot.biz.domain.entity.Note;
 
 import java.io.Serial;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +28,11 @@ import java.util.Map;
 public class NoteDto extends Note {
     @Serial
     private static final long serialVersionUID = 1L;
+    /**
+     * ID列表
+     */
+    @Schema(description = "ID列表")
+    private List<Long> idList;
     /**
      * 页码
      */
