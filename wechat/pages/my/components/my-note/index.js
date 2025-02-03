@@ -65,6 +65,13 @@ Component({
       }
     },
 
+    onToDetail(event) {
+      const id = event.currentTarget.id;
+      wx.navigateTo({
+        url: `/pages/note/detail/index?id=${id}`
+      });
+    },
+
     getCount() {
       if (!this.properties.userId) {
         return;
