@@ -20,15 +20,7 @@
 }
 
 .empty-notes {
-  display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 60rpx 0;
   color: #999;
-}
-
-.empty-notes image {
-  width: 200rpx;
-  height: 200rpx;
-  margin-bottom: 20rpx;
 }
