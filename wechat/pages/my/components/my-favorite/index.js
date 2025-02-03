@@ -34,6 +34,7 @@ Component({
       pageNo: 1,
       pageSize: 8
     },
+    activeTab: '0',
     records: [],
     total: 0,
     pages: 0,
@@ -46,6 +47,16 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    onTabClick(e) {
+      const selectedTab = e.currentTarget.dataset.tab;
+      if (this.data.activeTab !== selectedTab) {
+        this.setData({
+          activeTab: selectedTab
+        })
+        // TODO 查询笔记、投票、活动
+      }
+    },
+
     onToDetail(event) {
       const id = event.currentTarget.id;
       wx.navigateTo({

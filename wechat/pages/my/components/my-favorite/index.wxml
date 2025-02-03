@@ -1,12 +1,14 @@
 <!--pages/my/components/my-favorite/index.wxml-->
 <view>
   <view class="flex justify-around padding-sm text-darkGray">
-    <text bindtap="onTabClick" data-tab="1" class="{{ activeTab === '0' ? '' : 'text-gray' }}">笔记 {{ visible.public || 0 }}</text>
-    <text class="cuIcon-lock" bindtap="onTabClick" data-tab="0" class="{{ activeTab === '1' ? '' : 'text-gray' }}">投票 {{ visible.private || 0 }}</text>
-    <text class="cuIcon-lock" bindtap="onTabClick" data-tab="0" class="{{ activeTab === '2' ? '' : 'text-gray' }}">活动 {{ visible.private || 0 }}</text>
+    <text bindtap="onTabClick" data-tab="0" class="{{ activeTab === '0' ? 'text-gray' : '' }}">笔记 {{ records.length || 0 }}</text>
+    <!-- <text bindtap="onTabClick" data-tab="1" class="{{ activeTab === '1' ? 'text-gray' : '' }}">投票 {{ visible.private || 0 }}</text>
+    <text bindtap="onTabClick" data-tab="2" class="{{ activeTab === '2' ? 'text-gray' : '' }}">活动 {{ visible.private || 0 }}</text> -->
   </view>
   <view class="flex align-center empty-notes" wx:if="{{ records.length === 0 }}">
-    <text>你还没有收藏任何笔记哦</text>
+    <text wx:if="{{ activeTab === '0' }}">你还没有收藏任何笔记哦</text>
+    <text wx:elif="{{ activeTab === '1' }}">你还没有收藏任何投票哦</text>
+    <text wx:else>你还没有收藏任何活动哦</text>
   </view>
   <view wx:else>
     <view class="cu-card case">
