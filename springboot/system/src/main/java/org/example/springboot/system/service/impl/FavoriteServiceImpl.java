@@ -85,6 +85,13 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
     }
 
     @Override
+    public IPage<FavoriteVo> getMyPage(FavoriteDto dto) {
+        Long userId = UserUtils.getLoginUserId();
+        dto.setUserId(userId);
+        return getPage(dto);
+    }
+
+    @Override
     public FavoriteVo getOne(FavoriteDto dto) {
         Favorite one = getWrapper(dto).one();
         if (one == null) {

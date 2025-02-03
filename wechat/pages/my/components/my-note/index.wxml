@@ -1,2 +1,30 @@
 <!--pages/my/components/my-note/index.wxml-->
-<text>pages/my/components/my-note/index.wxml</text>
+<view class="flex justify-around padding-sm text-darkGray">
+  <text bindtap="onTabClick" data-tab="1" class="{{ activeTab === '1' ? '' : 'text-gray' }}">公开 {{ visible.public || 0 }}</text>
+  <text class="cuIcon-lock" bindtap="onTabClick" data-tab="0" class="{{ activeTab === '0' ? '' : 'text-gray' }}">私密 {{ visible.private || 0 }}</text>
+</view>
+<view class="empty-notes" wx:if="{{ records.length === 0 }}">
+  <image src="/images/empty-notes.png" mode="aspectFit" />
+  <text>还没有笔记哦</text>
+</view>
+<view wx:else>
+  <view class="cu-card case">
+    <view class="flex flex-wrap">
+      <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="cu-item bg-white shadow radius" style="width: calc(50% - 20rpx); margin: 10rpx;">
+        <view class="image" style="margin: 0;">
+          <image src="{{ item.attachmentList[0].filePath }}" />
+        </view>
+        <view class="text-content padding-sm">
+          <view class="margin-bottom-xs">{{ item.title }}</view>
+          <view class="flex justify-between text-grey text-sm">
+            <view class="flex align-center" style="gap: 16rpx;">
+              <view class="cu-avatar round sm" style="background-image:url({{item.user.avatar}});" />
+              <text>{{ item.user.username }}</text>
+            </view>
+            <text class="cuIcon-appreciate{{ item.count.like.hasDone ? 'fill' : '' }}"> {{ item.count.like.num }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

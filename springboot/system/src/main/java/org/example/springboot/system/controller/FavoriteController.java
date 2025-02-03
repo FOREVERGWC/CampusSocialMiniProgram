@@ -79,6 +79,19 @@ public class FavoriteController {
     }
 
     /**
+     * 查询我的收藏分页
+     *
+     * @param dto 收藏
+     * @return 结果
+     */
+    @GetMapping("/my")
+    @Operation(summary = "查询我的收藏分页", description = "查询我的收藏分页", method = "GET")
+    public Result<IPage<FavoriteVo>> getMyPage(FavoriteDto dto) {
+        IPage<FavoriteVo> page = favoriteService.getMyPage(dto);
+        return Result.success(page);
+    }
+
+    /**
      * 查询收藏
      *
      * @param dto 收藏

@@ -20,7 +20,7 @@ Page({
       collections: 0
     },
     activeTab: '0',
-    hasNotes: false
+    hasNotes: true
   },
 
   /**

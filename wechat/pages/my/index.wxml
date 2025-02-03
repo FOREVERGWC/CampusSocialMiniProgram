@@ -40,18 +40,7 @@
   <!-- 笔记标签页 -->
   <t-tabs value="{{ activeTab }}" bind:change="onTabChange">
     <t-tab-panel label="笔记" value="0">
-      <view class="notes-stats">
-        <text>公开 {{ stats.public || 0 }}</text>
-        <text class="cuIcon-lock"> 私密 {{ stats.private || 0 }}</text>
-        <text>合集 {{ stats.collections || 0 }}</text>
-      </view>
-      <view class="empty-notes" wx:if="{{ !hasNotes }}">
-        <image src="/images/empty-notes.png" mode="aspectFit" />
-        <text>还没有笔记哦</text>
-      </view>
-      <view wx:else>
-        <my-note />
-      </view>
+      <my-note userId="{{ userInfo.id }}" />
     </t-tab-panel>
     <t-tab-panel label="收藏" value="1">
       <my-favorite />

@@ -19,14 +19,6 @@
   margin-top: 8rpx;
 }
 
-.notes-stats {
-  display: flex;
-  justify-content: space-around;
-  padding: 20rpx;
-  color: #666;
-  font-size: 28rpx;
-}
-
 .empty-notes {
   display: flex;
   flex-direction: column;

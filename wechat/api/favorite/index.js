@@ -52,6 +52,19 @@ export const getFavoritePage = (params) => {
 }
 
 /**
+ * 查询我的收藏分页
+ * @param params 收藏
+ * @returns {*} 结果
+ */
+export const getMyFavoritePage = (params) => {
+  return request({
+    url: '/favorite/my',
+    method: 'GET',
+    params: params
+  })
+}
+
+/**
  * 查询收藏
  * @param params 收藏
  * @returns {*} 结果

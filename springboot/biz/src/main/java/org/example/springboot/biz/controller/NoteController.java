@@ -13,6 +13,7 @@ import org.example.springboot.common.domain.Result;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -79,6 +80,19 @@ public class NoteController {
     }
 
     /**
+     * 查询我的笔记分页
+     *
+     * @param dto 笔记
+     * @return 结果
+     */
+    @GetMapping("/my")
+    @Operation(summary = "查询我的笔记分页", description = "查询我的笔记分页", method = "GET")
+    public Result<IPage<NoteVo>> getMyPage(NoteDto dto) {
+        IPage<NoteVo> page = noteService.getMyPage(dto);
+        return Result.success(page);
+    }
+
+    /**
      * 查询笔记
      *
      * @param dto 笔记
@@ -140,5 +154,17 @@ public class NoteController {
     public Result<Void> handleComment(@PathVariable Long id) {
         noteService.handleComment(id);
         return Result.success();
+    }
+
+    /**
+     * 根据可见性查询我的笔记数量
+     *
+     * @return 结果
+     */
+    @GetMapping("/count/my/visible")
+    @Operation(summary = "根据可见性查询我的笔记数量", description = "根据可见性查询我的笔记数量", method = "GET")
+    public Result<Map<String, Long>> countMyVisible() {
+        Map<String, Long> map = noteService.countMyVisible();
+        return Result.success(map);
     }
 }

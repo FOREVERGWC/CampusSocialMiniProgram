@@ -8,6 +8,7 @@ import org.example.springboot.biz.domain.entity.Note;
 import org.example.springboot.biz.domain.vo.NoteVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,6 +31,14 @@ public interface INoteService extends IService<Note> {
      * @return 结果
      */
     IPage<NoteVo> getPage(NoteDto dto);
+
+    /**
+     * 查询我的笔记分页
+     *
+     * @param dto 笔记
+     * @return 结果
+     */
+    IPage<NoteVo> getMyPage(NoteDto dto);
 
     /**
      * 查询笔记
@@ -60,4 +69,11 @@ public interface INoteService extends IService<Note> {
      * @param id 文章ID
      */
     void handleComment(Long id);
+
+    /**
+     * 根据可见性查询我的笔记数量
+     *
+     * @return 结果
+     */
+    Map<String, Long> countMyVisible();
 }

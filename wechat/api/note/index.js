@@ -52,6 +52,19 @@ export const getNotePage = (params) => {
 }
 
 /**
+ * 查询我的笔记分页
+ * @param params 笔记
+ * @returns {*} 结果
+ */
+export const getMyNotePage = (params) => {
+  return request({
+    url: '/note/my',
+    method: 'GET',
+    params: params
+  })
+}
+
+/**
  * 查询笔记
  * @param params 笔记
  * @returns {*} 结果
@@ -97,5 +110,16 @@ export const handleCommentNote = (id) => {
   return request({
     url: `/note/comment/${id}`,
     method: 'PUT'
+  })
+}
+
+/**
+ * 根据可见性查询我的笔记数量
+ * @returns {*} 结果
+ */
+export const countMyNoteVisible = () => {
+  return request({
+    url: '/note/count/my/visible',
+    method: 'GET'
   })
 }

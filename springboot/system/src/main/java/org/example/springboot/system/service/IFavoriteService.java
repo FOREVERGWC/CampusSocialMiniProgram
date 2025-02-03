@@ -32,6 +32,14 @@ public interface IFavoriteService extends IService<Favorite> {
     IPage<FavoriteVo> getPage(FavoriteDto dto);
 
     /**
+     * 查询我的收藏分页
+     *
+     * @param dto 收藏
+     * @return 结果
+     */
+    IPage<FavoriteVo> getMyPage(FavoriteDto dto);
+
+    /**
      * 查询收藏
      *
      * @param dto 收藏

@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <p>
@@ -175,6 +176,13 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     }
 
     @Override
+    public IPage<NoteVo> getMyPage(NoteDto dto) {
+        Long userId = UserUtils.getLoginUserId();
+        dto.setUserId(userId);
+        return getPage(dto);
+    }
+
+    @Override
     public NoteVo getOne(NoteDto dto) {
         Note one = getWrapper(dto).one();
         if (one == null) {
@@ -239,6 +247,31 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         }
         note.setCommentable(!note.getCommentable());
         updateById(note);
+    }
+
+    @Override
+    public Map<String, Long> countMyVisible() {
+        Map<String, Long> countMap = Stream.of("0", "1")
+                .collect(Collectors.toMap(
+                        key -> key,
+                        key -> 0L
+                ));
+
+        Long userId = UserUtils.getLoginUserId();
+
+        List<Note> list = lambdaQuery()
+                .eq(Note::getUserId, userId)
+                .list();
+
+        if (CollectionUtil.isEmpty(list)) {
+            return countMap;
+        }
+
+        list.stream()
+                .map(Note::getVisible)
+                .forEach(visible -> countMap.merge(visible, 1L, Long::sum));
+
+        return countMap;
     }
 
     @Override
