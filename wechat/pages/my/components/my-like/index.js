@@ -19,6 +19,12 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    getList() {
+      // TODO: 实现获取点赞列表的逻辑
+    },
 
+    refresh() {
+      this.getList();
+    }
   }
 })

@@ -142,6 +142,11 @@ Component({
           refreshing: false
         })
       })
+    },
+
+    refresh() {
+      this.getCount();
+      this.getRecords();
     }
   },
 

@@ -90,10 +90,23 @@ Page({
   },
 
   onTabChange(e) {
+    const newTab = e.detail.value;
     this.setData({
-      activeTab: e.detail.value
-    })
-    // TODO: 刷新对应的栏目
+      activeTab: newTab
+    });
+
+    let componentInstance = null;
+    if (newTab === '0') {
+      componentInstance = this.selectComponent('#myNote');
+    } else if (newTab === '1') {
+      componentInstance = this.selectComponent('#myFavorite');
+    } else if (newTab === '2') {
+      componentInstance = this.selectComponent('#myLike');
+    }
+
+    if (componentInstance && componentInstance.refresh) {
+      componentInstance.refresh();
+    }
   },
 
   goToLogin() {

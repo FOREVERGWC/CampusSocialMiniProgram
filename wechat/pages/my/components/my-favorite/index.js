@@ -101,6 +101,10 @@ Component({
           refreshing: false
         })
       })
+    },
+
+    refresh() {
+      this.getRecords();
     }
   },
 
