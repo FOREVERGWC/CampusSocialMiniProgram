@@ -65,6 +65,19 @@ export const getMyNotePage = (params) => {
 }
 
 /**
+ * 查询我的点赞笔记分页
+ * @param params 笔记
+ * @returns {*} 结果
+ */
+export const getMyLikeNotePage = (params) => {
+  return request({
+    url: '/note/my/like',
+    method: 'GET',
+    params: params
+  })
+}
+
+/**
  * 查询我的收藏笔记分页
  * @param params 笔记
  * @returns {*} 结果

@@ -93,6 +93,19 @@ public class NoteController {
     }
 
     /**
+     * 查询我的点赞笔记分页
+     *
+     * @param dto 笔记
+     * @return 结果
+     */
+    @GetMapping("/my/like")
+    @Operation(summary = "查询我的点赞笔记分页", description = "查询我的点赞笔记分页", method = "GET")
+    public Result<IPage<NoteVo>> getMyLikePage(NoteDto dto) {
+        IPage<NoteVo> page = noteService.getMyLikePage(dto);
+        return Result.success(page);
+    }
+
+    /**
      * 查询我的收藏笔记分页
      *
      * @param dto 笔记

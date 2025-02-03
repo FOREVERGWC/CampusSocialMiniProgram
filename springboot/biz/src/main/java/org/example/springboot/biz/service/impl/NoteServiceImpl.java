@@ -24,7 +24,9 @@ import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.common.enums.BizType;
 import org.example.springboot.system.common.enums.DeleteEnum;
 import org.example.springboot.system.domain.dto.FavoriteDto;
+import org.example.springboot.system.domain.dto.LikeDto;
 import org.example.springboot.system.domain.entity.Attachment;
+import org.example.springboot.system.domain.entity.Like;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.vo.CountVo;
 import org.example.springboot.system.domain.vo.FavoriteCountVo;
@@ -65,6 +67,8 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     private ICountFavoriteService countFavoriteService;
     @Resource
     private IAttachmentService attachmentService;
+    @Resource
+    private ILikeService likeService;
     @Resource
     private IFavoriteService favoriteService;
     @Resource
@@ -184,6 +188,30 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         Long userId = UserUtils.getLoginUserId();
         dto.setUserId(userId);
         return getPage(dto);
+    }
+
+    @Override
+    public IPage<NoteVo> getMyLikePage(NoteDto dto) {
+        LikeDto like = LikeDto.builder()
+                .pageNo(dto.getPageNo())
+                .pageSize(dto.getPageSize())
+                .bizType(BizType.BIZ_NOTE.getCode())
+                .build();
+        IPage<Like> info = likeService.getMyPage(like);
+        if (CollectionUtil.isEmpty(info.getRecords())) {
+            return new Page<>(dto.getPageNo(), dto.getPageSize(), 0);
+        }
+        // ID列表
+        List<Long> idList = info.getRecords().stream().map(Like::getBizId).toList();
+        dto.setIdList(idList);
+        List<NoteVo> list = getList(dto);
+        if (CollectionUtil.isEmpty(list)) {
+            return new Page<>(dto.getPageNo(), dto.getPageSize(), 0);
+        }
+        // 组装VO
+        IPage<NoteVo> page = new Page<>(info.getCurrent(), info.getSize(), info.getTotal());
+        page.setRecords(list);
+        return page;
     }
 
     @Override

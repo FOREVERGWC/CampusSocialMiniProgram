@@ -1,1 +1,11 @@
 /* pages/my/components/my-like/index.wxss */
+.cu-card.case .cu-item {
+  position: relative;
+  height: 395rpx;
+  overflow: hidden;
+}
+
+.cu-card.case .cu-item .image {
+  height: 260rpx;
+  overflow: hidden;
+}

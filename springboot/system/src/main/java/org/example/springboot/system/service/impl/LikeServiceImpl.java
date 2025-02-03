@@ -37,7 +37,7 @@ public class LikeServiceImpl implements ILikeService {
     public IPage<Like> getMyPage(LikeDto dto) {
         Long bizId = dto.getBizId();
         Integer bizType = dto.getBizType();
-        Long userId = dto.getUserId();
+        Long userId = UserUtils.getLoginUserId();
         Integer pageNo = dto.getPageNo();
         Integer pageSize = dto.getPageSize();
 
@@ -54,21 +54,19 @@ public class LikeServiceImpl implements ILikeService {
             return page;
         }
 
-        // 从 Redis 获取点赞数据
         List<Like> likeList = new ArrayList<>();
         for (String key : keys) {
-            // 获取每个键的点赞记录（假设每个键对应一个点赞记录）
             String value = (String) redisTemplate.opsForValue().get(key);
-
-            // 如果 value 不为空，可以构建 Like 对象并加入到列表中
-            if (value != null) {
-                Like like = new Like();
-                like.setUserId(userId);  // 设置 userId（假设可以从 Redis 键中获取）
-                like.setBizType(bizType);
-                like.setBizId(bizId);
-                like.setCreateTime(LocalDateTime.parse(value));  // 假设存储的是时间
-                likeList.add(like);
+            if (value == null) {
+                continue;
             }
+            Like like = Like.builder()
+                    .userId(userId)
+                    .bizType(bizType)
+                    .bizId(Long.parseLong(key.split(":")[6]))
+                    .createTime(DateUtil.parse(value).toLocalDateTime())
+                    .build();
+            likeList.add(like);
         }
 
         // 进行分页
@@ -104,7 +102,7 @@ public class LikeServiceImpl implements ILikeService {
             count = countLikeService.countPlus(bizId, bizType);
             // 点赞历史
             threadPoolTaskExecutor.execute(() -> {
-                redisTemplate.opsForValue().set(key, DateUtil.today());
+                redisTemplate.opsForValue().set(key, DateUtil.date(LocalDateTime.now()).toString());
                 redisTemplate.expire(key, 30, TimeUnit.DAYS);
             });
         }
