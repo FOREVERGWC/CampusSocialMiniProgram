@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "my-favorite": "./components/my-favorite/index",
+    "my-like": "./components/my-like/index",
+    "my-note": "./components/my-note/index"
+  }
 }
