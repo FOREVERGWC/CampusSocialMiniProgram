@@ -24,7 +24,7 @@
                 <view class="cu-avatar round sm" style="background-image:url({{item.user.avatar}});" />
                 <text>{{ item.user.username }}</text>
               </view>
-              <text class="cuIcon-appreciate{{ item.count.like.hasDone ? 'fill' : '' }}"> {{ item.count.like.num }}</text>
+              <text class="cuIcon-favor{{ item.count.favorite.hasDone ? 'fill' : '' }}"> {{ item.count.favorite.num }}</text>
             </view>
           </view>
         </view>
