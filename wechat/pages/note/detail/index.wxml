@@ -11,7 +11,8 @@
 
   <scroll-view scroll-y="true" style="height: 100vh;">
     <!-- 内容 -->
-    <image src="{{ detail.attachmentList[0].filePath }}" />
+    <image src="{{ detail.attachmentList[0].filePath }}" style="width: 100%;" mode="aspectFit" />
+
     <view class="padding-lr-sm">
       <view class="padding-tb-lg">
         <view class="margin-bottom-sm">{{ detail.title }}</view>
@@ -25,7 +26,7 @@
   </scroll-view>
 
   <view class="cu-bar bg-white tabbar border shop foot">
-    <view class="submit">说点什么</view>
+    <!-- <view class="submit">说点什么</view> -->
     <button class="action text-red" bindtap="handleLikeNote">
       <view class="{{ detail.count.like.hasDone ? 'cuIcon-likefill' : 'cuIcon-like' }}">
         <view class="cu-tag badge">{{ detail.count.like.num }}</view>

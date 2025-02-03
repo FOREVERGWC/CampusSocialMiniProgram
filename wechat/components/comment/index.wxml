@@ -13,7 +13,8 @@
         <view class="cu-avatar round" style="background-image:url({{item.user.avatar}});"></view>
         <view class="content">
           <view class="text-grey">{{ item.user.username }}</view>
-          <view class="text-gray margin-bottom-sm">{{ item.updateTime }} IP属地：{{ item.location }}</view>
+          <!-- <view class="text-gray margin-bottom-sm">{{ item.updateTime }} IP属地：{{ item.location }}</view> -->
+          <view class="text-gray margin-bottom-sm">{{ item.updateTime }}</view>
           <view class="text-gray text-content text-df">{{ item.content }}</view>
           <view class="margin-tb-xs flex justify-between">
             <view class="text-gray">
