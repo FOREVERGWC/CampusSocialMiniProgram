@@ -1,16 +1,17 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index2/index",
     "pages/note/index",
     "pages/note/detail/index",
     "pages/note/save/index",
     "pages/note/category/index",
     "pages/rate/index",
     "pages/rate/detail/index",
+    "pages/rate/record/index",
     "pages/activity/index",
     "pages/message/index",
     "pages/my/index",
-    "pages/logs/logs",
     "pages/login/index",
     "pages/setting/index"
   ],
@@ -39,7 +40,7 @@
         "text": "+"
       },
       {
-        "pagePath": "pages/message/index",
+        "pagePath": "pages/index2/index",
         "text": "消息"
       },
       {
@@ -60,6 +61,7 @@
     "t-sticky": "tdesign-miniprogram/sticky/sticky",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
+    "t-textarea": "tdesign-miniprogram/textarea/textarea",
     "t-navbar": "tdesign-miniprogram/navbar/navbar"
   }
 }

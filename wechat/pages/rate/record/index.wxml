@@ -1,0 +1,18 @@
+<!--pages/rate/record/index.wxml-->
+<view>
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+    <view slot="content">
+      <text>{{ rateItem.title }}</text>
+    </view>
+  </cu-custom>
+
+  <view class="padding-lr">
+    <view class="padding-tb-lg">
+      <t-rate value="{{ score }}" count="{{ 10 }}" bind:change="onChange" allowHalf placement="" />
+    </view>
+
+    <t-textarea value="{{ remark }}" placeholder="请输入评价" bordered maxlength="100" disableDefaultPadding="{{ true }}" indicator bind:change="onInput" />
+
+    <button class="cu-btn block bg-blue margin-tb-lg lg" bind:tap="handleSubmit" disabled="{{ loading }}">提交</button>
+  </view>
+</view>

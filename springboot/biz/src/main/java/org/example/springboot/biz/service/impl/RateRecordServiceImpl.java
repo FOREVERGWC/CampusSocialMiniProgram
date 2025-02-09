@@ -130,6 +130,13 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
     }
 
     @Override
+    public RateRecordVo getMyOne(RateRecordDto dto) {
+        Long userId = UserUtils.getLoginUserId();
+        dto.setUserId(userId);
+        return getOne(dto);
+    }
+
+    @Override
     public RateRecordVo getOne(RateRecordDto dto) {
         RateRecord one = getWrapper(dto).one();
         if (one == null) {
@@ -153,6 +160,19 @@ public class RateRecordServiceImpl extends ServiceImpl<RateRecordMapper, RateRec
     @Override
     public void exportExcel(RateRecord entity, HttpServletResponse response) {
         ExcelUtils.exportExcel(response, this, entity, RateRecord.class, threadPoolTaskExecutor);
+    }
+
+    @Override
+    public Double getAvgScoreByRateItemId(Long rateItemId) {
+        List<RateRecord> rateRecordList = lambdaQuery()
+                .eq(RateRecord::getRateItemId, rateItemId)
+                .list();
+
+        if (CollectionUtil.isEmpty(rateRecordList)) {
+            return 10D;
+        }
+
+        return rateRecordList.stream().collect(Collectors.averagingDouble(RateRecord::getScore));
     }
 
     @Override

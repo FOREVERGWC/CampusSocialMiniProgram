@@ -33,6 +33,14 @@ public interface IRateRecordService extends IService<RateRecord> {
     IPage<RateRecordVo> getPage(RateRecordDto dto);
 
     /**
+     * 查询我的评分记录
+     *
+     * @param dto 评分记录
+     * @return 结果
+     */
+    RateRecordVo getMyOne(RateRecordDto dto);
+
+    /**
      * 查询评分记录
      *
      * @param dto 评分记录
@@ -48,5 +56,19 @@ public interface IRateRecordService extends IService<RateRecord> {
      */
     void exportExcel(RateRecord entity, HttpServletResponse response);
 
+    /**
+     * 根据评分项ID查询平均分数
+     *
+     * @param rateItemId 评分项ID
+     * @return 结果
+     */
+    Double getAvgScoreByRateItemId(Long rateItemId);
+
+    /**
+     * 根据评分项ID列表查询平均分数分组
+     *
+     * @param rateItemIds 评分项ID列表
+     * @return 结果
+     */
     Map<Long, Double> mapRateItemAvgScoreByRateItemIdList(List<Long> rateItemIds);
 }

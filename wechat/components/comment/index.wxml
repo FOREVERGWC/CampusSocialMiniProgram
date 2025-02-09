@@ -1,6 +1,6 @@
 <!--components/comment/index.wxml-->
 <view class="padding-tb-lg solids-top">
-  <view class="text-gray text-sm">共 {{ total }} 条评论</view>
+  <view class="padding-lr text-gray text-sm">共 {{ total }} 条评论</view>
   <view class="cu-bar input">
     <view class="cu-avatar round" style="background-image: url({{avatar}});" />
     <input type="text" :adjust-position="false" placeholder="有话要说，快来评论" class="bg-gray round" cursor-spacing="10" confirm-type="send" bindinput="onInput" bindconfirm="onReply" value="{{ content }}" />
@@ -25,7 +25,7 @@
           </view>
 
           <!-- 子列表 -->
-          <view class="child-comments radius padding-sm">
+          <view wx:if="{{ item.children.length > 0 }}" class="child-comments radius padding-sm">
             <view class="cu-item" wx:for="{{ item.children }}" wx:for-item="child" wx:for-index="childIndex" wx:key="childIndex">
               <view class="content">
                 <view class="text-gray text-content text-df">{{ child.user.username }}：{{ child.content }}</view>

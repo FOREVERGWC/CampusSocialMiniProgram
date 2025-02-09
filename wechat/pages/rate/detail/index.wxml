@@ -6,9 +6,24 @@
     </view>
   </cu-custom>
 
-  <view>{{ detail.content }}</view>
+  <!-- 内容 -->
+  <view class="padding-lr">
+    <swiper wx:if="{{ detail.attachmentList.length > 0 }}" class="screen-swiper square-dot" indicator-dots="{{ true }}" circular="{{ true }}" autoplay="{{ true }}" interval="5000" duration="500">
+      <swiper-item wx:for="{{ detail.attachmentList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
+        <image src="{{ item.filePath }}" style="width: 100%;" mode="aspectFit" />
+        <!-- <video src="{{ item.filePath }}" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" /> -->
+      </swiper-item>
+    </swiper>
 
-  <view>
-    <t-rate value="{{ value }}" bind:change="onChange" />
+    <view class="padding-top-lg">
+      <view>{{ detail.content }}</view>
+      <view class="padding-tb-sm">
+        <t-rate value="{{ detail.score }}" count="{{ 10 }}" />
+      </view>
+      <view class="flex justify-between align-center padding-bottom-sm">
+        <view class="text-gray text-sm">编辑于{{ detail.updateTime }}</view>
+        <button class="cu-btn sm round" bind:tap="goToScore">评分</button>
+      </view>
+    </view>
   </view>
 </view>

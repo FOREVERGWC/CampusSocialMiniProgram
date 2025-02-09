@@ -92,6 +92,19 @@ public class RateRecordController {
     }
 
     /**
+     * 查询我的评分记录
+     *
+     * @param dto 评分记录
+     * @return 结果
+     */
+    @GetMapping("/my")
+    @Operation(summary = "查询我的评分记录", description = "查询我的评分记录", method = "GET")
+    public Result<RateRecordVo> getMyOne(RateRecordDto dto) {
+        RateRecordVo vo = rateRecordService.getMyOne(dto);
+        return Result.success(vo);
+    }
+
+    /**
      * 查询评分记录
      *
      * @param id 主键ID

@@ -16,8 +16,11 @@ import org.example.springboot.biz.mapper.RateMapper;
 import org.example.springboot.biz.service.IRateService;
 import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
+import org.example.springboot.system.common.enums.BizType;
 import org.example.springboot.system.common.enums.DeleteEnum;
+import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
+import org.example.springboot.system.service.IAttachmentService;
 import org.example.springboot.system.service.IUserService;
 import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
@@ -38,6 +41,8 @@ import java.util.stream.Collectors;
 public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IRateService, IBaseService<Rate> {
     @Resource
     private IUserService userService;
+    @Resource
+    private IAttachmentService attachmentService;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -101,12 +106,17 @@ public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IR
         if (one == null) {
             return null;
         }
+        // ID
+        Long id = one.getId();
         // 用户
         User user = Optional.ofNullable(userService.getById(one.getUserId())).orElse(User.builder().name("已删除").build());
+        // 评分附件
+        List<Attachment> attachmentList = attachmentService.listByBizIdAndBizType(id, BizType.BIZ_RATE.getCode());
         // 组装VO
         RateVo vo = new RateVo();
         BeanUtils.copyProperties(one, vo);
         vo.setUser(user);
+        vo.setAttachmentList(attachmentList);
         return vo;
     }
 

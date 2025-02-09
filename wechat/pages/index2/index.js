@@ -13,13 +13,15 @@ Page({
     canIUseNicknameComp: wx.canIUse('input.type.nickname'),
   },
   bindViewTap() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    console.log('aaaa');
   },
   onChooseAvatar(e) {
-    const { avatarUrl } = e.detail
-    const { nickName } = this.data.userInfo
+    const {
+      avatarUrl
+    } = e.detail
+    const {
+      nickName
+    } = this.data.userInfo
     this.setData({
       "userInfo.avatarUrl": avatarUrl,
       hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
@@ -27,7 +29,9 @@ Page({
   },
   onInputChange(e) {
     const nickName = e.detail.value
-    const { avatarUrl } = this.data.userInfo
+    const {
+      avatarUrl
+    } = this.data.userInfo
     this.setData({
       "userInfo.nickName": nickName,
       hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
@@ -46,4 +50,11 @@ Page({
       }
     })
   },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow() {
+    this.getTabBar().init()
+  }
 })

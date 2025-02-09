@@ -1,6 +1,9 @@
 import {
   getRateItemById
 } from "../../../api/rate/item";
+import {
+  baseUrl
+} from '../../../utils/common'
 
 // pages/rate/detail/index.js
 Page({
@@ -10,24 +13,33 @@ Page({
    */
   data: {
     id: null,
-    detail: {},
-    value: 3
+    detail: {}
   },
 
   getDetail() {
     getRateItemById(this.data.id).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      res.data.score = +res.data.score
+      res.data.attachmentList.forEach(attachement => {
+        attachement.filePath = baseUrl + attachement.filePath
+      })
+
       this.setData({
-        detail: res.data
+        detail: res.data || {}
       })
     })
   },
 
-  onChange(e) {
-    const {
-      value
-    } = e.detail;
-    this.setData({
-      value,
+  goToScore() {
+    wx.navigateTo({
+      url: `/pages/rate/record/index?rateItemId=${this.data.id}`
     });
   },
 

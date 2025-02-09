@@ -32,7 +32,7 @@ Component({
         icon: 'chat',
         label: '消息',
         count: 4,
-        url: "/pages/message/index"
+        url: "/pages/index2/index"
       },
       {
         icon: 'user',

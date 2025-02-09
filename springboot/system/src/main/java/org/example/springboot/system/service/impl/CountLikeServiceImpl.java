@@ -141,7 +141,7 @@ public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike
     public Boolean getHasLikeByBizIdAndBizType(Long bizId, Integer bizType) {
         Long userId = UserUtils.getLoginUserId();
 
-        String key = "user:" + userId + "like:bizType:" + bizType + ":bizId:" + bizId;
+        String key = "user:" + userId + ":like:bizType:" + bizType + ":bizId:" + bizId;
         return redisTemplate.opsForValue().get(key) != null;
     }
 
@@ -159,7 +159,7 @@ public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike
             return LikeCountVo.builder().hasDone(false).num(0L).build();
         }
 
-        String key = "user:" + userId + "like:bizType:" + bizType + ":bizId:" + bizId;
+        String key = "user:" + userId + ":like:bizType:" + bizType + ":bizId:" + bizId;
         boolean flag = redisTemplate.opsForValue().get(key) != null;
 
         return LikeCountVo.builder().hasDone(flag).num(one.getCount()).build();
@@ -193,11 +193,11 @@ public class CountLikeServiceImpl extends ServiceImpl<CountLikeMapper, CountLike
         }
 
         List<String> keys = bizIds.stream()
-                .map(bizId -> "user:" + userId + "like:bizType:" + bizType + ":bizId:" + bizId)
+                .map(bizId -> "user:" + userId + ":like:bizType:" + bizType + ":bizId:" + bizId)
                 .toList();
 
         Map<Long, Object> doneMap = bizIds.stream()
-                .map(item -> new AbstractMap.SimpleEntry<>(item, redisTemplate.opsForValue().get("user:" + userId + "like:bizType:" + bizType + ":bizId:" + item)))
+                .map(item -> new AbstractMap.SimpleEntry<>(item, redisTemplate.opsForValue().get("user:" + userId + ":like:bizType:" + bizType + ":bizId:" + item)))
                 .filter(entry -> entry.getValue() != null)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 

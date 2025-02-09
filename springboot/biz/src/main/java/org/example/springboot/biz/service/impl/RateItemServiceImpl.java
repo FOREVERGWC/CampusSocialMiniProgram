@@ -122,12 +122,15 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
         }
         // 评分
         Rate rate = Optional.ofNullable(rateService.getById(one.getRateId())).orElse(Rate.builder().build());
+        // 分数
+        Double score = rateRecordService.getAvgScoreByRateItemId(one.getId());
         // 评分项附件
         List<Attachment> attachmentList = attachmentService.listByBizIdAndBizType(one.getId(), BizType.BIZ_RATE_ITEM.getCode());
         // 组装VO
         RateItemVo vo = new RateItemVo();
         BeanUtils.copyProperties(one, vo);
         vo.setRate(rate);
+        vo.setScore(score);
         vo.setAttachmentList(attachmentList);
 
         return vo;

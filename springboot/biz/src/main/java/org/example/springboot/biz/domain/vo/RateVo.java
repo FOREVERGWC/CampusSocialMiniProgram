@@ -5,9 +5,11 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.springboot.biz.domain.entity.Rate;
+import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
 
 import java.io.Serial;
+import java.util.List;
 
 /**
  * <p>
@@ -26,13 +28,13 @@ public class RateVo extends Rate {
     @Serial
     private static final long serialVersionUID = 1L;
     /**
-     * 占位符
-     */
-    @Schema(description = "占位符")
-    private String placeholder;
-    /**
      * 用户
      */
     @Schema(description = "用户")
     private User user;
+    /**
+     * 附件列表
+     */
+    @Schema(description = "附件列表")
+    private List<Attachment> attachmentList;
 }

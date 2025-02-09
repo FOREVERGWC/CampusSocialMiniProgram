@@ -20,7 +20,7 @@
           <image src="{{ item.img }}" mode="aspectFill"></image>
         </view>
         <view class="text-content padding-xs">
-          <view class="margin-bottom-xs">{{ item.title }}</view>
+          <view class="margin-bottom-sm">{{ item.title }}</view>
           <view class="flex justify-between text-grey text-sm">
             <view class="flex align-center" style="gap: 8rpx;">
               <view class="cu-avatar round xs" style="background-image:url({{item.user.avatar}});"></view>

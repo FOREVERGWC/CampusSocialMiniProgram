@@ -3,6 +3,9 @@ import {
   records
 } from '../../utils/common'
 import {
+  getRateById
+} from '../../api/rate/index'
+import {
   getRateItemList
 } from '../../api/rate/item'
 import {
@@ -18,6 +21,7 @@ Page({
     queryParams: {
       rateId: null
     },
+    detail: {},
     records: [],
     loading: true,
     refreshing: false,
@@ -25,6 +29,23 @@ Page({
   },
 
   getRecords() {
+    getRateById(this.data.queryParams.rateId).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      res.data.attachmentList.forEach(attachement => {
+        attachement.filePath = baseUrl + attachement.filePath
+      })
+
+      this.setData({
+        detail: res.data || {}
+      })
+    })
     getRateItemList(this.data.queryParams).then(res => {
       if (res.code !== 200) {
         wx.showToast({
