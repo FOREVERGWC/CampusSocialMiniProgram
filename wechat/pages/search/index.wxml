@@ -1,0 +1,79 @@
+<!--pages/search/index.wxml-->
+<view class="bg-white" style="height: 100vh;">
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}" />
+
+  <view class="padding-sm solids-bottom">
+    <t-search value="{{ key }}" placeholder="有意思的内容" shape="round" bind:change="onInput" bind:submit="onSearchConfirm" />
+  </view>
+
+  <!-- 历史记录 -->
+  <view class="padding-sm">
+    <view class="flex justify-between">
+      <text class="text-black">历史记录</text>
+      <view class="cuIcon-delete" />
+    </view>
+    <view class="padding-top-sm">
+      <view class="cu-tag round line-gray">椭圆</view>
+      <view class="cu-tag round line-gray">记录2</view>
+    </view>
+  </view>
+
+  <!-- 猜你想搜 -->
+  <view class="padding-sm">
+    <view class="flex justify-between align-center">
+      <text class="text-black">猜你想搜</text>
+      <view class="flex">
+        <view class="{{ refresh ? 'cuIcon-refresh rotate' : 'cuIcon-refresh'}}" bind:tap="onRefreshTap" />
+        <view class="padding-lr-sm text-gray">|</view>
+        <view class="cuIcon-more" />
+      </view>
+    </view>
+    <view class="padding-top-sm flex flex-wrap">
+      <view class="basis-df padding-tb-xs">tiktok refugee</view>
+      <view class="basis-df padding-tb-xs">逆水寒哪吒</view>
+      <view class="basis-df padding-tb-xs">第五人格限定版扭秧歌</view>
+      <view class="basis-df padding-tb-xs">计算机考研方向</view>
+      <view class="basis-df padding-top-xs">软件测试</view>
+      <view class="basis-df padding-top-xs">李闪光光</view>
+    </view>
+  </view>
+
+  <!-- 校园热点 -->
+  <view class="padding-lr-sm">
+    <view class="padding-tb-sm cuIcon-hotfill text-red">校园热点</view>
+    <view class="text-black">
+      <view class="padding-tb-sm solids-bottom">
+        <view class="flex justify-between">
+          <view>
+            <text class="padding-right-sm text-bold text-red">1</text>石矶娘娘配音演员竟是公司行政
+          </view>
+          <view class="text-gray">909.7万</view>
+        </view>
+      </view>
+      <view class="padding-tb-sm solids-bottom">
+        <view class="flex justify-between">
+          <view>
+            <text class="padding-right-sm text-bold text-red">2</text>哪吒为啥不姓李
+          </view>
+          <view class="text-gray">628万</view>
+        </view>
+      </view>
+      <view class="padding-tb-sm solids-bottom">
+        <view class="flex justify-between">
+          <view>
+            <text class="padding-right-sm text-bold text-red">3</text>无量仙翁仿妆
+          </view>
+          <view class="text-gray">619.6万</view>
+        </view>
+      </view>
+      <view class="padding-tb-sm solids-bottom">
+        <view class="flex justify-between">
+          <view>
+            <text class="padding-right-sm text-bold text-grey">4</text>马斯克谈DeepSeek
+          </view>
+          <view class="text-gray">592.2万</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

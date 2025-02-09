@@ -114,8 +114,17 @@ Page({
   },
 
   onTabsChange(event) {
+    const activeTab = event.detail.value;
+
+    if (activeTab === '4') {
+      wx.navigateTo({
+        url: `/pages/search/index`
+      })
+      return
+    }
+
     this.setData({
-      activeTab: event.detail.value
+      activeTab: activeTab
     });
   },
 

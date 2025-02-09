@@ -2,6 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/index2/index",
+    "pages/search/index",
+    "pages/search/detail/index",
     "pages/note/index",
     "pages/note/detail/index",
     "pages/note/save/index",
@@ -57,6 +59,7 @@
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-input": "tdesign-miniprogram/input/input",
     "t-rate": "tdesign-miniprogram/rate/rate",
+    "t-search": "tdesign-miniprogram/search/search",
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",
     "t-sticky": "tdesign-miniprogram/sticky/sticky",
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
