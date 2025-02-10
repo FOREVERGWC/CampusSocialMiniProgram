@@ -1,21 +1,23 @@
 <!--pages/activity/index.wxml-->
 <cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}" />
 
-<view class="cu-card article" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" data-id="{{ item.id }}">
-  <view class="cu-item shadow">
-    <view class="title">
-      <view class="text-cut">{{ item.title }}</view>
-    </view>
-    <view class="content">
-      <view class="desc">
-        <view class="text-content">
-          <view>{{ item.content }}</view>
-          <view>活动地点：{{ item.location }}</view>
-        </view>
-        <view class="text-gray text-sm flex justify-between">
-          <view>活动时间：{{ item.startDatetime }} - {{ item.endDatetime }}</view>
+<scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="scroll-container padding-bottom-xl" lower-threshold="100">
+  <view class="cu-card article" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" data-id="{{ item.id }}">
+    <view class="cu-item shadow">
+      <view class="title">
+        <view class="text-cut">{{ item.title }}</view>
+      </view>
+      <view class="content">
+        <view class="desc">
+          <view class="text-content">
+            <view>{{ item.content }}</view>
+            <view>活动地点：{{ item.location }}</view>
+          </view>
+          <view class="text-gray text-sm flex justify-between">
+            <view>活动时间：{{ item.startDatetime }} - {{ item.endDatetime }}</view>
+          </view>
         </view>
       </view>
     </view>
   </view>
-</view>
+</scroll-view>

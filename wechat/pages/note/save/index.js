@@ -34,7 +34,8 @@ Page({
     props: {
       label: 'name',
       value: 'id'
-    }
+    },
+    loading: true
   },
 
   getRecords() {
@@ -87,6 +88,10 @@ Page({
         categoryLabel: this.data.categoryList?.find(item => item.id === res.data?.categoryId)?.name || '',
         visibleValue: [res.data?.visible || ''],
         visibleLabel: this.data.visibleList?.find(item => item.value === res.data?.visible)?.label || '',
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false
       })
     })
   },
@@ -151,6 +156,10 @@ Page({
           url: `/pages/note/detail/index?id=${this.data.detail.id}`
         });
       }, 1000)
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
     })
   },
 
@@ -182,6 +191,10 @@ Page({
           url: `/pages/note/detail/index?id=${this.data.detail.id}`
         });
       }, 1000)
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
     })
   },
 

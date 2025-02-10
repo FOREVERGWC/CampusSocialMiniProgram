@@ -96,14 +96,85 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
+    this.setData({
+      queryParams: {
+        pageNo: 1,
+        pageSize: 8
+      },
+      refreshing: true,
+      records: []
+    });
 
+    this.getRecords();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
+    if (this.data.loading) {
+      return
+    }
 
+    if (this.data.end) {
+      wx.showToast({
+        title: '已经到底啦！~',
+        icon: 'none'
+      })
+
+      return
+    }
+
+    if (this.data.queryParams.pageNo >= this.data.pages) {
+      this.setData({
+        loading: false,
+        end: true
+      });
+
+      wx.showToast({
+        title: '已经到底啦！~',
+        icon: 'none'
+      });
+
+      return
+    }
+
+    this.setData({
+      'queryParams.pageNo': this.data.queryParams.pageNo + 1,
+      loading: true
+    });
+
+    getActivityPage(this.data.queryParams).then(res => {
+      if (res.code === 200) {
+        const records = res.data?.records || [];
+        if (records.length === 0) {
+          this.setData({
+            end: true,
+            loading: false
+          });
+          wx.showToast({
+            title: '已经到底啦！~',
+            icon: 'none'
+          });
+          return;
+        }
+
+        this.setData({
+          records: [...this.data.records, ...records],
+          total: res.data?.total || 0,
+          pages: res.data?.pages || 0,
+          loading: false
+        });
+      } else {
+        this.setData({
+          loading: false
+        });
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+      }
+    });
   },
 
   /**

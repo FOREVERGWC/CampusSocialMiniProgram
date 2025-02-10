@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
@@ -39,25 +41,30 @@ public class Activity extends BaseEntity {
      * 标题
      */
     @Schema(description = "标题")
+    @NotBlank(message = "标题不能为空！")
     private String title;
     /**
      * 内容
      */
     @Schema(description = "内容")
+    @NotBlank(message = "内容不能为空！")
     private String content;
     /**
      * 开始时间
      */
     @Schema(description = "开始时间")
+    @NotNull(message = "开始时间不能为空！")
     private LocalDateTime startDatetime;
     /**
      * 结束时间
      */
     @Schema(description = "结束时间")
+    @NotNull(message = "结束时间不能为空！")
     private LocalDateTime endDatetime;
     /**
      * 地点
      */
     @Schema(description = "地点")
+    @NotBlank(message = "地点不能为空！")
     private String location;
 }

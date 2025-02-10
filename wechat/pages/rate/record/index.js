@@ -106,6 +106,10 @@ Page({
           url: `/pages/rate/detail/index?id=${this.data.rateItemId}`
         });
       }, 1000)
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
     })
   },
 

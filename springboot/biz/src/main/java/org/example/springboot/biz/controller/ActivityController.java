@@ -10,6 +10,7 @@ import org.example.springboot.biz.domain.entity.Activity;
 import org.example.springboot.biz.domain.vo.ActivityVo;
 import org.example.springboot.biz.service.IActivityService;
 import org.example.springboot.common.domain.Result;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class ActivityController {
      */
     @PostMapping
     @Operation(summary = "添加、修改活动", description = "添加、修改活动", method = "POST")
-    public Result<Void> save(@RequestBody Activity activity) {
+    public Result<Void> save(@Validated @RequestBody Activity activity) {
         activityService.saveOrUpdate(activity);
         return Result.success();
     }
