@@ -1,9 +1,25 @@
 <!--pages/search/detail/index.wxml-->
-<view class="bg-white" style="height: 100vh;">
-  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}" />
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}" />
 
+<view class="bg-white padding-lr-sm padding-top-sm solids-bottom">
+  <t-search value="{{ key }}" placeholder="有意思的内容" shape="round" bind:change="onInput" bind:submit="getRecords" />
+
+  <view class="flex justify-around padding-sm text-gray">
+    <text class="text-black padding-bottom-xs" style="border-bottom: 2px solid red;">校园趣事</text>
+    <text>校园评分</text>
+    |
+    <text class="cuIcon-filter">筛选</text>
+  </view>
+</view>
+
+<scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="padding-bottom-xl" lower-threshold="100">
+  <!-- 校园趣事 -->
+  <campus-fun records="{{ records }}" />
+</scroll-view>
+
+<!-- <view class="bg-white" style="height: 100vh;">
   <view class="padding-lr-sm padding-top-sm solids-bottom">
-    <t-search value="{{ key }}" placeholder="有意思的内容" shape="round" bind:change="onInput" />
+    <t-search value="{{ key }}" placeholder="有意思的内容" shape="round" bind:change="onInput" bind:submit="getRecords" />
 
     <view class="flex justify-around padding-sm text-gray">
       <text class="text-black padding-bottom-xs" style="border-bottom: 2px solid red;">校园趣事</text>
@@ -12,4 +28,8 @@
       <text class="cuIcon-filter">筛选</text>
     </view>
   </view>
-</view>
+
+  <view>
+    <campus-fun records="{{ records }}" />
+  </view>
+</view> -->

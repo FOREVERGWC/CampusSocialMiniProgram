@@ -1,7 +1,7 @@
-// pages/index/components/campus-fun/index.js
+// components/campus-fun/index.js
 import {
   baseUrl
-} from '../../../../utils/common'
+} from '../../utils/common'
 
 Component({
   options: {
