@@ -73,6 +73,7 @@
     "t-tabs": "tdesign-miniprogram/tabs/tabs",
     "t-tab-panel": "tdesign-miniprogram/tab-panel/tab-panel",
     "t-textarea": "tdesign-miniprogram/textarea/textarea",
-    "t-navbar": "tdesign-miniprogram/navbar/navbar"
+    "t-navbar": "tdesign-miniprogram/navbar/navbar",
+    "t-upload": "tdesign-miniprogram/upload/upload"
   }
 }

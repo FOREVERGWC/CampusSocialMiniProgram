@@ -5,6 +5,12 @@ import {
 import {
   saveNote
 } from '../../../api/note/index'
+import {
+  removeAttachmentBatchByIds
+} from '../../../api/attachment/index'
+import {
+  baseUrl
+} from '../../../utils/common'
 
 Page({
 
@@ -31,6 +37,7 @@ Page({
     visibleVisible: false,
     visibleValue: [],
     visibleLabel: '',
+    fileList: [],
     props: {
       label: 'name',
       value: 'id'
@@ -88,6 +95,12 @@ Page({
         categoryLabel: this.data.categoryList?.find(item => item.id === res.data?.categoryId)?.name || '',
         visibleValue: [res.data?.visible || ''],
         visibleLabel: this.data.visibleList?.find(item => item.value === res.data?.visible)?.label || '',
+        fileList: res.data?.attachmentList.map(item => ({
+          id: item.id,
+          url: baseUrl + item.filePath,
+          name: item.fileName,
+          type: 'image'
+        })) || []
       })
     }).finally(() => {
       this.setData({
@@ -126,6 +139,65 @@ Page({
     this.setData({
       [`${key}Visible`]: false
     });
+  },
+
+  handleAdd(e) {
+    const fileList = this.data.fileList;
+    const files = e.detail.files;
+    console.log(e.currentTarget.id, fileList, files);
+    // TODO: 文件分片处理
+    wx.uploadFile({
+      url: 'http://localhost:9091/file/upload',
+      filePath: files[0].url,
+      name: 'file',
+      formData: {
+        bizId: e.currentTarget.id,
+        bizType: 8,
+        hashCode: 'asfsafasf436rg',
+        fileName: files[0].name,
+        fileSize: files[0].size,
+        chunkSize: 10 * 1024 * 1024,
+        chunkIndex: 0,
+        chunkTotal: 1
+      },
+      success(res) {
+        const data = res.data
+        //do something
+      }
+    })
+  },
+
+  handleClick(e) {
+    console.log(e.detail.file);
+  },
+
+  handleSuccess(e) {
+    console.log('success', e);
+    const files = e.detail.files;
+    this.setData({
+      fileList: files
+    });
+  },
+
+  handleRemove(e) {
+    removeAttachmentBatchByIds([e.detail.file.id]).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      this.setData({
+        fileList: this.data.fileList.filter(item => item.id !== e.detail.file.id)
+      })
+
+      wx.showToast({
+        title: '删除成功！~',
+        icon: 'none'
+      })
+    })
   },
 
   handleDraft() {

@@ -35,9 +35,10 @@ public class NoteController {
      */
     @PostMapping
     @Operation(summary = "添加、修改笔记", description = "添加、修改笔记", method = "POST")
-    public Result<Note> save(@RequestBody Note note) {
+    public Result<NoteVo> save(@RequestBody Note note) {
         noteService.saveOrUpdate(note);
-        return Result.success(note);
+        NoteVo vo = noteService.getOne(NoteDto.builder().id(note.getId()).build());
+        return Result.success(vo);
     }
 
     /**
