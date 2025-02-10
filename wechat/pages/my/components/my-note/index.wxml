@@ -7,7 +7,7 @@
   <view class="flex align-center empty-notes" wx:if="{{ records.length === 0 }}">
     <text>还没有笔记哦</text>
   </view>
-  <view wx:else>
+  <scroll-view wx:else scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" style="height: 50vh;">
     <view class="cu-card case">
       <view class="flex flex-wrap">
         <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="cu-item bg-white shadow radius" style="width: calc(50% - 20rpx); margin: 10rpx;">
@@ -27,5 +27,5 @@
         </view>
       </view>
     </view>
-  </view>
+  </scroll-view>
 </view>

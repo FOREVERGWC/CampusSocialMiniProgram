@@ -104,10 +104,10 @@
         </el-table-column>
         <el-table-column label="状态" prop="status"/>
         <el-table-column label="浏览量" prop="count.view"/>
-        <el-table-column label="点赞量" prop="count.like"/>
+        <el-table-column label="点赞量" prop="count.like.num"/>
         <el-table-column label="点踩量" prop="count.dislike"/>
         <el-table-column label="评论量" prop="count.comment"/>
-        <el-table-column label="收藏量" prop="count.favorite"/>
+        <el-table-column label="收藏量" prop="count.favorite.num"/>
         <el-table-column label="操作" width="180">
           <template v-slot="{ row }">
             <el-button icon="Edit" plain type="primary" @click="showEdit(row)">编辑</el-button>

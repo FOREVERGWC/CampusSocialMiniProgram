@@ -47,9 +47,12 @@ Component({
       pageNo: 1,
       pageSize: 8
     },
-    commentList: [],
+    records: [],
     total: 0,
     pages: 0,
+    loading: true,
+    refreshing: false,
+    end: true,
     avatar: getApp().globalData.avatar,
     content: '',
     reply: {
@@ -67,6 +70,10 @@ Component({
       if (!this.properties.bizId || !this.properties.bizType) {
         return;
       }
+
+      this.setData({
+        end: false
+      })
 
       this.setData({
         'queryParams.bizId': this.properties.bizId,
@@ -88,7 +95,7 @@ Component({
           processUpdateTime(res.data?.records)
 
           this.setData({
-            commentList: res.data?.records || [],
+            records: res.data?.records || [],
             total: res.data?.total || 0,
             pages: res.data?.pages || 0
           })
@@ -100,6 +107,11 @@ Component({
               })
             }, 3000)
           }
+        })
+
+        this.setData({
+          loading: false,
+          refreshing: false
         })
       })
     },
@@ -174,31 +186,123 @@ Component({
         }
 
         const {
-          commentList
+          records
         } = this.data;
 
         const index = e.currentTarget.dataset.ancestorId !== '0' ?
-          commentList.findIndex(item => item.id === e.currentTarget.dataset.ancestorId) :
-          commentList.findIndex(item => item.id === e.currentTarget.id);
+          records.findIndex(item => item.id === e.currentTarget.dataset.ancestorId) :
+          records.findIndex(item => item.id === e.currentTarget.id);
 
         if (index === -1) {
           return;
         }
 
         const item = e.currentTarget.dataset.ancestorId !== '0' ?
-          commentList[index].children?.find(child => child.id === e.currentTarget.id) :
-          commentList[index];
+          records[index].children?.find(child => child.id === e.currentTarget.id) :
+          records[index];
 
         item.count.like.hasDone = !item.count.like.hasDone;
         item.count.like.num = res.data;
 
         this.setData({
-          commentList: commentList
+          records: records
         });
         // TODO 操作成功
       }).catch(() => {
         // TODO 操作失败
       })
+    },
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh() {
+      this.setData({
+        queryParams: {
+          pageNo: 1,
+          pageSize: 8
+        },
+        refreshing: true,
+        records: []
+      });
+
+      this.getList();
+    },
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom() {
+      if (this.data.loading) {
+        return
+      }
+
+      if (this.data.end) {
+        wx.showToast({
+          title: '已经到底啦！~',
+          icon: 'none'
+        })
+
+        return
+      }
+
+      if (this.data.queryParams.pageNo >= this.data.pages) {
+        this.setData({
+          loading: false,
+          end: true
+        });
+
+        wx.showToast({
+          title: '已经到底啦！~',
+          icon: 'none'
+        });
+
+        return
+      }
+
+      this.setData({
+        'queryParams.pageNo': this.data.queryParams.pageNo + 1,
+        loading: true
+      });
+
+      getCommentPage(this.data.queryParams).then(res => {
+        if (res.code === 200) {
+          const records = res.data?.records || [];
+
+          if (records.length === 0) {
+            this.setData({
+              end: true,
+              loading: false
+            });
+            wx.showToast({
+              title: '已经到底啦！~',
+              icon: 'none'
+            });
+            return;
+          }
+
+          records.forEach(item => {
+            item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+          })
+
+          processUpdateTime(records)
+
+          this.setData({
+            records: [...this.data.records, ...records],
+            total: res.data?.total || 0,
+            pages: res.data?.pages || 0,
+            loading: false
+          });
+        } else {
+          this.setData({
+            loading: false
+          });
+          wx.showToast({
+            title: res.msg,
+            icon: 'none'
+          });
+        }
+      });
     }
   },
 

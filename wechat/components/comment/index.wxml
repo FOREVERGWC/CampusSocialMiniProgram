@@ -6,34 +6,36 @@
     <input type="text" :adjust-position="false" placeholder="有话要说，快来评论" class="bg-gray round" cursor-spacing="10" confirm-type="send" bindinput="onInput" bindconfirm="onReply" value="{{ content }}" />
   </view>
 
-  <view class="cu-card dynamic margin-bottom-xl">
-    <view class="cu-list menu-avatar comment padding-bottom-xl">
-      <!-- 主列表 -->
-      <view class="cu-item" wx:for="{{ commentList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
-        <view class="cu-avatar round" style="background-image:url({{item.user.avatar}});"></view>
-        <view class="content">
-          <view class="text-grey">{{ item.user.username }}</view>
-          <!-- <view class="text-gray margin-bottom-sm">{{ item.updateTime }} IP属地：{{ item.location }}</view> -->
-          <view class="text-gray margin-bottom-sm">{{ item.updateTime }}</view>
-          <view class="text-gray text-content text-df">{{ item.content }}</view>
-          <view class="margin-tb-xs flex justify-between">
-            <view class="text-gray">
-              <text class="{{ item.count.like.hasDone ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate' }}" bindtap="handleLikeComment" id="{{ item.id }}" data-ancestor-id="0"> {{ item.count.like.num }}</text>
-              <text class="cuIcon-bad margin-lr" />
-              <text class="cuIcon-message" bindtap="onReplyClick" id="{{ item.id }}" data-user-id="{{ item.userId }}" data-username="{{ item.createBy }}" />
+  <scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" style="height: 50vh;">
+    <view class="cu-card dynamic margin-bottom-xl">
+      <view class="cu-list menu-avatar comment padding-bottom-xl">
+        <!-- 主列表 -->
+        <view class="cu-item" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index">
+          <view class="cu-avatar round" style="background-image:url({{item.user.avatar}});"></view>
+          <view class="content">
+            <view class="text-grey">{{ item.user.username }}</view>
+            <!-- <view class="text-gray margin-bottom-sm">{{ item.updateTime }} IP属地：{{ item.location }}</view> -->
+            <view class="text-gray margin-bottom-sm">{{ item.updateTime }}</view>
+            <view class="text-gray text-content text-df">{{ item.content }}</view>
+            <view class="margin-tb-xs flex justify-between">
+              <view class="text-gray">
+                <text class="{{ item.count.like.hasDone ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate' }}" bindtap="handleLikeComment" id="{{ item.id }}" data-ancestor-id="0"> {{ item.count.like.num }}</text>
+                <text class="cuIcon-bad margin-lr" />
+                <text class="cuIcon-message" bindtap="onReplyClick" id="{{ item.id }}" data-user-id="{{ item.userId }}" data-username="{{ item.createBy }}" />
+              </view>
             </view>
-          </view>
 
-          <!-- 子列表 -->
-          <view wx:if="{{ item.children.length > 0 }}" class="child-comments radius padding-sm">
-            <view class="cu-item" wx:for="{{ item.children }}" wx:for-item="child" wx:for-index="childIndex" wx:key="childIndex">
-              <view class="content">
-                <view class="text-gray text-content text-df">{{ child.user.username }}：{{ child.content }}</view>
-                <view class="margin-top-sm flex justify-between">
-                  <view class="text-gray text-df">{{ child.updateTime }}</view>
-                  <view class="text-gray">
-                    <text class="{{ child.count.like.hasDone ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate' }}" bindtap="handleLikeComment" id="{{ child.id }}" data-ancestor-id="{{ item.id }}"> {{ child.count.like.num }}</text>
-                    <text class="cuIcon-message margin-left-sm" bindtap="onReplyClick" id="{{ child.id }}" data-user-id="{{ child.userId }}" data-username="{{ child.createBy }}" />
+            <!-- 子列表 -->
+            <view wx:if="{{ item.children.length > 0 }}" class="child-comments radius padding-sm">
+              <view class="cu-item" wx:for="{{ item.children }}" wx:for-item="child" wx:for-index="childIndex" wx:key="childIndex">
+                <view class="content">
+                  <view class="text-gray text-content text-df">{{ child.user.username }}：{{ child.content }}</view>
+                  <view class="margin-top-sm flex justify-between">
+                    <view class="text-gray text-df">{{ child.updateTime }}</view>
+                    <view class="text-gray">
+                      <text class="{{ child.count.like.hasDone ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate' }}" bindtap="handleLikeComment" id="{{ child.id }}" data-ancestor-id="{{ item.id }}"> {{ child.count.like.num }}</text>
+                      <text class="cuIcon-message margin-left-sm" bindtap="onReplyClick" id="{{ child.id }}" data-user-id="{{ child.userId }}" data-username="{{ child.createBy }}" />
+                    </view>
                   </view>
                 </view>
               </view>
@@ -42,5 +44,5 @@
         </view>
       </view>
     </view>
-  </view>
+  </scroll-view>
 </view>
