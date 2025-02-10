@@ -1,0 +1,17 @@
+<!--pages/release/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}" />
+
+<view class="cu-card article" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" id="{{ item.id }}" data-url="{{ item.url }}" bind:tap="goToDetail">
+  <view class="cu-item shadow">
+    <view class="title">
+      <view class="text-cut">{{ item.title }}</view>
+    </view>
+    <view class="content">
+      <view class="desc">
+        <view class="text-content">
+          <view>{{ item.content }}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

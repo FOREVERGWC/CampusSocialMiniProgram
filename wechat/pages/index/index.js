@@ -49,6 +49,10 @@ Page({
   },
 
   getNoteRecords() {
+    this.setData({
+      'queryParams.status': '1',
+      'queryParams.visibke': '1'
+    })
     getNotePage(this.data.queryParams).then(res => {
       if (res.code !== 200) {
         wx.showToast({

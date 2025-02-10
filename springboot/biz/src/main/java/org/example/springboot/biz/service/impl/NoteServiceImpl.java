@@ -78,9 +78,23 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
     public boolean save(Note entity) {
         Long userId = UserUtils.getLoginUserId();
         entity.setUserId(userId);
-        entity.setStatus(NoteStatus.PUBLISHED.getCode());
+        entity.setStatus(NoteStatus.UNPUBLISHED.getCode());
         entity.setDeleted(DeleteEnum.NORMAL.getCode());
-        return super.save(entity);
+
+        NoteVo one = getOne(NoteDto.builder()
+                .userId(userId)
+                .status(NoteStatus.UNPUBLISHED.getCode())
+                .build());
+
+        if (one == null) {
+            return super.save(entity);
+        }
+
+        entity.setId(one.getId());
+        entity.setTitle(StrUtil.isBlank(entity.getTitle()) ? one.getTitle() : entity.getTitle());
+        entity.setContent(StrUtil.isBlank(entity.getContent()) ? one.getContent() : entity.getContent());
+        entity.setCategoryId(entity.getCategoryId() == null ? one.getCategoryId() : entity.getCategoryId());
+        return super.updateById(entity);
     }
 
     @Override
@@ -88,6 +102,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         if (entity.getId() == null) {
             return save(entity);
         }
+
         return super.updateById(entity);
     }
 

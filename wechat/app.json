@@ -4,6 +4,7 @@
     "pages/index2/index",
     "pages/search/index",
     "pages/search/detail/index",
+    "pages/release/index",
     "pages/note/index",
     "pages/note/detail/index",
     "pages/note/save/index",
@@ -38,7 +39,7 @@
         "text": "活动"
       },
       {
-        "pagePath": "pages/note/save/index",
+        "pagePath": "pages/release/index",
         "text": "+"
       },
       {
@@ -58,6 +59,8 @@
     "t-cell": "tdesign-miniprogram/cell/cell",
     "t-cell-group": "tdesign-miniprogram/cell-group/cell-group",
     "t-input": "tdesign-miniprogram/input/input",
+    "t-picker": "tdesign-miniprogram/picker/picker",
+    "t-picker-item": "tdesign-miniprogram/picker-item/picker-item",
     "t-rate": "tdesign-miniprogram/rate/rate",
     "t-search": "tdesign-miniprogram/search/search",
     "t-skeleton": "tdesign-miniprogram/skeleton/skeleton",

@@ -1,2 +1,47 @@
 <!--pages/note/save/index.wxml-->
-<text>pages/note/save/index.wxml</text>
+<view style="height: 100vh;">
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+    <view slot="content">
+      <text>校园趣事</text>
+    </view>
+  </cu-custom>
+
+  <view class="padding-lr">
+    <view class="padding-top-lg">
+      <t-textarea value="{{ title }}" placeholder="在此输入标题" bordered maxlength="50" disableDefaultPadding="{{ true }}" indicator data-key="title" bind:change="onInput" />
+    </view>
+    <view class="padding-tb-lg">
+      <t-textarea value="{{ content }}" placeholder="在此输入内容" bordered maxlength="255" disableDefaultPadding="{{ true }}" indicator data-key="content" bind:change="onInput" />
+    </view>
+  </view>
+
+  <t-cell-group theme="card">
+    <t-cell hover arrow>
+      <text class="text-grey" slot="title" bind:tap="onPicker" data-key="category">类别</text>
+      <text class="text-grey text-sm" slot="note">{{ categoryLabel }}</text>
+    </t-cell>
+    <t-cell hover arrow>
+      <text class="text-grey" slot="title" bind:tap="onPicker" data-key="visible">可见性</text>
+      <text class="text-grey text-sm" slot="note">{{ visibleLabel }}</text>
+    </t-cell>
+  </t-cell-group>
+
+  <view class="padding-top-lg padding-bottom-xl padding-lr">
+    <button class="cu-btn block bg-blue lg" bind:tap="handleDraft" disabled="{{ loading }}">保存草稿</button>
+    <view class="padding-xs" />
+    <button class="cu-btn block bg-blue lg" bind:tap="handlePublish" disabled="{{ loading }}">发布</button>
+  </view>
+
+  <t-picker visible="{{ categoryVisible }}" value="{{ categoryValue }}" keys="{{ props }}" data-key="category" title="选择类别" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+    <t-picker-item options="{{ categoryList }}">
+      <block wx:for="{{ categoryList }}" wx:key="index" wx:for-item="item">
+        <view wx:if="{{ item.icon }}" slot="label-suffix--{{ index }}">
+          <view class="cuIcon-{{ item.icon }}" />
+        </view>
+      </block>
+    </t-picker-item>
+  </t-picker>
+  <t-picker visible="{{ visibleVisible }}" value="{{ visibleValue }}" data-key="visible" title="选择可见性" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+    <t-picker-item options="{{ visibleList }}" />
+  </t-picker>
+</view>

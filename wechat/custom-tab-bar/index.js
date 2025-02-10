@@ -26,7 +26,7 @@ Component({
       {
         icon: 'plus',
         label: '',
-        url: "/pages/note/save/index"
+        url: "/pages/release/index"
       },
       {
         icon: 'chat',
