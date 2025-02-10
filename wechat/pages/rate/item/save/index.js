@@ -1,13 +1,13 @@
-// pages/rate/index.js
+// pages/rate/item/save/index.js
 import {
   getRateById
-} from '../../api/rate/index'
+} from '../../../../api/rate/index'
 import {
-  getRateItemList
-} from '../../api/rate/item'
+  saveRateItem
+} from "../../../../api/rate/item";
 import {
   baseUrl
-} from '../../utils/common'
+} from '../../../../utils/common'
 
 Page({
 
@@ -19,10 +19,9 @@ Page({
       rateId: null
     },
     detail: {},
-    records: [],
-    loading: true,
-    refreshing: false,
-    end: true
+    title: '',
+    content: '',
+    loading: false
   },
 
   getRecords() {
@@ -43,7 +42,25 @@ Page({
         detail: res.data || {}
       })
     })
-    getRateItemList(this.data.queryParams).then(res => {
+  },
+
+  onInput(e) {
+    const key = e.currentTarget.dataset.key;
+    this.setData({
+      [`${key}`]: e.detail.value
+    })
+  },
+
+  handleSubimt() {
+    this.setData({
+      loading: true
+    })
+    const data = {
+      title: this.data.title,
+      content: this.data.content,
+      rateId: this.data.queryParams.rateId
+    }
+    saveRateItem(data).then(res => {
       if (res.code !== 200) {
         wx.showToast({
           title: res.msg,
@@ -52,47 +69,31 @@ Page({
         return
       }
 
-      res.data.forEach(item => {
-        item.attachmentList.forEach(attachement => {
-          attachement.filePath = baseUrl + attachement.filePath
+      wx.showToast({
+        title: '发布成功！~',
+        icon: 'none'
+      })
+
+      setTimeout(() => {
+        wx.redirectTo({
+          url: `/pages/rate/index?id=${this.data.queryParams.rateId}`,
         })
-      })
-
+      }, 1000)
+    }).finally(() => {
       this.setData({
-        records: res.data || []
+        loading: false
       })
-    }).catch(error => {
-      if (error.code === 401) {
-        setTimeout(() => {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }, 3000)
-      }
     })
-  },
-
-  onToDetail(event) {
-    const id = event.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: `/pages/rate/detail/index?id=${id}`
-    });
-  },
-
-  goToAdd() {
-    wx.navigateTo({
-      url: `/pages/rate/item/save/index?rateId=${this.data.queryParams.rateId}`
-    });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const id = options.id;
+    const rateId = options.rateId;
     this.setData({
       queryParams: {
-        rateId: id
+        rateId: rateId
       }
     });
   },

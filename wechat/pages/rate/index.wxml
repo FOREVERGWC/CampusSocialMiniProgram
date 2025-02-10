@@ -7,7 +7,7 @@
   </cu-custom>
 
   <!-- 内容 -->
-  <view class="padding-lr">
+  <view class="bg-white padding-lr solids-bottom">
     <swiper wx:if="{{ detail.attachmentList.length > 0 }}" class="screen-swiper square-dot" indicator-dots="{{ true }}" circular="{{ true }}" autoplay="{{ true }}" interval="5000" duration="500">
       <swiper-item wx:for="{{ detail.attachmentList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
         <image src="{{ item.filePath }}" style="width: 100%;" mode="aspectFit" />
@@ -16,8 +16,11 @@
     </swiper>
 
     <view class="padding-top-lg">
-      <view class="margin-bottom-sm">{{ detail.content }}</view>
-      <view class="text-gray text-sm">编辑于{{ detail.updateTime }} {{ detail.location }}</view>
+      <view>{{ detail.content }}</view>
+      <view class="padding-tb-sm text-gray text-sm">编辑于{{ detail.updateTime }} {{ detail.location }}</view>
+      <view class="padding-bottom-sm">
+        <button class="cu-btn round sm" bind:tap="goToAdd">添加</button>
+      </view>
     </view>
   </view>
 
@@ -27,7 +30,6 @@
         <view class="text-cut">{{ item.title }}</view>
       </view>
       <view class="content">
-        <!-- <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg" mode="aspectFill" /> -->
         <image src="{{ item.attachmentList[0].filePath }}" mode="aspectFill" />
         <view class="desc">
           <view class="text-content">
