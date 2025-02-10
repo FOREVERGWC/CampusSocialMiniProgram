@@ -11,6 +11,7 @@
     "pages/note/category/index",
     "pages/rate/index",
     "pages/rate/detail/index",
+    "pages/rate/save/index",
     "pages/rate/record/index",
     "pages/activity/index",
     "pages/activity/save/index",

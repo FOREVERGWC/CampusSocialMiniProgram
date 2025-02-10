@@ -1,0 +1,21 @@
+<!--pages/rate/save/index.wxml-->
+<view style="height: 100vh;">
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+    <view slot="content">
+      <text>校园评分</text>
+    </view>
+  </cu-custom>
+
+  <view class="padding-lr">
+    <view class="padding-top-lg">
+      <t-textarea value="{{ title }}" placeholder="在此输入标题" bordered maxlength="50" disableDefaultPadding="{{ true }}" indicator data-key="title" bind:change="onInput" />
+    </view>
+    <view class="padding-tb-lg">
+      <t-textarea value="{{ content }}" placeholder="在此输入内容" bordered maxlength="255" disableDefaultPadding="{{ true }}" indicator data-key="content" bind:change="onInput" />
+    </view>
+  </view>
+
+  <view class="padding-top-lg padding-bottom-xl padding-lr">
+    <button class="cu-btn block bg-blue lg" bind:tap="handleSubimt" disabled="{{ loading }}">发布</button>
+  </view>
+</view>

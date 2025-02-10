@@ -91,11 +91,15 @@ public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IR
         List<Long> userIdList = info.getRecords().stream().map(Rate::getUserId).toList();
         List<User> userList = userService.listByIds(userIdList);
         Map<Long, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, item -> item));
+        // 评分附件
+        List<Long> idList = info.getRecords().stream().map(Rate::getId).toList();
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_RATE_ITEM.getCode());
         // 组装VO
         return info.convert(item -> {
             RateVo vo = new RateVo();
             BeanUtils.copyProperties(item, vo);
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));
+            vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             return vo;
         });
     }

@@ -30,7 +30,7 @@ Component({
       },
       {
         icon: 'chat',
-        label: '消息',
+        label: '找搭子',
         count: 4,
         url: "/pages/index2/index"
       },
