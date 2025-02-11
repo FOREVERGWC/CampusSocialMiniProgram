@@ -26,41 +26,13 @@ public enum BizType {
      */
     AVATAR(1, "头像"),
     /**
-     * 二手车
-     */
-    BIZ_CAR(2, "二手车"),
-    /**
-     * 二手车品牌
-     */
-    BIZ_CAR_BRAND(3, "二手车品牌"),
-    /**
-     * 二手车型号
-     */
-    BIZ_CAR_MODEL(4, "二手车型号"),
-    /**
      * 评论
      */
     SYS_COMMENT(5, "评论"),
     /**
-     * 排行榜
-     */
-    BIZ_RANK(6, "排行榜"),
-    /**
-     * 品牌服务
-     */
-    BIZ_SERVER(7, "品牌服务"),
-    /**
      * 笔记
      */
-    BIZ_NOTE(8, "笔记"),
-    /**
-     * 评分
-     */
-    BIZ_RATE(9, "评分"),
-    /**
-     * 评分项
-     */
-    BIZ_RATE_ITEM(10, "评分项");
+    BIZ_NOTE(8, "笔记");
 
 
     private static final Map<Integer, BizType> map = new HashMap<>();
