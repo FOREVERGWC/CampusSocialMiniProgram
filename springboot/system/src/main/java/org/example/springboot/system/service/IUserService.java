@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.system.domain.dto.UserDto;
+import org.example.springboot.system.domain.dto.UserEditDto;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.vo.UserVo;
 
@@ -93,4 +94,11 @@ public interface IUserService extends IService<User> {
      * @return 结果
      */
     Map<Long, User> mapByUserIds(List<Long> userIds);
+
+    /**
+     * 修改用户信息
+     *
+     * @param dto 用户信息
+     */
+    void edit(UserEditDto dto);
 }

@@ -1,4 +1,4 @@
-package org.example.springboot.system.domain.model;
+package org.example.springboot.system.domain.model.reset;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

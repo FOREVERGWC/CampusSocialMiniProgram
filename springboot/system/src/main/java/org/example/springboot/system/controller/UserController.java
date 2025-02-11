@@ -7,11 +7,13 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.UserDto;
+import org.example.springboot.system.domain.dto.UserEditDto;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.model.AssignRoleBody;
 import org.example.springboot.system.domain.vo.UserVo;
 import org.example.springboot.system.service.IUserRoleLinkService;
 import org.example.springboot.system.service.IUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +45,21 @@ public class UserController {
     @Operation(summary = "添加、修改用户信息", description = "添加、修改用户信息", method = "POST")
     public Result<Void> save(@RequestBody User user) {
         userService.saveOrUpdate(user);
+        return Result.success();
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param user 用户信息
+     * @return 结果
+     */
+    @PreAuthorize("hasAuthority('system:user:edit')")
+    @PatchMapping
+    @Operation(summary = "修改用户信息", description = "修改用户信息", method = "PATCH")
+    public Result<Void> edit(@Validated @RequestBody UserEditDto user) {
+
+        userService.edit(user);
         return Result.success();
     }
 

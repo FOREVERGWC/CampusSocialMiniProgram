@@ -16,6 +16,7 @@ import org.example.springboot.common.utils.ExcelUtils;
 import org.example.springboot.system.common.enums.EnableStatus;
 import org.example.springboot.system.common.enums.Gender;
 import org.example.springboot.system.domain.dto.UserDto;
+import org.example.springboot.system.domain.dto.UserEditDto;
 import org.example.springboot.system.domain.entity.Role;
 import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.vo.UserVo;
@@ -195,6 +196,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
 
         return userList.stream().collect(Collectors.toMap(User::getId, Function.identity()));
+    }
+
+    @Transactional
+    @Override
+    public void edit(UserEditDto dto) {
+        User entity = User.builder().build();
+        BeanUtils.copyProperties(dto, entity);
+        saveOrUpdate(entity);
     }
 
     @Override

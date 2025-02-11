@@ -11,7 +11,8 @@ import org.example.springboot.system.domain.entity.User;
 import org.example.springboot.system.domain.model.LoginBody;
 import org.example.springboot.system.domain.model.LoginUser;
 import org.example.springboot.system.domain.model.RegisterBody;
-import org.example.springboot.system.domain.model.ResetBody;
+import org.example.springboot.system.domain.model.reset.ResetBody;
+import org.example.springboot.system.domain.model.reset.ResetEmailBody;
 import org.example.springboot.system.domain.vo.CaptchaVo;
 import org.example.springboot.system.domain.vo.MenuVo;
 import org.example.springboot.system.domain.vo.MetaVo;
@@ -101,6 +102,17 @@ public class AuthServiceImpl implements IAuthService {
         User user = userService.getByEmail(body.getEmail());
         user.setPassword(bCryptPasswordEncoder.encode(body.getPassword()));
         userService.updateById(user);
+    }
+
+    @Override
+    public void updateEmail(ResetEmailBody body) {
+        if (!Objects.equals(body.getNewEmail(), body.getConfirmEmail())) {
+            throw new ServiceException(ResultCode.RESET_CONFIRM_EMAIL_ERROR);
+        }
+        captchaService.validateEmailResetCode(body.getNewEmail(), body.getCode());
+        User user = userService.getByEmail(body.getEmail());
+        user.setEmail(body.getNewEmail());
+        userService.saveOrUpdate(user);
     }
 
     @Override

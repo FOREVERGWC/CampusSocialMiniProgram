@@ -5,6 +5,8 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.example.springboot.common.common.enums.ResultCode;
+import org.example.springboot.common.common.exception.ServiceException;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.common.enums.AuthType;
 import org.example.springboot.system.common.enums.LoginType;
@@ -84,8 +86,8 @@ public class UsernamePasswordLoginServiceImpl implements ILoginService {
             throw e;
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             // 用户名或密码错误
-            exception = e;
-            throw e;
+            exception = new ServiceException(ResultCode.LOGIN_USERNAME_OR_PASSWORD_ERROR);
+            throw new ServiceException(ResultCode.LOGIN_USERNAME_OR_PASSWORD_ERROR);
         } catch (InternalAuthenticationServiceException e) {
             // 系统内部错误
             exception = e;

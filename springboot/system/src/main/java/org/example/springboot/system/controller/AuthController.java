@@ -7,7 +7,8 @@ import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.model.LoginBody;
 import org.example.springboot.system.domain.model.LoginUser;
 import org.example.springboot.system.domain.model.RegisterBody;
-import org.example.springboot.system.domain.model.ResetBody;
+import org.example.springboot.system.domain.model.reset.ResetBody;
+import org.example.springboot.system.domain.model.reset.ResetEmailBody;
 import org.example.springboot.system.domain.vo.CaptchaVo;
 import org.example.springboot.system.domain.vo.RouteVo;
 import org.example.springboot.system.service.IAuthService;
@@ -65,6 +66,19 @@ public class AuthController {
     @Operation(summary = "重置密码", description = "重置密码", method = "PUT")
     public Result<Void> resetPassword(@Validated @RequestBody ResetBody body) {
         authService.resetPassword(body);
+        return Result.success();
+    }
+
+    /**
+     * 修改邮箱
+     *
+     * @param body 邮箱信息
+     * @return 结果
+     */
+    @PutMapping("/email/update")
+    @Operation(summary = "修改邮箱", description = "修改邮箱", method = "PUT")
+    public Result<Void> updateEmail(@Validated @RequestBody ResetEmailBody body) {
+        authService.updateEmail(body);
         return Result.success();
     }
 

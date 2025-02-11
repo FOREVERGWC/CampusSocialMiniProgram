@@ -3,7 +3,8 @@ package org.example.springboot.system.service;
 import org.example.springboot.system.domain.model.LoginBody;
 import org.example.springboot.system.domain.model.LoginUser;
 import org.example.springboot.system.domain.model.RegisterBody;
-import org.example.springboot.system.domain.model.ResetBody;
+import org.example.springboot.system.domain.model.reset.ResetBody;
+import org.example.springboot.system.domain.model.reset.ResetEmailBody;
 import org.example.springboot.system.domain.vo.CaptchaVo;
 import org.example.springboot.system.domain.vo.RouteVo;
 
@@ -45,6 +46,13 @@ public interface IAuthService {
      * @param body 密码信息
      */
     void resetPassword(ResetBody body);
+
+    /**
+     * 修改邮箱
+     *
+     * @param body 邮箱信息
+     */
+    void updateEmail(ResetEmailBody body);
 
     /**
      * 获取当前用户路由信息

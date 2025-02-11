@@ -94,6 +94,10 @@ public enum ResultCode {
      */
     RESET_CONFIRM_ERROR(901, "修改失败！确认密码不一致"),
     /**
+     * 修改失败！确认邮箱不一致
+     */
+    RESET_CONFIRM_EMAIL_ERROR(500, "修改失败！确认邮箱不一致"),
+    /**
      * 参数缺失
      */
     PARAM_LOST_ERROR(4001, "参数缺失"),
