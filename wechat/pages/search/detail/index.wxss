@@ -1,1 +1,4 @@
 /* pages/search/detail/index.wxss */
+.solid-bottom-red {
+  border-bottom: 2px solid red;
+}

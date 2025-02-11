@@ -1,5 +1,1 @@
 /* pages/activity/index.wxss */
-
-.scroll-container {
-  height: calc(100vh + 300rpx);
-}

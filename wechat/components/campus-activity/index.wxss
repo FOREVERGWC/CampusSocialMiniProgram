@@ -1,0 +1,4 @@
+/* components/campus-activity/index.wxss */
+.cu-card:not(:first-of-type)>.cu-item {
+  margin-top: 0;
+}

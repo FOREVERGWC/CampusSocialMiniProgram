@@ -3,6 +3,12 @@ import {
   getNotePage
 } from '../../../api/note/index'
 import {
+  getRatePage
+} from '../../../api/rate/index'
+import {
+  getActivityPage
+} from '../../../api/activity/index'
+import {
   baseUrl,
   defaultAvatar
 } from '../../../utils/common'
@@ -18,7 +24,7 @@ Page({
       pageNo: 1,
       pageSize: 8
     },
-    activeTab: '1',
+    activeTab: '0',
     records: [],
     total: 0,
     pages: 0,
@@ -34,11 +40,37 @@ Page({
     })
   },
 
+  onTabClick(e) {
+    const selectedTab = e.currentTarget.dataset.tab;
+    if (this.data.activeTab !== selectedTab) {
+      this.setData({
+        activeTab: selectedTab
+      }, () => {
+        this.getRecords()
+      })
+    }
+  },
+
   getRecords() {
     this.setData({
       end: false
     })
 
+    if (this.data.activeTab === '0') {
+      this.getNoteRecords()
+    } else if (this.data.activeTab === '1') {
+      this.getRateRecords()
+    } else if (this.data.activeTab == '2') {
+      this.getActivityRecords()
+    }
+
+    this.setData({
+      loading: false,
+      refreshing: false
+    })
+  },
+
+  getNoteRecords() {
     this.setData({
       'queryParams.status': '1',
       'queryParams.visibke': '1'
@@ -74,10 +106,64 @@ Page({
         }
       })
     })
+  },
 
-    this.setData({
-      loading: false,
-      refreshing: false
+  getRateRecords() {
+    getRatePage(this.data.queryParams).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      res.data?.records.forEach(item => {
+        item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+        item.attachmentList.forEach(attachement => {
+          attachement.filePath = baseUrl + attachement.filePath
+        })
+      })
+
+      this.setData({
+        records: res.data?.records || [],
+        total: res.data?.total || 0,
+        pages: res.data?.pages || 0
+      })
+    }).catch(error => {
+      if (error.code === 401) {
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }, 3000)
+      }
+    })
+  },
+
+  getActivityRecords() {
+    getActivityPage(this.data.queryParams).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      this.setData({
+        records: res.data?.records || [],
+        total: res.data?.total || 0,
+        pages: res.data?.pages || 0
+      })
+    }).catch(error => {
+      if (error.code === 401) {
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }, 3000)
+      }
     })
   },
 

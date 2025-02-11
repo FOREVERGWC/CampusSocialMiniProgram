@@ -5,8 +5,9 @@
   <t-search value="{{ key }}" placeholder="有意思的内容" shape="round" bind:change="onInput" bind:submit="getRecords" />
 
   <view class="flex justify-around padding-sm text-gray">
-    <text class="text-black padding-bottom-xs" style="border-bottom: 2px solid red;">校园趣事</text>
-    <text>校园评分</text>
+    <text bindtap="onTabClick" data-tab="0" class="{{ activeTab === '0' ? 'solid-bottom-red text-black padding-bottom-xs' : '' }}">校园趣事</text>
+    <text bindtap="onTabClick" data-tab="1" class="{{ activeTab === '1' ? 'solid-bottom-red text-black padding-bottom-xs' : '' }}">校园评分</text>
+    <text bindtap="onTabClick" data-tab="2" class="{{ activeTab === '2' ? 'solid-bottom-red text-black padding-bottom-xs' : '' }}">活动</text>
     |
     <text class="cuIcon-filter">筛选</text>
   </view>
@@ -14,22 +15,10 @@
 
 <scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="padding-bottom-xl" lower-threshold="100">
   <!-- 校园趣事 -->
-  <campus-fun records="{{ records }}" />
+  <campus-fun wx:if="{{ activeTab === '0' }}" records="{{ records }}" />
+
+  <!-- 校园活动 -->
+  <campus-activity wx:if="{{ activeTab === '2' }}" records="{{ records }}" />
+
+  <view class="cu-load over" />
 </scroll-view>
-
-<!-- <view class="bg-white" style="height: 100vh;">
-  <view class="padding-lr-sm padding-top-sm solids-bottom">
-    <t-search value="{{ key }}" placeholder="有意思的内容" shape="round" bind:change="onInput" bind:submit="getRecords" />
-
-    <view class="flex justify-around padding-sm text-gray">
-      <text class="text-black padding-bottom-xs" style="border-bottom: 2px solid red;">校园趣事</text>
-      <text>校园评分</text>
-      |
-      <text class="cuIcon-filter">筛选</text>
-    </view>
-  </view>
-
-  <view>
-    <campus-fun records="{{ records }}" />
-  </view>
-</view> -->

@@ -4,7 +4,7 @@
     <text bindtap="onTabClick" data-tab="1" class="{{ activeTab === '1' ? '' : 'text-gray' }}">公开 {{ visible.public || 0 }}</text>
     <text bindtap="onTabClick" data-tab="0" class="cuIcon-lock {{ activeTab === '0' ? '' : 'text-gray' }}">私密 {{ visible.private || 0 }}</text>
   </view>
-  <view class="flex align-center empty-notes" wx:if="{{ records.length === 0 }}">
+  <view wx:if="{{ records.length === 0 }}" class="flex align-center empty-notes">
     <text>还没有笔记哦</text>
   </view>
   <scroll-view wx:else scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" style="height: 50vh;">

@@ -1,4 +1,4 @@
-// components/campus-fun/index.js
+// components/campus-activity/index.js
 Component({
   options: {
     styleIsolation: 'apply-shared'
@@ -25,11 +25,6 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    onToDetail(event) {
-      const id = event.currentTarget.dataset.id;
-      wx.navigateTo({
-        url: `/pages/note/detail/index?id=${id}`
-      });
-    }
+
   }
 })
