@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.example.springboot.common.domain.Result;
 import org.example.springboot.system.domain.dto.FileChunkDto;
+import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.vo.AttachmentCheckVo;
 import org.example.springboot.system.service.IFileService;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,9 +65,9 @@ public class FileController {
      */
     @PostMapping("/upload")
     @Operation(summary = "上传文件", description = "上传文件", method = "POST")
-    public Result<String> upload(FileChunkDto dto) {
-        String path = fileService.uploadFile(dto);
-        return Result.success("上传成功！", path);
+    public Result<Attachment> upload(FileChunkDto dto) {
+        Attachment attachment = fileService.uploadFile(dto);
+        return Result.success(attachment);
     }
 
     /**

@@ -20,7 +20,7 @@ import java.util.List;
  * </p>
  */
 @RestController
-@RequestMapping("/attachmentChunk")
+@RequestMapping("/attachment/chunk")
 @Tag(name = "附件分片", description = "附件分片")
 public class AttachmentChunkController {
     @Resource

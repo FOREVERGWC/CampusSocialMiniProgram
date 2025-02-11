@@ -3,6 +3,7 @@ package org.example.springboot.system.domain.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.example.springboot.system.domain.entity.Attachment;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -29,6 +30,11 @@ public class AttachmentCheckVo implements Serializable {
      */
     @Schema(description = "文件已上传")
     private Boolean hasUpload;
+    /**
+     * 附件
+     */
+    @Schema(description = "附件")
+    private Attachment attachment;
     /**
      * 缺失分片序号
      */

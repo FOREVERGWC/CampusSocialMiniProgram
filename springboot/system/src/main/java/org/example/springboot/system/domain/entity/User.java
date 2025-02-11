@@ -67,7 +67,7 @@ public class User extends BaseEntity {
      * 姓名
      */
     @Schema(description = "姓名")
-    @ExcelProperty(value = "角色名称")
+    @ExcelProperty(value = "姓名")
     private String name;
     /**
      * 头像
@@ -96,10 +96,10 @@ public class User extends BaseEntity {
     @Dict(enumClass = EnableStatus.class)
     private String status;
     /**
-     * 电话
+     * 手机
      */
-    @Schema(description = "电话")
-    @ExcelProperty(value = "电话")
+    @Schema(description = "手机")
+    @ExcelProperty(value = "手机")
     private String phone;
     /**
      * 邮箱

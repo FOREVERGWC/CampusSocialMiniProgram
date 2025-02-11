@@ -13,7 +13,6 @@ import org.example.springboot.system.domain.model.AssignRoleBody;
 import org.example.springboot.system.domain.vo.UserVo;
 import org.example.springboot.system.service.IUserRoleLinkService;
 import org.example.springboot.system.service.IUserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +57,6 @@ public class UserController {
     @PatchMapping
     @Operation(summary = "修改用户信息", description = "修改用户信息", method = "PATCH")
     public Result<Void> edit(@Validated @RequestBody UserEditDto user) {
-
         userService.edit(user);
         return Result.success();
     }
