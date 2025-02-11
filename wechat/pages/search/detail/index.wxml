@@ -18,7 +18,7 @@
   <campus-fun wx:if="{{ activeTab === '0' }}" records="{{ records }}" />
 
   <!-- 校园活动 -->
-  <campus-activity wx:if="{{ activeTab === '2' }}" records="{{ records }}" />
+  <campus-activity wx:elif="{{ activeTab === '2' }}" records="{{ records }}" />
 
   <view class="cu-load over" />
 </scroll-view>

@@ -1,0 +1,26 @@
+<!--pages/profile/edit/gender/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>编辑性别</text>
+  </view>
+</cu-custom>
+
+<view class="padding-tb">
+  <t-cell-group theme="card">
+    <t-cell hover arrow data-key="gender" bind:tap="onPicker">
+      <text class="text-grey" slot="title">性别</text>
+      <text class="text-grey text-sm" slot="note">{{ genderLabel }}</text>
+    </t-cell>
+  </t-cell-group>
+</view>
+
+
+<t-picker visible="{{ genderVisible }}" value="{{ genderValue }}" data-key="gender" title="选择性别" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+  <t-picker-item options="{{ genderList }}">
+    <block wx:for="{{ genderList }}" wx:key="index" wx:for-item="item">
+      <view wx:if="{{ item.icon }}" slot="label-suffix--{{ index }}">
+        <view class="cuIcon-{{ item.icon }}" />
+      </view>
+    </block>
+  </t-picker-item>
+</t-picker>

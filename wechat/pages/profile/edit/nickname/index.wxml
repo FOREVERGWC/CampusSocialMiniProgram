@@ -1,0 +1,16 @@
+<!--pages/profile/edit/nickname/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>编辑昵称</text>
+  </view>
+</cu-custom>
+
+<view class="padding-tb padding-lr-sm">
+  <t-input value="{{ nickname }}" maxlength="20" data-key="nickname" bind:change="onInput" style="border-radius: 36rpx;">
+    <view slot="suffix" class="flex align-center">
+      <view class="suffix--line" />
+      <view class="text-pink" aria-role="button" data-key="nickname" data-value="{{ nickname }}" bind:tap="handleSubmit">确认</view>
+    </view>
+  </t-input>
+  <view class="padding-sm text-gray">请设置1-20个字符，不包括<text decode="{{ true }}">@&lt;&gt;</text>/等无效字符。7天内仅可修改一次昵称。</view>
+</view>

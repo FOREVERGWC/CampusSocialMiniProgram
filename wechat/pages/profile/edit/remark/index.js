@@ -1,20 +1,34 @@
-// pages/profile/edit/index.js
-import {
-  baseUrl
-} from '../../../utils/common'
-
+// pages/profile/edit/remark/index.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    userInfo: {},
-    avatar: `${baseUrl}${getApp().globalData.userInfo.avatar}`,
+    remark: ''
   },
 
-  handleSubmit() {
-    console.log('aaa', this.data.userInfo);
+  onInput(e) {
+    const key = e.currentTarget.dataset.key;
+    this.setData({
+      [`${key}`]: e.detail.value
+    })
+  },
+
+  handleSubmit(e) {
+    const key = e.currentTarget.dataset.key
+    const value = e.currentTarget.dataset.value
+    // TODO: 校验规则
+    getApp().globalData.userInfo[`${key}`] = value
+
+    wx.showToast({
+      title: '修改成功！~',
+      icon: 'none'
+    })
+
+    setTimeout(() => {
+      wx.navigateBack()
+    }, 1000)
   },
 
   /**
@@ -36,9 +50,8 @@ Page({
    */
   onShow() {
     this.setData({
-      userInfo: getApp().globalData.userInfo
+      remark: getApp().globalData?.userInfo?.remark || ''
     })
-    console.log(this.data.userInfo);
   },
 
   /**

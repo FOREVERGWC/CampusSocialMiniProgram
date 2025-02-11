@@ -1,20 +1,11 @@
-// pages/profile/edit/index.js
-import {
-  baseUrl
-} from '../../../utils/common'
-
+// pages/profile/edit/school/index.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    userInfo: {},
-    avatar: `${baseUrl}${getApp().globalData.userInfo.avatar}`,
-  },
 
-  handleSubmit() {
-    console.log('aaa', this.data.userInfo);
   },
 
   /**
@@ -35,10 +26,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.setData({
-      userInfo: getApp().globalData.userInfo
-    })
-    console.log(this.data.userInfo);
+
   },
 
   /**

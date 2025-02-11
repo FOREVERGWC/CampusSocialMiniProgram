@@ -1,0 +1,6 @@
+<!--pages/profile/edit/career/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>编辑职业</text>
+  </view>
+</cu-custom>

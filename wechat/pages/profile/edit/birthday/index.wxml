@@ -1,0 +1,17 @@
+<!--pages/profile/edit/birthday/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>编辑生日</text>
+  </view>
+</cu-custom>
+
+<view class="padding-tb">
+  <t-cell-group theme="card">
+    <t-cell hover arrow data-key="birthday" bind:tap="onPicker">
+      <text class="text-grey" slot="title">生日</text>
+      <text class="text-grey text-sm" slot="note">{{ birthdayLabel }}</text>
+    </t-cell>
+  </t-cell-group>
+</view>
+
+<t-date-time-picker title="选择生日" visible="{{ birthdayVisible }}" mode="date" value="{{ birthdayValue }}" data-key="birthday" format="YYYY-MM-DD" bindchange="onDateTimePickerChange" bindcancel="onPickerCancel" end="{{ end }}" />

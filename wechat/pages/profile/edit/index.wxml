@@ -10,8 +10,8 @@
 </view>
 
 <t-cell-group theme="card">
-  <t-cell hover arrow>
-    <text class="text-grey" slot="title">名字</text>
+  <t-cell hover arrow url="/pages/profile/edit/nickname/index">
+    <text class="text-grey" slot="title">昵称</text>
     <text class="text-grey text-sm" slot="note">{{ userInfo.nickname }}</text>
   </t-cell>
   <t-cell hover arrow>
@@ -27,28 +27,32 @@
 </t-cell-group>
 
 <t-cell-group theme="card" style="margin-top: 30rpx; margin-bottom: 30rpx;">
-  <t-cell hover arrow>
+  <t-cell hover arrow url="/pages/profile/edit/remark/index">
     <text class="text-grey" slot="title">简介</text>
     <text class="text-grey text-sm" slot="note">{{ userInfo.remark }}</text>
   </t-cell>
 </t-cell-group>
 
 <t-cell-group theme="card">
-  <t-cell hover arrow>
+  <t-cell hover arrow url="/pages/profile/edit/gender/index">
     <text class="text-grey" slot="title">性别</text>
-    <text class="text-grey text-sm" slot="note">{{ userInfo.gender }}</text>
+    <view class="text-grey text-sm" slot="note">
+      <text wx:if="{{ userInfo.gender === '0' }}" class="cuIcon-female"> 女</text>
+      <text wx:elif="{{ userInfo.gender === '1' }}" class="cuIcon-male"> 男</text>
+      <text wx:else>未知</text>
+    </view>
   </t-cell>
-  <t-cell hover arrow>
+  <t-cell hover arrow url="/pages/profile/edit/birthday/index">
     <text class="text-grey" slot="title">生日</text>
     <text class="text-grey text-sm" slot="note">{{ userInfo.birthday }}</text>
   </t-cell>
-  <t-cell hover arrow>
+  <t-cell hover arrow url="/pages/profile/edit/area/index">
     <text class="text-grey" slot="title">地区</text>
   </t-cell>
-  <t-cell hover arrow>
+  <!-- <t-cell hover arrow url="/pages/profile/edit/career/index">
     <text class="text-grey" slot="title">职业</text>
-  </t-cell>
-  <t-cell hover arrow>
+  </t-cell> -->
+  <t-cell hover arrow url="/pages/profile/edit/school/index">
     <text class="text-grey" slot="title">学校</text>
   </t-cell>
 </t-cell-group>

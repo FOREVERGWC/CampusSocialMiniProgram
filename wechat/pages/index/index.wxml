@@ -16,10 +16,10 @@
   <campus-fun wx:if="{{ activeTab === '1' }}" records="{{ records }}" />
 
   <!-- 校园评分 -->
-  <campus-rating wx:if="{{ activeTab === '2' }}" records="{{ records }}" />
+  <campus-rating wx:elif="{{ activeTab === '2' }}" records="{{ records }}" />
 
   <!-- 找搭子 -->
-  <find-partner wx:if="{{ activeTab === '3' }}" />
+  <find-partner wx:else="{{ activeTab === '3' }}" />
 
   <view class="cu-load over" />
 </scroll-view>

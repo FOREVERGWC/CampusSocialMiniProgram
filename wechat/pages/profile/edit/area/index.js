@@ -1,7 +1,9 @@
-// pages/profile/edit/index.js
+// pages/profile/edit/area/index.js
 import {
-  baseUrl
-} from '../../../utils/common'
+  countryList,
+  provinceList,
+  cityList
+} from '../../../../utils/common'
 
 Page({
 
@@ -9,12 +11,35 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: {},
-    avatar: `${baseUrl}${getApp().globalData.userInfo.avatar}`,
+    countryList: countryList,
+    provinceList: provinceList,
+    cityList: cityList
   },
 
-  handleSubmit() {
-    console.log('aaa', this.data.userInfo);
+  onPicker(e) {
+    const key = e.currentTarget.dataset.key;
+    this.setData({
+      [`${key}Visible`]: true
+    })
+  },
+
+  onPickerChange(e) {
+    const key = e.currentTarget.dataset.key;
+    const label = e.detail.label
+    const value = e.detail.value;
+
+    this.setData({
+      [`${key}Visible`]: false,
+      [`${key}Value`]: value,
+      [`${key}Label`]: label.join(' - '),
+    });
+  },
+
+  onPickerCancel(e) {
+    const key = e.currentTarget.dataset.key;
+    this.setData({
+      [`${key}Visible`]: false
+    });
   },
 
   /**
@@ -35,10 +60,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    this.setData({
-      userInfo: getApp().globalData.userInfo
-    })
-    console.log(this.data.userInfo);
+
   },
 
   /**

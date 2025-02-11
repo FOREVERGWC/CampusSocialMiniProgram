@@ -54,3 +54,45 @@ export const processUpdateTime = (records) => {
     }
   })
 }
+
+export const countryList = [{
+    label: '中国',
+    value: '1'
+  },
+  {
+    label: '美国',
+    value: '2'
+  },
+  {
+    label: '俄罗斯',
+    value: '3'
+  },
+  {
+    label: '英国',
+    value: '4'
+  },
+  {
+    label: '法国',
+    value: '5'
+  }
+]
+
+export const provinceList = [{
+    label: '河南',
+    value: '1'
+  },
+  {
+    label: '广东',
+    value: '2'
+  }
+]
+
+export const cityList = [{
+    label: '郑州',
+    value: '1'
+  },
+  {
+    label: '昆明',
+    value: '2'
+  }
+]

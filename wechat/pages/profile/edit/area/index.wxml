@@ -1,0 +1,21 @@
+<!--pages/profile/edit/area/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>编辑地区</text>
+  </view>
+</cu-custom>
+
+<view class="padding-tb">
+  <t-cell-group theme="card">
+    <t-cell hover arrow data-key="area" bind:tap="onPicker">
+      <text class="text-grey" slot="title">地区</text>
+      <text class="text-grey text-sm" slot="note">{{ areaLabel }}</text>
+    </t-cell>
+  </t-cell-group>
+</view>
+
+<t-picker visible="{{ areaVisible }}" value="{{ areaValue }}" data-key="area" title="选择地区" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+  <t-picker-item options="{{ countryList }}" />
+  <t-picker-item options="{{ provinceList }}" />
+  <t-picker-item options="{{ cityList }}" />
+</t-picker>

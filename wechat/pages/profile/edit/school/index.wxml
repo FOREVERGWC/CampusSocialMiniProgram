@@ -1,0 +1,22 @@
+<!--pages/profile/edit/school/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>编辑学校</text>
+  </view>
+</cu-custom>
+
+<view class="padding-tb">
+  <t-cell-group theme="card">
+    <t-cell hover arrow data-key="school" bind:tap="onPicker">
+      <text class="text-grey" slot="title">学校</text>
+      <text class="text-grey text-sm" slot="note">{{ genderLabel }}</text>
+    </t-cell>
+    <t-cell hover arrow data-key="intake" bind:tap="onPicker">
+      <text class="text-grey" slot="title">入学时间</text>
+      <text class="text-grey text-sm" slot="note">{{ genderLabel }}</text>
+    </t-cell>
+    <t-input value="{{ studentId }}" suffixIcon="chevron-right" align="right" borderless data-key="location" bind:change="onInput">
+      <text class="text-grey" slot="label">学号</text>
+    </t-input>
+  </t-cell-group>
+</view>

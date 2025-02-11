@@ -1,0 +1,16 @@
+<!--pages/profile/edit/remark/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>编辑简介</text>
+  </view>
+</cu-custom>
+
+<view class="padding-tb padding-lr-sm">
+  <view class="bg-white padding-bottom" style="border-radius: 36rpx;">
+    <t-textarea value="{{ remark }}" placeholder="点击填写兴趣爱好、生活方式等个人简介" maxlength="255" disableDefaultPadding="{{ true }}" indicator data-key="remark" bind:change="onInput" style="border-radius: 36rpx;" />
+    <view class="flex justify-end padding-right">
+      <view class="text-pink text-sm" aria-role="button" data-key="remark" data-value="{{ remark }}" bind:tap="handleSubmit">确认</view>
+    </view>
+  </view>
+  <view class="padding-sm text-gray">7 天内可修改 3 次简介，02.18 前还可修改 3 次。</view>
+</view>

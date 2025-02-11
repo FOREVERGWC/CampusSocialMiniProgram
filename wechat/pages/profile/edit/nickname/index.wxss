@@ -1,0 +1,7 @@
+/* pages/profile/edit/nickname/index.wxss */
+.suffix--line {
+  width: 1px;
+  height: 24px;
+  background-color: var(--td-component-stroke, #f3f3f3);
+  margin-right: 16px;
+}
