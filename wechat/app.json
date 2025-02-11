@@ -19,6 +19,7 @@
     "pages/activity/save/index",
     "pages/message/index",
     "pages/my/index",
+    "pages/profile/edit/index",
     "pages/login/index",
     "pages/setting/index"
   ],

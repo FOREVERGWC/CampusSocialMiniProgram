@@ -25,6 +25,12 @@ Page({
     hasNotes: true
   },
 
+  goToEdit() {
+    wx.navigateTo({
+      url: '/pages/profile/edit/index'
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -92,12 +98,6 @@ Page({
 
   getUserInfo() {
     // 获取用户信息的逻辑
-  },
-
-  editProfile() {
-    wx.navigateTo({
-      url: '/pages/profile/edit/index'
-    })
   },
 
   onTabChange(e) {

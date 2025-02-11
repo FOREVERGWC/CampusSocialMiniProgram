@@ -1,0 +1,58 @@
+<!--pages/profile/edit/index.wxml-->
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>编辑资料</text>
+  </view>
+</cu-custom>
+
+<view class="flex align-center justify-center padding-xl">
+  <t-avatar image="{{ avatar || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
+</view>
+
+<t-cell-group theme="card">
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">名字</text>
+    <text class="text-grey text-sm" slot="note">{{ userInfo.nickname }}</text>
+  </t-cell>
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">用户ID</text>
+    <text class="text-grey text-sm" slot="note">{{ userInfo.id }}</text>
+  </t-cell>
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">背景图</text>
+    <view slot="note">
+      <image src="https://tdesign.gtimg.com/mobile/demos/avatar1.png" class="cu-avatar radius" />
+    </view>
+  </t-cell>
+</t-cell-group>
+
+<t-cell-group theme="card" style="margin-top: 30rpx; margin-bottom: 30rpx;">
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">简介</text>
+    <text class="text-grey text-sm" slot="note">{{ userInfo.remark }}</text>
+  </t-cell>
+</t-cell-group>
+
+<t-cell-group theme="card">
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">性别</text>
+    <text class="text-grey text-sm" slot="note">{{ userInfo.gender }}</text>
+  </t-cell>
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">生日</text>
+    <text class="text-grey text-sm" slot="note">{{ userInfo.birthday }}</text>
+  </t-cell>
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">地区</text>
+  </t-cell>
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">职业</text>
+  </t-cell>
+  <t-cell hover arrow>
+    <text class="text-grey" slot="title">学校</text>
+  </t-cell>
+</t-cell-group>
+
+<view class="padding-top padding-lr">
+  <button class="cu-btn block bg-pink lg" bind:tap="handleSubmit" disabled="{{ loading }}">保存</button>
+</view>

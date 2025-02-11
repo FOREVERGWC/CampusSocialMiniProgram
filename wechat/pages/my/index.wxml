@@ -34,7 +34,7 @@
       </view>
     </view>
     <view class="flex justify-between padding-right-xs" style="gap: 16rpx;">
-      <t-button size="small" theme="light" shape="round">编辑资料</t-button>
+      <t-button size="small" theme="light" shape="round" bind:tap="goToEdit">编辑资料</t-button>
       <t-button size="small" theme="light" icon="setting" shape="round" bind:tap="goToSetting" />
     </view>
   </view>
