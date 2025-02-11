@@ -11,9 +11,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loading: false,
     countryList: countryList,
     provinceList: provinceList,
-    cityList: cityList
+    cityList: cityList,
+    areaVisible: false,
+    areaValue: [],
+    areaLabel: ''
   },
 
   onPicker(e) {
@@ -33,6 +37,21 @@ Page({
       [`${key}Value`]: value,
       [`${key}Label`]: label.join(' - '),
     });
+
+    getApp().globalData.userInfo.country = this.data.areaValue[0]
+    getApp().globalData.userInfo.province = this.data.areaValue[1]
+    getApp().globalData.userInfo.city = this.data.areaValue[2]
+
+    wx.showToast({
+      title: '修改成功！~',
+      icon: 'none'
+    })
+
+    setTimeout(() => {
+      wx.navigateBack({
+        delta: 1
+      })
+    }, 1000)
   },
 
   onPickerCancel(e) {
@@ -60,7 +79,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
+    const country = getApp().globalData?.userInfo?.country || ''
+    const province = getApp().globalData?.userInfo?.province || ''
+    const city = getApp().globalData?.userInfo?.city || ''
 
+    this.setData({
+      areaValue: [country, province, city],
+      areaLabel: (this.data.countryList.find(item => item.value === country)?.label || '') + ' - ' +
+        (this.data.provinceList.find(item => item.value === province)?.label || '') + ' - ' + (this.data.cityList.find(item => item.value === city)?.label || '')
+    })
   },
 
   /**

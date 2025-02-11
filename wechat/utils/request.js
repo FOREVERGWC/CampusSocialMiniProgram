@@ -26,7 +26,7 @@ const service = {
           title: '请先登录！',
           icon: 'none'
         });
-        getApp().globalData.userInfo = {}
+        getApp().globalData.user = {}
         getApp().globalData.token = ''
         return Promise.reject(res);
       }

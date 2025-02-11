@@ -233,6 +233,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Transactional
     @Override
     public void edit(UserEditDto dto) {
+        Long userId = UserUtils.getLoginUserId();
+        dto.setId(userId);
         User entity = User.builder().build();
         BeanUtils.copyProperties(dto, entity);
         saveOrUpdate(entity);

@@ -32,7 +32,6 @@ public class UserEditDto implements Serializable {
      * 主键ID
      */
     @Schema(description = "主键ID")
-    @NotNull(message = "{userId.NotNull}")
     private Long id;
     /**
      * 昵称

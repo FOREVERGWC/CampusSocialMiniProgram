@@ -63,7 +63,11 @@ Page({
   },
 
   onBack() {
-    wx.navigateBack();
+    setTimeout(() => {
+      wx.navigateBack({
+        delta: 1
+      })
+    }, 1000)
   },
 
   switchAccount() {

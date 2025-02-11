@@ -35,7 +35,9 @@ Page({
     })
 
     setTimeout(() => {
-      wx.navigateBack()
+      wx.navigateBack({
+        delta: 1
+      })
     }, 1000)
   },
 

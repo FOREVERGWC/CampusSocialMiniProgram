@@ -19,7 +19,7 @@ Page({
     const key = e.currentTarget.dataset.key
     const value = e.currentTarget.dataset.value
     // TODO: 校验规则
-    getApp().globalData.userInfo[`${key}`] = value
+    getApp().globalData.user[`${key}`] = value
 
     wx.showToast({
       title: '修改成功！~',
@@ -27,7 +27,9 @@ Page({
     })
 
     setTimeout(() => {
-      wx.navigateBack()
+      wx.navigateBack({
+        delta: 1
+      })
     }, 1000)
   },
 
@@ -50,7 +52,7 @@ Page({
    */
   onShow() {
     this.setData({
-      nickname: getApp().globalData?.userInfo?.nickname || ''
+      nickname: getApp().globalData?.user?.nickname || ''
     })
   },
 

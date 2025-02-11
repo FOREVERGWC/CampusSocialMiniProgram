@@ -4,6 +4,12 @@ import {
   getByToken
 } from '../../api/auth.js'
 import {
+  getMyUserInfoOne
+} from '../../api/user/info'
+import {
+  getMyUserSchoolOne
+} from '../../api/user/school'
+import {
   baseUrl,
   defaultAvatar
 } from '../../utils/common'
@@ -126,8 +132,16 @@ Page({
       })
 
       getByToken().then(res => {
-        getApp().globalData.userInfo = res.data || {}
+        getApp().globalData.user = res.data || {}
         getApp().globalData.avatar = res.data.avatar ? baseUrl + res.data.avatar : defaultAvatar
+      })
+
+      getMyUserInfoOne().then(res => {
+        getApp().globalData.userInfo = res.data || {}
+      })
+
+      getMyUserSchoolOne().then(res => {
+        getApp().globalData.schoolInfo = res.data || {}
       })
 
       wx.switchTab({
@@ -172,8 +186,16 @@ Page({
       })
 
       getByToken().then(res => {
-        getApp().globalData.userInfo = res.data || {}
+        getApp().globalData.user = res.data || {}
         getApp().globalData.avatar = res.data.avatar ? baseUrl + res.data.avatar : defaultAvatar
+      })
+
+      getMyUserInfoOne().then(res => {
+        getApp().globalData.userInfo = res.data || {}
+      })
+      
+      getMyUserSchoolOne().then(res => {
+        getApp().globalData.schoolInfo = res.data || {}
       })
 
       wx.switchTab({

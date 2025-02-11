@@ -5,18 +5,27 @@
   </view>
 </cu-custom>
 
-<view class="padding-tb">
+<view class="padding-top">
   <t-cell-group theme="card">
     <t-cell hover arrow data-key="school" bind:tap="onPicker">
       <text class="text-grey" slot="title">学校</text>
-      <text class="text-grey text-sm" slot="note">{{ genderLabel }}</text>
+      <text class="text-grey text-sm" slot="note">{{ schoolLabel }}</text>
     </t-cell>
     <t-cell hover arrow data-key="intake" bind:tap="onPicker">
       <text class="text-grey" slot="title">入学时间</text>
-      <text class="text-grey text-sm" slot="note">{{ genderLabel }}</text>
+      <text class="text-grey text-sm" slot="note">{{ intakeLabel }}</text>
     </t-cell>
-    <t-input value="{{ studentId }}" suffixIcon="chevron-right" align="right" borderless data-key="location" bind:change="onInput">
+    <t-input value="{{ studentId }}" suffixIcon="chevron-right" align="right" borderless data-key="studentId" bind:change="onInput">
       <text class="text-grey" slot="label">学号</text>
     </t-input>
   </t-cell-group>
 </view>
+
+<view class="padding-top padding-lr">
+  <button class="cu-btn block bg-pink lg" bind:tap="handleSubmit" disabled="{{ loading }}">保存</button>
+</view>
+
+<t-picker visible="{{ schoolVisible }}" value="{{ schoolValue }}" keys="{{ props }}" data-key="school" title="选择学校" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+  <t-picker-item options="{{ schoolList }}" />
+</t-picker>
+<t-date-time-picker title="选择入学时间" visible="{{ intakeVisible }}" mode="date" value="{{ intakeValue }}" data-key="intake" format="YYYY-MM-DD" bindchange="onDateTimePickerChange" bindcancel="onPickerCancel" end="{{ end }}" />

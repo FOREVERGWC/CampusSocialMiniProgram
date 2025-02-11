@@ -11,8 +11,9 @@ Page({
   data: {
     canIUseGetUserProfile: wx.canIUse('getUserProfile'),
     canIUseNickname: wx.canIUse('input.type.nickname'),
-    userInfo: getApp().globalData.userInfo,
-    avatar: `${baseUrl}${getApp().globalData.userInfo.avatar}`,
+    user: {},
+    avatar: `${baseUrl}${getApp().globalData.user.avatar}`,
+    schoolInfo: {},
     stats: {
       follows: 0,
       fans: 0,
@@ -50,6 +51,10 @@ Page({
    */
   onShow() {
     this.getTabBar().init()
+    this.setData({
+      user: getApp().globalData.user,
+      schoolInfo: getApp().globalData.schoolInfo
+    })
   },
 
   /**
@@ -121,7 +126,7 @@ Page({
   },
 
   goToLogin() {
-    if (this.data.userInfo.nickName) {
+    if (this.data.user.nickName) {
       return
     }
     wx.navigateTo({

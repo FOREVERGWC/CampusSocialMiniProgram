@@ -4,7 +4,7 @@ const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia0
 Page({
   data: {
     motto: 'Hello World',
-    userInfo: {
+    user: {
       avatarUrl: defaultAvatarUrl,
       nickName: '',
     },
@@ -21,9 +21,9 @@ Page({
     } = e.detail
     const {
       nickName
-    } = this.data.userInfo
+    } = this.data.user
     this.setData({
-      "userInfo.avatarUrl": avatarUrl,
+      "user.avatarUrl": avatarUrl,
       hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
     })
   },
@@ -31,9 +31,9 @@ Page({
     const nickName = e.detail.value
     const {
       avatarUrl
-    } = this.data.userInfo
+    } = this.data.user
     this.setData({
-      "userInfo.nickName": nickName,
+      "user.nickName": nickName,
       hasUserInfo: nickName && avatarUrl && avatarUrl !== defaultAvatarUrl,
     })
   },
@@ -44,7 +44,7 @@ Page({
       success: (res) => {
         console.log(res)
         this.setData({
-          userInfo: res.userInfo,
+          user: res.user,
           hasUserInfo: true
         })
       }

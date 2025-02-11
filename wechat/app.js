@@ -25,8 +25,9 @@ App({
   },
   globalData: {
     jsCode: '',
-    userInfo: {},
+    user: {},
     avatar: 'https://tdesign.gtimg.com/mobile/demos/avatar1.png',
+    schoolInfo: {},
     token: ''
   }
 })

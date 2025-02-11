@@ -6,7 +6,7 @@ Page({
    */
   data: {
     name: '',
-    userInfo: getApp().globalData.userInfo
+    user: getApp().globalData.user
   },
 
   onInput(e) {
@@ -20,14 +20,18 @@ Page({
     const key = e.currentTarget.dataset.key
     const value = e.currentTarget.dataset.value
     // TODO: 校验规则
-    getApp().globalData.userInfo[`${key}`] = value
+    getApp().globalData.user[`${key}`] = value
 
     wx.showToast({
       title: '修改成功！~',
       icon: 'none'
     })
 
-    wx.navigateBack()
+    setTimeout(() => {
+      wx.navigateBack({
+        delta: 1
+      })
+    }, 1000)
   },
 
   /**
