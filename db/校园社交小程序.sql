@@ -11,7 +11,7 @@
  Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 02/02/2025 23:36:15
+ Date: 11/02/2025 17:08:56
 */
 
 SET NAMES utf8mb4;
@@ -34,13 +34,17 @@ CREATE TABLE `biz_activity`  (
   `update_time` datetime NOT NULL COMMENT '修改时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '活动表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '活动表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of biz_activity
 -- ----------------------------
 INSERT INTO `biz_activity` VALUES (1, '活动1', '测试活动1', '2025-02-02 15:12:33', '2025-02-28 00:00:00', '测试地点', '1', '2025-02-02 15:12:51', '1', '2025-02-02 15:12:51', '');
 INSERT INTO `biz_activity` VALUES (2, '活动2', '测试活动2', '2025-02-06 02:02:02', '2025-02-20 00:00:00', '测试地点2', '1', '2025-02-02 15:48:46', '1', '2025-02-02 15:48:46', '');
+INSERT INTO `biz_activity` VALUES (3, '1', '2', '2025-02-10 17:05:04', '2025-02-10 21:05:04', '操场', '1', '2025-02-10 17:05:20', '1', '2025-02-10 17:05:20', '');
+INSERT INTO `biz_activity` VALUES (4, '2', '2', '2025-02-10 17:08:16', '2025-02-10 17:08:18', '图书馆', '1', '2025-02-10 17:08:41', '1', '2025-02-10 17:08:41', '');
+INSERT INTO `biz_activity` VALUES (5, '3', '3', '2025-02-10 17:11:55', '2025-02-10 17:11:55', '测试', '1', '2025-02-10 17:12:10', '1', '2025-02-10 17:12:10', '');
+INSERT INTO `biz_activity` VALUES (6, '4', '4', '2025-02-11 09:34:59', '2025-02-16 09:39:59', '4', '1', '2025-02-11 09:35:10', '1', '2025-02-11 09:35:10', '');
 
 -- ----------------------------
 -- Table structure for biz_count_rate
@@ -56,7 +60,7 @@ CREATE TABLE `biz_count_rate`  (
 -- ----------------------------
 -- Records of biz_count_rate
 -- ----------------------------
-INSERT INTO `biz_count_rate` VALUES (1, 1, 1);
+INSERT INTO `biz_count_rate` VALUES (1, 1, 2);
 
 -- ----------------------------
 -- Table structure for biz_note
@@ -79,14 +83,17 @@ CREATE TABLE `biz_note`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   `deleted` tinyint(1) NOT NULL COMMENT '逻辑删除(0正常、1删除)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '笔记表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '笔记表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of biz_note
 -- ----------------------------
 INSERT INTO `biz_note` VALUES (1, 3, '标题', '内容', 1, 1, '1', 1, '1', '1', '2025-01-10 14:09:12', '1', '2025-01-11 15:12:31', '', 0);
 INSERT INTO `biz_note` VALUES (2, 3, '测试2', '测试2', 3, 0, '1', 1, '1', '1', '2025-01-14 22:34:55', '1', '2025-01-14 22:34:55', '测试2', 0);
-INSERT INTO `biz_note` VALUES (3, 3, '测试3', '测试3', 5, 0, '1', 0, '1', '1', '2025-01-14 22:35:23', '1', '2025-01-14 22:35:23', '', 0);
+INSERT INTO `biz_note` VALUES (3, 3, '测试3', '测试3', 5, 0, '0', 0, '1', '1', '2025-01-14 22:35:23', '1', '2025-02-10 19:19:48', '', 0);
+INSERT INTO `biz_note` VALUES (4, 3, '', '', 1, 0, '1', 1, '1', '1', '2025-02-10 11:34:48', '1', '2025-02-10 11:34:48', '', 0);
+INSERT INTO `biz_note` VALUES (5, 3, '测试1', '测试2', 1, 0, '1', 1, '1', '1', '2025-02-10 11:37:10', '1', '2025-02-10 15:11:45', '', 0);
+INSERT INTO `biz_note` VALUES (6, 3, '', '', 1, 0, '1', 1, '0', '1', '2025-02-10 15:15:15', '1', '2025-02-11 09:08:42', '', 0);
 
 -- ----------------------------
 -- Table structure for biz_note_category
@@ -136,12 +143,15 @@ CREATE TABLE `biz_rate`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   `deleted` tinyint(1) NOT NULL COMMENT '逻辑删除(0正常、1删除)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评分表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评分表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of biz_rate
 -- ----------------------------
 INSERT INTO `biz_rate` VALUES (1, 3, '食堂最好吃的店铺', '你们认为食堂最好吃的店铺是哪一家？说出你的观点', '1', '2025-01-10 14:27:42', '1', '2025-01-10 14:32:33', '', 0);
+INSERT INTO `biz_rate` VALUES (2, 3, '1', '1', '1', '2025-02-10 17:31:53', '1', '2025-02-10 17:31:53', '', 0);
+INSERT INTO `biz_rate` VALUES (3, 3, '3', '3', '1', '2025-02-10 17:32:43', '1', '2025-02-10 17:32:43', '', 0);
+INSERT INTO `biz_rate` VALUES (4, 3, '2', '2', '1', '2025-02-10 18:40:49', '1', '2025-02-10 18:40:49', '', 0);
 
 -- ----------------------------
 -- Table structure for biz_rate_item
@@ -159,7 +169,7 @@ CREATE TABLE `biz_rate_item`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   `deleted` tinyint(1) NOT NULL COMMENT '逻辑删除(0正常、1删除)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评分项表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评分项表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of biz_rate_item
@@ -167,6 +177,8 @@ CREATE TABLE `biz_rate_item`  (
 INSERT INTO `biz_rate_item` VALUES (1, 1, '川渝小厨', '川渝小厨', '1', '2025-01-10 14:35:14', '1', '2025-01-18 21:33:36', '', 0);
 INSERT INTO `biz_rate_item` VALUES (2, 1, '江湖烫', '江湖烫', '1', '2025-01-10 14:36:04', '1', '2025-01-10 14:36:04', '', 0);
 INSERT INTO `biz_rate_item` VALUES (3, 1, '酸辣拌', '酸辣拌', '1', '2025-01-10 14:36:25', '1', '2025-01-10 14:36:25', '', 0);
+INSERT INTO `biz_rate_item` VALUES (4, 1, '黄二怪麻辣烫', '黄二怪麻辣烫', '1', '2025-02-10 20:54:52', '1', '2025-02-10 20:54:52', '', 0);
+INSERT INTO `biz_rate_item` VALUES (5, 1, '重庆小面', '重庆小面', '1', '2025-02-10 20:56:52', '1', '2025-02-10 20:56:52', '', 0);
 
 -- ----------------------------
 -- Table structure for biz_rate_record
@@ -184,13 +196,33 @@ CREATE TABLE `biz_rate_record`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评分记录表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评分记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of biz_rate_record
 -- ----------------------------
-INSERT INTO `biz_rate_record` VALUES (1, 1, 1, 3, 5.5, '1', '2025-01-10 15:25:30', '1', '2025-01-10 15:25:30', '一般');
+INSERT INTO `biz_rate_record` VALUES (1, 1, 1, 3, 9, '1', '2025-01-10 15:25:30', '1', '2025-02-09 22:28:57', '一般啊');
 INSERT INTO `biz_rate_record` VALUES (2, 1, 2, 3, 9, '1', '2025-01-10 15:29:06', '1', '2025-01-10 15:29:06', '神！');
+INSERT INTO `biz_rate_record` VALUES (3, 1, 5, 3, 10, '1', '2025-02-10 21:00:37', '1', '2025-02-10 21:00:37', '神神神！非常好吃😋');
+
+-- ----------------------------
+-- Table structure for biz_school
+-- ----------------------------
+DROP TABLE IF EXISTS `biz_school`;
+CREATE TABLE `biz_school`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '名称',
+  `create_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建者',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '修改者',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '学校表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of biz_school
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_attachment
@@ -215,7 +247,7 @@ CREATE TABLE `sys_attachment`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `hash_code`(`hash_code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '附件表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '附件表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_attachment
@@ -224,6 +256,12 @@ INSERT INTO `sys_attachment` VALUES (11, '26ffd0f90ea98d32d1d4136893fc747f', 1, 
 INSERT INTO `sys_attachment` VALUES (12, '184a4ce9a181ba18f5875aef33462a0b', 1, 8, '', '/file/184a4ce9a181ba18f5875aef33462a0b.png', '屏幕截图 2024-12-29 085812.png', 6988, 1, 10485760, 1, '', '2025-01-11 15:12:30', '', '2025-01-11 15:12:30', '');
 INSERT INTO `sys_attachment` VALUES (13, '5d08ced39910341325c102af785beb54', 3, 1, '', '/file/5d08ced39910341325c102af785beb54.png', '安恩溥.png', 65927, 1, 10485760, 1, '', '2025-01-15 21:36:07', '', '2025-01-15 21:36:07', '');
 INSERT INTO `sys_attachment` VALUES (14, '56d6b8bd7ce6c764bcc854da0a532597', 1, 10, '', '/file/56d6b8bd7ce6c764bcc854da0a532597.png', '李济深.png', 52618, 1, 10485760, 1, '', '2025-01-18 21:33:33', '', '2025-01-18 21:33:33', '');
+INSERT INTO `sys_attachment` VALUES (18, '5ebda8824afe885dd312c955e7beac1f', 3, 1, '', '/file/5ebda8824afe885dd312c955e7beac1f.jpg', '邓小平.jpg', 44851, 1, 10485760, 1, '', '2025-02-03 00:42:49', '', '2025-02-03 00:42:49', '');
+INSERT INTO `sys_attachment` VALUES (19, 'e57e0940369143d498e2f2db184578c3', 3, 1, '', '/file/e57e0940369143d498e2f2db184578c3.png', '黄克诚.png', 69422, 1, 10485760, 1, '', '2025-02-03 00:42:57', '', '2025-02-03 00:42:57', '');
+INSERT INTO `sys_attachment` VALUES (20, '66ed96fa3df3432efa0ea3efe1b72ae3', 3, 1, '', '/file/66ed96fa3df3432efa0ea3efe1b72ae3.png', '黄杰.png', 52767, 1, 10485760, 1, '', '2025-02-03 00:43:17', '', '2025-02-03 00:43:17', '');
+INSERT INTO `sys_attachment` VALUES (21, '9ebe5a638ec01c7f555e992472bde4a7', 3, 1, '', '/file/9ebe5a638ec01c7f555e992472bde4a7.png', '邓兆祥.png', 65181, 1, 10485760, 1, '', '2025-02-03 00:45:57', '', '2025-02-03 00:45:57', '');
+INSERT INTO `sys_attachment` VALUES (22, '9de58a3dfd3ec9b2182b9aebcbca9927', 1, 9, '', '/file/9de58a3dfd3ec9b2182b9aebcbca9927.png', '安德烈·日丹诺夫.png', 48266, 1, 10485760, 1, '', '2025-02-09 20:46:46', '', '2025-02-09 20:46:46', '');
+INSERT INTO `sys_attachment` VALUES (23, 'cab86ac5a6bc02e1cd881561252f931c', 1, 9, '', '/file/cab86ac5a6bc02e1cd881561252f931c.png', '安恩溥.png', 65927, 1, 10485760, 1, '', '2025-02-09 20:47:02', '', '2025-02-09 20:47:02', '');
 
 -- ----------------------------
 -- Table structure for sys_attachment_chunk
@@ -270,7 +308,7 @@ CREATE TABLE `sys_comment`  (
   `update_time` datetime NOT NULL COMMENT '修改时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评论表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 57 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评论表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_comment
@@ -285,6 +323,20 @@ INSERT INTO `sys_comment` VALUES (39, 1, 8, '@1 测试楼中楼2', 34, 3, 34, 3,
 INSERT INTO `sys_comment` VALUES (40, 1, 8, '@1 测试楼中楼3', 38, 3, 33, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-02 16:54:57', '1', '2025-02-02 16:54:57', '');
 INSERT INTO `sys_comment` VALUES (41, 1, 8, '???', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-02 18:02:00', '1', '2025-02-02 18:02:00', '');
 INSERT INTO `sys_comment` VALUES (42, 1, 8, '@1 222', 39, 3, 34, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-02 18:09:38', '1', '2025-02-02 18:09:38', '');
+INSERT INTO `sys_comment` VALUES (43, 2, 8, 'lll', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-03 01:01:05', '1', '2025-02-03 01:01:05', '');
+INSERT INTO `sys_comment` VALUES (44, 1, 8, '1', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:30', '1', '2025-02-10 19:25:30', '');
+INSERT INTO `sys_comment` VALUES (45, 1, 8, '2', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:32', '1', '2025-02-10 19:25:32', '');
+INSERT INTO `sys_comment` VALUES (46, 1, 8, '3', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:34', '1', '2025-02-10 19:25:34', '');
+INSERT INTO `sys_comment` VALUES (47, 1, 8, '4', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '未知 未知 未知', '1', '2025-02-10 19:25:36', '1', '2025-02-10 19:25:36', '');
+INSERT INTO `sys_comment` VALUES (48, 1, 8, '5', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:38', '1', '2025-02-10 19:25:38', '');
+INSERT INTO `sys_comment` VALUES (49, 1, 8, '6', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:39', '1', '2025-02-10 19:25:39', '');
+INSERT INTO `sys_comment` VALUES (50, 1, 8, '7', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:41', '1', '2025-02-10 19:25:41', '');
+INSERT INTO `sys_comment` VALUES (51, 1, 8, '8', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:43', '1', '2025-02-10 19:25:43', '');
+INSERT INTO `sys_comment` VALUES (52, 1, 8, '9', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:44', '1', '2025-02-10 19:25:44', '');
+INSERT INTO `sys_comment` VALUES (53, 1, 8, '10', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:47', '1', '2025-02-10 19:25:47', '');
+INSERT INTO `sys_comment` VALUES (54, 1, 8, '11', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '未知 未知 未知', '1', '2025-02-10 19:25:49', '1', '2025-02-10 19:25:49', '');
+INSERT INTO `sys_comment` VALUES (55, 1, 8, '12', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:51', '1', '2025-02-10 19:25:51', '');
+INSERT INTO `sys_comment` VALUES (56, 1, 8, '13', 0, 0, 0, 3, 'iPhone', '0:0:0:0:0:0:0:1', '%s %s %s', '1', '2025-02-10 19:25:52', '1', '2025-02-10 19:25:52', '');
 
 -- ----------------------------
 -- Table structure for sys_count_comment
@@ -296,12 +348,13 @@ CREATE TABLE `sys_count_comment`  (
   `biz_type` tinyint NOT NULL COMMENT '业务类型',
   `count` bigint NOT NULL COMMENT '评论',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评论量表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '评论量表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_count_comment
 -- ----------------------------
-INSERT INTO `sys_count_comment` VALUES (1, 1, 8, 10);
+INSERT INTO `sys_count_comment` VALUES (1, 1, 8, 23);
+INSERT INTO `sys_count_comment` VALUES (2, 2, 8, 1);
 
 -- ----------------------------
 -- Table structure for sys_count_dislike
@@ -335,7 +388,7 @@ CREATE TABLE `sys_count_favorite`  (
 -- Records of sys_count_favorite
 -- ----------------------------
 INSERT INTO `sys_count_favorite` VALUES (1, 1, 8, 1);
-INSERT INTO `sys_count_favorite` VALUES (2, 2, 8, 1);
+INSERT INTO `sys_count_favorite` VALUES (2, 2, 8, 0);
 
 -- ----------------------------
 -- Table structure for sys_count_like
@@ -352,9 +405,9 @@ CREATE TABLE `sys_count_like`  (
 -- ----------------------------
 -- Records of sys_count_like
 -- ----------------------------
-INSERT INTO `sys_count_like` VALUES (2, 1, 8, 2);
+INSERT INTO `sys_count_like` VALUES (2, 1, 8, 5);
 INSERT INTO `sys_count_like` VALUES (3, 3, 8, 2);
-INSERT INTO `sys_count_like` VALUES (4, 2, 8, 2);
+INSERT INTO `sys_count_like` VALUES (4, 2, 8, 4);
 INSERT INTO `sys_count_like` VALUES (5, 33, 5, 0);
 INSERT INTO `sys_count_like` VALUES (6, 39, 5, 0);
 INSERT INTO `sys_count_like` VALUES (7, 38, 5, 1);
@@ -370,14 +423,17 @@ CREATE TABLE `sys_count_view`  (
   `biz_type` tinyint NOT NULL COMMENT '业务类型',
   `count` bigint NOT NULL COMMENT '浏览',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '浏览量表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '浏览量表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_count_view
 -- ----------------------------
-INSERT INTO `sys_count_view` VALUES (1, 1, 8, 184);
-INSERT INTO `sys_count_view` VALUES (2, 2, 8, 18);
-INSERT INTO `sys_count_view` VALUES (3, 3, 8, 5);
+INSERT INTO `sys_count_view` VALUES (1, 1, 8, 226);
+INSERT INTO `sys_count_view` VALUES (2, 2, 8, 23);
+INSERT INTO `sys_count_view` VALUES (3, 3, 8, 7);
+INSERT INTO `sys_count_view` VALUES (4, 5, 8, 64);
+INSERT INTO `sys_count_view` VALUES (5, 4, 8, 1);
+INSERT INTO `sys_count_view` VALUES (6, 6, 8, 83);
 
 -- ----------------------------
 -- Table structure for sys_dict_data
@@ -453,13 +509,12 @@ CREATE TABLE `sys_favorite`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `biz_id`(`biz_id` ASC, `biz_type` ASC, `user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收藏表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '收藏表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_favorite
 -- ----------------------------
-INSERT INTO `sys_favorite` VALUES (3, 1, 8, 3, '1', '2025-01-20 20:42:09', '1', '2025-01-20 20:42:09', '');
-INSERT INTO `sys_favorite` VALUES (4, 2, 8, 3, '1', '2025-01-20 20:42:12', '1', '2025-01-20 20:42:12', '');
+INSERT INTO `sys_favorite` VALUES (6, 1, 8, 3, '1', '2025-02-03 19:02:35', '1', '2025-02-03 19:02:35', '');
 
 -- ----------------------------
 -- Table structure for sys_follow
@@ -489,7 +544,7 @@ DROP TABLE IF EXISTS `sys_log_login`;
 CREATE TABLE `sys_log_login`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `login_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '登录类型(1账密、2邮箱验证码、3手机验证码)',
-  `os` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '操作系统',
+  `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '操作系统',
   `browser` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '浏览器',
   `ip` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'IP',
   `location` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'IP属地',
@@ -502,7 +557,7 @@ CREATE TABLE `sys_log_login`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `create_time`(`create_time` DESC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5000279 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5000288 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log_login
@@ -603,6 +658,15 @@ INSERT INTO `sys_log_login` VALUES (5000275, '1', 'iPhone', 'MicroMessenger', '0
 INSERT INTO `sys_log_login` VALUES (5000276, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-02 15:32:27', '1', '2025-02-02 15:32:27', '');
 INSERT INTO `sys_log_login` VALUES (5000277, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-02 15:33:37', '1', '2025-02-02 15:33:37', '');
 INSERT INTO `sys_log_login` VALUES (5000278, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-02 15:35:10', '1', '2025-02-02 15:35:10', '');
+INSERT INTO `sys_log_login` VALUES (5000279, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-03 00:55:46', '1', '2025-02-03 00:55:46', '');
+INSERT INTO `sys_log_login` VALUES (5000280, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-03 17:42:13', '1', '2025-02-03 17:42:13', '');
+INSERT INTO `sys_log_login` VALUES (5000281, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-03 18:00:44', '1', '2025-02-03 18:00:44', '');
+INSERT INTO `sys_log_login` VALUES (5000282, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-03 21:02:01', '1', '2025-02-03 21:02:01', '');
+INSERT INTO `sys_log_login` VALUES (5000283, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-09 20:40:48', '1', '2025-02-09 20:40:48', '');
+INSERT INTO `sys_log_login` VALUES (5000284, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-10 10:55:29', '1', '2025-02-10 10:55:29', '');
+INSERT INTO `sys_log_login` VALUES (5000285, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '未知 未知 未知', 1, '请求成功！', '1', '2025-02-10 18:27:43', '1', '2025-02-10 18:27:43', '');
+INSERT INTO `sys_log_login` VALUES (5000286, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-10 20:56:18', '1', '2025-02-10 20:56:18', '');
+INSERT INTO `sys_log_login` VALUES (5000287, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-10 21:53:32', '1', '2025-02-10 21:53:32', '');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -942,7 +1006,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (3, '1', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '', '管理员', '/file/5d08ced39910341325c102af785beb54.png', '2', '2024-08-01', '1', '13037503398', '916586595@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2025-02-02 20:06:25', '', '2024-08-16 01:26:41', '', '2025-02-02 20:06:25', '');
+INSERT INTO `sys_user` VALUES (3, '1', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '', '管理员', '/file/9ebe5a638ec01c7f555e992472bde4a7.png', '2', '2024-08-01', '1', '13037503398', '916586595@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2025-02-11 16:21:04', '', '2024-08-16 01:26:41', '', '2025-02-11 16:21:04', '');
 INSERT INTO `sys_user` VALUES (4, '2', '$2a$10$elhEi/ohemfnXateL1BLZ.lLi.fJ31tDVKdSpr3xnr40pdMjAlqlG', '', '张三', '1', '2', '2024-08-22', '1', '13037503390', '1@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2024-11-25 16:38:54', '', '2024-08-16 09:00:11', '', '2024-11-25 16:38:54', '');
 INSERT INTO `sys_user` VALUES (5, '3', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1', '1', '/file/c3f7a394-7b91-43b3-b924-5d1592426f06.jpg', '2', '2024-08-27', '1', '13037503391', '2@qq.com', '1', 0.00, '', NULL, '1', '2024-08-21 14:25:56', '1', '2024-08-21 14:25:56', '');
 INSERT INTO `sys_user` VALUES (6, '4', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1', '1', '/file/a3336d6e-4ef8-46f0-99e6-a104122b9f88.jpg', '2', '2024-08-17', '0', '13037503392', '3@qq.com', '1', 0.00, '', NULL, '1', '2024-08-21 14:34:13', '1', '2024-08-21 15:13:15', '1');
@@ -965,12 +1029,39 @@ CREATE TABLE `sys_user_auth`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `user_id`(`user_id` ASC, `auth_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户三方授权表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户三方授权表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_auth
 -- ----------------------------
 INSERT INTO `sys_user_auth` VALUES (1, 3, 0, 'obAQL7fsZA_G_nxYLMyziDweqOZI', '', '', '2025-01-19 20:27:02', '', '2025-01-19 20:27:02', '');
+
+-- ----------------------------
+-- Table structure for sys_user_info
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_info`;
+CREATE TABLE `sys_user_info`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '姓名',
+  `birthday` date NULL DEFAULT NULL COMMENT '生日',
+  `gender` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '性别',
+  `country` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '国家',
+  `province` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '省份',
+  `city` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '城市',
+  `career` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '职业',
+  `extra` json NOT NULL COMMENT '额外字段',
+  `create_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建者',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '修改者',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_info
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_user_role_link
@@ -1000,5 +1091,27 @@ INSERT INTO `sys_user_role_link` VALUES (23, 7, 2, '', '2024-09-02 15:48:49', ''
 INSERT INTO `sys_user_role_link` VALUES (24, 8, 2, '', '2024-09-02 15:48:55', '', '2024-09-02 15:48:55', '');
 INSERT INTO `sys_user_role_link` VALUES (26, 10, 2, '', '2024-09-13 23:42:22', '', '2024-09-13 23:42:22', '');
 INSERT INTO `sys_user_role_link` VALUES (27, 4, 5, '1', '2024-11-19 16:08:39', '1', '2024-11-19 16:08:39', '');
+
+-- ----------------------------
+-- Table structure for sys_user_school
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_school`;
+CREATE TABLE `sys_user_school`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `school_id` bigint NOT NULL COMMENT '学校ID',
+  `student_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '学号',
+  `intake_date` date NOT NULL COMMENT '入学时间',
+  `create_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建者',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '修改者',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户学校表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_school
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
