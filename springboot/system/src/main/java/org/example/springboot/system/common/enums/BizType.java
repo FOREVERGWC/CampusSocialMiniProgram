@@ -32,7 +32,15 @@ public enum BizType {
     /**
      * 笔记
      */
-    BIZ_NOTE(8, "笔记");
+    BIZ_NOTE(8, "笔记"),
+    /**
+     * 评分
+     */
+    BIZ_RATE(9, "评分"),
+    /**
+     * 评分项
+     */
+    BIZ_RATE_ITEM(10, "评分项");
 
 
     private static final Map<Integer, BizType> map = new HashMap<>();

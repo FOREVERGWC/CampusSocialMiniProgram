@@ -52,9 +52,18 @@ spring:
       static-locations: file:${upload.path}
   mail:
     host: smtp.qq.com
-    port: 587
+    port: 465
     username: 2337523002@qq.com
     password: 2337523002
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: true
   devtools:
     restart:
       enabled: true

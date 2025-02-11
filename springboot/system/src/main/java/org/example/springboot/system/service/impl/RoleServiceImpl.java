@@ -85,7 +85,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         if (CollectionUtil.isEmpty(roleIdList)) {
             return List.of();
         }
-        return Optional.ofNullable(listByIds(roleIdList)).orElse(List.of());
+        return Optional.ofNullable(listByIds(roleIdList))
+                .orElse(List.of())
+                .stream()
+                .filter(item -> Objects.equals(item.getStatus(), EnableStatus.NORMAL.getCode()))
+                .toList();
     }
 
     @Override

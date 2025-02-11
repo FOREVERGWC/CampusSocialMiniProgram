@@ -85,7 +85,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
         if (CollectionUtil.isEmpty(menuIdList)) {
             return List.of();
         }
-        return Optional.ofNullable(listByIds(menuIdList)).orElse(List.of());
+        return Optional.ofNullable(listByIds(menuIdList))
+                .orElse(List.of())
+                .stream()
+                .filter(item -> Objects.equals(item.getStatus(), EnableStatus.NORMAL.getCode()))
+                .toList();
     }
 
     @Override

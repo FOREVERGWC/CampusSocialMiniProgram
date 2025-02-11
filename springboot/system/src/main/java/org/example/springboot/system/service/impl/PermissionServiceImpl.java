@@ -73,7 +73,11 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         if (CollectionUtil.isEmpty(permissionIdList)) {
             return List.of();
         }
-        return Optional.ofNullable(listByIds(permissionIdList)).orElse(List.of());
+        return Optional.ofNullable(listByIds(permissionIdList))
+                .orElse(List.of())
+                .stream()
+                .filter(item -> Objects.equals(item.getStatus(), EnableStatus.NORMAL.getCode()))
+                .toList();
     }
 
     @Override

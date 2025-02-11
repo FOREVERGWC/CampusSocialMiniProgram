@@ -60,6 +60,7 @@ public class FileServiceImpl implements IFileService {
                     .status(true)
                     .build();
             attachmentService.save(object);
+            vo.setAttachment(object);
             return vo;
         }
         List<AttachmentChunk> attachmentChunkList = attachmentChunkService.listByHashCode(hashCode);
@@ -75,7 +76,7 @@ public class FileServiceImpl implements IFileService {
 
     @Transactional
     @Override
-    public String uploadFile(FileChunkDto dto) {
+    public Attachment uploadFile(FileChunkDto dto) {
         if (dto.getFile() == null || dto.getFile().isEmpty()) {
             throw new RuntimeException("上传失败！禁止上传空文件");
         }
@@ -86,8 +87,7 @@ public class FileServiceImpl implements IFileService {
             uploadChunkFile(path, dto);
         }
         String filePath = "/" + "file" + "/" + dto.getHashCode() + "." + FileUtil.extName(dto.getFileName());
-        saveAttachment(filePath, dto);
-        return filePath;
+        return saveAttachment(filePath, dto);
     }
 
     @Override
@@ -183,10 +183,10 @@ public class FileServiceImpl implements IFileService {
     }
 
     @Transactional
-    protected void saveAttachment(String filePath, FileChunkDto dto) {
+    protected Attachment saveAttachment(String filePath, FileChunkDto dto) {
         Attachment attachment = attachmentService.getByHashCode(dto.getHashCode());
         if (attachment != null && attachment.getStatus()) {
-            return;
+            return attachment;
         }
         if (dto.getChunkTotal() == 1) {
             if (attachment == null) {
@@ -247,5 +247,6 @@ public class FileServiceImpl implements IFileService {
                 }
             }
         }
+        return attachment;
     }
 }

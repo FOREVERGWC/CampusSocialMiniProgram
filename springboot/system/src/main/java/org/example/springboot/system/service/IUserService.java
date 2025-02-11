@@ -58,9 +58,9 @@ public interface IUserService extends IService<User> {
     User getByUsername(String username);
 
     /**
-     * 根据电话查询用户信息
+     * 根据手机查询用户信息
      *
-     * @param phone 电话
+     * @param phone 手机
      * @return 结果
      */
     User getByPhone(String phone);

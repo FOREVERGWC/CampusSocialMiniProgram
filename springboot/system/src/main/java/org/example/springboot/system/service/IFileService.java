@@ -2,6 +2,7 @@ package org.example.springboot.system.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.system.domain.dto.FileChunkDto;
+import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.vo.AttachmentCheckVo;
 
 /**
@@ -27,7 +28,7 @@ public interface IFileService {
      * @param dto 文件
      * @return 结果
      */
-    String uploadFile(FileChunkDto dto);
+    Attachment uploadFile(FileChunkDto dto);
 
     /**
      * 获取文件

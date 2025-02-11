@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.springboot.common.common.Constants;
 import org.example.springboot.common.common.enums.ResultCode;
 import org.example.springboot.common.common.exception.ServiceException;
 import org.example.springboot.common.service.IBaseService;
@@ -19,13 +20,18 @@ import org.example.springboot.system.domain.dto.UserDto;
 import org.example.springboot.system.domain.dto.UserEditDto;
 import org.example.springboot.system.domain.entity.Role;
 import org.example.springboot.system.domain.entity.User;
+import org.example.springboot.system.domain.model.LoginUser;
 import org.example.springboot.system.domain.vo.UserVo;
 import org.example.springboot.system.mapper.UserMapper;
 import org.example.springboot.system.service.IRoleService;
 import org.example.springboot.system.service.IUserRoleLinkService;
 import org.example.springboot.system.service.IUserService;
+import org.example.springboot.system.service.cache.ILoginCacheService;
+import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +53,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private IRoleService roleService;
     @Resource
     private IUserRoleLinkService userRoleLinkService;
+    @Resource
+    private ILoginCacheService loginCacheService;
+    @Lazy
+    @Resource
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -76,7 +87,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         validateUsernameAvailable(entity.getId(), entity.getUsername());
         validatePhoneAvailable(entity.getId(), entity.getPhone());
         validateEmailAvailable(entity.getId(), entity.getEmail());
-        return super.updateById(entity);
+        boolean flag = super.updateById(entity);
+
+        Long userId = UserUtils.getLoginUserId();
+        LoginUser user = UserUtils.getLoginUser();
+        threadPoolTaskExecutor.execute(() -> {
+            if (!Objects.equals(userId, entity.getId())) {
+                return;
+            }
+
+            if (user == null) {
+                return;
+            }
+
+            user.setNickname(StrUtil.isBlank(entity.getNickname()) ? user.getNickname() : entity.getNickname());
+            user.setName(StrUtil.isBlank(entity.getName()) ? user.getName() : entity.getName());
+            user.setAvatar(StrUtil.isBlank(entity.getAvatar()) ? user.getAvatar() : entity.getAvatar());
+            user.setGender(StrUtil.isBlank(entity.getGender()) ? user.getGender() : entity.getGender());
+            user.setBirthday(entity.getBirthday() == null ? user.getBirthday() : entity.getBirthday());
+            user.setPhone(StrUtil.isBlank(entity.getPhone()) ? user.getPhone() : entity.getPhone());
+            user.setEmail(StrUtil.isBlank(entity.getEmail()) ? user.getEmail() : entity.getEmail());
+            loginCacheService.setLoginUser(user);
+        });
+        return flag;
     }
 
     @Override
@@ -182,8 +215,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (user == null) {
             throw new ServiceException(ResultCode.USER_NOT_FOUND_ERROR);
         }
-        // TODO 整理逻辑解决循环依赖
-//        user.setPassword(bCryptPasswordEncoder.encode(Constants.RESET_PASSWORD));
+        user.setPassword(bCryptPasswordEncoder.encode(Constants.RESET_PASSWORD));
         updateById(user);
     }
 
@@ -273,10 +305,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     /**
-     * 校验电话是否重复
+     * 校验手机是否重复
      *
      * @param id    主键ID
-     * @param phone 电话
+     * @param phone 手机
      */
     private void validatePhoneAvailable(Long id, String phone) {
         if (StrUtil.isBlank(phone)) {
@@ -287,10 +319,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return;
         }
         if (id == null) {
-            throw new RuntimeException("注册失败！电话已存在");
+            throw new RuntimeException("注册失败！手机已存在");
         }
         if (!Objects.equals(id, user.getId())) {
-            throw new RuntimeException("修改失败！电话已存在");
+            throw new RuntimeException("修改失败！手机已存在");
         }
     }
 
