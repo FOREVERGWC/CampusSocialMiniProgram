@@ -92,7 +92,7 @@ Page({
     })
   },
 
-  handleLogin() {
+  async handleLogin() {
     if (!this.data.username || !this.data.password) {
       wx.showToast({
         title: '请输入用户名和密码',
@@ -101,11 +101,15 @@ Page({
       return
     }
 
+    const {
+      code
+    } = await wx.login()
+
     const form = {
       username: this.data.username,
       password: this.data.password,
       loginType: 1,
-      jsCode: getApp().globalData.jsCode
+      jsCode: code
     }
 
     wx.showLoading({
@@ -193,7 +197,7 @@ Page({
       getMyUserInfoOne().then(res => {
         getApp().globalData.userInfo = res.data || {}
       })
-      
+
       getMyUserSchoolOne().then(res => {
         getApp().globalData.schoolInfo = res.data || {}
       })

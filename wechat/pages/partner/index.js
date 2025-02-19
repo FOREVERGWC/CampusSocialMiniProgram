@@ -1,41 +1,11 @@
-// pages/release/index.js
+// pages/partner/index.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    records: [{
-        id: 1,
-        title: '校园趣事',
-        content: '校园趣事',
-        url: '/pages/note/save/index'
-      },
-      {
-        id: 2,
-        title: '校园评分',
-        content: '校园评分',
-        url: '/pages/rate/save/index'
-      },
-      {
-        id: 3,
-        title: '找搭子',
-        content: '找搭子',
-        url: '/pages/partner/save/index'
-      },
-      {
-        id: 4,
-        title: '活动',
-        content: '活动',
-        url: '/pages/activity/save/index'
-      }
-    ]
-  },
 
-  goToDetail(e) {
-    wx.navigateTo({
-      url: e.currentTarget.dataset.url
-    })
   },
 
   /**

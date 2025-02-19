@@ -17,6 +17,9 @@
     "pages/rate/record/index",
     "pages/activity/index",
     "pages/activity/save/index",
+    "pages/partner/index",
+    "pages/partner/detail/index",
+    "pages/partner/save/index",
     "pages/message/index",
     "pages/my/index",
     "pages/profile/edit/index",
@@ -56,8 +59,8 @@
         "text": "+"
       },
       {
-        "pagePath": "pages/index2/index",
-        "text": "消息"
+        "pagePath": "pages/partner/index",
+        "text": "找搭子"
       },
       {
         "pagePath": "pages/my/index",

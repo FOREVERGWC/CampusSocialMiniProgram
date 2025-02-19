@@ -1,0 +1,46 @@
+<!--pages/partner/save/index.wxml-->
+<view style="height: 100vh;">
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+    <view slot="content">
+      <text>找搭子</text>
+    </view>
+  </cu-custom>
+
+  <view class="padding-lr">
+    <view class="padding-top-lg">
+      <t-textarea value="{{ title }}" placeholder="在此输入标题" bordered maxlength="50" disableDefaultPadding="{{ true }}" indicator data-key="title" bind:change="onInput" />
+    </view>
+    <view class="padding-tb-lg">
+      <t-textarea value="{{ content }}" placeholder="在此输入内容" bordered maxlength="255" disableDefaultPadding="{{ true }}" indicator data-key="content" bind:change="onInput" />
+    </view>
+  </view>
+
+  <t-cell-group theme="card">
+    <t-cell hover arrow data-key="subject" bind:tap="onPicker">
+      <text class="text-grey" slot="title">活动主题</text>
+      <text class="text-grey text-sm" slot="note">{{ subjectLabel }}</text>
+    </t-cell>
+    <t-input value="{{ num }}" suffixIcon="chevron-right" align="right" borderless data-key="num" bind:change="onInput">
+      <text class="text-grey" slot="label">活动人数</text>
+    </t-input>
+    <t-cell hover arrow data-key="endDatetime" bind:tap="onPicker">
+      <text class="text-grey" slot="title">截止时间</text>
+      <text class="text-grey text-sm" slot="note">{{ endDatetimeLabel }}</text>
+    </t-cell>
+  </t-cell-group>
+
+  <view class="padding-top-lg padding-bottom-xl padding-lr">
+    <button class="cu-btn block bg-blue lg" bind:tap="handleSubimt" disabled="{{ loading }}">发布</button>
+  </view>
+
+  <t-picker visible="{{ subjectVisible }}" value="{{ subjectValue }}" keys="{{ props }}" data-key="subject" title="选择活动主题" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">
+    <t-picker-item options="{{ subjectList }}">
+      <block wx:for="{{ subjectList }}" wx:key="index" wx:for-item="item">
+        <view wx:if="{{ item.icon }}" slot="label-suffix--{{ index }}">
+          <view class="cuIcon-{{ item.icon }}" />
+        </view>
+      </block>
+    </t-picker-item>
+  </t-picker>
+  <t-date-time-picker title="选择截止时间" visible="{{ endDatetimeVisible }}" mode="second" value="{{ endDatetimeValue }}" data-key="endDatetime" format="YYYY-MM-DD HH:mm:ss" bindchange="onDateTimePickerChange" bindcancel="onPickerCancel" start="{{ start }}" />
+</view>
