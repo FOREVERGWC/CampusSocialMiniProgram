@@ -1,0 +1,23 @@
+<!--components/campus-partner/index.wxml-->
+<view class="cu-card article" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" data-id="{{ item.id }}">
+  <view class="cu-item shadow">
+    <view class="title">
+      <view class="text-cut">{{ item.title }}</view>
+    </view>
+    <view class="content">
+      <view class="desc">
+        <view class="text-content">{{ item.content }}</view>
+        <view class="text-gray text-sm flex justify-between">
+          <view>截止时间：{{ item.endTime }}</view>
+          <view>
+            <text class="cuIcon-attention margin-lr-xs"> {{ item.count.view }}</text>
+            <text class="cuIcon-appreciate{{ item.count.like.hasDone ? 'fill' : '' }} margin-lr-xs"> {{ item.count.like.num }}</text>
+            <!-- <text class="cuIcon-bad margin-lr-xs"> {{ item.count.dislike }}</text> -->
+            <text class="cuIcon-comment margin-lr-xs"> {{ item.count.comment }}</text>
+            <text class="cuIcon-favor{{ item.count.favorite.hasDone ? 'fill' : '' }} margin-lr-xs"> {{ item.count.favorite.num }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -63,3 +63,15 @@ export const getPartnerOne = (params) => {
     params: params
   })
 }
+
+/**
+ * 查询组局
+ * @param id 主键ID
+ * @returns {*} 结果
+ */
+export const getPartnerById = (id) => {
+  return request({
+    url: `/partner/${id}`,
+    method: 'GET'
+  })
+}

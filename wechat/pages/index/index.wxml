@@ -19,7 +19,7 @@
   <campus-rating wx:elif="{{ activeTab === '2' }}" records="{{ records }}" />
 
   <!-- 找搭子 -->
-  <find-partner wx:else="{{ activeTab === '3' }}" />
+  <campus-partner wx:else="{{ activeTab === '3' }}" records="{{ records }}" />
 
   <view class="cu-load over" />
 </scroll-view>

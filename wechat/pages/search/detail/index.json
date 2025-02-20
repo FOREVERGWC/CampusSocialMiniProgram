@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "campus-fun": "../../../components/campus-fun/index",
-    "campus-activity": "../../../components/campus-activity/index"
+    "campus-activity": "../../../components/campus-activity/index",
+    "campus-partner": "../../../components/campus-partner/index"
   }
 }

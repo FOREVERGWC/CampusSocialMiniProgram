@@ -1,3 +1,5 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "campus-partner": "../../components/campus-partner/index"
+  }
 }

@@ -9,6 +9,9 @@ import {
   getActivityPage
 } from '../../../api/activity/index'
 import {
+  getPartnerPage
+} from '../../../api/partner/index'
+import {
   baseUrl,
   defaultAvatar
 } from '../../../utils/common'
@@ -62,6 +65,8 @@ Page({
       this.getRateRecords()
     } else if (this.data.activeTab == '2') {
       this.getActivityRecords()
+    } else if (this.data.activeTab == '3') {
+      this.getPartnerRecords()
     }
 
     this.setData({
@@ -150,6 +155,39 @@ Page({
         });
         return
       }
+
+      this.setData({
+        records: res.data?.records || [],
+        total: res.data?.total || 0,
+        pages: res.data?.pages || 0
+      })
+    }).catch(error => {
+      if (error.code === 401) {
+        setTimeout(() => {
+          wx.navigateTo({
+            url: '/pages/login/index'
+          })
+        }, 3000)
+      }
+    })
+  },
+
+  getPartnerRecords() {
+    getPartnerPage(this.data.queryParams).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      res.data?.records.forEach(item => {
+        item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+        // item.attachmentList.forEach(attachement => {
+        //   attachement.filePath = baseUrl + attachement.filePath
+        // })
+      })
 
       this.setData({
         records: res.data?.records || [],

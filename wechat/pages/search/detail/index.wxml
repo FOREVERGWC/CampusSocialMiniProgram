@@ -8,6 +8,7 @@
     <text bindtap="onTabClick" data-tab="0" class="{{ activeTab === '0' ? 'solid-bottom-red text-black padding-bottom-xs' : '' }}">校园趣事</text>
     <text bindtap="onTabClick" data-tab="1" class="{{ activeTab === '1' ? 'solid-bottom-red text-black padding-bottom-xs' : '' }}">校园评分</text>
     <text bindtap="onTabClick" data-tab="2" class="{{ activeTab === '2' ? 'solid-bottom-red text-black padding-bottom-xs' : '' }}">活动</text>
+    <text bindtap="onTabClick" data-tab="3" class="{{ activeTab === '3' ? 'solid-bottom-red text-black padding-bottom-xs' : '' }}">找搭子</text>
     |
     <text class="cuIcon-filter">筛选</text>
   </view>
@@ -19,6 +20,9 @@
 
   <!-- 校园活动 -->
   <campus-activity wx:elif="{{ activeTab === '2' }}" records="{{ records }}" />
+
+  <!-- 找搭子 -->
+  <campus-partner wx:elif="{{ activeTab === '3' }}" records="{{ records }}" />
 
   <view class="cu-load over" />
 </scroll-view>

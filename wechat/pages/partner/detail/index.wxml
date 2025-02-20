@@ -1,2 +1,53 @@
 <!--pages/partner/detail/index.wxml-->
-<text>pages/partner/detail/index.wxml</text>
+<view class="bg-white">
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+    <view slot="content">
+      <view class="flex align-center" style="gap: 8rpx;">
+        <view class="cu-avatar radius sm" style="background-image:url({{detail.user.avatar}});" />
+        <text class="text-black">{{ detail.user.username }}</text>
+      </view>
+    </view>
+  </cu-custom>
+
+  <scroll-view scroll-y="true" style="height: 100vh;">
+    <!-- 内容 -->
+    <view class="padding-lr">
+      <swiper wx:if="{{ detail.attachmentList.length > 0 }}" class="screen-swiper square-dot" indicator-dots="{{ true }}" circular="{{ true }}" autoplay="{{ true }}" interval="5000" duration="500">
+        <swiper-item wx:for="{{ detail.attachmentList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
+          <image src="{{ item.filePath }}" style="width: 100%;" mode="aspectFit" />
+          <!-- <video src="{{ item.filePath }}" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" /> -->
+        </swiper-item>
+      </swiper>
+
+      <view class="padding-tb-lg">
+        <view class="margin-bottom-sm">{{ detail.content }}</view>
+        <view class="margin-bottom-sm">活动主题：{{ detail.subject.name }}</view>
+        <view class="margin-bottom-sm">活动人数：{{ detail.num }}</view>
+        <view class="margin-bottom-sm">截止时间：{{ detail.endTime }}</view>
+        <view class="text-gray text-sm">编辑于{{ detail.updateTime }} {{ detail.location }}</view>
+      </view>
+    </view>
+
+    <!-- 评论区 -->
+    <comment bizId="{{ id }}" bizType="11" />
+  </scroll-view>
+
+  <view class="cu-bar bg-white tabbar border shop foot">
+    <!-- <view class="submit">说点什么</view> -->
+    <button class="action text-red" bindtap="handleLikePartner">
+      <view class="{{ detail.count.like.hasDone ? 'cuIcon-likefill' : 'cuIcon-like' }}">
+        <view class="cu-tag badge">{{ detail.count.like.num }}</view>
+      </view>
+    </button>
+    <view class="action text-orange" bindtap="handleFavoritePartner">
+      <view class="{{ detail.count.favorite.hasDone ? 'cuIcon-favorfill' : 'cuIcon-favor' }}">
+        <view class="cu-tag badge">{{ detail.count.favorite.num }}</view>
+      </view>
+    </view>
+    <view class="action">
+      <view class="cuIcon-comment">
+        <view class="cu-tag badge">{{ detail.count.comment }}</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -18,8 +18,13 @@ import org.example.springboot.biz.service.IPartnerService;
 import org.example.springboot.biz.service.IPartnerSubjectService;
 import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
+import org.example.springboot.system.common.enums.BizType;
+import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.entity.User;
-import org.example.springboot.system.service.IUserService;
+import org.example.springboot.system.domain.vo.CountVo;
+import org.example.springboot.system.domain.vo.FavoriteCountVo;
+import org.example.springboot.system.domain.vo.LikeCountVo;
+import org.example.springboot.system.service.*;
 import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -41,6 +46,22 @@ public class PartnerServiceImpl extends ServiceImpl<PartnerMapper, Partner> impl
     private IUserService userService;
     @Resource
     private IPartnerSubjectService partnerSubjectService;
+    @Resource
+    private ICountViewService countViewService;
+    @Resource
+    private ICountLikeService countLikeService;
+    @Resource
+    private ICountDislikeService countDislikeService;
+    @Resource
+    private ICountCommentService countCommentService;
+    @Resource
+    private ICountFavoriteService countFavoriteService;
+    @Resource
+    private IAttachmentService attachmentService;
+    @Resource
+    private ILikeService likeService;
+    @Resource
+    private IFavoriteService favoriteService;
     @Resource
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -73,12 +94,34 @@ public class PartnerServiceImpl extends ServiceImpl<PartnerMapper, Partner> impl
         List<Long> subjectIdList = list.stream().map(Partner::getSubjectId).toList();
         List<PartnerSubject> subjectList = partnerSubjectService.listByIds(subjectIdList);
         Map<Long, PartnerSubject> subjectMap = subjectList.stream().collect(Collectors.toMap(PartnerSubject::getId, item -> item));
+        // ID列表
+        List<Long> idList = list.stream().map(Partner::getId).toList();
+        // 组局附件
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 浏览量
+        Map<Long, Long> viewCountMap = countViewService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 点赞量
+        Map<Long, LikeCountVo> countLikeVoMap = countLikeService.mapCountVoByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 点踩量
+        Map<Long, Long> dislikeCountMap = countDislikeService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 评论量
+        Map<Long, Long> commentCountMap = countCommentService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 收藏量
+        Map<Long, FavoriteCountVo> countFavoriteVoMap = countFavoriteService.mapCountVoByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
         // 组装VO
         return list.stream().map(item -> {
             PartnerVo vo = new PartnerVo();
             BeanUtils.copyProperties(item, vo);
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));
             vo.setSubject(subjectMap.getOrDefault(item.getSubjectId(), PartnerSubject.builder().name("已删除").build()));
+            vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
+            vo.setCount(CountVo.builder()
+                    .view(viewCountMap.getOrDefault(item.getId(), 0L))
+                    .like(countLikeVoMap.getOrDefault(item.getId(), LikeCountVo.builder().hasDone(false).num(0L).build()))
+                    .dislike(dislikeCountMap.getOrDefault(item.getId(), 0L))
+                    .comment(commentCountMap.getOrDefault(item.getId(), 0L))
+                    .favorite(countFavoriteVoMap.getOrDefault(item.getId(), FavoriteCountVo.builder().hasDone(false).num(0L).build()))
+                    .build());
             return vo;
         }).toList();
     }
@@ -97,12 +140,34 @@ public class PartnerServiceImpl extends ServiceImpl<PartnerMapper, Partner> impl
         List<Long> subjectIdList = info.getRecords().stream().map(Partner::getSubjectId).toList();
         List<PartnerSubject> subjectList = partnerSubjectService.listByIds(subjectIdList);
         Map<Long, PartnerSubject> subjectMap = subjectList.stream().collect(Collectors.toMap(PartnerSubject::getId, item -> item));
+        // ID列表
+        List<Long> idList = info.getRecords().stream().map(Partner::getId).toList();
+        // 组局附件
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 浏览量
+        Map<Long, Long> viewCountMap = countViewService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 点赞量
+        Map<Long, LikeCountVo> countLikeVoMap = countLikeService.mapCountVoByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 点踩量
+        Map<Long, Long> dislikeCountMap = countDislikeService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 评论量
+        Map<Long, Long> commentCountMap = countCommentService.mapCountByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
+        // 收藏量
+        Map<Long, FavoriteCountVo> countFavoriteVoMap = countFavoriteService.mapCountVoByBizIdsAndBizType(idList, BizType.BIZ_PARTNER.getCode());
         // 组装VO
         return info.convert(item -> {
             PartnerVo vo = new PartnerVo();
             BeanUtils.copyProperties(item, vo);
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));
             vo.setSubject(subjectMap.getOrDefault(item.getSubjectId(), PartnerSubject.builder().name("已删除").build()));
+            vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
+            vo.setCount(CountVo.builder()
+                    .view(viewCountMap.getOrDefault(item.getId(), 0L))
+                    .like(countLikeVoMap.getOrDefault(item.getId(), LikeCountVo.builder().hasDone(false).num(0L).build()))
+                    .dislike(dislikeCountMap.getOrDefault(item.getId(), 0L))
+                    .comment(commentCountMap.getOrDefault(item.getId(), 0L))
+                    .favorite(countFavoriteVoMap.getOrDefault(item.getId(), FavoriteCountVo.builder().hasDone(false).num(0L).build()))
+                    .build());
             return vo;
         });
     }
@@ -113,15 +178,39 @@ public class PartnerServiceImpl extends ServiceImpl<PartnerMapper, Partner> impl
         if (one == null) {
             return null;
         }
+        // ID
+        Long id = one.getId();
+        // 访问量
+        countViewService.countPlus(id, BizType.BIZ_PARTNER.getCode());
         // 用户
         User user = Optional.ofNullable(userService.getById(one.getUserId())).orElse(User.builder().name("已删除").build());
         // 主题
         PartnerSubject subject = Optional.ofNullable(partnerSubjectService.getById(one.getSubjectId())).orElse(PartnerSubject.builder().name("已删除").build());
+        // 组局附件
+        List<Attachment> attachmentList = attachmentService.listByBizIdAndBizType(id, BizType.BIZ_PARTNER.getCode());
+        // 浏览量
+        Long viewCount = countViewService.getCountByBizIdAndBizType(id, BizType.BIZ_PARTNER.getCode());
+        // 点赞量
+        LikeCountVo like = countLikeService.getCountVoByBizIdAndBizType(id, BizType.BIZ_PARTNER.getCode());
+        // 点踩量
+        Long dislikeCount = countDislikeService.getCountByBizIdAndBizType(id, BizType.BIZ_PARTNER.getCode());
+        // 评论量
+        Long commentCount = countCommentService.getCountByBizIdAndBizType(id, BizType.BIZ_PARTNER.getCode());
+        // 收藏量
+        FavoriteCountVo favorite = countFavoriteService.getCountVoByBizIdAndBizType(id, BizType.BIZ_PARTNER.getCode());
         // 组装VO
         PartnerVo vo = new PartnerVo();
         BeanUtils.copyProperties(one, vo);
         vo.setUser(user);
         vo.setSubject(subject);
+        vo.setAttachmentList(attachmentList);
+        vo.setCount(CountVo.builder()
+                .view(viewCount)
+                .like(like)
+                .dislike(dislikeCount)
+                .comment(commentCount)
+                .favorite(favorite)
+                .build());
         return vo;
     }
 
