@@ -1,4 +1,4 @@
-<!--pages/index/components/campus-rating/index.wxml-->
+<!--components/campus-rating/index.wxml-->
 <view class="cu-card article">
   <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="cu-item shadow">
     <view class="title">

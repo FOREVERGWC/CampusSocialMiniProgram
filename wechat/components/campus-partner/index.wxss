@@ -1,5 +1,4 @@
 /* components/campus-partner/index.wxss */
-.cu-avatar.xs {
-  width: 24rpx;
-  height: 24rpx;
+.cu-card:not(:first-of-type)>.cu-item {
+  margin-top: 0;
 }

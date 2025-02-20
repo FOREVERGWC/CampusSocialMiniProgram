@@ -1,7 +1,7 @@
 {
   "usingComponents": {
     "campus-fun": "../../components/campus-fun/index",
-    "campus-rating": "./components/campus-rating/index",
+    "campus-rating": "../../components/campus-rating/index",
     "campus-partner": "../../components/campus-partner/index"
   }
 }

@@ -18,6 +18,9 @@
   <!-- 校园趣事 -->
   <campus-fun wx:if="{{ activeTab === '0' }}" records="{{ records }}" />
 
+  <!-- 校园评分 -->
+  <campus-rating wx:if="{{ activeTab === '1' }}" records="{{ records }}" />
+
   <!-- 校园活动 -->
   <campus-activity wx:elif="{{ activeTab === '2' }}" records="{{ records }}" />
 

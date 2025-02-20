@@ -1,4 +1,4 @@
-// pages/index/components/campus-rating/index.js
+// components/campus-rating/index.js
 Component({
   options: {
     styleIsolation: 'apply-shared'
