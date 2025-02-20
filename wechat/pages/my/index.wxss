@@ -3,18 +3,6 @@
   border-radius: 16rpx;
 }
 
-.avatar-button {
-  border: none;
-  padding: 0;
-  background: none;
-  border-radius: 50%;
-  width: 68px;
-  height: 68px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .user-detail {
   flex: 1;
   margin-left: 20rpx;

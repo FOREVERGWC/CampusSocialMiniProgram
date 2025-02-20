@@ -40,6 +40,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -368,16 +369,21 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
                 .eq(entity.getStatus() != null, Note::getStatus, entity.getStatus())
                 .eq(entity.getDeleted() != null, Note::getDeleted, entity.getDeleted());
         if (entity instanceof NoteDto dto) {
+            Map<String, Object> params = dto.getParams();
             // ID列表
             wrapper.in(CollectionUtil.isNotEmpty(dto.getIdList()), Note::getId, dto.getIdList());
-            Map<String, Object> params = dto.getParams();
             // 创建时间
             Object startCreateTime = params == null ? null : params.get("startCreateTime");
             Object endCreateTime = params == null ? null : params.get("endCreateTime");
-
             wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
                     Note::getCreateTime,
                     startCreateTime, endCreateTime);
+            // 排序
+            String orderBy = dto.getOrderBy();
+            Boolean isAsc = dto.getIsAsc();
+            if (StrUtil.isNotBlank(orderBy) && isAsc != null) {
+                wrapper.orderBy(Objects.equals(orderBy, "createTime"), isAsc, Note::getCreateTime);
+            }
         }
         return wrapper;
     }

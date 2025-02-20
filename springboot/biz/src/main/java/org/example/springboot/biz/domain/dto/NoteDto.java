@@ -48,4 +48,12 @@ public class NoteDto extends Note {
      */
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, Object> params;
+    /**
+     * 排序字段
+     */
+    private String orderBy;
+    /**
+     * 是否升序
+     */
+    private Boolean isAsc;
 }

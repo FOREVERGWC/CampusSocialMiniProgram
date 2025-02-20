@@ -16,6 +16,7 @@
     "pages/rate/item/save/index",
     "pages/rate/record/index",
     "pages/activity/index",
+    "pages/activity/detail/index",
     "pages/activity/save/index",
     "pages/partner/index",
     "pages/partner/detail/index",

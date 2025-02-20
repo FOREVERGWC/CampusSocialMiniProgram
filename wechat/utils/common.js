@@ -1,3 +1,5 @@
+import SparkMD5 from 'spark-md5'
+
 export const baseUrl = 'http://localhost:9091'
 export const defaultAvatar = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 
@@ -53,6 +55,67 @@ export const processUpdateTime = (records) => {
       processUpdateTime(item.children);
     }
   })
+}
+
+/**
+ * 创建文件分片
+ * @param {*} file 文件
+ * @param {*} chunkSize 分片大小
+ */
+export const createChunks = (file, chunkSize) => {
+  return Array.from({
+      length: Math.ceil(file.size / chunkSize)
+    }, (_, index) =>
+    file.slice(index * chunkSize, Math.min((index + 1) * chunkSize, file.size))
+  )
+}
+
+/**
+ * 计算文件散列值
+ * @param {*} chunks 
+ */
+export const getHashCode = (chunks) => {
+  return new Promise(resolve => {
+    const spark = new SparkMD5.ArrayBuffer();
+
+    const read = (i) => {
+      if (i >= chunks.length) {
+        const result = spark.end();
+        resolve(result);
+        return;
+      }
+
+      const blob = chunks[i];
+      const reader = new FileReader();
+
+      reader.onload = e => {
+        const arrayBuffer = e.target.result;
+
+        spark.append(arrayBuffer);
+        read(i + 1);
+      };
+
+      reader.onerror = (error) => {
+        console.error('Error reading chunk:', error);
+      };
+
+      reader.readAsArrayBuffer(blob);
+    };
+
+    read(0);
+  });
+};
+
+/**
+ * 根据响应类型获取文件类型
+ * @param {*} contentType 响应类型
+ */
+export const getFileTypeByContentType = (contentType) => {
+  const map = {
+    'image/jpeg': 'jpeg'
+  }
+
+  return map[contentType]
 }
 
 export const countryList = [{

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -99,16 +100,21 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
             // 创建时间
             Object startCreateTime = params == null ? null : params.get("startCreateTime");
             Object endCreateTime = params == null ? null : params.get("endCreateTime");
-            // 活动时间
-            Object startActivityDateTime = params == null ? null : params.get("startActivityDateTime");
-            Object endActivityDateTime = params == null ? null : params.get("endActivityDateTime");
-
             wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
                     Activity::getCreateTime,
                     startCreateTime, endCreateTime);
+            // 活动时间
+            Object startActivityDateTime = params == null ? null : params.get("startActivityDateTime");
+            Object endActivityDateTime = params == null ? null : params.get("endActivityDateTime");
             if (ObjectUtil.isAllNotEmpty(startActivityDateTime, endActivityDateTime)) {
                 wrapper.ge(Activity::getStartDatetime, startActivityDateTime)
                         .le(Activity::getEndDatetime, endActivityDateTime);
+            }
+            // 排序
+            String orderBy = dto.getOrderBy();
+            Boolean isAsc = dto.getIsAsc();
+            if (StrUtil.isNotBlank(orderBy) && isAsc != null) {
+                wrapper.orderBy(Objects.equals(orderBy, "createTime"), isAsc, Activity::getCreateTime);
             }
         }
         return wrapper;

@@ -92,15 +92,6 @@ Page({
 
   },
 
-  onChooseAvatar(e) {
-    const avatar = e.detail.avatarUrl
-    this.setData({
-      avatar: avatar
-    })
-    // TODO 调用上传接口，把微信临时地址上传到后端，并将后端返回的真实地址设置为avatar
-    // TODO 提交头像修改
-  },
-
   getUserInfo() {
     // 获取用户信息的逻辑
   },

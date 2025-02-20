@@ -12,7 +12,10 @@ import {
   baseUrl,
   countryList,
   provinceList,
-  cityList
+  cityList,
+  createChunks,
+  getHashCode,
+  getFileTypeByContentType
 } from '../../../utils/common'
 
 Page({
@@ -38,6 +41,92 @@ Page({
       }
 
       getApp().globalData.schoolInfo = res.data || {}
+    })
+  },
+
+  async onChooseAvatar(e) {
+    const avatar = e.detail.avatarUrl
+    this.setData({
+      avatar: avatar
+    })
+    const chunkSize = 10 * 1024 * 1024
+    const {
+      hashCode,
+      fileSize,
+      fileType
+    } = await this.calculateFileHash(chunkSize, avatar)
+    console.log(hashCode, fileType);
+    // TODO: 文件分片处理
+    wx.uploadFile({
+      url: 'http://localhost:9091/file/upload',
+      filePath: avatar,
+      name: 'file',
+      formData: {
+        bizId: this.data.user.id,
+        bizType: 1,
+        hashCode: hashCode,
+        fileName: `微信头像.${fileType}`,
+        fileSize: fileSize,
+        chunkSize: chunkSize,
+        chunkIndex: 0,
+        chunkTotal: 1
+      },
+      success(res) {
+        const data = JSON.parse(res.data)
+        const filePath = data.data.filePath
+
+        const userData = {
+          avatar: filePath
+        }
+        editUser(userData).then(res => {
+          if (res.code !== 200) {
+            wx.showToast({
+              title: res.msg,
+              icon: 'none'
+            });
+            return
+          }
+
+          wx.showToast({
+            title: '保存成功！~',
+            icon: 'none'
+          });
+        })
+      }
+    })
+  },
+
+  async calculateFileHash(chunkSize, url) {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: url,
+        responseType: 'arraybuffer', // 指定响应类型为 ArrayBuffer
+        success: async (res) => {
+          if (res.statusCode === 200) {
+            const buffer = res.data;
+            const fileSize = buffer.byteLength;
+            const contentType = res.header['Content-Type'] || res.header['content-type'];
+            const fileType = getFileTypeByContentType(contentType)
+            // 使用 Web Crypto API 计算哈希值
+            try {
+              const chunks = createChunks(buffer, chunkSize)
+              const hashCode = await getHashCode(chunks)
+              resolve({
+                hashCode: hashCode,
+                fileSize: fileSize,
+                fileType: fileType
+              });
+            } catch (error) {
+              reject('计算哈希值时出错: ' + error);
+            }
+          } else {
+            reject('文件请求失败，状态码: ' + res.statusCode);
+          }
+        },
+        fail: (error) => {
+          reject('请求失败: ' + error.errMsg);
+        }
+      })
     })
   },
 

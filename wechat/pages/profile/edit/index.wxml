@@ -6,7 +6,9 @@
 </cu-custom>
 
 <view class="flex align-center justify-center padding-xl">
-  <t-avatar image="{{ avatar || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
+  <button class="avatar-button" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+    <t-avatar image="{{ avatar || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
+  </button>
 </view>
 
 <t-cell-group theme="card">

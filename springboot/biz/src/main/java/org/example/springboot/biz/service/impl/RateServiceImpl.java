@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -151,10 +152,15 @@ public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IR
             // 创建时间
             Object startCreateTime = params == null ? null : params.get("startCreateTime");
             Object endCreateTime = params == null ? null : params.get("endCreateTime");
-
             wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
                     Rate::getCreateTime,
                     startCreateTime, endCreateTime);
+            // 排序
+            String orderBy = dto.getOrderBy();
+            Boolean isAsc = dto.getIsAsc();
+            if (StrUtil.isNotBlank(orderBy) && isAsc != null) {
+                wrapper.orderBy(Objects.equals(orderBy, "createTime"), isAsc, Rate::getCreateTime);
+            }
         }
         return wrapper;
     }

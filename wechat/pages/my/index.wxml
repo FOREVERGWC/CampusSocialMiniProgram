@@ -9,9 +9,7 @@
 
   <!-- 用户信息 -->
   <view class="flex align-center padding user-info-box">
-    <button class="avatar-button" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-      <t-avatar image="{{ avatar || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
-    </button>
+    <t-avatar image="{{ avatar || 'https://tdesign.gtimg.com/mobile/demos/avatar1.png' }}" size="large" />
     <view class="user-detail">
       <view class="nickname" bind:tap="goToLogin">{{ user.nickname || user.username || '未登录' }}</view>
       <view class="user-id">用户ID：{{ user.id || '--' }}</view>

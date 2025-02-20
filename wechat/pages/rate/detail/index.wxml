@@ -18,7 +18,7 @@
     <view class="padding-top-lg">
       <view>{{ detail.content }}</view>
       <view class="padding-tb-sm">
-        <t-rate value="{{ detail.score }}" count="{{ 10 }}" />
+        <t-rate value="{{ detail.score }}" count="{{ 10 }}" disabled allow-half="true" />
       </view>
       <view class="flex justify-between align-center padding-bottom-sm">
         <view class="text-gray text-sm">编辑于{{ detail.updateTime }}</view>
