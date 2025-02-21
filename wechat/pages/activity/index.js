@@ -101,7 +101,9 @@ Page({
     this.setData({
       queryParams: {
         pageNo: 1,
-        pageSize: 8
+        pageSize: 8,
+        orderBy: 'createTime',
+        isAsc: false
       },
       refreshing: true,
       records: []

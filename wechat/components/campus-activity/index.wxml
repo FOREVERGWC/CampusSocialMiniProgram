@@ -1,5 +1,5 @@
 <!--components/campus-activity/index.wxml-->
-<view class="cu-card article" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" data-id="{{ item.id }}">
+<view class="cu-card article" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}">
   <view class="cu-item shadow">
     <view class="title">
       <view class="text-cut">{{ item.title }}</view>

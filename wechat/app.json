@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index2/index",
     "pages/search/index",
     "pages/search/detail/index",
     "pages/release/index",

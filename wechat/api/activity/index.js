@@ -63,3 +63,15 @@ export const getActivityOne = (params) => {
     params: params
   })
 }
+
+/**
+ * 查询活动
+ * @param id 主键ID
+ * @returns {*} 结果
+ */
+export const getActivityById = (id) => {
+  return request({
+    url: `/activity/${id}`,
+    method: 'GET'
+  })
+}

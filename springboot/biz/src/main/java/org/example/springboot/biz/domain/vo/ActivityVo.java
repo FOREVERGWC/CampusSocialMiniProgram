@@ -5,8 +5,11 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.springboot.biz.domain.entity.Activity;
+import org.example.springboot.system.domain.entity.Attachment;
+import org.example.springboot.system.domain.vo.CountVo;
 
 import java.io.Serial;
+import java.util.List;
 
 /**
  * <p>
@@ -25,8 +28,13 @@ public class ActivityVo extends Activity {
     @Serial
     private static final long serialVersionUID = 1L;
     /**
-     * 占位符
+     * 附件列表
      */
-    @Schema(description = "占位符")
-    private String placeholder;
+    @Schema(description = "附件列表")
+    private List<Attachment> attachmentList;
+    /**
+     * 数量
+     */
+    @Schema(description = "数量")
+    private CountVo count;
 }

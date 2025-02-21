@@ -44,7 +44,11 @@ public enum BizType {
     /**
      * 组局
      */
-    BIZ_PARTNER(11, "组局");
+    BIZ_PARTNER(11, "组局"),
+    /**
+     * 活动
+     */
+    BIZ_ACTIVITY(12, "活动");
 
 
     private static final Map<Integer, BizType> map = new HashMap<>();

@@ -18,7 +18,7 @@
 
   <!-- 数据统计 -->
   <view class="flex justify-between margin-top">
-    <view class="flex justify-around flex-sub">
+    <!-- <view class="flex justify-around flex-sub">
       <view class="text-center text-sm">
         <view class="text-bold">{{ stats.follows || 0 }}</view>
         <view class="margin-top-xs">关注</view>
@@ -31,7 +31,8 @@
         <view class="text-bold">{{ stats.likes || 0 }}</view>
         <view class="margin-top-xs">获赞与收藏</view>
       </view>
-    </view>
+    </view> -->
+    <view class="flex-1" />
     <view class="flex justify-between padding-right-xs" style="gap: 16rpx;">
       <t-button size="small" theme="light" shape="round" bind:tap="goToEdit">编辑资料</t-button>
       <t-button size="small" theme="light" icon="setting" shape="round" bind:tap="goToSetting" />

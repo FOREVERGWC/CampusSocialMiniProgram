@@ -25,6 +25,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    onToDetail(event) {
+      const id = event.currentTarget.dataset.id;
+      wx.navigateTo({
+        url: `/pages/activity/detail/index?id=${id}`
+      });
+    }
   }
 })
