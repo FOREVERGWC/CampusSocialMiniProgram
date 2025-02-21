@@ -14,7 +14,7 @@
       <t-textarea value="{{ content }}" placeholder="在此输入内容" bordered maxlength="255" disableDefaultPadding="{{ true }}" indicator data-key="content" bind:change="onInput" />
     </view>
     <view class="padding-bottom-lg">
-      <t-upload id="{{ detail.id }}" media-type="{{ ['video', 'image'] }}" files="{{ fileList }}" bind:add="handleAdd" bind:click="handleClick" bind:success="handleSuccess" bind:remove="handleRemove" bind:sort-end="handleSortEnd" />
+      <t-upload id="{{ detail.id }}" media-type="{{ ['video', 'image'] }}" files="{{ fileList }}" bind:add="handleAdd" bind:remove="handleRemove" />
     </view>
   </view>
 

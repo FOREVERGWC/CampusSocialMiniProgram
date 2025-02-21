@@ -9,7 +9,11 @@ import {
   removeAttachmentBatchByIds
 } from '../../../api/attachment/index'
 import {
-  baseUrl
+  checkFile
+} from '../../../api/file/index'
+import {
+  baseUrl,
+  calculateFileHash
 } from '../../../utils/common'
 
 Page({
@@ -141,11 +145,45 @@ Page({
     });
   },
 
-  handleAdd(e) {
+  async handleAdd(e) {
     const fileList = this.data.fileList;
     const files = e.detail.files;
     console.log(e.currentTarget.id, fileList, files);
+    const chunkSize = 10 * 1024 * 1024
+    const {
+      hashCode,
+      fileSize
+    } = await calculateFileHash(chunkSize, files[0].url)
     // TODO: 文件分片处理
+    const checkParams = {
+      hashCode: hashCode,
+      bizId: e.currentTarget.id,
+      bizType: 8,
+      chunkTotal: 1
+    }
+    const {
+      data
+    } = await checkFile(checkParams)
+    if (data.hasUpload) {
+      wx.showToast({
+        title: '上传成功！~',
+        icon: 'none'
+      })
+      console.log(data);
+      const item = {
+        id: data.id,
+        url: baseUrl + data.filePath,
+        name: data.fileName,
+        type: 'image'
+      }
+      this.setData({
+        fileList: [...fileList, item]
+      });
+
+      return
+    }
+
+    const _this = this
     wx.uploadFile({
       url: 'http://localhost:9091/file/upload',
       filePath: files[0].url,
@@ -153,31 +191,44 @@ Page({
       formData: {
         bizId: e.currentTarget.id,
         bizType: 8,
-        hashCode: 'asfsafasf436rg',
+        hashCode: hashCode,
         fileName: files[0].name,
-        fileSize: files[0].size,
-        chunkSize: 10 * 1024 * 1024,
+        fileSize: fileSize,
+        chunkSize: chunkSize,
         chunkIndex: 0,
         chunkTotal: 1
       },
       success(res) {
-        const data = res.data
-        //do something
+        const data = JSON.parse(res.data)
+        const item = {
+          id: data.data.id,
+          url: baseUrl + data.data.filePath,
+          name: data.data.fileName,
+          type: 'image'
+        }
+        _this.setData({
+          fileList: [...fileList, item]
+        });
+        _this.data.fileList.forEach(file => {
+          console.log("Name:", file.name);
+          console.log("URL:", file.url);
+          console.log("Type:", file.type);
+        });
       }
     })
   },
 
-  handleClick(e) {
-    console.log(e.detail.file);
-  },
+  // handleClick(e) {
+  //   console.log(e.detail.file);
+  // },
 
-  handleSuccess(e) {
-    console.log('success', e);
-    const files = e.detail.files;
-    this.setData({
-      fileList: files
-    });
-  },
+  // handleSuccess(e) {
+  //   console.log('success', e);
+  //   const files = e.detail.files;
+  //   this.setData({
+  //     fileList: files
+  //   });
+  // },
 
   handleRemove(e) {
     removeAttachmentBatchByIds([e.detail.file.id]).then(res => {

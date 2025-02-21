@@ -13,9 +13,7 @@ import {
   countryList,
   provinceList,
   cityList,
-  createChunks,
-  getHashCode,
-  getFileTypeByContentType
+  calculateFileHash
 } from '../../../utils/common'
 
 Page({
@@ -54,8 +52,7 @@ Page({
       hashCode,
       fileSize,
       fileType
-    } = await this.calculateFileHash(chunkSize, avatar)
-    console.log(hashCode, fileType);
+    } = await calculateFileHash(chunkSize, avatar)
     // TODO: 文件分片处理
     wx.uploadFile({
       url: 'http://localhost:9091/file/upload',
@@ -93,40 +90,6 @@ Page({
           });
         })
       }
-    })
-  },
-
-  async calculateFileHash(chunkSize, url) {
-    return new Promise((resolve, reject) => {
-      wx.request({
-        url: url,
-        responseType: 'arraybuffer', // 指定响应类型为 ArrayBuffer
-        success: async (res) => {
-          if (res.statusCode === 200) {
-            const buffer = res.data;
-            const fileSize = buffer.byteLength;
-            const contentType = res.header['Content-Type'] || res.header['content-type'];
-            const fileType = getFileTypeByContentType(contentType)
-            // 使用 Web Crypto API 计算哈希值
-            try {
-              const chunks = createChunks(buffer, chunkSize)
-              const hashCode = await getHashCode(chunks)
-              resolve({
-                hashCode: hashCode,
-                fileSize: fileSize,
-                fileType: fileType
-              });
-            } catch (error) {
-              reject('计算哈希值时出错: ' + error);
-            }
-          } else {
-            reject('文件请求失败，状态码: ' + res.statusCode);
-          }
-        },
-        fail: (error) => {
-          reject('请求失败: ' + error.errMsg);
-        }
-      })
     })
   },
 
