@@ -1,6 +1,7 @@
 // pages/note/detail/index.js
 import {
-  getNoteById
+  getNoteById,
+  removeNoteBatchByIds
 } from '../../../api/note/index'
 import {
   handleLike
@@ -19,8 +20,41 @@ Page({
    * 页面的初始数据
    */
   data: {
+    userId: '',
     id: '',
-    detail: {}
+    detail: {},
+    moreVisible: false,
+    deleteVisible: false
+  },
+
+  onVisibleChange(e) {
+    const key = e.currentTarget.dataset.key
+    const value = Boolean(e.currentTarget.dataset.value)
+    console.log(key, value);
+    this.setData({
+      [`${key}Visible`]: value,
+    });
+  },
+
+  goToEdit() {
+    wx.navigateTo({
+      url: `/pages/note/save/index?id=${this.data.id}`
+    })
+  },
+
+  handleDelete(e) {
+    this.onVisibleChange(e)
+    removeNoteBatchByIds([this.data.id]).then(res => {
+      wx.showToast({
+        title: '删除成功！~',
+        icon: 'none'
+      })
+    })
+    setTimeout(() => {
+      wx.redirectTo({
+        url: '/pages/note/index'
+      });
+    }, 1000)
   },
 
   getDetail() {
@@ -94,7 +128,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    const userId = getApp().globalData.user.id
+    this.setData({
+      userId: userId
+    })
   },
 
   /**

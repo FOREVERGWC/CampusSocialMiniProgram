@@ -1,5 +1,9 @@
 <!--pages/activity/index.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}" />
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}">
+  <view slot="content">
+    <text>活动</text>
+  </view>
+</cu-custom>
 
 <scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="padding-bottom-xl" lower-threshold="100">
   <campus-activity records="{{ records }}" />

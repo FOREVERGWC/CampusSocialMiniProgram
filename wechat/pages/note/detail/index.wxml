@@ -22,7 +22,10 @@
       <view class="padding-tb-lg">
         <view class="margin-bottom-sm">{{ detail.title }}</view>
         <view class="margin-bottom-sm">{{ detail.content }}</view>
-        <view class="text-gray text-sm">编辑于{{ detail.updateTime }} {{ detail.location }}</view>
+        <view class="flex justify-between">
+          <view class="text-gray text-sm">编辑于{{ detail.updateTime }}</view>
+          <view wx:if="{{ detail.userId === userId }}" class="text-gray text-sm cuIcon-more" data-key="more" data-value="true" bind:tap="onVisibleChange" />
+        </view>
       </view>
     </view>
 
@@ -48,4 +51,28 @@
       </view>
     </view>
   </view>
+
+  <t-popup visible="{{ moreVisible }}" usingCustomNavbar bind:visible-change="onVisibleChange" data-key="more" placement="bottom" style="background-color: #F5F5F5;">
+    <view class="cu-card article">
+      <view class="cu-item shadow">
+        <view class="text-center text-bold text-xxl">操作</view>
+        <view class="flex justify-around align-center">
+          <view class="flex flex-direction align-center">
+            <view class="cu-avatar xl round bg-white" bind:tap="goToEdit">
+              <text class="cuIcon-edit" />
+            </view>
+            <view class="padding-top-xs">编辑</view>
+          </view>
+          <view class="flex flex-direction align-center">
+            <view class="cu-avatar xl round bg-white" data-key="delete" data-value="true" bind:tap="onVisibleChange">
+              <text class="cuIcon-delete" />
+            </view>
+            <view class="padding-top-xs">删除</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </t-popup>
+
+  <t-dialog visible="{{ deleteVisible }}" content="是否确认删除？" confirm-btn="{{ { content: '确认', theme: 'danger' } }}" cancel-btn="取消" data-key="delete" bind:confirm="handleDelete" bind:cancel="onVisibleChange" />
 </view>

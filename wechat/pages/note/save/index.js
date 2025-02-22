@@ -3,6 +3,7 @@ import {
   getNoteCategoryList
 } from '../../../api/note/category'
 import {
+  getNoteById,
   saveNote
 } from '../../../api/note/index'
 import {
@@ -15,6 +16,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    id: '',
     detail: {},
     title: '',
     content: '',
@@ -40,6 +42,30 @@ Page({
       value: 'id'
     },
     loading: true
+  },
+
+  getDetail() {
+    getNoteById(this.data.id).then(res => {
+      this.setData({
+        title: res?.title || '',
+        content: res?.content || '',
+        detail: res,
+        categoryValue: [res?.categoryId || ''],
+        categoryLabel: this.data.categoryList?.find(item => item.id === res?.categoryId)?.name || '',
+        visibleValue: [res?.visible || ''],
+        visibleLabel: this.data.visibleList?.find(item => item.value === res?.visible)?.label || '',
+        fileList: res?.attachmentList.map(item => ({
+          id: item.id,
+          url: baseUrl + item.filePath,
+          name: item.fileName,
+          type: 'image'
+        })) || []
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
+    })
   },
 
   getRecords() {
@@ -172,7 +198,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    const id = options.id;
+    this.setData({
+      id: id
+    });
   },
 
   /**
@@ -187,7 +216,11 @@ Page({
    */
   onShow() {
     this.getRecords()
-    this.submitDraft()
+    if (this.data.id) {
+      this.getDetail()
+    } else {
+      this.submitDraft()
+    }
   },
 
   /**

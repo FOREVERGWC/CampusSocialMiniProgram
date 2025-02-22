@@ -1,2 +1,11 @@
 <!--pages/note/index.wxml-->
-<text>pages/note/index.wxml</text>
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+  <view slot="content">
+    <text>校园趣事</text>
+  </view>
+</cu-custom>
+
+<scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="padding-bottom-xl" lower-threshold="100">
+  <campus-fun records="{{ records }}" />
+  <view class="padding-bottom-xl cu-load over" />
+</scroll-view>

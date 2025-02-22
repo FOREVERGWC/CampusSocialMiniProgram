@@ -1,5 +1,9 @@
 <!--pages/release/index.wxml-->
-<cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}" />
+<cu-custom bgColor="bg-gradual-pink" isBack="{{ false }}">
+  <view slot="content">
+    <text>发布</text>
+  </view>
+</cu-custom>
 
 <view class="cu-card article" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" id="{{ item.id }}" data-url="{{ item.url }}" bind:tap="goToDetail">
   <view class="cu-item shadow">

@@ -1,1 +1,4 @@
 /* pages/note/detail/index.wxss */
+.cu-card>.cu-item {
+  background-color: #F5F5F5;
+}
