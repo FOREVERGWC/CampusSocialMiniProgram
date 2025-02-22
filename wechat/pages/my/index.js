@@ -9,8 +9,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    canIUseGetUserProfile: wx.canIUse('getUserProfile'),
-    canIUseNickname: wx.canIUse('input.type.nickname'),
     user: {},
     avatar: `${baseUrl}${getApp().globalData.user.avatar}`,
     schoolInfo: {},
@@ -22,8 +20,7 @@ Page({
       private: 0,
       collections: 0
     },
-    activeTab: '0',
-    hasNotes: true
+    activeTab: '0'
   },
 
   goToEdit() {
@@ -36,7 +33,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    this.getUserInfo()
+
   },
 
   /**
@@ -55,6 +52,18 @@ Page({
       user: getApp().globalData.user,
       schoolInfo: getApp().globalData.schoolInfo
     })
+    let componentInstance = null;
+    if (this.data.activeTab === '0') {
+      componentInstance = this.selectComponent('#myNote');
+    } else if (this.data.activeTab === '1') {
+      componentInstance = this.selectComponent('#myFavorite');
+    } else if (this.data.activeTab === '2') {
+      componentInstance = this.selectComponent('#myLike');
+    }
+
+    if (componentInstance && componentInstance.refresh) {
+      componentInstance.refresh();
+    }
   },
 
   /**
@@ -90,10 +99,6 @@ Page({
    */
   onShareAppMessage() {
 
-  },
-
-  getUserInfo() {
-    // 获取用户信息的逻辑
   },
 
   onTabChange(e) {

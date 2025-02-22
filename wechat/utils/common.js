@@ -48,7 +48,7 @@ export function formatTimeAgo(updateTime) {
 }
 
 export const processUpdateTime = (records) => {
-  records.forEach(item => {
+  records?.forEach(item => {
     item.updateTime = formatTimeAgo(item.updateTime);
 
     if (item.children && Array.isArray(item.children) && item.children.length > 0) {
