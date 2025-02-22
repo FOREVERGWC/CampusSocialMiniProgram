@@ -1,6 +1,9 @@
 import {
   saveRate
 } from "../../../api/rate/index";
+import {
+  baseUrl
+} from '../../../utils/common'
 
 // pages/rate/save/index.js
 Page({
@@ -9,10 +12,39 @@ Page({
    * 页面的初始数据
    */
   data: {
+    detail: {},
+    fileList: [],
     title: '',
     content: '',
-    detail: {},
     loading: false
+  },
+
+  submitDraft() {
+    saveRate({}).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      this.setData({
+        detail: res.data,
+        fileList: res.data?.attachmentList.map(item => ({
+          id: item.id,
+          url: baseUrl + item.filePath,
+          name: item.fileName,
+          type: 'image'
+        })) || [],
+        title: res.data?.title || '',
+        content: res.data?.content || '',
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
+    })
   },
 
   onInput(e) {
@@ -22,13 +54,47 @@ Page({
     })
   },
 
-  handleSubimt() {
+  handleDraft() {
+    const data = {
+      title: this.data.title,
+      content: this.data.content,
+      status: '0'
+    }
+    saveRate(data).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      wx.showToast({
+        title: '保存成功！~',
+        icon: 'none'
+      })
+
+      setTimeout(() => {
+        wx.switchTab({
+          url: '/pages/index/index'
+        })
+      }, 1000)
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
+    })
+  },
+
+  handlePublish() {
     this.setData({
       loading: true
     })
     const data = {
+      id: this.data.detail.id,
       title: this.data.title,
-      content: this.data.content
+      content: this.data.content,
+      status: '1'
     }
     saveRate(data).then(res => {
       if (res.code !== 200) {
@@ -74,7 +140,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.submitDraft()
   },
 
   /**

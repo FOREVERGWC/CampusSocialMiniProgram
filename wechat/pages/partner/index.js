@@ -16,6 +16,7 @@ Page({
     queryParams: {
       pageNo: 1,
       pageSize: 8,
+      status: '1',
       orderBy: 'createTime',
       isAsc: false
     },
@@ -43,9 +44,9 @@ Page({
 
       res.data?.records.forEach(item => {
         item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
-        // item.attachmentList.forEach(attachement => {
-        //   attachement.filePath = baseUrl + attachement.filePath
-        // })
+        item.attachmentList?.forEach(attachement => {
+          attachement.filePath = baseUrl + attachement.filePath
+        })
       })
 
       this.setData({
@@ -113,6 +114,7 @@ Page({
       queryParams: {
         pageNo: 1,
         pageSize: 8,
+        status: '1',
         orderBy: 'createTime',
         isAsc: false
       },
@@ -176,9 +178,9 @@ Page({
 
         records.forEach(item => {
           item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
-          // item.attachmentList.forEach(attachement => {
-          //   attachement.filePath = baseUrl + attachement.filePath
-          // })
+          item.attachmentList?.forEach(attachement => {
+            attachement.filePath = baseUrl + attachement.filePath
+          })
         })
 
         this.setData({

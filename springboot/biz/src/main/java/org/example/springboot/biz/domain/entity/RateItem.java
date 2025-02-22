@@ -35,6 +35,11 @@ public class RateItem extends BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
+     * 用户ID
+     */
+    @Schema(description = "用户ID")
+    private Long userId;
+    /**
      * 评分ID
      */
     @Schema(description = "评分ID")
@@ -49,6 +54,11 @@ public class RateItem extends BaseEntity {
      */
     @Schema(description = "内容")
     private String content;
+    /**
+     * 状态(0未发布、1已发布)
+     */
+    @Schema(description = "状态(0未发布、1已发布)")
+    private String status;
     /**
      * 逻辑删除(0正常、1删除)
      */

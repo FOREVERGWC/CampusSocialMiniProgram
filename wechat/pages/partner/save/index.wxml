@@ -13,6 +13,9 @@
     <view class="padding-tb-lg">
       <t-textarea value="{{ content }}" placeholder="在此输入内容" bordered maxlength="255" disableDefaultPadding="{{ true }}" indicator data-key="content" bind:change="onInput" />
     </view>
+    <view class="padding-bottom-lg">
+      <attachment-upload bizId="{{ detail.id }}" bizType="11" fileList="{{ fileList }}" />
+    </view>
   </view>
 
   <t-cell-group theme="card">

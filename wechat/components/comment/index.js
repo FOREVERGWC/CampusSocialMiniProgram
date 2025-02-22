@@ -175,7 +175,6 @@ Component({
     },
 
     handleLikeComment(e) {
-      console.log(e.currentTarget);
       const data = {
         bizType: 5,
         bizId: e.currentTarget.id

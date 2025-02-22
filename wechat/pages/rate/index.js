@@ -16,7 +16,8 @@ Page({
    */
   data: {
     queryParams: {
-      rateId: null
+      rateId: null,
+      status: '1'
     },
     detail: {},
     records: [],
@@ -92,7 +93,8 @@ Page({
     const id = options.id;
     this.setData({
       queryParams: {
-        rateId: id
+        rateId: id,
+        status: '1'
       }
     });
   },

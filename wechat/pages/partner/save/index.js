@@ -5,6 +5,9 @@ import {
 import {
   savePartner
 } from '../../../api/partner/index'
+import {
+  baseUrl
+} from '../../../utils/common'
 
 Page({
 
@@ -13,6 +16,7 @@ Page({
    */
   data: {
     detail: {},
+    fileList: [],
     title: '',
     content: '',
     num: null,
@@ -67,19 +71,19 @@ Page({
 
       this.setData({
         detail: res.data,
+        fileList: res.data?.attachmentList.map(item => ({
+          id: item.id,
+          url: baseUrl + item.filePath,
+          name: item.fileName,
+          type: 'image'
+        })) || [],
         title: res.data?.title || '',
         content: res.data?.content || '',
         num: res.data?.num,
         subjectValue: [res.data?.subjectId || ''],
         subjectLabel: this.data.subjectList?.find(item => item.id === res.data?.subjectId)?.name || '',
         endDatetimeValue: res.data?.endTime,
-        endDatetimeLabel: res.data?.endTime,
-        fileList: res.data?.attachmentList.map(item => ({
-          id: item.id,
-          url: baseUrl + item.filePath,
-          name: item.fileName,
-          type: 'image'
-        })) || []
+        endDatetimeLabel: res.data?.endTime
       })
     }).finally(() => {
       this.setData({

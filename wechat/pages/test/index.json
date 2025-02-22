@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "attachment-upload": "../../components/attachment-upload/index"
+  }
+}

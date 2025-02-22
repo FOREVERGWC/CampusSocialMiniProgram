@@ -2,7 +2,7 @@
 <view style="height: 100vh;">
   <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
     <view slot="content">
-      <text>{{ detail.title }}</text>
+      <text>{{ rate.title }}</text>
     </view>
   </cu-custom>
 
@@ -13,9 +13,14 @@
     <view class="padding-tb-lg">
       <t-textarea value="{{ content }}" placeholder="在此输入内容" bordered maxlength="255" disableDefaultPadding="{{ true }}" indicator data-key="content" bind:change="onInput" />
     </view>
+    <view class="padding-bottom-lg">
+      <attachment-upload bizId="{{ rateItem.id }}" bizType="10" fileList="{{ fileList }}" />
+    </view>
   </view>
 
   <view class="padding-top-lg padding-bottom-xl padding-lr">
-    <button class="cu-btn block bg-blue lg" bind:tap="handleSubimt" disabled="{{ loading }}">发布</button>
+    <button class="cu-btn block bg-blue lg" bind:tap="handleDraft" disabled="{{ loading }}">保存草稿</button>
+    <view class="padding-xs" />
+    <button class="cu-btn block bg-blue lg" bind:tap="handlePublish" disabled="{{ loading }}">发布</button>
   </view>
 </view>

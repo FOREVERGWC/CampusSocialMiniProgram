@@ -1,0 +1,2 @@
+<!--components/attachment-upload/index.wxml-->
+<t-upload media-type="{{ ['video', 'image'] }}" files="{{ fileList }}" bind:add="handleAdd" bind:remove="handleRemove" />

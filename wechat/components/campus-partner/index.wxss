@@ -2,3 +2,7 @@
 .cu-card:not(:first-of-type)>.cu-item {
   margin-top: 0;
 }
+
+.text-content {
+  word-break: break-all;
+}

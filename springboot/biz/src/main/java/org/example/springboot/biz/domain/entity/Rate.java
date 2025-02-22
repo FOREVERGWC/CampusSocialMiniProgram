@@ -50,6 +50,11 @@ public class Rate extends BaseEntity {
     @Schema(description = "内容")
     private String content;
     /**
+     * 状态(0未发布、1已发布)
+     */
+    @Schema(description = "状态(0未发布、1已发布)")
+    private String status;
+    /**
      * 逻辑删除(0正常、1删除)
      */
     @Schema(description = "逻辑删除(0正常、1删除)")

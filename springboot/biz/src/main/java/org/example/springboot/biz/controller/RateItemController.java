@@ -34,9 +34,10 @@ public class RateItemController {
      */
     @PostMapping
     @Operation(summary = "添加、修改评分项", description = "添加、修改评分项", method = "POST")
-    public Result<Void> save(@RequestBody RateItem rateItem) {
+    public Result<RateItemVo> save(@RequestBody RateItem rateItem) {
         rateItemService.saveOrUpdate(rateItem);
-        return Result.success();
+        RateItemVo vo = rateItemService.getOne(RateItemDto.builder().id(rateItem.getId()).build());
+        return Result.success(vo);
     }
 
     /**

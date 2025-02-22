@@ -39,7 +39,11 @@ Page({
       end: false
     })
 
-    if (this.data.activeTab === '1') {
+    if (this.data.activeTab === '0') {
+      wx.navigateTo({
+        url: '/pages/test/index',
+      })
+    } else if (this.data.activeTab === '1') {
       this.getNoteRecords()
     } else if (this.data.activeTab === '2') {
       this.getRateRecords()

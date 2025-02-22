@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/test/index",
     "pages/search/index",
     "pages/search/detail/index",
     "pages/release/index",

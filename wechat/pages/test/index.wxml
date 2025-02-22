@@ -1,0 +1,8 @@
+<!--pages/test/index.wxml-->
+<view class="bg-white">
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+    <view slot="content">测试</view>
+  </cu-custom>
+
+  <attachment-upload bizId="8" bizType="8" fileList="[]" />
+</view>

@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.springboot.biz.common.enums.NoteStatus;
 import org.example.springboot.biz.domain.dto.RateDto;
 import org.example.springboot.biz.domain.entity.Rate;
 import org.example.springboot.biz.domain.vo.RateVo;
@@ -51,8 +52,24 @@ public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IR
     public boolean save(Rate entity) {
         Long userId = UserUtils.getLoginUserId();
         entity.setUserId(userId);
+        entity.setStatus(NoteStatus.UNPUBLISHED.getCode());
         entity.setDeleted(DeleteEnum.NORMAL.getCode());
-        return super.save(entity);
+
+        RateVo one = getOne(RateDto.builder()
+                .userId(userId)
+                .status(NoteStatus.UNPUBLISHED.getCode())
+                .build());
+
+        if (one == null) {
+            entity.setTitle(StrUtil.isBlank(entity.getTitle()) ? "" : entity.getTitle());
+            entity.setContent(StrUtil.isBlank(entity.getContent()) ? "" : entity.getContent());
+            return super.save(entity);
+        }
+
+        entity.setId(one.getId());
+        entity.setTitle(StrUtil.isBlank(entity.getTitle()) ? one.getTitle() : entity.getTitle());
+        entity.setContent(StrUtil.isBlank(entity.getContent()) ? one.getContent() : entity.getContent());
+        return super.updateById(entity);
     }
 
     @Override
@@ -150,6 +167,7 @@ public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IR
                 .eq(entity.getUserId() != null, Rate::getUserId, entity.getUserId())
                 .like(StrUtil.isNotBlank(entity.getTitle()), Rate::getTitle, entity.getTitle())
                 .like(StrUtil.isNotBlank(entity.getContent()), Rate::getContent, entity.getContent())
+                .eq(StrUtil.isNotBlank(entity.getStatus()), Rate::getStatus, entity.getStatus())
                 .eq(entity.getDeleted() != null, Rate::getDeleted, entity.getDeleted());
         if (entity instanceof RateDto dto) {
             Map<String, Object> params = dto.getParams();

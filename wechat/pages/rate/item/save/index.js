@@ -15,17 +15,17 @@ Page({
    * 页面的初始数据
    */
   data: {
-    queryParams: {
-      rateId: null
-    },
-    detail: {},
+    rateId: null,
+    rate: {},
+    rateItem: {},
+    fileList: [],
     title: '',
     content: '',
     loading: false
   },
 
   getRecords() {
-    getRateById(this.data.queryParams.rateId).then(res => {
+    getRateById(this.data.rateId).then(res => {
       if (res.code !== 200) {
         wx.showToast({
           title: res.msg,
@@ -34,12 +34,43 @@ Page({
         return
       }
 
-      res.data.attachmentList.forEach(attachement => {
+      res.data?.attachmentList.forEach(attachement => {
         attachement.filePath = baseUrl + attachement.filePath
       })
 
       this.setData({
-        detail: res.data || {}
+        rate: res.data || {}
+      })
+    })
+  },
+
+  submitDraft() {
+    const data = {
+      rateId: this.data.rateId
+    }
+    saveRateItem(data).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      this.setData({
+        rateItem: res.data,
+        fileList: res.data?.attachmentList.map(item => ({
+          id: item.id,
+          url: baseUrl + item.filePath,
+          name: item.fileName,
+          type: 'image'
+        })) || [],
+        title: res.data?.title || '',
+        content: res.data?.content || ''
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false
       })
     })
   },
@@ -51,14 +82,49 @@ Page({
     })
   },
 
-  handleSubimt() {
+  handleDraft() {
+    const data = {
+      title: this.data.title,
+      content: this.data.content,
+      rateId: this.data.rateId,
+      status: '0'
+    }
+    saveRateItem(data).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      wx.showToast({
+        title: '保存成功！~',
+        icon: 'none'
+      })
+
+      setTimeout(() => {
+        wx.redirectTo({
+          url: `/pages/rate/item/detail/index?id=${this.data.rateItem.id}`
+        });
+      }, 1000)
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
+    })
+  },
+
+  handlePublish() {
     this.setData({
       loading: true
     })
     const data = {
+      id: this.data.rateItem.id,
       title: this.data.title,
       content: this.data.content,
-      rateId: this.data.queryParams.rateId
+      rateId: this.data.rateId,
+      status: '1'
     }
     saveRateItem(data).then(res => {
       if (res.code !== 200) {
@@ -76,7 +142,7 @@ Page({
 
       setTimeout(() => {
         wx.redirectTo({
-          url: `/pages/rate/index?id=${this.data.queryParams.rateId}`,
+          url: `/pages/rate/index?id=${this.data.rateId}`,
         })
       }, 1000)
     }).finally(() => {
@@ -92,9 +158,7 @@ Page({
   onLoad(options) {
     const rateId = options.rateId;
     this.setData({
-      queryParams: {
-        rateId: rateId
-      }
+      rateId: rateId
     });
   },
 
@@ -110,6 +174,7 @@ Page({
    */
   onShow() {
     this.getRecords()
+    this.submitDraft()
   },
 
   /**

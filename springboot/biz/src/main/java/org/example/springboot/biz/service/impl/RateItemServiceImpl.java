@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.springboot.biz.common.enums.NoteStatus;
 import org.example.springboot.biz.domain.dto.RateItemDto;
 import org.example.springboot.biz.domain.entity.Rate;
 import org.example.springboot.biz.domain.entity.RateItem;
@@ -23,6 +24,7 @@ import org.example.springboot.system.common.enums.BizType;
 import org.example.springboot.system.common.enums.DeleteEnum;
 import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.service.IAttachmentService;
+import org.example.springboot.system.utils.UserUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -50,8 +52,27 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
 
     @Override
     public boolean save(RateItem entity) {
+        Long userId = UserUtils.getLoginUserId();
+        entity.setUserId(userId);
+        entity.setStatus(NoteStatus.UNPUBLISHED.getCode());
         entity.setDeleted(DeleteEnum.NORMAL.getCode());
-        return super.save(entity);
+
+        RateItemVo one = getOne(RateItemDto.builder()
+                .userId(userId)
+                .rateId(entity.getRateId())
+                .status(NoteStatus.UNPUBLISHED.getCode())
+                .build());
+
+        if (one == null) {
+            entity.setTitle(StrUtil.isBlank(entity.getTitle()) ? "" : entity.getTitle());
+            entity.setContent(StrUtil.isBlank(entity.getContent()) ? "" : entity.getContent());
+            return super.save(entity);
+        }
+
+        entity.setId(one.getId());
+        entity.setTitle(StrUtil.isBlank(entity.getTitle()) ? one.getTitle() : entity.getTitle());
+        entity.setContent(StrUtil.isBlank(entity.getContent()) ? one.getContent() : entity.getContent());
+        return super.updateById(entity);
     }
 
     @Override
@@ -157,6 +178,7 @@ public class RateItemServiceImpl extends ServiceImpl<RateItemMapper, RateItem> i
                 .eq(entity.getRateId() != null, RateItem::getRateId, entity.getRateId())
                 .like(StrUtil.isNotBlank(entity.getTitle()), RateItem::getTitle, entity.getTitle())
                 .like(StrUtil.isNotBlank(entity.getContent()), RateItem::getContent, entity.getContent())
+                .eq(StrUtil.isNotBlank(entity.getStatus()), RateItem::getStatus, entity.getStatus())
                 .eq(entity.getDeleted() != null, RateItem::getDeleted, entity.getDeleted());
         if (entity instanceof RateItemDto dto) {
             Map<String, Object> params = dto.getParams();
