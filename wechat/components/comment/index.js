@@ -1,6 +1,7 @@
 // components/comment/index.js
 import {
   getCommentPage,
+  removeCommentBatchByIds,
   saveComment
 } from '../../api/comment/index'
 import {
@@ -43,9 +44,13 @@ Component({
    * 组件的初始数据
    */
   data: {
+    userId: '',
+    avatar: '',
     queryParams: {
       pageNo: 1,
-      pageSize: 8
+      pageSize: 8,
+      orderBy: 'createTime',
+      isAsc: false
     },
     records: [],
     total: 0,
@@ -53,19 +58,48 @@ Component({
     loading: true,
     refreshing: false,
     end: true,
-    avatar: getApp().globalData.avatar,
     content: '',
     reply: {
       id: null,
       userId: null,
       username: ''
-    }
+    },
+    moreVisible: false,
+    deleteVisible: false,
+    operateId: ''
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
+    onVisibleChange(e) {
+      const id = e.currentTarget.id
+      const key = e.currentTarget.dataset.key
+      const value = Boolean(e.currentTarget.dataset.value)
+      this.setData({
+        operateId: id,
+        [`${key}Visible`]: value,
+      });
+    },
+
+    handleDelete(e) {
+      const id = e.currentTarget.id
+      removeCommentBatchByIds([id]).then(res => {
+        wx.showToast({
+          title: '删除成功！~',
+          icon: 'none'
+        })
+      }).finally(() => {
+        this.getList();
+        this.setData({
+          moreVisible: false,
+          deleteVisible: false,
+          operateId: ''
+        })
+      })
+    },
+
     getList() {
       if (!this.properties.bizId || !this.properties.bizType) {
         return;
@@ -191,7 +225,9 @@ Component({
       this.setData({
         queryParams: {
           pageNo: 1,
-          pageSize: 8
+          pageSize: 8,
+          orderBy: 'createTime',
+          isAsc: false
         },
         refreshing: true,
         records: []
@@ -272,7 +308,11 @@ Component({
   },
 
   attached() {
+    const userId = getApp().globalData.user.id
+    const avatar = getApp().globalData.avatar
     this.setData({
+      userId: userId,
+      avatar: avatar,
       'queryParams.bizId': this.properties.bizId,
       'queryParams.bizType': this.properties.bizType
     })

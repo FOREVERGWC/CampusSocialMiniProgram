@@ -62,7 +62,7 @@ public class Comment extends BaseEntity {
     /**
      * 祖级回复ID
      */
-    @Schema(description = "回复用户ID")
+    @Schema(description = "祖级回复ID")
     private Long ancestorId;
     /**
      * 用户ID

@@ -35,10 +35,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -161,7 +158,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 CommentVo::getId,
                 0L,
                 CommentVo::getCreateTime,
-                Comparator.naturalOrder()
+                Comparator.reverseOrder()
         );
         // 组装VO
         IPage<CommentVo> convert = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
@@ -218,10 +215,15 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             // 创建时间
             Object startCreateTime = params == null ? null : params.get("startCreateTime");
             Object endCreateTime = params == null ? null : params.get("endCreateTime");
-
             wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
                     Comment::getCreateTime,
                     startCreateTime, endCreateTime);
+            // 排序
+            String orderBy = dto.getOrderBy();
+            Boolean isAsc = dto.getIsAsc();
+            if (StrUtil.isNotBlank(orderBy) && isAsc != null) {
+                wrapper.orderBy(Objects.equals(orderBy, "createTime"), isAsc, Comment::getCreateTime);
+            }
         }
         return wrapper;
     }

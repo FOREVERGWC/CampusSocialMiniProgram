@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.example.springboot.system.domain.entity.Comment;
 
 import java.io.Serial;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,4 +43,22 @@ public class CommentDto extends Comment {
      */
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, Object> params;
+    /**
+     * ID列表
+     */
+    @Schema(description = "ID列表")
+    private List<Long> idList;
+    /**
+     * 祖级回复ID列表
+     */
+    @Schema(description = "祖级回复ID列表")
+    private List<Long> ancestorIdList;
+    /**
+     * 排序字段
+     */
+    private String orderBy;
+    /**
+     * 是否升序
+     */
+    private Boolean isAsc;
 }

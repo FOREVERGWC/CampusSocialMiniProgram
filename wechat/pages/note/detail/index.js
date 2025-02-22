@@ -30,7 +30,6 @@ Page({
   onVisibleChange(e) {
     const key = e.currentTarget.dataset.key
     const value = Boolean(e.currentTarget.dataset.value)
-    console.log(key, value);
     this.setData({
       [`${key}Visible`]: value,
     });

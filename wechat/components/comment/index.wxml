@@ -23,6 +23,7 @@
                 <text class="cuIcon-bad margin-lr" />
                 <text class="cuIcon-message" bindtap="onReplyClick" id="{{ item.id }}" data-user-id="{{ item.userId }}" data-username="{{ item.createBy }}" />
               </view>
+              <view wx:if="{{ item.userId === userId }}" class="text-gray text-sm cuIcon-more" id="{{ item.id }}" data-key="more" data-value="true" bind:tap="onVisibleChange" />
             </view>
 
             <!-- 子列表 -->
@@ -35,6 +36,7 @@
                     <view class="text-gray">
                       <text class="{{ child.count.like.hasDone ? 'cuIcon-appreciatefill' : 'cuIcon-appreciate' }}" bindtap="handleLikeComment" id="{{ child.id }}" data-ancestor-id="{{ item.id }}"> {{ child.count.like.num }}</text>
                       <text class="cuIcon-message margin-left-sm" bindtap="onReplyClick" id="{{ child.id }}" data-user-id="{{ child.userId }}" data-username="{{ child.createBy }}" />
+                      <text wx:if="{{ child.userId === userId }}" class="cuIcon-more margin-left-sm" id="{{ child.id }}" data-key="more" data-value="true" bind:tap="onVisibleChange" />
                     </view>
                   </view>
                 </view>
@@ -45,4 +47,28 @@
       </view>
     </view>
   </scroll-view>
+
+  <t-popup visible="{{ moreVisible }}" usingCustomNavbar bind:visible-change="onVisibleChange" data-key="more" placement="bottom" style="background-color: #F5F5F5;">
+    <view class="cu-card article">
+      <view class="cu-item shadow">
+        <view class="text-center text-bold text-xxl">操作</view>
+        <view class="flex justify-around align-center">
+          <!-- <view class="flex flex-direction align-center">
+            <view class="cu-avatar xl round bg-white" bind:tap="goToEdit">
+              <text class="cuIcon-edit" />
+            </view>
+            <view class="padding-top-xs">编辑</view>
+          </view> -->
+          <view class="flex flex-direction align-center">
+            <view class="cu-avatar xl round bg-white" id="{{ operateId }}" data-key="delete" data-value="true" bind:tap="onVisibleChange">
+              <text class="cuIcon-delete" />
+            </view>
+            <view class="padding-top-xs">删除</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </t-popup>
+
+  <t-dialog visible="{{ deleteVisible }}" content="是否确认删除？" confirm-btn="{{ { content: '确认', theme: 'danger' } }}" cancel-btn="取消" id="{{ operateId }}" data-key="delete" bind:confirm="handleDelete" bind:cancel="onVisibleChange" />
 </view>
