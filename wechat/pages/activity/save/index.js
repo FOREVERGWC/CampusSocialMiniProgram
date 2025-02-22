@@ -66,14 +66,6 @@ Page({
       location: this.data.location
     }
     saveActivity(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '发布成功！~',
         icon: 'none'

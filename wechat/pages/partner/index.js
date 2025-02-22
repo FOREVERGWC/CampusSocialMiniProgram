@@ -34,15 +34,7 @@ Page({
     })
 
     getPartnerPage(this.data.queryParams).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
-      res.data?.records.forEach(item => {
+      res?.records.forEach(item => {
         item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
         item.attachmentList?.forEach(attachement => {
           attachement.filePath = baseUrl + attachement.filePath
@@ -50,18 +42,10 @@ Page({
       })
 
       this.setData({
-        records: res.data?.records || [],
-        total: res.data?.total || 0,
-        pages: res.data?.pages || 0
+        records: res?.records || [],
+        total: res?.total || 0,
+        pages: res?.pages || 0
       })
-    }).catch(error => {
-      if (error.code === 401) {
-        setTimeout(() => {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }, 3000)
-      }
     })
 
     this.setData({
@@ -162,42 +146,36 @@ Page({
     });
 
     getPartnerPage(this.data.queryParams).then(res => {
-      if (res.code === 200) {
-        const records = res.data?.records || [];
-        if (records.length === 0) {
-          this.setData({
-            end: true,
-            loading: false
-          });
-          wx.showToast({
-            title: '已经到底啦！~',
-            icon: 'none'
-          });
-          return;
-        }
-
-        records.forEach(item => {
-          item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
-          item.attachmentList?.forEach(attachement => {
-            attachement.filePath = baseUrl + attachement.filePath
-          })
-        })
-
+      const records = res?.records || [];
+      if (records.length === 0) {
         this.setData({
-          records: [...this.data.records, ...records],
-          total: res.data?.total || 0,
-          pages: res.data?.pages || 0,
-          loading: false
-        });
-      } else {
-        this.setData({
+          end: true,
           loading: false
         });
         wx.showToast({
-          title: res.msg,
+          title: '已经到底啦！~',
           icon: 'none'
         });
+        return;
       }
+
+      records.forEach(item => {
+        item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+        item.attachmentList?.forEach(attachement => {
+          attachement.filePath = baseUrl + attachement.filePath
+        })
+      })
+
+      this.setData({
+        records: [...this.data.records, ...records],
+        total: res?.total || 0,
+        pages: res?.pages || 0,
+        loading: false
+      });
+    }).finally(() => {
+      this.setData({
+        loading: false
+      });
     });
   },
 

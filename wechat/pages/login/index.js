@@ -120,15 +120,7 @@ Page({
     login(form).then(res => {
       wx.hideLoading()
 
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg || '登录失败！用户名或密码错误',
-          icon: 'none'
-        })
-        return
-      }
-
-      getApp().globalData.token = res.data
+      getApp().globalData.token = res
 
       wx.showToast({
         title: '登录成功！',
@@ -136,16 +128,16 @@ Page({
       })
 
       getByToken().then(res => {
-        getApp().globalData.user = res.data || {}
-        getApp().globalData.avatar = res.data.avatar ? baseUrl + res.data.avatar : defaultAvatar
+        getApp().globalData.user = res || {}
+        getApp().globalData.avatar = res.avatar ? baseUrl + res.avatar : defaultAvatar
       })
 
       getMyUserInfoOne().then(res => {
-        getApp().globalData.userInfo = res.data || {}
+        getApp().globalData.userInfo = res || {}
       })
 
       getMyUserSchoolOne().then(res => {
-        getApp().globalData.schoolInfo = res.data || {}
+        getApp().globalData.schoolInfo = res || {}
       })
 
       wx.switchTab({
@@ -174,15 +166,7 @@ Page({
     login(form).then(res => {
       wx.hideLoading()
 
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg || '登录失败！未绑定账号',
-          icon: 'none'
-        })
-        return
-      }
-
-      getApp().globalData.token = res.data
+      getApp().globalData.token = res
 
       wx.showToast({
         title: '登录成功！',
@@ -190,16 +174,16 @@ Page({
       })
 
       getByToken().then(res => {
-        getApp().globalData.user = res.data || {}
-        getApp().globalData.avatar = res.data.avatar ? baseUrl + res.data.avatar : defaultAvatar
+        getApp().globalData.user = res || {}
+        getApp().globalData.avatar = res.avatar ? baseUrl + res.avatar : defaultAvatar
       })
 
       getMyUserInfoOne().then(res => {
-        getApp().globalData.userInfo = res.data || {}
+        getApp().globalData.userInfo = res || {}
       })
 
       getMyUserSchoolOne().then(res => {
-        getApp().globalData.schoolInfo = res.data || {}
+        getApp().globalData.schoolInfo = res || {}
       })
 
       setTimeout(() => {

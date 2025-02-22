@@ -23,46 +23,15 @@ Page({
 
   getRecords() {
     getNoteCategoryList({}).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       this.setData({
-        categoryList: res.data || []
+        categoryList: res || []
       })
-    }).catch(error => {
-      if (error.code === 401) {
-        setTimeout(() => {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }, 3000)
-      }
     })
-    getNotePage(this.data.queryParams).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
 
+    getNotePage(this.data.queryParams).then(res => {
       this.setData({
-        records: res.data?.records || []
+        records: res?.records || []
       })
-    }).catch(error => {
-      if (error.code === 401) {
-        setTimeout(() => {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }, 3000)
-      }
     })
   },
 

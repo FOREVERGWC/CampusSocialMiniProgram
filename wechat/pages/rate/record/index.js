@@ -27,20 +27,12 @@ Page({
 
   getDetail() {
     getRateItemById(this.data.rateItemId).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
-      res.data.attachmentList.forEach(attachement => {
+      res?.attachmentList.forEach(attachement => {
         attachement.filePath = baseUrl + attachement.filePath
       })
 
       this.setData({
-        rateItem: res.data || {}
+        rateItem: res || {}
       })
     })
 
@@ -48,14 +40,11 @@ Page({
       rateItemId: this.data.rateItemId
     }
     getMyRateRecordOne(params).then(res => {
-      if (res.code !== 200) {
-        return
-      }
       this.setData({
-        id: res.data?.id || null,
-        score: res.data?.score || 10,
-        remark: res.data?.remark || '',
-        detail: res.data
+        id: res?.id || null,
+        score: res?.score || 10,
+        remark: res?.remark || '',
+        detail: res
       })
     }).finally(() => {
       this.setData({
@@ -88,14 +77,6 @@ Page({
     }
 
     saveRateRecord(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '投票成功！~',
         icon: 'none'

@@ -73,25 +73,9 @@ Page({
 
   getRecords() {
     getSchoolList({}).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       this.setData({
-        schoolList: res.data || [],
+        schoolList: res || [],
       })
-    }).catch(error => {
-      if (error.code === 401) {
-        setTimeout(() => {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }, 3000)
-      }
     }).finally(() => {
       this.setData({
         schoolInfo: getApp().globalData.schoolInfo,
@@ -112,14 +96,6 @@ Page({
       studentId: this.data.studentId
     }
     saveUserSchool(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '保存成功！~',
         icon: 'none'

@@ -78,17 +78,9 @@ Component({
       }
 
       countMyNoteVisible().then(res => {
-        if (res.code !== 200) {
-          wx.showToast({
-            title: res.msg,
-            icon: 'none'
-          });
-          return
-        }
-
         this.setData({
-          'visible.public': res.data?.['1'] || 0,
-          'visible.private': res.data?.['0'] || 0
+          'visible.public': res?.['1'] || 0,
+          'visible.private': res?.['0'] || 0
         })
       })
     },
@@ -107,15 +99,7 @@ Component({
         'queryParams.visible': this.data.activeTab
       }, () => {
         getMyNotePage(this.data.queryParams).then(res => {
-          if (res.code !== 200) {
-            wx.showToast({
-              title: res.msg,
-              icon: 'none'
-            });
-            return
-          }
-
-          res.data?.records.forEach(item => {
+          res?.records.forEach(item => {
             item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
             item.attachmentList.forEach(attachement => {
               attachement.filePath = baseUrl + attachement.filePath
@@ -123,18 +107,10 @@ Component({
           })
 
           this.setData({
-            records: res.data?.records || [],
-            total: res.data?.total || 0,
-            pages: res.data?.pages || 0
+            records: res?.records || [],
+            total: res?.total || 0,
+            pages: res?.pages || 0
           })
-        }).catch(error => {
-          if (error.code === 401) {
-            setTimeout(() => {
-              wx.navigateTo({
-                url: '/pages/login/index'
-              })
-            }, 3000)
-          }
         })
 
         this.setData({

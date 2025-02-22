@@ -28,48 +28,24 @@ Page({
 
   getRecords() {
     getRateById(this.data.queryParams.rateId).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
-      res.data.attachmentList.forEach(attachement => {
+      res?.attachmentList.forEach(attachement => {
         attachement.filePath = baseUrl + attachement.filePath
       })
 
       this.setData({
-        detail: res.data || {}
+        detail: res || {}
       })
     })
     getRateItemList(this.data.queryParams).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
-      res.data.forEach(item => {
+      res?.forEach(item => {
         item.attachmentList.forEach(attachement => {
           attachement.filePath = baseUrl + attachement.filePath
         })
       })
 
       this.setData({
-        records: res.data || []
+        records: res || []
       })
-    }).catch(error => {
-      if (error.code === 401) {
-        setTimeout(() => {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }, 3000)
-      }
     })
   },
 

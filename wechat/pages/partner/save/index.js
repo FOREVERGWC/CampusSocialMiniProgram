@@ -37,53 +37,29 @@ Page({
 
   getRecords() {
     getPartnerSubjectList({}).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       this.setData({
-        subjectList: res.data || []
+        subjectList: res || []
       })
-    }).catch(error => {
-      if (error.code === 401) {
-        setTimeout(() => {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }, 3000)
-      }
     })
   },
 
   submitDraft() {
     savePartner({}).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       this.setData({
-        detail: res.data,
-        fileList: res.data?.attachmentList.map(item => ({
+        detail: res,
+        fileList: res?.attachmentList.map(item => ({
           id: item.id,
           url: baseUrl + item.filePath,
           name: item.fileName,
           type: 'image'
         })) || [],
-        title: res.data?.title || '',
-        content: res.data?.content || '',
-        num: res.data?.num,
-        subjectValue: [res.data?.subjectId || ''],
-        subjectLabel: this.data.subjectList?.find(item => item.id === res.data?.subjectId)?.name || '',
-        endDatetimeValue: res.data?.endTime,
-        endDatetimeLabel: res.data?.endTime
+        title: res?.title || '',
+        content: res?.content || '',
+        num: res?.num,
+        subjectValue: [res?.subjectId || ''],
+        subjectLabel: this.data.subjectList?.find(item => item.id === res?.subjectId)?.name || '',
+        endDatetimeValue: res?.endTime,
+        endDatetimeLabel: res?.endTime
       })
     }).finally(() => {
       this.setData({
@@ -144,14 +120,6 @@ Page({
       status: '0'
     }
     savePartner(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '保存成功！~',
         icon: 'none'
@@ -183,14 +151,6 @@ Page({
       status: '1'
     }
     savePartner(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '发布成功！~',
         icon: 'none'

@@ -24,20 +24,12 @@ Page({
 
   getDetail() {
     getActivityById(this.data.id).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
-      res.data.attachmentList?.forEach(attachement => {
+      res?.attachmentList?.forEach(attachement => {
         attachement.filePath = baseUrl + attachement.filePath
       })
 
       this.setData({
-        detail: res.data || {}
+        detail: res || {}
       })
     })
   },
@@ -48,12 +40,9 @@ Page({
       bizId: this.data.id
     }
     handleLike(data).then(res => {
-      if (res.code !== 200) {
-        return
-      }
       const detail = this.data.detail;
       detail.count.like.hasDone = !detail.count.like.hasDone;
-      detail.count.like.num = res.data;
+      detail.count.like.num = res;
       this.setData({
         detail: detail
       });
@@ -69,12 +58,9 @@ Page({
       bizId: this.data.id
     }
     handleFavorite(data).then(res => {
-      if (res.code !== 200) {
-        return
-      }
       const detail = this.data.detail;
       detail.count.favorite.hasDone = !detail.count.favorite.hasDone;
-      detail.count.favorite.num = res.data;
+      detail.count.favorite.num = res;
       this.setData({
         detail: detail
       });

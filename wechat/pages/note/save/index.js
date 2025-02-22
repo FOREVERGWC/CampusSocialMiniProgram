@@ -44,25 +44,9 @@ Page({
 
   getRecords() {
     getNoteCategoryList({}).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       this.setData({
-        categoryList: res.data || []
+        categoryList: res || []
       })
-    }).catch(error => {
-      if (error.code === 401) {
-        setTimeout(() => {
-          wx.navigateTo({
-            url: '/pages/login/index'
-          })
-        }, 3000)
-      }
     })
   },
 
@@ -76,23 +60,15 @@ Page({
       commentable: true
     }
     saveNote(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       this.setData({
-        title: res.data?.title || '',
-        content: res.data?.content || '',
-        detail: res.data,
-        categoryValue: [res.data?.categoryId || ''],
-        categoryLabel: this.data.categoryList?.find(item => item.id === res.data?.categoryId)?.name || '',
-        visibleValue: [res.data?.visible || ''],
-        visibleLabel: this.data.visibleList?.find(item => item.value === res.data?.visible)?.label || '',
-        fileList: res.data?.attachmentList.map(item => ({
+        title: res?.title || '',
+        content: res?.content || '',
+        detail: res,
+        categoryValue: [res?.categoryId || ''],
+        categoryLabel: this.data.categoryList?.find(item => item.id === res?.categoryId)?.name || '',
+        visibleValue: [res?.visible || ''],
+        visibleLabel: this.data.visibleList?.find(item => item.value === res?.visible)?.label || '',
+        fileList: res?.attachmentList.map(item => ({
           id: item.id,
           url: baseUrl + item.filePath,
           name: item.fileName,
@@ -148,14 +124,6 @@ Page({
       status: '0'
     }
     saveNote(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '保存成功！~',
         icon: 'none'
@@ -183,14 +151,6 @@ Page({
       status: '1'
     }
     saveNote(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '发布成功！~',
         icon: 'none'

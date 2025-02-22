@@ -9,6 +9,9 @@ import {
   getMyUserSchoolOne
 } from '../../../api/user/school'
 import {
+  checkFile
+} from '../../../api/file/index'
+import {
   baseUrl,
   countryList,
   provinceList,
@@ -30,15 +33,12 @@ Page({
     area: '',
     avatar: `${baseUrl}${getApp().globalData.user.avatar}`,
     schoolInfo: {},
+    chunkSize: 10 * 1024 * 1024
   },
 
   getDetail() {
     getMyUserSchoolOne().then(res => {
-      if (res.code !== 200) {
-        return
-      }
-
-      getApp().globalData.schoolInfo = res.data || {}
+      getApp().globalData.schoolInfo = res || {}
     })
   },
 
@@ -47,69 +47,87 @@ Page({
     this.setData({
       avatar: avatar
     })
-    const chunkSize = 10 * 1024 * 1024
     const {
       hashCode,
       fileSize,
       fileType
-    } = await calculateFileHash(chunkSize, avatar)
-    // TODO: 文件分片处理
-    wx.uploadFile({
-      url: 'http://localhost:9091/file/upload',
-      filePath: avatar,
-      name: 'file',
-      formData: {
-        bizId: this.data.user.id,
-        bizType: 1,
-        hashCode: hashCode,
-        fileName: `微信头像.${fileType}`,
-        fileSize: fileSize,
-        chunkSize: chunkSize,
-        chunkIndex: 0,
-        chunkTotal: 1
-      },
-      success(res) {
-        const data = JSON.parse(res.data)
-        const filePath = data.data.filePath
+    } = await calculateFileHash(this.data.chunkSize, avatar);
 
-        const userData = {
-          avatar: filePath
-        }
-        editUser(userData).then(res => {
-          if (res.code !== 200) {
-            wx.showToast({
-              title: res.msg,
-              icon: 'none'
-            });
-            return
-          }
+    const params = {
+      hashCode,
+      bizId: this.data.user.id,
+      bizType: 1,
+      chunkTotal: 1
+    };
 
-          wx.showToast({
-            title: '保存成功！~',
-            icon: 'none'
-          });
-        })
-      }
+    const {
+      data
+    } = await checkFile(params);
+
+    if (data.hasUpload) {
+      this.handleUploadSuccess(data.filePath);
+
+      return;
+    }
+
+    await this.uploadFile({
+      url: avatar,
+      name: `微信头像.${fileType}`,
+      hashCode,
+      fileSize
+    });
+  },
+
+  handleUploadSuccess(avatar) {
+    const data = {
+      avatar: avatar
+    }
+    editUser(data).then(res => {
+      wx.showToast({
+        title: '保存成功！~',
+        icon: 'none'
+      });
     })
+  },
+
+  uploadFile({
+    url,
+    name,
+    hashCode,
+    fileSize
+  }) {
+    return new Promise((resolve, reject) => {
+      wx.uploadFile({
+        url: 'http://localhost:9091/file/upload',
+        filePath: url,
+        name: 'file',
+        formData: {
+          bizId: this.data.user.id,
+          bizType: 1,
+          hashCode,
+          fileName: name,
+          fileSize,
+          chunkSize: this.data.chunkSize,
+          chunkIndex: 0,
+          chunkTotal: 1
+        },
+        success: (res) => {
+          const {
+            data
+          } = JSON.parse(res.data);
+          this.handleUploadSuccess(data.filePath);
+          resolve(data);
+        },
+        fail: reject
+      });
+    });
   },
 
   async handleSubmit() {
     const userData = {
       nickname: this.data.user.nickname
     }
-    const {
-      code: userCode,
-      data: userResData,
-      msg: userResMsg
-    } = await editUser(userData)
-
-    if (userCode !== 200) {
-      wx.showToast({
-        title: userResMsg,
-        icon: 'none'
-      });
-      return
-    }
+    await editUser(userData)
 
     const userInfoData = {
       id: this.data.userInfo.id,
@@ -121,19 +139,7 @@ Page({
       remark: this.data.userInfo.remark
     }
 
-    const {
-      code: infoCode,
-      data: infoResData,
-      msg: infoResMsg
-    } = await saveUserInfo(userInfoData)
-
-    if (infoCode !== 200) {
-      wx.showToast({
-        title: infoResMsg,
-        icon: 'none'
-      });
-      return
-    }
+    await saveUserInfo(userInfoData)
 
     wx.showToast({
       title: '保存成功！~',

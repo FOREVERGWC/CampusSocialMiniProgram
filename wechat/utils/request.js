@@ -18,20 +18,7 @@ const service = {
       return config;
     },
 
-    response: (response) => {
-      const res = response.data;
-
-      if (res.code === 401) {
-        wx.showToast({
-          title: '请先登录！',
-          icon: 'none'
-        });
-        getApp().globalData.user = {}
-        getApp().globalData.token = ''
-        return Promise.reject(res);
-      }
-      return res;
-    }
+    response: (response) => response.data
   }
 };
 
@@ -87,17 +74,48 @@ const request = (options = {}) => {
       ...interceptedConfig,
       success: (res) => {
         try {
-          const result = service.interceptors.response(res);
-          resolve(result);
+          const {
+            code,
+            msg,
+            data
+          } = service.interceptors.response(res);
+
+          if (code === 401) {
+            wx.showToast({
+              title: '请先登录！',
+              icon: 'none'
+            });
+
+            getApp().globalData.user = {}
+            getApp().globalData.avatar = 'https://tdesign.gtimg.com/mobile/demos/avatar1.png'
+            getApp().globalData.schoolInfo = {}
+            getApp().globalData.token = ''
+
+            setTimeout(() => {
+              wx.navigateTo({
+                url: '/pages/login/index'
+              })
+            }, 3000)
+          } else if (code !== 200) {
+            throw new Error(msg)
+          }
+
+          resolve(data);
         } catch (error) {
+          wx.showToast({
+            title: error.message || '业务异常',
+            icon: 'none'
+          });
+
           reject(error);
         }
       },
       fail: (error) => {
         wx.showToast({
-          title: '请求超时！服务器开小差啦',
+          title: '请求超时！服务器开小差啦~',
           icon: 'none'
         });
+
         reject(error);
       }
     });

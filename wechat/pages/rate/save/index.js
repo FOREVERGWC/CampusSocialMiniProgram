@@ -21,24 +21,16 @@ Page({
 
   submitDraft() {
     saveRate({}).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       this.setData({
-        detail: res.data,
-        fileList: res.data?.attachmentList.map(item => ({
+        detail: res,
+        fileList: res?.attachmentList.map(item => ({
           id: item.id,
           url: baseUrl + item.filePath,
           name: item.fileName,
           type: 'image'
         })) || [],
-        title: res.data?.title || '',
-        content: res.data?.content || '',
+        title: res?.title || '',
+        content: res?.content || '',
       })
     }).finally(() => {
       this.setData({
@@ -61,14 +53,6 @@ Page({
       status: '0'
     }
     saveRate(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '保存成功！~',
         icon: 'none'
@@ -97,14 +81,6 @@ Page({
       status: '1'
     }
     saveRate(data).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
       wx.showToast({
         title: '发布成功！~',
         icon: 'none'

@@ -18,21 +18,13 @@ Page({
 
   getDetail() {
     getRateItemById(this.data.id).then(res => {
-      if (res.code !== 200) {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none'
-        });
-        return
-      }
-
-      res.data.score = +res.data.score
-      res.data.attachmentList.forEach(attachement => {
+      res?.score = +res?.score
+      res?.attachmentList.forEach(attachement => {
         attachement.filePath = baseUrl + attachement.filePath
       })
 
       this.setData({
-        detail: res.data || {}
+        detail: res || {}
       })
     })
   },
