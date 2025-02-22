@@ -34,9 +34,10 @@ public class PartnerController {
      */
     @PostMapping
     @Operation(summary = "添加、修改组局", description = "添加、修改组局", method = "POST")
-    public Result<Void> save(@RequestBody Partner partner) {
+    public Result<PartnerVo> save(@RequestBody Partner partner) {
         partnerService.saveOrUpdate(partner);
-        return Result.success();
+        PartnerVo vo = partnerService.getOne(PartnerDto.builder().id(partner.getId()).build());
+        return Result.success(vo);
     }
 
     /**

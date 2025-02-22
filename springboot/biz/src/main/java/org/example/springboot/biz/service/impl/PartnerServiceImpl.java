@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.springboot.biz.common.enums.NoteStatus;
 import org.example.springboot.biz.domain.dto.PartnerDto;
 import org.example.springboot.biz.domain.entity.Partner;
 import org.example.springboot.biz.domain.entity.PartnerSubject;
@@ -30,6 +31,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -70,7 +72,29 @@ public class PartnerServiceImpl extends ServiceImpl<PartnerMapper, Partner> impl
     public boolean save(Partner entity) {
         Long userId = UserUtils.getLoginUserId();
         entity.setUserId(userId);
-        return super.save(entity);
+        entity.setStatus(NoteStatus.UNPUBLISHED.getCode());
+
+        PartnerVo one = getOne(PartnerDto.builder()
+                .userId(userId)
+                .status(NoteStatus.UNPUBLISHED.getCode())
+                .build());
+
+        if (one == null) {
+            entity.setTitle(StrUtil.isBlank(entity.getTitle()) ? "" : entity.getTitle());
+            entity.setContent(StrUtil.isBlank(entity.getContent()) ? "" : entity.getContent());
+            entity.setSubjectId(entity.getSubjectId() == null ? 0L : entity.getSubjectId());
+            entity.setNum(entity.getNum() == null ? 3 : entity.getNum());
+            entity.setEndTime(entity.getEndTime() == null ? LocalDateTime.now().plusDays(3L) : entity.getEndTime());
+            return super.save(entity);
+        }
+
+        entity.setId(one.getId());
+        entity.setTitle(StrUtil.isBlank(entity.getTitle()) ? one.getTitle() : entity.getTitle());
+        entity.setContent(StrUtil.isBlank(entity.getContent()) ? one.getContent() : entity.getContent());
+        entity.setSubjectId(entity.getSubjectId() == null ? one.getSubjectId() : entity.getSubjectId());
+        entity.setNum(entity.getNum() == null ? one.getNum() : entity.getNum());
+        entity.setEndTime(entity.getEndTime() == null ? one.getEndTime() : entity.getEndTime());
+        return super.updateById(entity);
     }
 
     @Override
@@ -237,7 +261,8 @@ public class PartnerServiceImpl extends ServiceImpl<PartnerMapper, Partner> impl
                 .like(StrUtil.isNotBlank(entity.getTitle()), Partner::getTitle, entity.getTitle())
                 .like(StrUtil.isNotBlank(entity.getContent()), Partner::getContent, entity.getContent())
                 .eq(entity.getSubjectId() != null, Partner::getSubjectId, entity.getSubjectId())
-                .eq(entity.getNum() != null, Partner::getNum, entity.getNum());
+                .eq(entity.getNum() != null, Partner::getNum, entity.getNum())
+                .eq(StrUtil.isNotBlank(entity.getStatus()), Partner::getStatus, entity.getStatus());
         if (entity instanceof PartnerDto dto) {
             Map<String, Object> params = dto.getParams();
             // 创建时间

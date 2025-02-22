@@ -366,7 +366,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
                 .eq(entity.getTop() != null, Note::getTop, entity.getTop())
                 .eq(entity.getVisible() != null, Note::getVisible, entity.getVisible())
                 .eq(entity.getCommentable() != null, Note::getCommentable, entity.getCommentable())
-                .eq(entity.getStatus() != null, Note::getStatus, entity.getStatus())
+                .eq(StrUtil.isNotBlank(entity.getStatus()), Note::getStatus, entity.getStatus())
                 .eq(entity.getDeleted() != null, Note::getDeleted, entity.getDeleted());
         if (entity instanceof NoteDto dto) {
             Map<String, Object> params = dto.getParams();

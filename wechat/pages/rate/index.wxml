@@ -38,10 +38,6 @@
             </view>
             <t-rate value="{{ item.score }}" count="10" disabled size="8px" allow-half="true" />
           </view>
-          <view>
-            <view class="cu-tag bg-red light sm round">正义天使</view>
-            <view class="cu-tag bg-green light sm round">史诗</view>
-          </view>
         </view>
       </view>
     </view>

@@ -22,9 +22,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    detail: {},
     title: '',
     content: '',
-    detail: {},
     categoryList: [],
     categoryVisible: false,
     categoryValue: [],

@@ -8,7 +8,7 @@
 
   <view class="padding-lr">
     <view class="padding-top-lg">
-      <t-textarea value="{{ title }}" placeholder="在此输入标题" bordered maxlength="50" disableDefaultPadding="{{ true }}" indicator data-key="title" bind:change="onInput" />
+      <t-textarea value="{{ title }}" placeholder="在此输入标题" bordered maxlength="50" disableDefaultPadding="{{ true }}" indicator data-key="title" bind:change="onInput" style="height: 264rpx;" />
     </view>
     <view class="padding-tb-lg">
       <t-textarea value="{{ content }}" placeholder="在此输入内容" bordered maxlength="255" disableDefaultPadding="{{ true }}" indicator data-key="content" bind:change="onInput" />
@@ -30,7 +30,9 @@
   </t-cell-group>
 
   <view class="padding-top-lg padding-bottom-xl padding-lr">
-    <button class="cu-btn block bg-blue lg" bind:tap="handleSubimt" disabled="{{ loading }}">发布</button>
+    <button class="cu-btn block bg-blue lg" bind:tap="handleDraft" disabled="{{ loading }}">保存草稿</button>
+    <view class="padding-xs" />
+    <button class="cu-btn block bg-blue lg" bind:tap="handlePublish" disabled="{{ loading }}">发布</button>
   </view>
 
   <t-picker visible="{{ subjectVisible }}" value="{{ subjectValue }}" keys="{{ props }}" data-key="subject" title="选择活动主题" cancelBtn="取消" confirmBtn="确认" bindchange="onPickerChange" bindcancel="onPickerCancel">

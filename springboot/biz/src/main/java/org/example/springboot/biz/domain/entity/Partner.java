@@ -65,4 +65,9 @@ public class Partner extends BaseEntity {
      */
     @Schema(description = "截止时间")
     private LocalDateTime endTime;
+    /**
+     * 状态(0未发布、1已发布)
+     */
+    @Schema(description = "状态(0未发布、1已发布)")
+    private String status;
 }

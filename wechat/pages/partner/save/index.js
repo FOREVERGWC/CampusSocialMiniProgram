@@ -12,6 +12,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    detail: {},
     title: '',
     content: '',
     num: null,
@@ -51,6 +52,39 @@ Page({
           })
         }, 3000)
       }
+    })
+  },
+
+  submitDraft() {
+    savePartner({}).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      this.setData({
+        detail: res.data,
+        title: res.data?.title || '',
+        content: res.data?.content || '',
+        num: res.data?.num,
+        subjectValue: [res.data?.subjectId || ''],
+        subjectLabel: this.data.subjectList?.find(item => item.id === res.data?.subjectId)?.name || '',
+        endDatetimeValue: res.data?.endTime,
+        endDatetimeLabel: res.data?.endTime,
+        fileList: res.data?.attachmentList.map(item => ({
+          id: item.id,
+          url: baseUrl + item.filePath,
+          name: item.fileName,
+          type: 'image'
+        })) || []
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
     })
   },
 
@@ -96,16 +130,53 @@ Page({
     });
   },
 
-  handleSubimt() {
-    this.setData({
-      loading: true
-    })
+  handleDraft() {
     const data = {
       title: this.data.title,
       content: this.data.content,
       subjectId: this.data.subjectValue[0],
       num: this.data.num,
       endTime: this.data.endDatetimeValue,
+      status: '0'
+    }
+    savePartner(data).then(res => {
+      if (res.code !== 200) {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none'
+        });
+        return
+      }
+
+      wx.showToast({
+        title: '保存成功！~',
+        icon: 'none'
+      })
+
+      setTimeout(() => {
+        wx.redirectTo({
+          url: `/pages/partner/detail/index?id=${this.data.detail.id}`
+        });
+      }, 1000)
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
+    })
+  },
+
+  handlePublish() {
+    this.setData({
+      loading: true
+    })
+    const data = {
+      id: this.data.detail.id,
+      title: this.data.title,
+      content: this.data.content,
+      subjectId: this.data.subjectValue[0],
+      num: this.data.num,
+      endTime: this.data.endDatetimeValue,
+      status: '1'
     }
     savePartner(data).then(res => {
       if (res.code !== 200) {
@@ -122,7 +193,7 @@ Page({
       })
 
       setTimeout(() => {
-        wx.redirectTo({
+        wx.switchTab({
           url: '/pages/partner/index'
         })
       }, 1000)
@@ -152,6 +223,7 @@ Page({
    */
   onShow() {
     this.getRecords()
+    this.submitDraft()
   },
 
   /**

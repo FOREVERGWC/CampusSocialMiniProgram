@@ -202,9 +202,11 @@ Page({
         getApp().globalData.schoolInfo = res.data || {}
       })
 
-      wx.switchTab({
-        url: '/pages/index/index'
-      })
+      setTimeout(() => {
+        wx.switchTab({
+          url: '/pages/index/index'
+        })
+      }, 1500)
     })
   },
 

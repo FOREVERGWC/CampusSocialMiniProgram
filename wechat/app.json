@@ -20,7 +20,6 @@
     "pages/partner/index",
     "pages/partner/detail/index",
     "pages/partner/save/index",
-    "pages/message/index",
     "pages/my/index",
     "pages/profile/edit/index",
     "pages/profile/edit/name/index",

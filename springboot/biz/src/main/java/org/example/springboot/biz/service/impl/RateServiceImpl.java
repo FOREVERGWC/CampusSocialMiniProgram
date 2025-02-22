@@ -73,11 +73,15 @@ public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IR
         List<Long> userIdList = list.stream().map(Rate::getUserId).toList();
         List<User> userList = userService.listByIds(userIdList);
         Map<Long, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, item -> item));
+        // 评分附件
+        List<Long> idList = list.stream().map(Rate::getId).toList();
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_RATE.getCode());
         // 组装VO
         return list.stream().map(item -> {
             RateVo vo = new RateVo();
             BeanUtils.copyProperties(item, vo);
             vo.setUser(userMap.getOrDefault(item.getUserId(), User.builder().name("已删除").build()));
+            vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             return vo;
         }).toList();
     }
@@ -94,7 +98,7 @@ public class RateServiceImpl extends ServiceImpl<RateMapper, Rate> implements IR
         Map<Long, User> userMap = userList.stream().collect(Collectors.toMap(User::getId, item -> item));
         // 评分附件
         List<Long> idList = info.getRecords().stream().map(Rate::getId).toList();
-        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_RATE_ITEM.getCode());
+        Map<Long, List<Attachment>> attachmentMap = attachmentService.groupByBizIdsAndBizType(idList, BizType.BIZ_RATE.getCode());
         // 组装VO
         return info.convert(item -> {
             RateVo vo = new RateVo();

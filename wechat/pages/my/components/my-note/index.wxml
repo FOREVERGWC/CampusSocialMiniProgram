@@ -15,10 +15,10 @@
             <image src="{{ item.attachmentList[0].filePath }}" />
           </view>
           <view class="text-content padding-sm">
-            <view class="margin-bottom-xs">{{ item.title }}</view>
+            <view class="text-cut margin-bottom-xs">{{ item.title }}</view>
             <view class="flex justify-between text-grey text-sm">
               <view class="flex align-center" style="gap: 16rpx;">
-                <view class="cu-avatar round sm" style="background-image:url({{item.user.avatar}});" />
+                <view class="cu-avatar round xs" style="background-image:url({{item.user.avatar}});" />
                 <text>{{ item.user.username }}</text>
               </view>
               <text class="cuIcon-appreciate{{ item.count.like.hasDone ? 'fill' : '' }}"> {{ item.count.like.num }}</text>
