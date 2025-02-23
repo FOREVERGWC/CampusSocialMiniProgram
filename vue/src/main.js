@@ -42,7 +42,7 @@ import DictSelect from "@/components/DictSelect/index.js";
 // 版权备案组件
 import CopyrightIcp from "@/components/CopyrightIcp/index.js";
 // 评论区组件
-import Comment from '@/components/Comment/index.js'
+import CommentList from '@/components/CommentList/index.js'
 // 自定义样式表
 import '@/assets/css/index.scss'
 
@@ -73,5 +73,5 @@ app.component('CountDownButton', CountDownButton)
 app.component('DictItem', DictItem)
 app.component('DictSelect', DictSelect)
 app.component('CopyrightIcp', CopyrightIcp)
-app.component('Comment', Comment)
+app.component('CommentList', CommentList)
 app.mount('#app')
