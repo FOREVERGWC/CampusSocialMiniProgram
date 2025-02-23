@@ -122,8 +122,8 @@
 
 <script setup>
 import {computed, nextTick, onMounted, reactive, ref, toRaw} from 'vue'
-import {getRateItemOne, getRateItemPage, removeRateItemBatchByIds, saveRateItem} from '@/api/rate/item.js'
-import {getRateList} from '@/api/rate/index.js'
+import {getRateItemOne, getRateItemPage, removeRateItemBatchByIds, saveRateItem} from '@/api/biz/rate/item.js'
+import {getRateList} from '@/api/biz/rate/index.js'
 import {ElMessage} from "element-plus"
 import {downloadFile} from "@/utils/common.js";
 

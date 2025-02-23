@@ -109,7 +109,7 @@ import {
   getNoteCategoryPage,
   removeNoteCategoryBatchByIds,
   saveNoteCategory
-} from '@/api/note/category.js'
+} from '@/api/biz/note/category.js'
 import {ElMessage} from "element-plus"
 import {downloadFile} from "@/utils/common.js";
 

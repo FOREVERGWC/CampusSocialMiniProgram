@@ -134,7 +134,7 @@
 
 <script setup>
 import {nextTick, onMounted, reactive, ref} from 'vue'
-import {getActivityOne, getActivityPage, removeActivityBatchByIds, saveActivity} from '@/api/activity'
+import {getActivityOne, getActivityPage, removeActivityBatchByIds, saveActivity} from '@/api/biz/activity/index.js'
 import {ElMessage} from "element-plus"
 import {addDataRange, downloadFile} from "@/utils/common.js";
 import {useTable} from "@/hooks/useTable/index.js";

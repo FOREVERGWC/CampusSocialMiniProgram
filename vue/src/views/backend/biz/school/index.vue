@@ -100,7 +100,7 @@
 
 <script setup>
 import {computed, nextTick, onMounted, reactive, ref, toRaw} from 'vue'
-import {getSchoolOne, getSchoolPage, removeSchoolBatchByIds, saveSchool} from '@/api/school'
+import {getSchoolOne, getSchoolPage, removeSchoolBatchByIds, saveSchool} from '@/api/biz/school/index.js'
 import {ElMessage} from "element-plus"
 import {downloadFile} from "@/utils/common.js";
 
