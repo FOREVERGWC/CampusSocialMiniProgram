@@ -1,5 +1,5 @@
 <!--pages/rate/detail/index.wxml-->
-<view class="bg-white">
+<view>
   <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
     <view slot="content">
       <text>{{ detail.title }}</text>
@@ -7,17 +7,33 @@
   </cu-custom>
 
   <!-- 内容 -->
-  <view class="padding-lr">
+  <view class="bg-white padding-lr solids-bottom">
     <my-swiper attachmentList="{{ detail.attachmentList }}" />
 
     <view class="padding-top-lg">
       <view>{{ detail.content }}</view>
-      <view class="padding-tb-sm">
-        <t-rate value="{{ detail.score }}" count="{{ 10 }}" disabled allow-half="true" />
+      <view class="padding-tb-sm text-gray text-sm">编辑于{{ detail.updateTime }} {{ detail.location }}</view>
+      <view class="padding-bottom-sm">
+        <button class="cu-btn round sm" bind:tap="goToAdd">添加</button>
       </view>
-      <view class="flex justify-between align-center padding-bottom-sm">
-        <view class="text-gray text-sm">编辑于{{ detail.updateTime }}</view>
-        <button class="cu-btn sm round" bind:tap="goToScore">评分</button>
+    </view>
+  </view>
+
+  <view class="cu-card article">
+    <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="cu-item shadow">
+      <view class="title text-center">
+        <view class="text-cut">{{ item.title }}</view>
+      </view>
+      <view class="content">
+        <image src="{{ item.attachmentList[0].filePath }}" mode="aspectFill" />
+        <view class="desc">
+          <view class="text-content">
+            <view class="padding-bottom-sm">
+              {{ item.content }}
+            </view>
+            <t-rate value="{{ item.score }}" count="10" disabled size="8px" allow-half="true" />
+          </view>
+        </view>
       </view>
     </view>
   </view>

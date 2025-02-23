@@ -41,7 +41,7 @@ Page({
 
     if (this.data.activeTab === '0') {
       // wx.navigateTo({
-      //   url: '/pages/test/index',
+      //   url: '/pages/rate/index',
       // })
     } else if (this.data.activeTab === '1') {
       this.getNoteRecords()

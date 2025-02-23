@@ -1,13 +1,14 @@
 // pages/rate/index.js
 import {
-  getRateById
+  getRatePage
 } from '../../api/rate/index'
 import {
-  getRateItemList
-} from '../../api/rate/item'
-import {
-  baseUrl
+  baseUrl,
+  defaultAvatar
 } from '../../utils/common'
+import {
+  showEndToast
+} from '../../utils/toast/index'
 
 Page({
 
@@ -16,63 +17,52 @@ Page({
    */
   data: {
     queryParams: {
-      rateId: null,
-      status: '1'
+      pageNo: 1,
+      pageSize: 8,
+      status: '1',
+      orderBy: 'createTime',
+      isAsc: false
     },
-    detail: {},
     records: [],
-    loading: true,
+    total: 0,
+    pages: 0,
+    loading: false,
     refreshing: false,
-    end: true
+    end: false
   },
 
   getRecords() {
-    getRateById(this.data.queryParams.rateId).then(res => {
-      res?.attachmentList.forEach(attachement => {
-        attachement.filePath = baseUrl + attachement.filePath
-      })
-
-      this.setData({
-        detail: res || {}
-      })
+    this.setData({
+      loading: true
     })
-    getRateItemList(this.data.queryParams).then(res => {
-      res?.forEach(item => {
-        item.attachmentList.forEach(attachement => {
+
+    getRatePage(this.data.queryParams).then(res => {
+      res?.records.forEach(item => {
+        item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+        item.attachmentList?.forEach(attachement => {
           attachement.filePath = baseUrl + attachement.filePath
         })
       })
 
       this.setData({
-        records: res || []
+        records: res?.records || [],
+        total: res?.total || 0,
+        pages: res?.pages || 0,
+        end: !res?.records?.length || this.data.queryParams.pageNo >= (res?.pages || 0)
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false,
+        refreshing: false
       })
     })
-  },
-
-  onToDetail(event) {
-    const id = event.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: `/pages/rate/detail/index?id=${id}`
-    });
-  },
-
-  goToAdd() {
-    wx.navigateTo({
-      url: `/pages/rate/item/save/index?rateId=${this.data.queryParams.rateId}`
-    });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-    const id = options.id;
-    this.setData({
-      queryParams: {
-        rateId: id,
-        status: '1'
-      }
-    });
+
   },
 
   /**
@@ -107,14 +97,68 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
+    this.setData({
+      queryParams: {
+        pageNo: 1,
+        pageSize: 8,
+        status: '1',
+        orderBy: 'createTime',
+        isAsc: false
+      },
+      refreshing: true,
+      records: []
+    })
 
+    this.getRecords()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
+    if (this.data.loading || this.data.end) {
+      this.data.end && showEndToast()
+      return
+    }
 
+    this.setData({
+      loading: true,
+      'queryParams.pageNo': this.data.queryParams.pageNo + 1
+    })
+
+    getRatePage(this.data.queryParams).then(res => {
+      const records = res?.records || []
+
+      if (!records.length) {
+        this.setData({
+          end: true,
+        })
+        showEndToast()
+        return
+      }
+
+      records.forEach(item => {
+        item.user.avatar = item.user.avatar ? baseUrl + item.user.avatar : defaultAvatar
+        item.attachmentList?.forEach(attachement => {
+          attachement.filePath = baseUrl + attachement.filePath
+        })
+      })
+
+      this.setData({
+        records: [...this.data.records, ...records],
+        total: res?.total || 0,
+        pages: res?.pages || 0,
+        end: this.data.queryParams.pageNo >= (res?.pages || 0)
+      })
+    }).error(() => {
+      this.setData({
+        'queryParams.pageNo': this.data.queryParams.pageNo - 1
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false
+      })
+    })
   },
 
   /**

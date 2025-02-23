@@ -84,7 +84,7 @@ Page({
 
       setTimeout(() => {
         wx.redirectTo({
-          url: `/pages/rate/detail/index?id=${this.data.rateItemId}`
+          url: `/pages/rate/item/detail/index?id=${this.data.rateItemId}`
         });
       }, 1000)
     }).finally(() => {

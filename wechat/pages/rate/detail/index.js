@@ -1,26 +1,33 @@
+// pages/rate/detail/index.js
 import {
-  getRateItemById
-} from "../../../api/rate/item";
+  getRateById
+} from '../../../api/rate/index'
+import {
+  getRateItemList
+} from '../../../api/rate/item'
 import {
   baseUrl
 } from '../../../utils/common'
 
-// pages/rate/detail/index.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    id: null,
-    detail: {
-      score: 10
-    }
+    queryParams: {
+      rateId: null,
+      status: '1'
+    },
+    detail: {},
+    records: [],
+    loading: true,
+    refreshing: false,
+    end: true
   },
 
-  getDetail() {
-    getRateItemById(this.data.id).then(res => {
-      res.score = +res?.score
+  getRecords() {
+    getRateById(this.data.queryParams.rateId).then(res => {
       res?.attachmentList.forEach(attachement => {
         attachement.filePath = baseUrl + attachement.filePath
       })
@@ -29,12 +36,30 @@ Page({
         detail: res || {}
       })
     })
+    getRateItemList(this.data.queryParams).then(res => {
+      res?.forEach(item => {
+        item.attachmentList.forEach(attachement => {
+          attachement.filePath = baseUrl + attachement.filePath
+        })
+      })
+
+      this.setData({
+        records: res || []
+      })
+    })
   },
 
-  goToScore() {
+  onToDetail(event) {
+    const id = event.currentTarget.dataset.id
     wx.navigateTo({
-      url: `/pages/rate/record/index?rateItemId=${this.data.id}`
-    });
+      url: `/pages/rate/item/detail/index?id=${id}`
+    })
+  },
+
+  goToAdd() {
+    wx.navigateTo({
+      url: `/pages/rate/item/save/index?rateId=${this.data.queryParams.rateId}`
+    })
   },
 
   /**
@@ -43,9 +68,11 @@ Page({
   onLoad(options) {
     const id = options.id;
     this.setData({
-      id: id
-    });
-    this.getDetail()
+      queryParams: {
+        rateId: id,
+        status: '1'
+      }
+    })
   },
 
   /**
@@ -59,7 +86,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getRecords()
   },
 
   /**

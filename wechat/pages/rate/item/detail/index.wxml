@@ -1,0 +1,24 @@
+<!--pages/rate/item/detail/index.wxml-->
+<view class="bg-white">
+  <cu-custom bgColor="bg-gradual-pink" isBack="{{ true }}">
+    <view slot="content">
+      <text>{{ detail.title }}</text>
+    </view>
+  </cu-custom>
+
+  <!-- 内容 -->
+  <view class="padding-lr">
+    <my-swiper attachmentList="{{ detail.attachmentList }}" />
+
+    <view class="padding-top-lg">
+      <view>{{ detail.content }}</view>
+      <view class="padding-tb-sm">
+        <t-rate value="{{ detail.score }}" count="{{ 10 }}" disabled allow-half="true" />
+      </view>
+      <view class="flex justify-between align-center padding-bottom-sm">
+        <view class="text-gray text-sm">编辑于{{ detail.updateTime }}</view>
+        <button class="cu-btn sm round" bind:tap="goToScore">评分</button>
+      </view>
+    </view>
+  </view>
+</view>

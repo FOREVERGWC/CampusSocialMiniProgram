@@ -26,10 +26,10 @@ Component({
    */
   methods: {
     onToDetail(event) {
-      const id = event.currentTarget.dataset.id;
+      const id = event.currentTarget.dataset.id
       wx.navigateTo({
-        url: `/pages/rate/index?id=${id}`
-      });
+        url: `/pages/rate/detail/index?id=${id}`
+      })
     }
   }
 })

@@ -1,5 +1,5 @@
 {
   "usingComponents": {
-    "my-swiper": "../../components/my-swiper/index"
+    "campus-rating": "../../components/campus-rating/index"
   }
 }

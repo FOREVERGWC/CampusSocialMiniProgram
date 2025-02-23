@@ -110,7 +110,7 @@ Page({
 
       setTimeout(() => {
         wx.redirectTo({
-          url: `/pages/rate/index?id=${this.data.rateId}`,
+          url: `/pages/rate/detail/index?id=${this.data.rateId}`,
         })
       }, 1000)
     }).finally(() => {
