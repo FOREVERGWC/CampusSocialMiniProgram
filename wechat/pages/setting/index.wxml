@@ -25,7 +25,7 @@
     <t-cell hover arrow>
       <text class="cuIcon-delete text-gray" slot="left-icon" />
       <text class="text-grey" slot="title">存储空间</text>
-      <text class="text-grey text-sm" slot="note">1.37 GB</text>
+      <text class="text-grey text-sm" slot="note">{{ storageSize }}</text>
     </t-cell>
     <t-cell hover arrow>
       <text class="cuIcon-favor text-gray" slot="left-icon" />

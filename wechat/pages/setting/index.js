@@ -1,10 +1,23 @@
 // pages/setting/index.js
+import {
+  formatFileSize
+} from '../../utils/common'
+
 Page({
 
   /**
    * 页面的初始数据
    */
-  data: {},
+  data: {
+    storageSize: '0 KB'
+  },
+
+  getStorageSize() {
+    const storageSize = formatFileSize(wx.getStorageInfoSync().currentSize)
+    this.setData({
+      storageSize: storageSize
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -24,7 +37,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getStorageSize()
   },
 
   /**

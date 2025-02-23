@@ -58,6 +58,20 @@ export const processUpdateTime = (records) => {
 }
 
 /**
+ * 格式化文件大小
+ * @param {*} size 文件大小KB
+ */
+export const formatFileSize = (size) => {
+  if (size < 1024) {
+    return `${size.toFixed(2)} KB`
+  } else if (size < 1024 * 1024) {
+    return `${(size / 1024 / 1024).toFixed(2)} MB`
+  } else {
+    return `${(size / 1024 / 1024 / 1024).toFixed(2)} GB`
+  }
+}
+
+/**
  * 计算文件散列值
  * @param {*} chunkSize 分片大小
  * @param {*} url 文件地址

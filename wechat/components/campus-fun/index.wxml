@@ -3,7 +3,7 @@
   <view class="flex flex-wrap">
     <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="margin-xs cu-item bg-white shadow radius" style="width: calc(50% - 20rpx);">
       <view class="margin-0 image">
-        <image src="{{ item.attachmentList[0].filePath }}" />
+        <image src="{{ item.attachmentList[0].filePath }}" mode="aspectFit" />
       </view>
       <view class="text-content padding-xs">
         <view class="text-cut margin-bottom-sm">{{ item.title }}</view>
