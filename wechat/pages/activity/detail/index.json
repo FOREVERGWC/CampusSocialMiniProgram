@@ -1,5 +1,6 @@
 {
   "usingComponents": {
+    "my-swiper": "../../../components/my-swiper/index",
     "comment": "../../../components/comment/index"
   }
 }

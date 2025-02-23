@@ -12,7 +12,7 @@
       <view class="flex flex-wrap">
         <view wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap="onToDetail" data-id="{{ item.id }}" class="cu-item bg-white shadow radius" style="width: calc(50% - 20rpx); margin: 10rpx;">
           <view class="image" style="margin: 0;" bindtap="onToDetail" id="{{ item.id }}">
-            <image src="{{ item.attachmentList[0].filePath }}" />
+            <image src="{{ item.attachmentList[0].filePath }}" mode="widthFix" />
           </view>
           <view class="text-content padding-sm">
             <view class="text-cut margin-bottom-xs">{{ item.title }}</view>

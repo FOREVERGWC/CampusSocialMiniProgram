@@ -1,0 +1,7 @@
+<!--components/my-swiper/index.wxml-->
+<swiper wx:if="{{ attachmentList.length > 0 }}" class="screen-swiper square-dot" indicator-dots="{{ true }}" circular="{{ true }}" autoplay="{{ true }}" interval="5000" duration="500" style="height: {{ height }}">
+  <swiper-item wx:for="{{ attachmentList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
+    <image src="{{ item.filePath }}" mode="widthFix" bindload="getHeight"/>
+    <!-- <video src="{{ item.filePath }}" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" /> -->
+  </swiper-item>
+</swiper>

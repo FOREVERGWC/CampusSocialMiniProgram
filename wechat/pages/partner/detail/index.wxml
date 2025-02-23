@@ -12,12 +12,7 @@
   <scroll-view scroll-y="true" style="height: 100vh;">
     <!-- 内容 -->
     <view class="padding-lr">
-      <swiper wx:if="{{ detail.attachmentList.length > 0 }}" class="screen-swiper square-dot" indicator-dots="{{ true }}" circular="{{ true }}" autoplay="{{ true }}" interval="5000" duration="500">
-        <swiper-item wx:for="{{ detail.attachmentList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
-          <image src="{{ item.filePath }}" style="width: 100%;" mode="aspectFit" />
-          <!-- <video src="{{ item.filePath }}" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" /> -->
-        </swiper-item>
-      </swiper>
+      <my-swiper attachmentList="{{ detail.attachmentList }}" />
 
       <view class="padding-tb-lg">
         <view class="margin-bottom-sm" style="word-break: break-all;">{{ detail.content }}</view>
