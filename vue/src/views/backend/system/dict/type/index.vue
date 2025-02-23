@@ -16,7 +16,7 @@
               </el-select>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-              <el-button icon="Search" plain type="info" @click="getPage">查询</el-button>
+              <el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
               <el-button icon="Refresh" plain type="warning" @click="handleReset">
@@ -58,7 +58,7 @@
     </el-row>
 
     <el-card>
-      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="dictTypeList"
+      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="records"
                 :header-cell-style="{ textAlign: 'center' }" stripe
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"/>
@@ -93,13 +93,13 @@
       </el-table>
 
       <el-pagination
-          :current-page="queryParams.pageNo"
-          :page-size="queryParams.pageSize"
+          :current-page="pagination.current"
+          :page-size="pagination.pageSize"
           :page-sizes="[20, 30, 40, 50]"
-          :total="total"
+          :total="pagination.total"
           layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
+          @current-change="pagination.onCurrentChange"
+          @size-change="pagination.onPageSizeChange">
       </el-pagination>
     </el-card>
 
@@ -129,7 +129,7 @@
 </template>
 
 <script setup>
-import {nextTick, onMounted, reactive, ref, toRaw} from 'vue'
+import {nextTick, onMounted, reactive, ref} from 'vue'
 import {
   getDictTypeOne,
   getDictTypePage,
@@ -139,20 +139,27 @@ import {
 } from '@/api/dictType'
 import {ElMessage} from 'element-plus'
 import {downloadFile} from '@/utils/common.js'
+import {useTable} from "@/hooks/useTable/index.js";
 
-const loading = ref(true)
 const queryParams = reactive({
-  pageNo: 1,
-  pageSize: 20,
   name: '',
 	code: '',
   status: ''
 })
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
-const dictTypeList = ref([])
-const total = ref(0)
+const {
+  loading,
+  records,
+  getRecords,
+  pagination,
+  selectedKeys,
+  single,
+  multiple,
+  handleSelectionChange,
+  onDelete
+} = useTable(
+    (page) => getDictTypePage({...queryParams, pageNo: page.pageNo, pageSize: page.pageSize}),
+    {immediate: false}
+)
 const statusList = [
   {label: '禁用', value: '0'},
   {label: '正常', value: '1'}
@@ -167,15 +174,6 @@ const rules = {
   name: [{required: true, message: '请输入字典名称', trigger: 'blur'}],
 	code: [{required: true, message: '请输入字典标识', trigger: 'blur'}],
   status: [{required: true, message: '请选择字典状态', trigger: 'change'}]
-}
-
-const getPage = () => {
-  loading.value = true
-  getDictTypePage(queryParams).then(res => {
-    dictTypeList.value = res.data?.records || []
-    total.value = res.data?.total || 0
-    loading.value = false
-  })
 }
 
 const showAdd = () => {
@@ -200,7 +198,7 @@ const showEdit = (row) => {
     if (!formRef.value) return
     formRef.value.resetFields()
   })
-  const params = {id: row.id || ids.value[0]}
+  const params = {id: row.id || selectedKeys.value[0]}
   getDictTypeOne(params).then(res => {
     if (res.code !== 200) return
     form.value = {
@@ -224,22 +222,26 @@ const handleSave = () => {
       ElMessage.success('保存成功！')
       form.value.visible = false
     }).finally(() => {
-      getPage()
+      getRecords()
     })
   })
 }
 
+const handleSearch = () => {
+  getRecords()
+}
+
+const handleReset = () => {
+  queryParams.name = ''
+  queryParams.code = ''
+  queryParams.status = ''
+  getRecords()
+}
+
+
 const handleDelete = (id) => {
-  const params = id || ids.value
-  removeDictTypeBatchByIds(params).then(res => {
-    if (res.code !== 200) {
-      ElMessage.error(res.msg)
-      return
-    }
-    ElMessage.success('删除成功！')
-  }).finally(() => {
-    getPage()
-  })
+  const params = id || selectedKeys.value
+  onDelete(() => removeDictTypeBatchByIds(params), {})
 }
 
 const handleStatus = (id) => {
@@ -248,42 +250,17 @@ const handleStatus = (id) => {
       ElMessage.error(res.msg)
     } else {
       ElMessage.success('操作成功！')
-      getPage()
+      getRecords()
     }
   })
-}
-
-const handleSelectionChange = (selection) => {
-  ids.value = selection.map(item => toRaw(item).id)
-  single.value = selection.length !== 1
-  multiple.value = !selection.length
-}
-
-const handleReset = () => {
-  queryParams.pageNo = 1
-  queryParams.pageSize = 20
-  queryParams.name = ''
-  queryParams.code = ''
-  queryParams.status = ''
-  getPage()
 }
 
 const handleExport = () => {
   downloadFile('/dict/type/export', queryParams)
 }
 
-const handleSizeChange = (val) => {
-  queryParams.pageSize = val
-  getPage()
-}
-
-const handleCurrentChange = (val) => {
-  queryParams.pageNo = val
-  getPage()
-}
-
 onMounted(() => {
-  getPage()
+  getRecords()
 })
 </script>
 
