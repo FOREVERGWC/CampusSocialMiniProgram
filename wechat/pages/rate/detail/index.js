@@ -13,12 +13,14 @@ Page({
    */
   data: {
     id: null,
-    detail: {}
+    detail: {
+      score: 10
+    }
   },
 
   getDetail() {
     getRateItemById(this.data.id).then(res => {
-      res?.score = +res?.score
+      res.score = +res?.score
       res?.attachmentList.forEach(attachement => {
         attachement.filePath = baseUrl + attachement.filePath
       })

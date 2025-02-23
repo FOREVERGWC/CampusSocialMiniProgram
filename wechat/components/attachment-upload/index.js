@@ -63,11 +63,12 @@ Component({
         };
 
         const {
-          data
+          hasUpload,
+          attachment
         } = await checkFile(params);
 
-        if (data.hasUpload) {
-          this.handleUploadSuccess(data.id, data.filePath, data.fileName);
+        if (hasUpload) {
+          this.handleUploadSuccess(attachment.id, attachment.filePath, attachment.fileName);
 
           return;
         }

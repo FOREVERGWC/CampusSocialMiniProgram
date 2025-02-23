@@ -13,6 +13,7 @@ import {
 } from '../../../api/file/index'
 import {
   baseUrl,
+  defaultAvatar,
   countryList,
   provinceList,
   cityList,
@@ -31,7 +32,7 @@ Page({
     user: {},
     userInfo: {},
     area: '',
-    avatar: `${baseUrl}${getApp().globalData.user.avatar}`,
+    avatar: '',
     schoolInfo: {},
     chunkSize: 10 * 1024 * 1024
   },
@@ -61,11 +62,12 @@ Page({
     };
 
     const {
-      data
+      hasUpload,
+      attachment
     } = await checkFile(params);
 
-    if (data.hasUpload) {
-      this.handleUploadSuccess(data.filePath);
+    if (hasUpload) {
+      this.handleUploadSuccess(attachment.filePath);
 
       return;
     }
@@ -87,6 +89,8 @@ Page({
         title: '保存成功！~',
         icon: 'none'
       });
+    }).finally(() => {
+      getApp().globalData.avatar = avatar ? baseUrl + avatar : defaultAvatar
     })
   },
 
@@ -139,7 +143,7 @@ Page({
       remark: this.data.userInfo.remark
     }
 
-    await saveUserInfo(userInfoData)
+    const infoResData = await saveUserInfo(userInfoData)
 
     wx.showToast({
       title: '保存成功！~',
@@ -174,6 +178,7 @@ Page({
     console.log('aa', country, province, city);
     this.setData({
       user: getApp().globalData.user,
+      avatar: getApp().globalData.avatar,
       userInfo: getApp().globalData.userInfo,
       area: (this.data.countryList.find(item => item.value === country)?.label || '') + ' - ' +
         (this.data.provinceList.find(item => item.value === province)?.label || '') + ' - ' + (this.data.cityList.find(item => item.value === city)?.label || ''),

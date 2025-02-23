@@ -10,7 +10,7 @@ Page({
    */
   data: {
     user: {},
-    avatar: `${baseUrl}${getApp().globalData.user.avatar}`,
+    avatar: '',
     schoolInfo: {},
     stats: {
       follows: 0,
@@ -50,6 +50,7 @@ Page({
     this.getTabBar().init()
     this.setData({
       user: getApp().globalData.user,
+      avatar: getApp().globalData.avatar,
       schoolInfo: getApp().globalData.schoolInfo
     })
     let componentInstance = null;

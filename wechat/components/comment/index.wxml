@@ -13,7 +13,7 @@
         <view class="cu-item" wx:for="{{ records }}" wx:for-item="item" wx:for-index="index" wx:key="index">
           <view class="cu-avatar round" style="background-image:url({{item.user.avatar}});"></view>
           <view class="content">
-            <view class="text-grey">{{ item.user.username }}</view>
+            <view class="text-grey">{{ item.user.nickname || item.user.username }}</view>
             <!-- <view class="text-gray margin-bottom-sm">{{ item.updateTime }} IP属地：{{ item.location }}</view> -->
             <view class="text-gray margin-bottom-sm">{{ item.updateTime }}</view>
             <view class="text-gray text-content text-df">{{ item.content }}</view>
@@ -30,7 +30,7 @@
             <view wx:if="{{ item.children.length > 0 }}" class="child-comments radius padding-sm">
               <view class="cu-item" wx:for="{{ item.children }}" wx:for-item="child" wx:for-index="childIndex" wx:key="childIndex">
                 <view class="content">
-                  <view class="text-gray text-content text-df">{{ child.user.username }}：{{ child.content }}</view>
+                  <view class="text-gray text-content text-df">{{ child.user.nickname || child.user.username }}：{{ child.content }}</view>
                   <view class="margin-top-sm flex justify-between">
                     <view class="text-gray text-df">{{ child.updateTime }}</view>
                     <view class="text-gray">
