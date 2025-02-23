@@ -13,7 +13,7 @@
 
       <view class="padding-top-lg">
         <view class="text-content">
-          <view>{{ detail.content }}</view>
+          <view class="text-indent-2">{{ detail.content }}</view>
           <view>活动地点：{{ detail.location }}</view>
           <view>活动时间：{{ detail.startDatetime }} - {{ detail.endDatetime }}</view>
         </view>

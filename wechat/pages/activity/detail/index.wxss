@@ -1,1 +1,4 @@
 /* pages/activity/detail/index.wxss */
+.text-indent-2 {
+  text-indent: 2em;
+}
