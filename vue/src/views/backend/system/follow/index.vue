@@ -15,10 +15,10 @@
               </el-select>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-              <el-button icon="Search" plain type="info" @click="getPage">查询</el-button>
+              <el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-              <el-button icon="Refresh" plain type="warning" @click="resetQuery">
+              <el-button icon="Refresh" plain type="warning" @click="handleReset">
                 重置
               </el-button>
             </el-col>
@@ -49,9 +49,7 @@
               </el-popconfirm>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-              <vue3-json-excel :fields="followFields" :json-data="followList" name='关注列表.xls'>
-                <el-button icon="Download" plain>导出</el-button>
-              </vue3-json-excel>
+              <el-button icon="Download" plain @click="handleExport">导出</el-button>
             </el-col>
           </el-row>
         </el-card>
@@ -59,7 +57,7 @@
     </el-row>
 
     <el-card>
-      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="followList"
+      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="records"
                 :header-cell-style="{ textAlign: 'center' }" stripe
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"/>
@@ -81,13 +79,13 @@
       </el-table>
 
       <el-pagination
-          :current-page="queryParams.pageNo"
-          :page-size="queryParams.pageSize"
+          :current-page="pagination.current"
+          :page-size="pagination.pageSize"
           :page-sizes="[20, 30, 40, 50]"
-          :total="total"
+          :total="pagination.total"
           layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
+          @current-change="pagination.onCurrentChange"
+          @size-change="pagination.onPageSizeChange">
       </el-pagination>
     </el-card>
 
@@ -116,37 +114,33 @@
 </template>
 
 <script setup>
-import {computed, nextTick, onMounted, reactive, ref, toRaw} from 'vue'
+import {nextTick, onMounted, reactive, ref, toRaw} from 'vue'
 import {getFollowOne, getFollowPage, removeFollowBatchByIds, saveFollow} from '@/api/follow.js'
 import {getUserList} from '@/api/user.js'
 import {ElMessage} from "element-plus"
+import {useTable} from "@/hooks/useTable/index.js";
+import {downloadFile} from "@/utils/common.js";
 
-const loading = ref(true)
 const queryParams = reactive({
-  pageNo: 1,
-  pageSize: 20,
   followerId: null,
   followedId: null
 })
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
+const {
+  loading,
+  records,
+  getRecords,
+  pagination,
+  selectedKeys,
+  single,
+  multiple,
+  handleSelectionChange,
+  onDelete
+} = useTable(
+    (page) => getFollowPage({...queryParams, pageNo: page.pageNo, pageSize: page.pageSize}),
+    {immediate: false}
+)
 const followerList = ref([])
 const followedList = ref([])
-const followList = ref([])
-const total = ref(0)
-const followFields = {
-  '序号': {
-    field: 'id',
-    callback: (id) => {
-      const index = followList.value.findIndex(item => item.id === id)
-      return index + 1
-    }
-  },
-  '主键ID': 'id',
-  '关注者ID': 'followerId',
-  '被关注者ID': 'followedId'
-}
 const form = ref({
   visible: false,
   title: '',
@@ -156,21 +150,6 @@ const formRef = ref(null)
 const rules = {
   followerId: [{required: true, message: '请输入关注者ID', trigger: 'blur'}],
   followedId: [{required: true, message: '请输入被关注者ID', trigger: 'blur'}]
-}
-
-const getPage = () => {
-  loading.value = true
-  getUserList({}).then(res => {
-    followerList.value = res.data || []
-  })
-  getUserList({}).then(res => {
-    followedList.value = res.data || []
-  })
-  getFollowPage(queryParams).then(res => {
-    followList.value = res.data?.records || []
-    total.value = res.data?.total || 0
-    loading.value = false
-  })
 }
 
 const showAdd = () => {
@@ -194,7 +173,7 @@ const showEdit = (row) => {
     if (!formRef.value) return
     formRef.value.resetFields()
   })
-  const params = {id: row.id || ids.value[0]}
+  const params = {id: row.id || selectedKeys.value[0]}
   getFollowOne(params).then(res => {
     if (res.code !== 200) return
     form.value = {
@@ -218,54 +197,36 @@ const handleSave = () => {
       ElMessage.success('保存成功！')
       form.value.visible = false
     }).finally(() => {
-      getPage()
+      getRecords()
     })
   })
 }
 
-const handleDelete = (id) => {
-  const params = id || ids.value
-  removeFollowBatchByIds(params).then(res => {
-    if (res.code !== 200) {
-      ElMessage.error(res.msg)
-      return
-    }
-    ElMessage.success('删除成功！')
-  }).finally(() => {
-    getPage()
-  })
+const handleSearch = () => {
+  getRecords()
 }
 
-const handleSelectionChange = (selection) => {
-  ids.value = selection.map(item => toRaw(item).id)
-  single.value = selection.length !== 1
-  multiple.value = !selection.length
-}
-
-const resetQuery = () => {
-  queryParams.pageNo = 1
-  queryParams.pageSize = 20
+const handleReset = () => {
   queryParams.followerId = null
   queryParams.followedId = null
   getPage()
 }
 
-const handleSizeChange = (val) => {
-  queryParams.pageSize = val
-  getPage()
+const handleDelete = (id) => {
+  const params = id || selectedKeys.value
+  onDelete(() => removeFollowBatchByIds(params), {})
 }
 
-const handleCurrentChange = (val) => {
-  queryParams.pageNo = val
-  getPage()
+const handleExport = () => {
+  downloadFile('/follow/export', queryParams)
 }
 
 onMounted(() => {
-  getPage()
-})
-
-const getUrl = computed(() => (path) => {
-  return import.meta.env.VITE_APP_BASE_API + path
+  getUserList({}).then(res => {
+    followerList.value = res.data || []
+    followedList.value = res.data || []
+  })
+  getRecords()
 })
 </script>
 

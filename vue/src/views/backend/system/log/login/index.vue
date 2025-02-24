@@ -24,16 +24,16 @@
             <el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
               <el-input v-model="queryParams.msg" clearable placeholder="请输入消息"/>
             </el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-date-picker v-model="createTimeRange" clearable
-															type="datetimerange"
-															start-placeholder="登录开始时间" end-placeholder="登录结束时间"
-															value-format="YYYY-MM-DD HH:mm:ss"
-															unlink-panels
-							/>
-						</el-col>
+            <el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
+              <el-date-picker v-model="createTimeRange" clearable
+                              type="datetimerange"
+                              start-placeholder="登录开始时间" end-placeholder="登录结束时间"
+                              value-format="YYYY-MM-DD HH:mm:ss"
+                              unlink-panels
+              />
+            </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-              <el-button icon="Search" plain type="info" @click="getPage">查询</el-button>
+              <el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
               <el-button icon="Refresh" plain type="warning" @click="handleReset">
@@ -67,7 +67,7 @@
     </el-row>
 
     <el-card>
-      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="logLoginList"
+      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="records"
                 :header-cell-style="{ textAlign: 'center' }" stripe
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"/>
@@ -99,30 +99,27 @@
       </el-table>
 
       <el-pagination
-          :current-page="queryParams.pageNo"
-          :page-size="queryParams.pageSize"
+          :current-page="pagination.current"
+          :page-size="pagination.pageSize"
           :page-sizes="[20, 30, 40, 50]"
-          :total="total"
+          :total="pagination.total"
           layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
+          @current-change="pagination.onCurrentChange"
+          @size-change="pagination.onPageSizeChange">
       </el-pagination>
     </el-card>
   </div>
 </template>
 
 <script setup>
-import {onMounted, reactive, ref, toRaw} from 'vue'
+import {onMounted, reactive, ref} from 'vue'
 import {getLogLoginPage, removeLogLoginBatchByIds} from '@/api/logLogin.js'
 import {getUserList} from '@/api/user.js'
-import {ElMessage} from "element-plus"
-import { addDataRange, downloadFile } from '@/utils/common.js'
+import {addDataRange, downloadFile} from '@/utils/common.js'
+import {useTable} from "@/hooks/useTable/index.js";
 
-const loading = ref(true)
 const createTimeRange = ref([])
 const queryParams = reactive({
-  pageNo: 1,
-  pageSize: 20,
   os: '',
   browser: '',
   ip: '',
@@ -130,78 +127,58 @@ const queryParams = reactive({
   status: null,
   msg: ''
 })
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
+const {
+  loading,
+  records,
+  getRecords,
+  pagination,
+  selectedKeys,
+  multiple,
+  handleSelectionChange,
+  onDelete
+} = useTable(
+    (page) => getLogLoginPage({...queryParams, pageNo: page.pageNo, pageSize: page.pageSize}),
+    {immediate: false}
+)
 const userList = ref([])
-const logLoginList = ref([])
-const total = ref(0)
 const statusList = [
   {label: '是', value: true},
   {label: '否', value: false}
 ]
 
-const getPage = () => {
-  loading.value = true
-	addDataRange(queryParams, createTimeRange.value, 'CreateTime')
-  getUserList({}).then(res => {
-    userList.value = res.data || []
-  })
-  getLogLoginPage(queryParams).then(res => {
-    logLoginList.value = res.data?.records || []
-    total.value = res.data?.total || 0
-    loading.value = false
-  })
-}
-
-const handleDelete = (id) => {
-  const params = id || ids.value
-  removeLogLoginBatchByIds(params).then(res => {
-    if (res.code !== 200) {
-      ElMessage.error(res.msg)
-      return
-    }
-    ElMessage.success('删除成功！')
-  }).finally(() => {
-    getPage()
-  })
-}
-
-const handleSelectionChange = (selection) => {
-  ids.value = selection.map(item => toRaw(item).id)
-  single.value = selection.length !== 1
-  multiple.value = !selection.length
+const handleSearch = () => {
+  addDataRange(queryParams, createTimeRange.value, 'CreateTime')
+  getRecords()
 }
 
 const handleReset = () => {
-	createTimeRange.value = []
-  queryParams.pageNo = 1
-  queryParams.pageSize = 20
+  queryParams.title = ''
+  queryParams.content = ''
+  queryParams.location = ''
   queryParams.os = ''
   queryParams.browser = ''
   queryParams.ip = ''
   queryParams.location = ''
   queryParams.status = null
   queryParams.msg = ''
-  getPage()
+  createTimeRange.value = []
+  getRecords()
+}
+
+const handleDelete = (id) => {
+  const params = id || selectedKeys.value
+  onDelete(() => removeLogLoginBatchByIds(params), {})
 }
 
 const handleExport = () => {
   downloadFile('/log/login/export', queryParams)
 }
 
-const handleSizeChange = (val) => {
-  queryParams.pageSize = val
-  getPage()
-}
-
-const handleCurrentChange = (val) => {
-  queryParams.pageNo = val
-  getPage()
-}
-
 onMounted(() => {
-  getPage()
+  getUserList({}).then(res => {
+    userList.value = res.data || []
+  })
+  getRecords()
 })
 </script>
 

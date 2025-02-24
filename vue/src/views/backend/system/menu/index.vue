@@ -32,7 +32,7 @@
               </el-select>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-              <el-button icon="Search" plain type="info" @click="getPage">查询</el-button>
+              <el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
               <el-button icon="Refresh" plain type="warning" @click="handleReset">
@@ -74,7 +74,7 @@
     </el-row>
 
     <el-card>
-      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="menuList"
+      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="records"
                 :header-cell-style="{ textAlign: 'center' }" stripe
                 @selection-change="handleSelectionChange"
                 row-key="id"
@@ -123,13 +123,13 @@
       </el-table>
 
       <el-pagination
-          :current-page="queryParams.pageNo"
-          :page-size="queryParams.pageSize"
+          :current-page="pagination.current"
+          :page-size="pagination.pageSize"
           :page-sizes="[20, 30, 40, 50]"
-          :total="total"
+          :total="pagination.total"
           layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
+          @current-change="pagination.onCurrentChange"
+          @size-change="pagination.onPageSizeChange">
       </el-pagination>
     </el-card>
 
@@ -196,7 +196,7 @@
 </template>
 
 <script setup>
-import {nextTick, onMounted, reactive, ref, toRaw} from 'vue'
+import {nextTick, onMounted, reactive, ref} from 'vue'
 import {
   getMenuOne,
   getMenuTree,
@@ -207,11 +207,9 @@ import {
 } from '@/api/menu.js'
 import {ElMessage} from "element-plus"
 import {downloadFile} from "@/utils/common.js";
+import {useTable} from "@/hooks/useTable/index.js";
 
-const loading = ref(true)
 const queryParams = reactive({
-  pageNo: 1,
-  pageSize: 20,
   name: '',
   title: '',
   parentId: null,
@@ -222,12 +220,21 @@ const queryParams = reactive({
   status: '',
   visible: null
 })
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
+const {
+  loading,
+  records,
+  getRecords,
+  pagination,
+  selectedKeys,
+  single,
+  multiple,
+  handleSelectionChange,
+  onDelete
+} = useTable(
+    (page) => getMenuTree({...queryParams, pageNo: page.pageNo, pageSize: page.pageSize}),
+    {immediate: false}
+)
 const parentList = ref([])
-const menuList = ref([])
-const total = ref(0)
 const typeList = [
   {label: '目录', value: '1'},
   {label: '菜单', value: '2'},
@@ -265,24 +272,6 @@ const parentProps = {
   children: 'children'
 }
 
-const getPage = () => {
-  loading.value = true
-  getMenuTree({}).then(res => {
-    parentList.value = res.data || []
-    parentList.value.unshift({id: '0', title: '根结点'})
-  })
-  getMenuTree(queryParams).then(res => {
-    menuList.value = res.data || []
-    total.value = res.data?.length || 0
-    loading.value = false
-  })
-  // getMenuPage(queryParams).then(res => {
-  //   menuList.value = res.data?.records || []
-  //   total.value = res.data?.total || 0
-  //   loading.value = false
-  // })
-}
-
 const showAdd = () => {
   nextTick(() => {
     if (!formRef.value) return
@@ -313,7 +302,7 @@ const showEdit = (row) => {
     if (!formRef.value) return
     formRef.value.resetFields()
   })
-  const params = {id: row.id || ids.value[0]}
+  const params = {id: row.id || selectedKeys.value[0]}
   getMenuOne(params).then(res => {
     if (res.code !== 200) return
     form.value = {
@@ -337,22 +326,31 @@ const handleSave = () => {
       ElMessage.success('保存成功！')
       form.value.visible = false
     }).finally(() => {
-      getPage()
+      getRecords()
     })
   })
 }
 
+const handleSearch = () => {
+  getRecords()
+}
+
+const handleReset = () => {
+  queryParams.name = ''
+  queryParams.title = ''
+  queryParams.parentId = null
+  queryParams.path = ''
+  queryParams.redirect = ''
+  queryParams.component = ''
+  queryParams.type = ''
+  queryParams.status = ''
+  queryParams.visible = null
+  getRecords()
+}
+
 const handleDelete = (id) => {
-  const params = id || ids.value
-  removeMenuBatchByIds(params).then(res => {
-    if (res.code !== 200) {
-      ElMessage.error(res.msg)
-      return
-    }
-    ElMessage.success('删除成功！')
-  }).finally(() => {
-    getPage()
-  })
+  const params = id || selectedKeys.value
+  onDelete(() => removeMenuBatchByIds(params), {})
 }
 
 const handleStatus = (id) => {
@@ -361,7 +359,7 @@ const handleStatus = (id) => {
       ElMessage.error(res.msg)
     } else {
       ElMessage.success('操作成功！')
-      getPage()
+      getRecords()
     }
   })
 }
@@ -372,48 +370,21 @@ const handleVisible = (id) => {
       ElMessage.error(res.msg)
     } else {
       ElMessage.success('操作成功！')
-      getPage()
+      getRecords()
     }
   })
-}
-
-const handleSelectionChange = (selection) => {
-  ids.value = selection.map(item => toRaw(item).id)
-  single.value = selection.length !== 1
-  multiple.value = !selection.length
-}
-
-const handleReset = () => {
-  queryParams.pageNo = 1
-  queryParams.pageSize = 20
-  queryParams.name = ''
-  queryParams.title = ''
-  queryParams.parentId = null
-  queryParams.path = ''
-  queryParams.redirect = ''
-  queryParams.component = ''
-  queryParams.type = ''
-  queryParams.status = ''
-  queryParams.visible = null
-  getPage()
 }
 
 const handleExport = () => {
   downloadFile('/menu/export', queryParams)
 }
 
-const handleSizeChange = (val) => {
-  queryParams.pageSize = val
-  getPage()
-}
-
-const handleCurrentChange = (val) => {
-  queryParams.pageNo = val
-  getPage()
-}
-
 onMounted(() => {
-  getPage()
+  getMenuTree({}).then(res => {
+    parentList.value = res.data || []
+    parentList.value.unshift({id: '0', title: '根结点'})
+  })
+  getRecords()
 })
 </script>
 

@@ -16,7 +16,7 @@
               </el-select>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-              <el-button icon="Search" plain type="info" @click="getPage">查询</el-button>
+              <el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
               <el-button icon="Refresh" plain type="warning" @click="handleReset">
@@ -58,7 +58,7 @@
     </el-row>
 
     <el-card>
-      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="permissionList"
+      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="records"
                 :header-cell-style="{ textAlign: 'center' }" stripe
                 @selection-change="handleSelectionChange"
                 row-key="id"
@@ -91,13 +91,13 @@
       </el-table>
 
       <el-pagination
-          :current-page="queryParams.pageNo"
-          :page-size="queryParams.pageSize"
+          :current-page="pagination.current"
+          :page-size="pagination.pageSize"
           :page-sizes="[20, 30, 40, 50]"
-          :total="total"
+          :total="pagination.total"
           layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
+          @current-change="pagination.onCurrentChange"
+          @size-change="pagination.onPageSizeChange">
       </el-pagination>
     </el-card>
 
@@ -142,32 +142,41 @@
 </template>
 
 <script setup>
-import {nextTick, onMounted, reactive, ref, toRaw} from 'vue'
+import {nextTick, onMounted, reactive, ref} from 'vue'
 import {
   getPermissionOne,
-  getPermissionPage, getPermissionTree, handleStatusPermission,
+  getPermissionPage,
+  getPermissionTree,
+  handleStatusPermission,
   removePermissionBatchByIds,
   savePermission
 } from '@/api/permission.js'
 import {ElMessage} from "element-plus"
 import {downloadFile} from "@/utils/common.js";
+import {useTable} from "@/hooks/useTable/index.js";
 
-const loading = ref(true)
 const queryParams = reactive({
-  pageNo: 1,
-  pageSize: 20,
   name: '',
   code: '',
   parentId: null,
   sort: null,
   status: ''
 })
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
+const {
+  loading,
+  records,
+  getRecords,
+  pagination,
+  selectedKeys,
+  single,
+  multiple,
+  handleSelectionChange,
+  onDelete
+} = useTable(
+    (page) => getPermissionPage({...queryParams, pageNo: page.pageNo, pageSize: page.pageSize}),
+    {immediate: false}
+)
 const parentList = ref([])
-const permissionList = ref([])
-const total = ref(0)
 const statusList = [
   {label: '禁用', value: '0'},
   {label: '正常', value: '1'}
@@ -190,19 +199,6 @@ const parentProps = {
   value: 'id',
   label: 'name',
   children: 'children'
-}
-
-const getPage = () => {
-  loading.value = true
-  getPermissionTree({}).then(res => {
-    parentList.value = res.data || []
-    parentList.value.unshift({id: '0', name: '根结点'})
-  })
-  getPermissionPage(queryParams).then(res => {
-    permissionList.value = res.data?.records || []
-    total.value = res.data?.total || 0
-    loading.value = false
-  })
 }
 
 const showAdd = () => {
@@ -229,7 +225,7 @@ const showEdit = (row) => {
     if (!formRef.value) return
     formRef.value.resetFields()
   })
-  const params = {id: row.id || ids.value[0]}
+  const params = {id: row.id || selectedKeys.value[0]}
   getPermissionOne(params).then(res => {
     if (res.code !== 200) return
     form.value = {
@@ -253,22 +249,27 @@ const handleSave = () => {
       ElMessage.success('保存成功！')
       form.value.visible = false
     }).finally(() => {
-      getPage()
+      getRecords()
     })
   })
 }
 
+const handleSearch = () => {
+  getRecords()
+}
+
+const handleReset = () => {
+  queryParams.name = ''
+  queryParams.code = ''
+  queryParams.parentId = null
+  queryParams.sort = null
+  queryParams.status = ''
+  getRecords()
+}
+
 const handleDelete = (id) => {
-  const params = id || ids.value
-  removePermissionBatchByIds(params).then(res => {
-    if (res.code !== 200) {
-      ElMessage.error(res.msg)
-      return
-    }
-    ElMessage.success('删除成功！')
-  }).finally(() => {
-    getPage()
-  })
+  const params = id || selectedKeys.value
+  onDelete(() => removePermissionBatchByIds(params), {})
 }
 
 const handleStatus = (id) => {
@@ -282,39 +283,16 @@ const handleStatus = (id) => {
   })
 }
 
-const handleSelectionChange = (selection) => {
-  ids.value = selection.map(item => toRaw(item).id)
-  single.value = selection.length !== 1
-  multiple.value = !selection.length
-}
-
-const handleReset = () => {
-  queryParams.pageNo = 1
-  queryParams.pageSize = 20
-  queryParams.name = ''
-  queryParams.code = ''
-  queryParams.parentId = null
-  queryParams.sort = null
-  queryParams.status = ''
-  getPage()
-}
-
 const handleExport = () => {
   downloadFile('/permission/export', queryParams)
 }
 
-const handleSizeChange = (val) => {
-  queryParams.pageSize = val
-  getPage()
-}
-
-const handleCurrentChange = (val) => {
-  queryParams.pageNo = val
-  getPage()
-}
-
 onMounted(() => {
-  getPage()
+  getPermissionTree({}).then(res => {
+    parentList.value = res.data || []
+    parentList.value.unshift({id: '0', name: '根结点'})
+  })
+  getRecords()
 })
 </script>
 
