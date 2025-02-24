@@ -129,12 +129,20 @@ public class UsernamePasswordLoginServiceImpl implements ILoginService {
                     log.error("用户【{}】绑定微信【{}】失败！解析错误：{}", username, body.getJsCode(), wechatResponse);
                     return;
                 }
-                UserAuth userAuth = UserAuth.builder().build();
-                userAuth.setUserId(user.getId());
-                userAuth.setAuthType(AuthType.WECHAT.getCode());
-                userAuth.setOpenId(wechatResponse.getOpenid());
-                userAuth.setAccessToken(wechatResponse.getUnionid() == null ? "" : wechatResponse.getUnionid());
-                userAuthService.save(userAuth);
+
+                boolean exists = userAuthService.lambdaQuery()
+                        .eq(UserAuth::getUserId, user.getId())
+                        .eq(UserAuth::getAuthType, AuthType.WECHAT.getCode())
+                        .exists();
+
+                if (!exists) {
+                    UserAuth userAuth = UserAuth.builder().build();
+                    userAuth.setUserId(user.getId());
+                    userAuth.setAuthType(AuthType.WECHAT.getCode());
+                    userAuth.setOpenId(wechatResponse.getOpenid());
+                    userAuth.setAccessToken(wechatResponse.getUnionid() == null ? "" : wechatResponse.getUnionid());
+                    userAuthService.save(userAuth);
+                }
             }
         });
         return token;
