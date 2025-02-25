@@ -3,6 +3,9 @@ import {
   getPartnerPage
 } from '../../api/partner/index'
 import {
+  getPartnerSubjectList
+} from '../../api/partner/subject'
+import {
   baseUrl,
   defaultAvatar
 } from '../../utils/common'
@@ -16,6 +19,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    currentTab: 0,
+    scrollLeft: 0,
+    subjectList: [],
     queryParams: {
       pageNo: 1,
       pageSize: 8,
@@ -34,6 +40,17 @@ Page({
   getRecords() {
     this.setData({
       loading: true
+    })
+
+    getPartnerSubjectList({}).then(res => {
+      const item = {
+        id: null,
+        name: '全部'
+      }
+      res.unshift(item)
+      this.setData({
+        subjectList: res || []
+      })
     })
 
     getPartnerPage(this.data.queryParams).then(res => {
@@ -55,6 +72,18 @@ Page({
         loading: false,
         refreshing: false
       })
+    })
+  },
+
+  tabSelect(e) {
+    const id = e.currentTarget.id
+    const index = e.currentTarget.dataset.index
+    this.setData({
+      currentTab: index,
+      scrollLeft: (index - 1) * 60,
+      'queryParams.subjectId': id
+    }, () => {
+      this.getRecords()
     })
   },
 
@@ -104,7 +133,8 @@ Page({
         pageSize: 8,
         status: '1',
         orderBy: 'createTime',
-        isAsc: false
+        isAsc: false,
+        subjectId: this.data.queryParams.subjectId
       },
       refreshing: true,
       records: []

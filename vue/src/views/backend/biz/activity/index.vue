@@ -11,6 +11,11 @@
               <el-input v-model="queryParams.content" clearable placeholder="请输入内容"/>
             </el-col>
             <el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
+              <el-select v-model="queryParams.categoryId" clearable filterable placeholder="请选择类别">
+                <el-option v-for="item in categoryList" :key="item.id" :label="item.name" :value="item.id"/>
+              </el-select>
+            </el-col>
+            <el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
               <el-date-picker v-model="activityDateTimeRange" clearable
                               type="datetimerange"
                               start-placeholder="活动开始时间" end-placeholder="活动结束时间"
@@ -70,7 +75,7 @@
         <el-table-column type="selection" width="55"/>
         <el-table-column label="序号" type="index" width="70"/>
         <el-table-column label="标题" prop="title"/>
-        <el-table-column label="内容" prop="content"/>
+        <el-table-column label="类别" prop="category.name"/>
         <el-table-column label="开始时间" prop="startDatetime"/>
         <el-table-column label="结束时间" prop="endDatetime"/>
         <el-table-column label="地点" prop="location"/>
@@ -107,6 +112,11 @@
         <el-form-item label="内容" prop="content">
           <el-input v-model="form.data.content" :rows="10" autocomplete="new" type="textarea"/>
         </el-form-item>
+        <el-form-item label="类别" prop="categoryId">
+          <el-select v-model="form.data.categoryId" clearable filterable placeholder="请选择类别">
+            <el-option v-for="item in categoryList" :key="item.id" :label="item.name" :value="item.id"/>
+          </el-select>
+        </el-form-item>
         <el-form-item label="开始时间" prop="startDatetime">
           <el-date-picker v-model="form.data.startDatetime" placeholder="请选择开始时间"
                           type="datetime"
@@ -135,6 +145,7 @@
 <script setup>
 import {nextTick, onMounted, reactive, ref} from 'vue'
 import {getActivityOne, getActivityPage, removeActivityBatchByIds, saveActivity} from '@/api/biz/activity/index.js'
+import {getActivityCategoryList} from '@/api/biz/activity/category.js'
 import {ElMessage} from "element-plus"
 import {addDataRange, downloadFile} from "@/utils/common.js";
 import {useTable} from "@/hooks/useTable/index.js";
@@ -143,8 +154,10 @@ const activityDateTimeRange = ref([])
 const queryParams = reactive({
   title: '',
   content: '',
+  categoryId: null,
   location: ''
 })
+const categoryList = ref([])
 const {
   loading,
   records,
@@ -168,6 +181,7 @@ const formRef = ref(null)
 const rules = {
   title: [{required: true, message: '请输入标题', trigger: 'blur'}],
   content: [{required: true, message: '请输入内容', trigger: 'blur'}],
+  categoryId: [{required: true, message: '请选择类别', trigger: 'change'}],
   startDatetime: [{required: true, message: '请选择开始时间', trigger: 'change'}],
   endDatetime: [{required: true, message: '请选择结束时间', trigger: 'change'}],
   location: [{required: true, message: '请输入地点', trigger: 'blur'}]
@@ -184,6 +198,7 @@ const showAdd = () => {
     data: {
       title: '',
       content: '',
+      categoryId: null,
       startDatetime: '',
       endDatetime: '',
       location: '',
@@ -234,6 +249,7 @@ const handleSearch = () => {
 const handleReset = () => {
   queryParams.title = ''
   queryParams.content = ''
+  queryParams.categoryId = null
   queryParams.location = ''
   activityDateTimeRange.value = []
   getRecords()
@@ -249,6 +265,9 @@ const handleExport = () => {
 }
 
 onMounted(() => {
+  getActivityCategoryList({}).then(res => {
+    categoryList.value = res.data || []
+  })
   getRecords()
 })
 </script>

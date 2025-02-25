@@ -50,6 +50,11 @@ public class Activity extends BaseEntity {
     @NotBlank(message = "内容不能为空！")
     private String content;
     /**
+     * 类别ID
+     */
+    @Schema(description = "类别ID")
+    private Long categoryId;
+    /**
      * 开始时间
      */
     @Schema(description = "开始时间")

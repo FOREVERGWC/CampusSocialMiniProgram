@@ -5,7 +5,15 @@
   </view>
 </cu-custom>
 
+<scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{ scrollLeft }}">
+  <view class="{{ index === currentTab ? 'cu-item text-green cur' : 'cu-item' }}" wx:for="{{ categoryList }}" wx:for-item="item" wx:for-index="index" wx:key="index" id="{{ item.id }}" data-index="{{ index }}" bind:tap="tabSelect">
+    {{ item.name }}
+  </view>
+</scroll-view>
+
+<view wx:if="{{ loading }}" class="cu-load loading" />
+
 <scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="padding-bottom-xl" lower-threshold="100">
   <campus-activity records="{{ records }}" />
-  <view class="padding-bottom-xl cu-load over" />
+  <view wx:if="{{ end }}" class="padding-bottom-xl cu-load over" />
 </scroll-view>

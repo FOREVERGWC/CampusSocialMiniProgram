@@ -278,7 +278,7 @@ const handleStatus = (id) => {
       ElMessage.error(res.msg)
     } else {
       ElMessage.success('操作成功！')
-      getPage()
+      getRecords()
     }
   })
 }

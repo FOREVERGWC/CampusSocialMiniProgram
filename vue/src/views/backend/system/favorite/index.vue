@@ -204,7 +204,7 @@ const handleSearch = () => {
 const handleReset = () => {
   queryParams.bizId = null
   queryParams.bizType = null
-  getPage()
+  getRecords()
 }
 
 const handleDelete = (id) => {

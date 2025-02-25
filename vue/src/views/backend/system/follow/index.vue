@@ -209,7 +209,7 @@ const handleSearch = () => {
 const handleReset = () => {
   queryParams.followerId = null
   queryParams.followedId = null
-  getPage()
+  getRecords()
 }
 
 const handleDelete = (id) => {

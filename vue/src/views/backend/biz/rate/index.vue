@@ -16,7 +16,7 @@
               <el-input v-model="queryParams.content" clearable placeholder="请输入内容"/>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-              <el-button icon="Search" plain type="info" @click="getPage">查询</el-button>
+              <el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
             </el-col>
             <el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
               <el-button icon="Refresh" plain type="warning" @click="handleReset">
@@ -58,7 +58,7 @@
     </el-row>
 
     <el-card>
-      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="rateList"
+      <el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="records"
                 :header-cell-style="{ textAlign: 'center' }" stripe
                 @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"/>
@@ -81,13 +81,13 @@
       </el-table>
 
       <el-pagination
-          :current-page="queryParams.pageNo"
-          :page-size="queryParams.pageSize"
+          :current-page="pagination.current"
+          :page-size="pagination.pageSize"
           :page-sizes="[20, 30, 40, 50]"
-          :total="total"
+          :total="pagination.total"
           layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
+          @current-change="pagination.onCurrentChange"
+          @size-change="pagination.onPageSizeChange">
       </el-pagination>
     </el-card>
 
@@ -120,26 +120,33 @@
 </template>
 
 <script setup>
-import {computed, nextTick, onMounted, reactive, ref, toRaw} from 'vue'
+import {nextTick, onMounted, reactive, ref} from 'vue'
 import {getRateOne, getRatePage, removeRateBatchByIds, saveRate} from '@/api/biz/rate/index.js'
 import {getUserList} from '@/api/user.js'
 import {ElMessage} from "element-plus"
 import {downloadFile} from "@/utils/common.js";
+import {useTable} from "@/hooks/useTable/index.js";
 
-const loading = ref(true)
 const queryParams = reactive({
-  pageNo: 1,
-  pageSize: 20,
   userId: null,
   title: '',
   content: ''
 })
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
+const {
+  loading,
+  records,
+  getRecords,
+  pagination,
+  selectedKeys,
+  single,
+  multiple,
+  handleSelectionChange,
+  onDelete
+} = useTable(
+    (page) => getRatePage({...queryParams, pageNo: page.pageNo, pageSize: page.pageSize}),
+    {immediate: false}
+)
 const userList = ref([])
-const rateList = ref([])
-const total = ref(0)
 const form = ref({
   visible: false,
   title: '',
@@ -150,18 +157,6 @@ const rules = {
   userId: [{required: true, message: '请输入用户ID', trigger: 'blur'}],
   title: [{required: true, message: '请输入标题', trigger: 'blur'}],
   content: [{required: true, message: '请输入内容', trigger: 'blur'}]
-}
-
-const getPage = () => {
-  loading.value = true
-  getUserList({}).then(res => {
-    userList.value = res.data || []
-  })
-  getRatePage(queryParams).then(res => {
-    rateList.value = res.data?.records || []
-    total.value = res.data?.total || 0
-    loading.value = false
-  })
 }
 
 const showAdd = () => {
@@ -186,7 +181,7 @@ const showEdit = (row) => {
     if (!formRef.value) return
     formRef.value.resetFields()
   })
-  const params = {id: row.id || ids.value[0]}
+  const params = {id: row.id || selectedKeys.value[0]}
   getRateOne(params).then(res => {
     if (res.code !== 200) return
     form.value = {
@@ -210,55 +205,36 @@ const handleSave = () => {
       ElMessage.success('保存成功！')
       form.value.visible = false
     }).finally(() => {
-      getPage()
+      getRecords()
     })
   })
 }
 
-const handleDelete = (id) => {
-  const params = id || ids.value
-  removeRateBatchByIds(params).then(res => {
-    if (res.code !== 200) {
-      ElMessage.error(res.msg)
-      return
-    }
-    ElMessage.success('删除成功！')
-  }).finally(() => {
-    getPage()
-  })
-}
-
-const handleSelectionChange = (selection) => {
-  ids.value = selection.map(item => toRaw(item).id)
-  single.value = selection.length !== 1
-  multiple.value = !selection.length
+const handleSearch = () => {
+  getRecords()
 }
 
 const handleReset = () => {
-  queryParams.pageNo = 1
-  queryParams.pageSize = 20
   queryParams.userId = null
   queryParams.title = ''
   queryParams.content = ''
-  getPage()
+  getRecords()
+}
+
+const handleDelete = (id) => {
+  const params = id || selectedKeys.value
+  onDelete(() => removeRateBatchByIds(params), {})
 }
 
 const handleExport = () => {
   downloadFile('/rate/export', queryParams)
 }
 
-const handleSizeChange = (val) => {
-  queryParams.pageSize = val
-  getPage()
-}
-
-const handleCurrentChange = (val) => {
-  queryParams.pageNo = val
-  getPage()
-}
-
 onMounted(() => {
-  getPage()
+  getUserList({}).then(res => {
+    userList.value = res.data || []
+  })
+  getRecords()
 })
 </script>
 

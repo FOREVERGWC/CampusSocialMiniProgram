@@ -21,5 +21,5 @@
   <!-- 找搭子 -->
   <campus-partner wx:else="{{ activeTab === '3' }}" records="{{ records }}" />
 
-  <view class="cu-load over" />
+  <view wx:if="{{ end }}" class="padding-bottom-xl cu-load over" />
 </scroll-view>

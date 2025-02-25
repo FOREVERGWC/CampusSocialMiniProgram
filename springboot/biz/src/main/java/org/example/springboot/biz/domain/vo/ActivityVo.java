@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import org.example.springboot.biz.domain.entity.Activity;
+import org.example.springboot.biz.domain.entity.ActivityCategory;
 import org.example.springboot.system.domain.entity.Attachment;
 import org.example.springboot.system.domain.vo.CountVo;
 
@@ -27,6 +28,11 @@ import java.util.List;
 public class ActivityVo extends Activity {
     @Serial
     private static final long serialVersionUID = 1L;
+    /**
+     * 类别
+     */
+    @Schema(description = "类别")
+    private ActivityCategory category;
     /**
      * 附件列表
      */

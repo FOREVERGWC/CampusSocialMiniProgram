@@ -52,10 +52,10 @@
 							/>
 						</el-col>
 						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="getPage">查询</el-button>
+							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
 						</el-col>
 						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="resetQuery">
+							<el-button icon="Refresh" plain type="warning" @click="handleReset">
 								重置
 							</el-button>
 						</el-col>
@@ -94,7 +94,7 @@
 		</el-row>
 
 		<el-card>
-			<el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="userList"
+			<el-table v-loading="loading" :cell-style="{ textAlign: 'center' }" :data="records"
 								:header-cell-style="{ textAlign: 'center' }" stripe
 								@selection-change="handleSelectionChange">
 				<el-table-column type="selection" width="55" />
@@ -170,7 +170,7 @@
 							<el-image v-if="row.avatar" :preview-src-list="[getUrl(row.avatar)]" :src="getUrl(row.avatar)"
 												preview-teleported>
 								<template #error>
-									<img alt="" src="../../../../assets/imgs/profile.png" />
+									<img alt="" src="@/assets/imgs/profile.png" />
 								</template>
 							</el-image>
 						</div>
@@ -209,15 +209,15 @@
 				</el-table-column>
 			</el-table>
 
-			<el-pagination
-				:current-page="queryParams.pageNo"
-				:page-size="queryParams.pageSize"
-				:page-sizes="[20, 30, 40, 50]"
-				:total="total"
-				layout="total, sizes, prev, pager, next, jumper"
-				@size-change="handleSizeChange"
-				@current-change="handleCurrentChange">
-			</el-pagination>
+      <el-pagination
+          :current-page="pagination.current"
+          :page-size="pagination.pageSize"
+          :page-sizes="[20, 30, 40, 50]"
+          :total="pagination.total"
+          layout="total, sizes, prev, pager, next, jumper"
+          @current-change="pagination.onCurrentChange"
+          @size-change="pagination.onPageSizeChange">
+      </el-pagination>
 		</el-card>
 
 		<el-dialog :title="form.title" v-model="form.visible" destroy-on-close width="40%">
@@ -270,13 +270,13 @@
 		</el-dialog>
 
 		<RoleAssign :id="assignForm.userId" :visible="assignForm.visible" @update:visible="assignForm.visible = $event"
-								@refresh="getPage" />
+								@refresh="getRecords" />
 	</div>
 </template>
 
 <script setup>
 import RoleAssign from './components/RoleAssign.vue'
-import { computed, nextTick, onMounted, reactive, ref, toRaw } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref } from 'vue'
 import { getUserOne, getUserPage, handleStatusUser, removeUserBatchByIds, saveUser } from '@/api/user.js'
 import { ElMessage } from 'element-plus'
 import {
@@ -287,15 +287,13 @@ import {
 	statusList
 } from '@/utils/common.js'
 import useRoleStore from '@/store/modules/role.js'
+import {useTable} from "@/hooks/useTable/index.js";
 
 const roleStore = useRoleStore()
 
-const loading = ref(true)
 const loginTimeRange = ref([])
 const createTimeRange = ref([])
 const queryParams = reactive({
-	pageNo: 1,
-	pageSize: 20,
 	username: '',
 	name: '',
 	gender: '',
@@ -310,12 +308,25 @@ const queryParams = reactive({
 	loginTime: '',
 	params: {}
 })
-const ids = ref([])
-const single = ref(true)
-const multiple = ref(true)
+const {
+  loading,
+  records,
+  getRecords,
+  pagination,
+  selectedKeys,
+  single,
+  multiple,
+  handleSelectionChange,
+  onDelete
+} = useTable(
+    (page) => {
+      addDataRange(queryParams, loginTimeRange.value, 'LoginTime')
+      addDataRange(queryParams, createTimeRange.value, 'CreateTime')
+      return getUserPage({...queryParams, pageNo: page.pageNo, pageSize: page.pageSize})
+    },
+    {immediate: false}
+)
 const roleList = ref(roleStore.roleList)
-const userList = ref([])
-const total = ref(0)
 const form = ref({
 	visible: false,
 	title: '',
@@ -333,17 +344,6 @@ const rules = {
 	phone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
 	email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 	balance: [{ required: true, message: '请输入余额', trigger: 'blur' }]
-}
-
-const getPage = () => {
-	loading.value = true
-	addDataRange(queryParams, loginTimeRange.value, 'LoginTime')
-	addDataRange(queryParams, createTimeRange.value, 'CreateTime')
-	getUserPage(queryParams).then(res => {
-		userList.value = res.data?.records || []
-		total.value = res.data?.total || 0
-		loading.value = false
-	})
 }
 
 const showAdd = () => {
@@ -375,7 +375,7 @@ const showEdit = (row) => {
 		if (!formRef.value) return
 		formRef.value.resetFields()
 	})
-	const params = { id: row.id || ids.value[0] }
+	const params = { id: row.id || selectedKeys.value[0] }
 	getUserOne(params).then(res => {
 		if (res.code !== 200) return
 		form.value = {
@@ -404,22 +404,38 @@ const handleSave = () => {
 			ElMessage.success('保存成功！')
 			form.value.visible = false
 		}).finally(() => {
-			getPage()
+			getRecords()
 		})
 	})
 }
 
+const handleSearch = () => {
+  addDataRange(queryParams, loginTimeRange.value, 'LoginTime')
+  addDataRange(queryParams, createTimeRange.value, 'CreateTime')
+  getRecords()
+}
+
+const handleReset = () => {
+  loginTimeRange.value = []
+  createTimeRange.value = []
+  queryParams.username = ''
+  queryParams.name = ''
+  queryParams.gender = ''
+  queryParams.birthday = null
+  queryParams.status = ''
+  queryParams.role = ''
+  queryParams.phone = ''
+  queryParams.email = ''
+  queryParams.openId = ''
+  queryParams.balance = null
+  queryParams.loginIp = ''
+  queryParams.loginTime = ''
+  getRecords()
+}
+
 const handleDelete = (id) => {
-	const params = id || ids.value
-	removeUserBatchByIds(params).then(res => {
-		if (res.code !== 200) {
-			ElMessage.error(res.msg)
-			return
-		}
-		ElMessage.success('删除成功！')
-	}).finally(() => {
-		getPage()
-	})
+  const params = id || selectedKeys.value
+  onDelete(() => removeUserBatchByIds(params), {})
 }
 
 const handleStatus = (id) => {
@@ -428,53 +444,17 @@ const handleStatus = (id) => {
 			ElMessage.error(res.msg)
 		} else {
 			ElMessage.success('操作成功！')
-			getPage()
+      getRecords()
 		}
 	})
-}
-
-const handleSelectionChange = (selection) => {
-	ids.value = selection.map(item => toRaw(item).id)
-	single.value = selection.length !== 1
-	multiple.value = !selection.length
-}
-
-const resetQuery = () => {
-	loginTimeRange.value = []
-	createTimeRange.value = []
-	queryParams.pageNo = 1
-	queryParams.pageSize = 20
-	queryParams.username = ''
-	queryParams.name = ''
-	queryParams.gender = ''
-	queryParams.birthday = null
-	queryParams.status = ''
-	queryParams.role = ''
-	queryParams.phone = ''
-	queryParams.email = ''
-	queryParams.openId = ''
-	queryParams.balance = null
-	queryParams.loginIp = ''
-	queryParams.loginTime = ''
-	getPage()
 }
 
 const handleExport = () => {
 	downloadFile('/user/export', queryParams)
 }
 
-const handleSizeChange = (val) => {
-	queryParams.pageSize = val
-	getPage()
-}
-
-const handleCurrentChange = (val) => {
-	queryParams.pageNo = val
-	getPage()
-}
-
 onMounted(() => {
-	getPage()
+  getRecords()
 })
 
 const getUrl = computed(() => (path) => {

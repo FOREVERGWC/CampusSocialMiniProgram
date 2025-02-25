@@ -12,6 +12,9 @@ import {
   baseUrl,
   defaultAvatar
 } from '../../utils/common'
+import {
+  showEndToast
+} from '../../utils/toast/index'
 
 Page({
 
@@ -19,24 +22,25 @@ Page({
    * 页面的初始数据
    */
   data: {
+    activeTab: '1',
     queryParams: {
       pageNo: 1,
       pageSize: 8,
       orderBy: 'createTime',
-      isAsc: false
+      isAsc: false,
+      status: '1'
     },
-    activeTab: '1',
     records: [],
     total: 0,
     pages: 0,
-    loading: true,
+    loading: false,
     refreshing: false,
-    end: true
+    end: false
   },
 
   getRecords() {
     this.setData({
-      end: false
+      loading: true
     })
 
     if (this.data.activeTab === '0') {
@@ -51,15 +55,14 @@ Page({
       this.getPartnerRecords()
     }
 
-    this.setData({
-      loading: false,
-      refreshing: false
-    })
+    // this.setData({
+    //   loading: false,
+    //   refreshing: false
+    // })
   },
 
   getNoteRecords() {
     this.setData({
-      'queryParams.status': '1',
       'queryParams.visibke': '1'
     }, () => {
       getNotePage(this.data.queryParams).then(res => {
@@ -73,7 +76,13 @@ Page({
         this.setData({
           records: res?.records || [],
           total: res?.total || 0,
-          pages: res?.pages || 0
+          pages: res?.pages || 0,
+          end: !res?.records?.length || this.data.queryParams.pageNo >= (res?.pages || 0)
+        })
+      }).finally(() => {
+        this.setData({
+          loading: false,
+          refreshing: false
         })
       })
     })
@@ -90,7 +99,13 @@ Page({
       this.setData({
         records: res?.records || [],
         total: res?.total || 0,
-        pages: res?.pages || 0
+        pages: res?.pages || 0,
+        end: !res?.records?.length || this.data.queryParams.pageNo >= (res?.pages || 0)
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false,
+        refreshing: false
       })
     })
   },
@@ -107,7 +122,13 @@ Page({
       this.setData({
         records: res?.records || [],
         total: res?.total || 0,
-        pages: res?.pages || 0
+        pages: res?.pages || 0,
+        end: !res?.records?.length || this.data.queryParams.pageNo >= (res?.pages || 0)
+      })
+    }).finally(() => {
+      this.setData({
+        loading: false,
+        refreshing: false
       })
     })
   },
@@ -185,72 +206,54 @@ Page({
     this.setData({
       queryParams: {
         pageNo: 1,
-        pageSize: 8
+        pageSize: 8,
+        orderBy: 'createTime',
+        isAsc: false,
+        status: '1'
       },
       refreshing: true,
       records: []
-    });
+    })
 
-    this.getRecords();
+    this.getRecords()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-    if (this.data.loading) {
-      return
-    }
-
-    if (this.data.end) {
-      wx.showToast({
-        title: '已经到底啦！~',
-        icon: 'none'
-      })
-
-      return
-    }
-
-    if (this.data.queryParams.pageNo >= this.data.pages) {
-      this.setData({
-        loading: false,
-        end: true
-      });
-
-      wx.showToast({
-        title: '已经到底啦！~',
-        icon: 'none'
-      });
-
+    if (this.data.loading || this.data.end) {
+      this.data.end && showEndToast()
       return
     }
 
     this.setData({
-      'queryParams.pageNo': this.data.queryParams.pageNo + 1,
-      loading: true
-    });
+      loading: true,
+      'queryParams.pageNo': this.data.queryParams.pageNo + 1
+    })
 
     if (this.data.activeTab === '1') {
       getNotePage(this.data.queryParams).then(res => {
         const records = res?.records || [];
-        if (records.length === 0) {
+
+        if (!records.length) {
           this.setData({
-            end: true,
-            loading: false
+            end: true
           });
-          wx.showToast({
-            title: '已经到底啦！~',
-            icon: 'none'
-          });
-          return;
+          showEndToast()
+          return
         }
 
         this.setData({
           records: [...this.data.records, ...records],
           total: res?.total || 0,
           pages: res?.pages || 0,
-          loading: false
+          end: this.data.queryParams.pageNo >= (res?.pages || 0)
         });
+      }).error(() => {
+        this.setData({
+          'queryParams.pageNo': this.data.queryParams.pageNo - 1
+        })
       }).finally(() => {
         this.setData({
           loading: false
@@ -258,25 +261,53 @@ Page({
       });
     } else if (this.data.activeTab === '2') {
       getRatePage(this.data.queryParams).then(res => {
-        const records = res?.records || [];
-        if (records.length === 0) {
+        const records = res?.records || []
+
+        if (!records.length) {
           this.setData({
-            end: true,
-            loading: false
-          });
-          wx.showToast({
-            title: '已经到底啦！~',
-            icon: 'none'
-          });
-          return;
+            end: true
+          })
+          showEndToast()
+          return
         }
 
         this.setData({
           records: [...this.data.records, ...records],
           total: res?.total || 0,
           pages: res?.pages || 0,
+          end: this.data.queryParams.pageNo >= (res?.pages || 0)
+        });
+      }).error(() => {
+        this.setData({
+          'queryParams.pageNo': this.data.queryParams.pageNo - 1
+        })
+      }).finally(() => {
+        this.setData({
           loading: false
         });
+      });
+    } else if (this.data.activeTab === '3') {
+      getPartnerPage(this.data.queryParams).then(res => {
+        const records = res?.records || []
+
+        if (!records.length) {
+          this.setData({
+            end: true
+          })
+          showEndToast()
+          return
+        }
+
+        this.setData({
+          records: [...this.data.records, ...records],
+          total: res?.total || 0,
+          pages: res?.pages || 0,
+          end: this.data.queryParams.pageNo >= (res?.pages || 0)
+        });
+      }).error(() => {
+        this.setData({
+          'queryParams.pageNo': this.data.queryParams.pageNo - 1
+        })
       }).finally(() => {
         this.setData({
           loading: false

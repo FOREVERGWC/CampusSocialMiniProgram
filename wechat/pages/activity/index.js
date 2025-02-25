@@ -3,6 +3,9 @@ import {
   getActivityPage
 } from '../../api/activity/index'
 import {
+  getActivityCategoryList
+} from '../../api/activity/category'
+import {
   showEndToast
 } from '../../utils/toast/index'
 
@@ -12,6 +15,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    currentTab: 0,
+    scrollLeft: 0,
+    categoryList: [],
     queryParams: {
       pageNo: 1,
       pageSize: 8,
@@ -31,6 +37,17 @@ Page({
       loading: true
     })
 
+    getActivityCategoryList({}).then(res => {
+      const item = {
+        id: null,
+        name: '全部'
+      }
+      res.unshift(item)
+      this.setData({
+        categoryList: res || []
+      })
+    })
+
     getActivityPage(this.data.queryParams).then(res => {
       this.setData({
         records: res?.records || [],
@@ -43,6 +60,18 @@ Page({
         loading: false,
         refreshing: false
       })
+    })
+  },
+
+  tabSelect(e) {
+    const id = e.currentTarget.id
+    const index = e.currentTarget.dataset.index
+    this.setData({
+      currentTab: index,
+      scrollLeft: (index - 1) * 60,
+      'queryParams.categoryId': id
+    }, () => {
+      this.getRecords()
     })
   },
 
@@ -91,7 +120,8 @@ Page({
         pageNo: 1,
         pageSize: 8,
         orderBy: 'createTime',
-        isAsc: false
+        isAsc: false,
+        categoryId: this.data.queryParams.categoryId
       },
       refreshing: true,
       records: []

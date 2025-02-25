@@ -11,8 +11,10 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.springboot.biz.domain.dto.ActivityDto;
 import org.example.springboot.biz.domain.entity.Activity;
+import org.example.springboot.biz.domain.entity.ActivityCategory;
 import org.example.springboot.biz.domain.vo.ActivityVo;
 import org.example.springboot.biz.mapper.ActivityMapper;
+import org.example.springboot.biz.service.IActivityCategoryService;
 import org.example.springboot.biz.service.IActivityService;
 import org.example.springboot.common.service.IBaseService;
 import org.example.springboot.common.utils.ExcelUtils;
@@ -29,6 +31,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -37,6 +41,8 @@ import java.util.Objects;
  */
 @Service
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> implements IActivityService, IBaseService<Activity> {
+    @Resource
+    private IActivityCategoryService activityCategoryService;
     @Resource
     private ICountViewService countViewService;
     @Resource
@@ -58,6 +64,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         if (CollectionUtil.isEmpty(list)) {
             return List.of();
         }
+        // 类别
+        List<Long> categoryIdList = list.stream().map(Activity::getCategoryId).toList();
+        List<ActivityCategory> categoryList = activityCategoryService.listByIds(categoryIdList);
+        Map<Long, ActivityCategory> categoryMap = categoryList.stream().collect(Collectors.toMap(ActivityCategory::getId, item -> item));
         // ID列表
         List<Long> idList = list.stream().map(Activity::getId).toList();
         // 活动附件
@@ -76,6 +86,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         return list.stream().map(item -> {
             ActivityVo vo = new ActivityVo();
             BeanUtils.copyProperties(item, vo);
+            vo.setCategory(categoryMap.getOrDefault(item.getCategoryId(), ActivityCategory.builder().name("已删除").build()));
             vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             vo.setCount(CountVo.builder()
                     .view(viewCountMap.getOrDefault(item.getId(), 0L))
@@ -94,6 +105,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         if (CollectionUtil.isEmpty(info.getRecords())) {
             return new Page<>(dto.getPageNo(), dto.getPageSize(), 0);
         }
+        // 类别
+        List<Long> categoryIdList = info.getRecords().stream().map(Activity::getCategoryId).toList();
+        List<ActivityCategory> categoryList = activityCategoryService.listByIds(categoryIdList);
+        Map<Long, ActivityCategory> categoryMap = categoryList.stream().collect(Collectors.toMap(ActivityCategory::getId, item -> item));
         // ID列表
         List<Long> idList = info.getRecords().stream().map(Activity::getId).toList();
         // 活动附件
@@ -112,6 +127,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         return info.convert(item -> {
             ActivityVo vo = new ActivityVo();
             BeanUtils.copyProperties(item, vo);
+            vo.setCategory(categoryMap.getOrDefault(item.getCategoryId(), ActivityCategory.builder().name("已删除").build()));
             vo.setAttachmentList(attachmentMap.getOrDefault(item.getId(), List.of()));
             vo.setCount(CountVo.builder()
                     .view(viewCountMap.getOrDefault(item.getId(), 0L))
@@ -134,6 +150,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         Long id = one.getId();
         // 访问量
         countViewService.countPlus(id, BizType.BIZ_ACTIVITY.getCode());
+        // 类别
+        ActivityCategory category = Optional.ofNullable(activityCategoryService.getById(one.getCategoryId())).orElse(ActivityCategory.builder().name("已删除").build());
         // 活动附件
         List<Attachment> attachmentList = attachmentService.listByBizIdAndBizType(id, BizType.BIZ_ACTIVITY.getCode());
         // 浏览量
@@ -149,6 +167,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         // 组装VO
         ActivityVo vo = new ActivityVo();
         BeanUtils.copyProperties(one, vo);
+        vo.setCategory(category);
         vo.setAttachmentList(attachmentList);
         vo.setCount(CountVo.builder()
                 .view(viewCount)
@@ -180,6 +199,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
                 .eq(entity.getId() != null, Activity::getId, entity.getId())
                 .like(StrUtil.isNotBlank(entity.getTitle()), Activity::getTitle, entity.getTitle())
                 .like(StrUtil.isNotBlank(entity.getContent()), Activity::getContent, entity.getContent())
+                .eq(entity.getCategoryId() != null, Activity::getCategoryId, entity.getCategoryId())
                 .like(StrUtil.isNotBlank(entity.getLocation()), Activity::getLocation, entity.getLocation());
         if (entity instanceof ActivityDto dto) {
             Map<String, Object> params = dto.getParams();

@@ -5,7 +5,9 @@
   </view>
 </cu-custom>
 
+<view wx:if="{{ loading }}" class="cu-load loading" />
+
 <scroll-view scroll-y="true" bindscrolltolower="onReachBottom" bindrefresherrefresh="onPullDownRefresh" refresher-enabled="{{ true }}" refresher-triggered="{{ refreshing }}" class="padding-bottom-xl" lower-threshold="100">
   <campus-fun records="{{ records }}" />
-  <view class="padding-bottom-xl cu-load over" />
+  <view wx:if="{{ end }}" class="padding-bottom-xl cu-load over" />
 </scroll-view>

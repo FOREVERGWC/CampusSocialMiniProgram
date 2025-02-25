@@ -11,7 +11,7 @@
  Target Server Version : 80038 (8.0.38)
  File Encoding         : 65001
 
- Date: 23/02/2025 19:50:23
+ Date: 25/02/2025 20:03:01
 */
 
 SET NAMES utf8mb4;
@@ -25,6 +25,7 @@ CREATE TABLE `biz_activity`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标题',
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '内容',
+  `category_id` bigint NOT NULL COMMENT '类别ID',
   `start_datetime` datetime NOT NULL COMMENT '开始时间',
   `end_datetime` datetime NOT NULL COMMENT '结束时间',
   `location` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '地点',
@@ -34,23 +35,52 @@ CREATE TABLE `biz_activity`  (
   `update_time` datetime NOT NULL COMMENT '修改时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '活动表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '活动表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of biz_activity
 -- ----------------------------
-INSERT INTO `biz_activity` VALUES (1, '关于举办西南石油大学第二十一届学生社团文化艺术节活动的通知', '为深入学习贯彻习近平新时代中国特色社会主义思想，践行党的二十大精神，团结引领广大青年学子永远跟党走、奋进新征程，充分发挥第二课堂活动的育人功能，促进学生社团健康发展，进一步凝练打造学生社团特色文化品牌活动。经研究，拟于近期举办西南石油大学第二十一届学生社团文化艺术节活动。\n测试缩进。', '2025-02-02 15:12:33', '2025-02-28 00:00:00', '博学广场', '1', '2025-02-02 15:12:51', '1', '2025-02-23 19:39:57', '');
-INSERT INTO `biz_activity` VALUES (2, '关于开展2023-2024学年春季学期中国农业大学社团文化节的通知', '为深入贯彻习近平总书记关于青年工作的重要思想、关于教育的重要论述和给我校科技小院同学们的重要回信精神，切实发挥学生社团助力我校校园文化建设作用，建成具有全国影响力的青年学生社团。根据《中国农业大学学生社团建设管理办法（2022修订）》（中农大党发〔2022〕42号）相关规定，校团委决定于2023-2024学年春季学期开展中国农业大学社团文化节。用属于社团的独特方式，以青春之名，点燃社团之火，展我校青年之风采。', '2025-02-06 02:02:02', '2025-02-20 00:00:00', '测试地点2', '1', '2025-02-02 15:48:46', '1', '2025-02-23 19:35:49', '');
-INSERT INTO `biz_activity` VALUES (3, '志愿服务与社区共建', '组织社团成员参与社区志愿服务活动，帮助改善社区环境，关爱弱势群体，增强社会责任感与团结精神。', '2025-02-10 17:05:04', '2025-02-10 21:05:04', '操场', '1', '2025-02-10 17:05:20', '1', '2025-02-23 19:44:47', '');
-INSERT INTO `biz_activity` VALUES (4, '手工艺术创作体验', '邀请专业手工艺人开展手工艺术创作工作坊，社团成员亲自体验制作独特的手工艺术品，培养创造力与动手能力。', '2025-02-10 17:08:16', '2025-02-10 17:08:18', '图书馆', '1', '2025-02-10 17:08:41', '1', '2025-02-23 19:44:59', '');
-INSERT INTO `biz_activity` VALUES (5, '户外拓展挑战赛', '策划一场户外拓展活动，包含多项挑战项目，通过团队合作，提升成员的领导力、协作能力和解决问题的能力。', '2025-02-10 17:11:55', '2025-02-10 17:11:55', '测试', '1', '2025-02-10 17:12:10', '1', '2025-02-23 19:45:11', '');
-INSERT INTO `biz_activity` VALUES (6, '社团新成员迎新晚会', '组织社团新成员欢迎晚会，丰富多彩的文艺表演和互动环节，为新加入的成员提供一个展示自我的平台，加深对社团的归属感。', '2025-02-11 09:34:59', '2025-02-16 09:39:59', '4', '1', '2025-02-11 09:35:10', '1', '2025-02-23 19:45:21', '');
-INSERT INTO `biz_activity` VALUES (7, '社团文化交流日', '举办一场社团文化交流活动，让不同社团的成员互相了解和学习，分享各自的特色文化和活动经验，增进社团间的友谊和合作。', '2025-02-04 00:00:00', '2025-02-28 00:00:00', '社团文化交流日', '1', '2025-02-23 19:44:31', '1', '2025-02-23 19:44:31', '');
-INSERT INTO `biz_activity` VALUES (8, '读书分享与心得交流', '开展社团读书分享活动，每位成员分享自己最近读的书籍及心得体会，促进大家的阅读兴趣和思想碰撞。', '2025-02-04 00:00:00', '2025-02-28 00:00:00', '读书分享与心得交流', '1', '2025-02-23 19:45:38', '1', '2025-02-23 19:45:38', '');
-INSERT INTO `biz_activity` VALUES (9, '环保宣传与行动', '通过环保知识讲座、海滩清理等活动，提高社团成员的环保意识，共同参与到绿色生活的实践中。', '2025-02-04 00:00:00', '2025-02-28 00:00:00', '环保宣传与行动', '1', '2025-02-23 19:45:57', '1', '2025-02-23 19:45:57', '');
-INSERT INTO `biz_activity` VALUES (10, '社团运动会', '组织一场社团内部运动会，设置趣味运动项目，增强成员之间的团队精神和身体素质，享受运动的乐趣。', '2025-02-04 00:00:00', '2025-02-28 00:00:00', '社团运动会', '1', '2025-02-23 19:46:17', '1', '2025-02-23 19:46:17', '');
-INSERT INTO `biz_activity` VALUES (11, '传统文化体验日', '举办传统文化体验活动，让社团成员参与到茶艺、书法、传统乐器等体验中，感受中华文化的博大精深。', '2025-02-05 00:00:00', '2025-02-27 00:00:00', '传统文化体验日', '1', '2025-02-23 19:46:34', '1', '2025-02-23 19:46:34', '');
-INSERT INTO `biz_activity` VALUES (12, '社团才艺大赛', '举办一场才艺大赛，鼓励社团成员展示各自的才艺，表演、舞蹈、歌曲等多种形式，展示个人风采和社团活力。', '2025-02-04 00:00:00', '2025-02-28 00:00:00', '社团才艺大赛', '1', '2025-02-23 19:46:49', '1', '2025-02-23 19:46:49', '');
+INSERT INTO `biz_activity` VALUES (1, '关于举办西南石油大学第二十一届学生社团文化艺术节活动的通知', '为深入学习贯彻习近平新时代中国特色社会主义思想，践行党的二十大精神，团结引领广大青年学子永远跟党走、奋进新征程，充分发挥第二课堂活动的育人功能，促进学生社团健康发展，进一步凝练打造学生社团特色文化品牌活动。经研究，拟于近期举办西南石油大学第二十一届学生社团文化艺术节活动。\n测试缩进。', 1, '2025-02-02 15:12:33', '2025-02-28 00:00:00', '博学广场', '1', '2025-02-02 15:12:51', '1', '2025-02-23 19:39:57', '');
+INSERT INTO `biz_activity` VALUES (2, '关于开展2023-2024学年春季学期中国农业大学社团文化节的通知', '为深入贯彻习近平总书记关于青年工作的重要思想、关于教育的重要论述和给我校科技小院同学们的重要回信精神，切实发挥学生社团助力我校校园文化建设作用，建成具有全国影响力的青年学生社团。根据《中国农业大学学生社团建设管理办法（2022修订）》（中农大党发〔2022〕42号）相关规定，校团委决定于2023-2024学年春季学期开展中国农业大学社团文化节。用属于社团的独特方式，以青春之名，点燃社团之火，展我校青年之风采。', 2, '2025-02-06 02:02:02', '2025-02-20 00:00:00', '测试地点2', '1', '2025-02-02 15:48:46', '1', '2025-02-23 19:35:49', '');
+INSERT INTO `biz_activity` VALUES (3, '志愿服务与社区共建', '组织社团成员参与社区志愿服务活动，帮助改善社区环境，关爱弱势群体，增强社会责任感与团结精神。', 3, '2025-02-10 17:05:04', '2025-02-10 21:05:04', '操场', '1', '2025-02-10 17:05:20', '1', '2025-02-23 19:44:47', '');
+INSERT INTO `biz_activity` VALUES (4, '手工艺术创作体验', '邀请专业手工艺人开展手工艺术创作工作坊，社团成员亲自体验制作独特的手工艺术品，培养创造力与动手能力。', 4, '2025-02-10 17:08:16', '2025-02-10 17:08:18', '图书馆', '1', '2025-02-10 17:08:41', '1', '2025-02-23 19:44:59', '');
+INSERT INTO `biz_activity` VALUES (5, '户外拓展挑战赛', '策划一场户外拓展活动，包含多项挑战项目，通过团队合作，提升成员的领导力、协作能力和解决问题的能力。', 5, '2025-02-10 17:11:55', '2025-02-10 17:11:55', '测试', '1', '2025-02-10 17:12:10', '1', '2025-02-23 19:45:11', '');
+INSERT INTO `biz_activity` VALUES (6, '社团新成员迎新晚会', '组织社团新成员欢迎晚会，丰富多彩的文艺表演和互动环节，为新加入的成员提供一个展示自我的平台，加深对社团的归属感。', 6, '2025-02-11 09:34:59', '2025-02-16 09:39:59', '4', '1', '2025-02-11 09:35:10', '1', '2025-02-23 19:45:21', '');
+INSERT INTO `biz_activity` VALUES (7, '社团文化交流日', '举办一场社团文化交流活动，让不同社团的成员互相了解和学习，分享各自的特色文化和活动经验，增进社团间的友谊和合作。', 7, '2025-02-04 00:00:00', '2025-02-28 00:00:00', '社团文化交流日', '1', '2025-02-23 19:44:31', '1', '2025-02-23 19:44:31', '');
+INSERT INTO `biz_activity` VALUES (8, '读书分享与心得交流', '开展社团读书分享活动，每位成员分享自己最近读的书籍及心得体会，促进大家的阅读兴趣和思想碰撞。', 1, '2025-02-04 00:00:00', '2025-02-28 00:00:00', '读书分享与心得交流', '1', '2025-02-23 19:45:38', '1', '2025-02-23 19:45:38', '');
+INSERT INTO `biz_activity` VALUES (9, '环保宣传与行动', '通过环保知识讲座、海滩清理等活动，提高社团成员的环保意识，共同参与到绿色生活的实践中。', 2, '2025-02-04 00:00:00', '2025-02-28 00:00:00', '环保宣传与行动', '1', '2025-02-23 19:45:57', '1', '2025-02-23 19:45:57', '');
+INSERT INTO `biz_activity` VALUES (10, '社团运动会', '组织一场社团内部运动会，设置趣味运动项目，增强成员之间的团队精神和身体素质，享受运动的乐趣。', 3, '2025-02-04 00:00:00', '2025-02-28 00:00:00', '社团运动会', '1', '2025-02-23 19:46:17', '1', '2025-02-23 19:46:17', '');
+INSERT INTO `biz_activity` VALUES (11, '传统文化体验日', '举办传统文化体验活动，让社团成员参与到茶艺、书法、传统乐器等体验中，感受中华文化的博大精深。', 4, '2025-02-05 00:00:00', '2025-02-27 00:00:00', '传统文化体验日', '1', '2025-02-23 19:46:34', '1', '2025-02-23 19:46:34', '');
+INSERT INTO `biz_activity` VALUES (12, '社团才艺大赛', '举办一场才艺大赛，鼓励社团成员展示各自的才艺，表演、舞蹈、歌曲等多种形式，展示个人风采和社团活力。', 5, '2025-02-04 00:00:00', '2025-02-28 00:00:00', '社团才艺大赛', '1', '2025-02-23 19:46:49', '1', '2025-02-23 19:46:49', '');
+INSERT INTO `biz_activity` VALUES (13, '测试活动', '测试活动', 1, '2025-02-19 00:00:00', '2025-02-28 00:00:00', '测试活动', '1', '2025-02-25 19:44:58', '1', '2025-02-25 19:44:58', '');
+
+-- ----------------------------
+-- Table structure for biz_activity_category
+-- ----------------------------
+DROP TABLE IF EXISTS `biz_activity_category`;
+CREATE TABLE `biz_activity_category`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '名称',
+  `icon` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '图标',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建者',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '修改者',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
+  `deleted` tinyint(1) NOT NULL COMMENT '逻辑删除(0正常、1删除)',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '活动类别表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of biz_activity_category
+-- ----------------------------
+INSERT INTO `biz_activity_category` VALUES (1, '社团活动', '社团活动', '1', '2025-02-25 19:19:10', '1', '2025-02-25 19:19:10', '', 0);
+INSERT INTO `biz_activity_category` VALUES (2, '其他', '其他', '1', '2025-02-25 19:19:21', '1', '2025-02-25 19:19:21', '', 0);
+INSERT INTO `biz_activity_category` VALUES (3, '测试1', '测试1', '1', '2025-02-25 19:33:54', '1', '2025-02-25 19:33:54', '', 0);
+INSERT INTO `biz_activity_category` VALUES (4, '测试2', '测试2', '1', '2025-02-25 19:33:58', '1', '2025-02-25 19:33:58', '', 0);
+INSERT INTO `biz_activity_category` VALUES (5, '测试3', '测试3', '1', '2025-02-25 19:34:04', '1', '2025-02-25 19:34:04', '', 0);
+INSERT INTO `biz_activity_category` VALUES (6, '测试4', '测试4', '1', '2025-02-25 19:34:07', '1', '2025-02-25 19:34:07', '', 0);
+INSERT INTO `biz_activity_category` VALUES (7, '测试5', '测试5', '1', '2025-02-25 19:34:11', '1', '2025-02-25 19:34:11', '', 0);
 
 -- ----------------------------
 -- Table structure for biz_count_rate
@@ -571,21 +601,21 @@ INSERT INTO `sys_count_view` VALUES (3, 3, 8, 9);
 INSERT INTO `sys_count_view` VALUES (4, 5, 8, 68);
 INSERT INTO `sys_count_view` VALUES (5, 4, 8, 3);
 INSERT INTO `sys_count_view` VALUES (6, 6, 8, 390);
-INSERT INTO `sys_count_view` VALUES (7, 1, 11, 9);
-INSERT INTO `sys_count_view` VALUES (8, 2, 11, 5);
+INSERT INTO `sys_count_view` VALUES (7, 1, 11, 10);
+INSERT INTO `sys_count_view` VALUES (8, 2, 11, 6);
 INSERT INTO `sys_count_view` VALUES (9, 6, 12, 6);
-INSERT INTO `sys_count_view` VALUES (10, 1, 12, 11);
+INSERT INTO `sys_count_view` VALUES (10, 1, 12, 17);
 INSERT INTO `sys_count_view` VALUES (11, 7, 8, 51);
 INSERT INTO `sys_count_view` VALUES (12, 3, 11, 2);
 INSERT INTO `sys_count_view` VALUES (13, 4, 11, 28);
 INSERT INTO `sys_count_view` VALUES (14, 8, 8, 149);
-INSERT INTO `sys_count_view` VALUES (15, 5, 11, 23);
+INSERT INTO `sys_count_view` VALUES (15, 5, 11, 24);
 INSERT INTO `sys_count_view` VALUES (16, 6, 11, 34);
 INSERT INTO `sys_count_view` VALUES (17, 4, 12, 2);
-INSERT INTO `sys_count_view` VALUES (18, 2, 12, 2);
-INSERT INTO `sys_count_view` VALUES (19, 3, 12, 1);
+INSERT INTO `sys_count_view` VALUES (18, 2, 12, 3);
+INSERT INTO `sys_count_view` VALUES (19, 3, 12, 2);
 INSERT INTO `sys_count_view` VALUES (20, 5, 12, 1);
-INSERT INTO `sys_count_view` VALUES (21, 12, 12, 1);
+INSERT INTO `sys_count_view` VALUES (21, 12, 12, 2);
 INSERT INTO `sys_count_view` VALUES (22, 11, 12, 2);
 
 -- ----------------------------
@@ -713,7 +743,7 @@ CREATE TABLE `sys_log_login`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `create_time`(`create_time` DESC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5000295 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5000302 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '登录日志表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_log_login
@@ -830,6 +860,13 @@ INSERT INTO `sys_log_login` VALUES (5000291, '1', 'iPhone', 'MicroMessenger', '0
 INSERT INTO `sys_log_login` VALUES (5000292, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-19 20:53:08', '1', '2025-02-19 20:53:08', '');
 INSERT INTO `sys_log_login` VALUES (5000293, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-21 17:14:11', '1', '2025-02-21 17:14:11', '');
 INSERT INTO `sys_log_login` VALUES (5000294, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-23 18:07:27', '1', '2025-02-23 18:07:27', '');
+INSERT INTO `sys_log_login` VALUES (5000295, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-23 20:51:11', '1', '2025-02-23 20:51:11', '');
+INSERT INTO `sys_log_login` VALUES (5000296, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-23 22:51:38', '1', '2025-02-23 22:51:38', '');
+INSERT INTO `sys_log_login` VALUES (5000297, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-24 19:37:51', '1', '2025-02-24 19:37:51', '');
+INSERT INTO `sys_log_login` VALUES (5000298, '1', 'iPhone', 'MicroMessenger', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-24 19:48:23', '1', '2025-02-24 19:48:23', '');
+INSERT INTO `sys_log_login` VALUES (5000299, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-24 20:24:13', '1', '2025-02-24 20:24:13', '');
+INSERT INTO `sys_log_login` VALUES (5000300, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-24 22:28:59', '1', '2025-02-24 22:28:59', '');
+INSERT INTO `sys_log_login` VALUES (5000301, '1', 'Windows 10 or Windows Server 2016', 'MSEdge', '0:0:0:0:0:0:0:1', '%s %s %s', 1, '请求成功！', '1', '2025-02-25 19:16:06', '1', '2025-02-25 19:16:06', '');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -855,7 +892,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime NOT NULL COMMENT '修改时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '菜单表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -889,9 +926,10 @@ INSERT INTO `sys_menu` VALUES (38, '评论管理', '评论管理', 'ChatLineSqua
 INSERT INTO `sys_menu` VALUES (39, '收藏管理', '收藏管理', 'Collection', 13, 13, '/favorite', '', '/backend/system/favorite/index.vue', '2', 7, '1', 1, '1', '2025-01-10 15:42:39', '1', '2025-01-10 15:43:02', '');
 INSERT INTO `sys_menu` VALUES (40, '关注管理', '关注管理', 'Avatar', 13, 13, '/follow', '', '/backend/system/follow/index.vue', '2', 8, '1', 1, '1', '2025-01-10 15:45:18', '1', '2025-01-10 15:45:30', '');
 INSERT INTO `sys_menu` VALUES (41, '活动', '活动', 'Stopwatch', 31, 31, '/activity', '', '/backend/biz/activity/index.vue', '2', 6, '1', 1, '1', '2025-02-02 15:07:45', '1', '2025-02-02 15:08:43', '');
-INSERT INTO `sys_menu` VALUES (42, '学校管理', '学校管理', 'School', 31, 31, '/school', '', '/backend/biz/school/index.vue', '2', 7, '1', 1, '1', '2025-02-11 20:01:09', '1', '2025-02-11 20:01:33', '');
-INSERT INTO `sys_menu` VALUES (43, '组局', '组局', 'Brush', 31, 31, '/partner', '', '/backend/biz/partner/index.vue', '2', 8, '1', 1, '1', '2025-02-19 20:34:05', '1', '2025-02-19 20:38:45', '');
-INSERT INTO `sys_menu` VALUES (44, '组局主题', '组局主题', 'DocumentRemove', 31, 31, '/partner/subject', '', '/backend/biz/partner/subject/index.vue', '2', 9, '1', 1, '1', '2025-02-19 20:35:22', '1', '2025-02-19 20:38:59', '');
+INSERT INTO `sys_menu` VALUES (42, '学校管理', '学校管理', 'School', 31, 31, '/school', '', '/backend/biz/school/index.vue', '2', 8, '1', 1, '1', '2025-02-11 20:01:09', '1', '2025-02-25 19:18:13', '');
+INSERT INTO `sys_menu` VALUES (43, '组局', '组局', 'Brush', 31, 31, '/partner', '', '/backend/biz/partner/index.vue', '2', 9, '1', 1, '1', '2025-02-19 20:34:05', '1', '2025-02-25 19:18:19', '');
+INSERT INTO `sys_menu` VALUES (44, '组局主题', '组局主题', 'DocumentRemove', 31, 31, '/partner/subject', '', '/backend/biz/partner/subject/index.vue', '2', 10, '1', 1, '1', '2025-02-19 20:35:22', '1', '2025-02-25 19:18:23', '');
+INSERT INTO `sys_menu` VALUES (45, '活动类别', '活动类别', 'Camera', 31, 31, '/activity/category', '', '/backend/biz/activity/category/index.vue', '2', 7, '1', 1, '1', '2025-02-25 19:17:37', '1', '2025-02-25 19:18:06', '');
 
 -- ----------------------------
 -- Table structure for sys_permission
@@ -1012,7 +1050,7 @@ CREATE TABLE `sys_role_menu_link`  (
   `update_time` datetime NOT NULL COMMENT '修改时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 421 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色、菜单关系表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 448 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色、菜单关系表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu_link
@@ -1028,32 +1066,33 @@ INSERT INTO `sys_role_menu_link` VALUES (244, 3, 15, '1', '2025-01-10 12:44:59',
 INSERT INTO `sys_role_menu_link` VALUES (245, 3, 16, '1', '2025-01-10 12:44:59', '1', '2025-01-10 12:44:59', '');
 INSERT INTO `sys_role_menu_link` VALUES (246, 3, 21, '1', '2025-01-10 12:44:59', '1', '2025-01-10 12:44:59', '');
 INSERT INTO `sys_role_menu_link` VALUES (247, 3, 22, '1', '2025-01-10 12:44:59', '1', '2025-01-10 12:44:59', '');
-INSERT INTO `sys_role_menu_link` VALUES (395, 1, 12, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (396, 1, 13, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (397, 1, 14, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (398, 1, 15, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (399, 1, 16, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (400, 1, 21, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (401, 1, 22, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (402, 1, 23, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (403, 1, 24, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (404, 1, 25, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (405, 1, 26, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (406, 1, 27, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (407, 1, 31, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (408, 1, 32, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (409, 1, 33, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (410, 1, 36, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (411, 1, 35, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (412, 1, 34, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (413, 1, 37, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (414, 1, 38, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (415, 1, 39, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (416, 1, 40, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (417, 1, 41, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (418, 1, 42, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (419, 1, 43, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
-INSERT INTO `sys_role_menu_link` VALUES (420, 1, 44, '1', '2025-02-19 20:36:53', '1', '2025-02-19 20:36:53', '');
+INSERT INTO `sys_role_menu_link` VALUES (421, 1, 12, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (422, 1, 13, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (423, 1, 14, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (424, 1, 15, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (425, 1, 16, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (426, 1, 21, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (427, 1, 22, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (428, 1, 23, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (429, 1, 24, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (430, 1, 25, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (431, 1, 26, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (432, 1, 27, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (433, 1, 31, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (434, 1, 32, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (435, 1, 33, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (436, 1, 36, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (437, 1, 35, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (438, 1, 34, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (439, 1, 37, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (440, 1, 38, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (441, 1, 39, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (442, 1, 40, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (443, 1, 41, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (444, 1, 42, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (445, 1, 43, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (446, 1, 44, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
+INSERT INTO `sys_role_menu_link` VALUES (447, 1, 45, '1', '2025-02-25 19:18:40', '1', '2025-02-25 19:18:40', '');
 
 -- ----------------------------
 -- Table structure for sys_role_permission_link
@@ -1175,7 +1214,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (3, '1', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1112', '管理员', '/file/42d198baece961e64f74ddc192c456de.jpeg', '2', '2024-08-01', '1', '13037503398', '916586595@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2025-02-23 19:30:36', '', '2024-08-16 01:26:41', '', '2025-02-23 19:30:36', '');
+INSERT INTO `sys_user` VALUES (3, '1', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1112', '管理员', '/file/42d198baece961e64f74ddc192c456de.jpeg', '2', '2024-08-01', '1', '13037503398', '916586595@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2025-02-25 19:56:51', '', '2024-08-16 01:26:41', '', '2025-02-25 19:56:51', '');
 INSERT INTO `sys_user` VALUES (4, '2', '$2a$10$elhEi/ohemfnXateL1BLZ.lLi.fJ31tDVKdSpr3xnr40pdMjAlqlG', '', '张三', '1', '2', '2024-08-22', '1', '13037503390', '1@qq.com', '1', 0.00, '0:0:0:0:0:0:0:1', '2024-11-25 16:38:54', '', '2024-08-16 09:00:11', '', '2024-11-25 16:38:54', '');
 INSERT INTO `sys_user` VALUES (5, '3', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1', '1', '/file/c3f7a394-7b91-43b3-b924-5d1592426f06.jpg', '2', '2024-08-27', '1', '13037503391', '2@qq.com', '1', 0.00, '', NULL, '1', '2024-08-21 14:25:56', '1', '2024-08-21 14:25:56', '');
 INSERT INTO `sys_user` VALUES (6, '4', '$2a$10$3alyCOMoZZt39BASQUwwTOrGodFCjiwMgHurikWrqAhINrIvDbfqG', '1', '1', '/file/a3336d6e-4ef8-46f0-99e6-a104122b9f88.jpg', '2', '2024-08-17', '0', '13037503392', '3@qq.com', '1', 0.00, '', NULL, '1', '2024-08-21 14:34:13', '1', '2024-08-21 15:13:15', '1');
@@ -1198,7 +1237,7 @@ CREATE TABLE `sys_user_auth`  (
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `user_id`(`user_id` ASC, `auth_type` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户三方授权表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户三方授权表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_user_auth
