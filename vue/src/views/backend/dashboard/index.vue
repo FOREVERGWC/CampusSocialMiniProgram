@@ -76,7 +76,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { getDashboardInfo } from '@/api/statistics.js'
+import { getDashboardInfo } from '@/api/biz/statistics/index.js'
 
 const info = ref({
 	articleCount: 0,

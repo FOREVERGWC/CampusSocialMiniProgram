@@ -162,8 +162,8 @@ import {
 	getCommentList,
 	removeCommentBatchByIds,
 	saveComment
-} from '@/api/comment/index.js'
-import { getUserList } from '@/api/user.js'
+} from '@/api/sys/comment/index.js'
+import { getUserList } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'

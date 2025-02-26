@@ -144,7 +144,7 @@ import {
 	handleStatusPermission,
 	removePermissionBatchByIds,
 	savePermission
-} from '@/api/permission.js'
+} from '@/api/sys/permission/index.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'

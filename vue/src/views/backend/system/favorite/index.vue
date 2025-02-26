@@ -107,7 +107,7 @@
 
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
-import { getFavoriteOne, getFavoritePage, removeFavoriteBatchByIds, saveFavorite } from '@/api/favorite/index.js'
+import { getFavoriteOne, getFavoritePage, removeFavoriteBatchByIds, saveFavorite } from '@/api/sys/favorite/index.js'
 import { ElMessage } from 'element-plus'
 import { useTable } from '@/hooks/useTable/index.js'
 import { downloadFile } from '@/utils/common.js'

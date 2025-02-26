@@ -83,7 +83,7 @@
 <script setup>
 import { ref, computed, onMounted, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getCommentPage, saveComment } from '@/api/comment/index.js'
+import { getCommentPage, saveComment } from '@/api/sys/comment/index.js'
 
 const props = defineProps({
 	bizId: {

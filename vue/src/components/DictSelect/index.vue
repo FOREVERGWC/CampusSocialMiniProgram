@@ -6,7 +6,7 @@
 
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import { getDictDataList } from '@/api/dictData.js'
+import { getDictDataList } from '@/api/sys/dict/data/index.js'
 
 const props = defineProps({
 	type: {

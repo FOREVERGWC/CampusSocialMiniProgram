@@ -289,7 +289,7 @@
 <script setup>
 import RoleAssign from './components/RoleAssign.vue'
 import { computed, nextTick, onMounted, reactive, ref } from 'vue'
-import { getUserOne, getUserPage, handleStatusUser, removeUserBatchByIds, saveUser } from '@/api/user.js'
+import { getUserOne, getUserPage, handleStatusUser, removeUserBatchByIds, saveUser } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 import { addDataRange, disabledAfterToday, downloadFile, genderList, statusList } from '@/utils/common.js'
 import useRoleStore from '@/store/modules/role.js'

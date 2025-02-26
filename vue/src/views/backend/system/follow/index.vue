@@ -110,8 +110,8 @@
 
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
-import { getFollowOne, getFollowPage, removeFollowBatchByIds, saveFollow } from '@/api/follow.js'
-import { getUserList } from '@/api/user.js'
+import { getFollowOne, getFollowPage, removeFollowBatchByIds, saveFollow } from '@/api/sys/follow/index.js'
+import { getUserList } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 import { useTable } from '@/hooks/useTable/index.js'
 import { downloadFile } from '@/utils/common.js'

@@ -59,7 +59,7 @@ import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Edit } from '@element-plus/icons-vue'
 import AvatarUpload from '@/components/AvatarUpload/index.js'
-import { saveUser } from '@/api/user.js'
+import { saveUser } from '@/api/sys/user/index.js'
 
 const props = defineProps({
 	user: {

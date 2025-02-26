@@ -13,7 +13,7 @@
 
 <script>
 import * as echarts from 'echarts'
-import { getBlog } from '@/api/statistics.js'
+import { getBlog } from '@/api/biz/statistics/index.js'
 
 export default {
 	name: 'StatisticsView',

@@ -166,7 +166,7 @@
 
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
-import { getAttachmentOne, getAttachmentPage, removeAttachmentBatchByIds, saveAttachment } from '@/api/attachment'
+import { getAttachmentOne, getAttachmentPage, removeAttachmentBatchByIds, saveAttachment } from '@/api/sys/attachment'
 import { ElMessage } from 'element-plus'
 import { useTable } from '@/hooks/useTable/index.js'
 import { downloadFile } from '@/utils/common.js'

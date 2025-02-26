@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { getDictDataList } from '@/api/dictData.js'
+import { getDictDataList } from '@/api/sys/dict/data/index.js'
 import { defineProps, onMounted, reactive, ref } from 'vue'
 
 const props = defineProps({

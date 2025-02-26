@@ -49,7 +49,7 @@
 <script setup>
 import { ref, nextTick, watch, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getUserOne, saveUser } from '@/api/user.js'
+import { getUserOne, saveUser } from '@/api/sys/user/index.js'
 
 const props = defineProps({
 	visible: Boolean,

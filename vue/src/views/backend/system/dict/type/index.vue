@@ -131,7 +131,7 @@ import {
 	handleStatusDictType,
 	removeDictTypeBatchByIds,
 	saveDictType
-} from '@/api/dictType'
+} from '@/api/sys/dict/type/index.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'

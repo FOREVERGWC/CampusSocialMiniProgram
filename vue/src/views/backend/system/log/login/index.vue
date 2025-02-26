@@ -112,8 +112,8 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import { getLogLoginPage, removeLogLoginBatchByIds } from '@/api/logLogin.js'
-import { getUserList } from '@/api/user.js'
+import { getLogLoginPage, removeLogLoginBatchByIds } from '@/api/sys/log/login/index.js'
+import { getUserList } from '@/api/sys/user/index.js'
 import { addDataRange, downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
 

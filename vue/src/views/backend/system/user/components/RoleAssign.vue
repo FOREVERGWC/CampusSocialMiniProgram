@@ -23,7 +23,7 @@
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
 import useRoleStore from '@/store/modules/role.js'
-import { getUserOne, handleUserRole } from '@/api/user.js'
+import { getUserOne, handleUserRole } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 
 const props = defineProps({

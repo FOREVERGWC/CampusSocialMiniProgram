@@ -154,7 +154,7 @@ import {
 } from '@/api/biz/rate/record.js'
 import { getRateList } from '@/api/biz/rate/index.js'
 import { getRateItemList } from '@/api/biz/rate/item.js'
-import { getUserList } from '@/api/user.js'
+import { getUserList } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'

@@ -148,7 +148,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import { getPartnerOne, getPartnerPage, removePartnerBatchByIds, savePartner } from '@/api/biz/partner/index.js'
-import { getUserList } from '@/api/user'
+import { getUserList } from '@/api/sys/user/index.js'
 import { getPartnerSubjectList } from '@/api/biz/partner/subject'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'

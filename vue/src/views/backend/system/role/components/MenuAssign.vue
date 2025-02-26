@@ -25,8 +25,8 @@
 <script setup>
 import { ref, reactive, onMounted, watch, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getMenuTree } from '@/api/menu.js'
-import { handleRoleMenu } from '@/api/role.js'
+import { getMenuTree } from '@/api/sys/menu/index.js'
+import { handleRoleMenu } from '@/api/sys/role/index.js'
 import { getRoleMenuLinkList } from '@/api/roleMenuLink.js'
 import { getExpandedIds } from '@/utils/common.js'
 

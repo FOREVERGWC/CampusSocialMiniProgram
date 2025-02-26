@@ -25,8 +25,8 @@
 <script setup>
 import { ref, reactive, onMounted, watch, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import { handleRolePermission } from '@/api/role.js'
-import { getPermissionTree } from '@/api/permission.js'
+import { handleRolePermission } from '@/api/sys/role/index.js'
+import { getPermissionTree } from '@/api/sys/permission/index.js'
 import { getRolePermissionLinkList } from '@/api/rolePermissionLink.js'
 import { getExpandedIds } from '@/utils/common.js'
 

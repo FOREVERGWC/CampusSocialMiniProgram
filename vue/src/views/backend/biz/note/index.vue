@@ -191,7 +191,7 @@ import {
 	removeNoteBatchByIds,
 	saveNote
 } from '@/api/biz/note/index.js'
-import { getUserList } from '@/api/user.js'
+import { getUserList } from '@/api/sys/user/index.js'
 import { getNoteCategoryList } from '@/api/biz/note/category.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'

@@ -131,7 +131,7 @@
 
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
-import { getRoleOne, getRolePage, handleStatusRole, removeRoleBatchByIds, saveRole } from '@/api/role.js'
+import { getRoleOne, getRolePage, handleStatusRole, removeRoleBatchByIds, saveRole } from '@/api/sys/role/index.js'
 import { ElMessage } from 'element-plus'
 import MenuAssign from './components/MenuAssign.vue'
 import PermissionAssign from './components/PermissionAssign.vue'

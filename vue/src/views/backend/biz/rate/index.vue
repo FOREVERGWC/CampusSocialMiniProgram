@@ -117,7 +117,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import { getRateOne, getRatePage, removeRateBatchByIds, saveRate } from '@/api/biz/rate/index.js'
-import { getUserList } from '@/api/user.js'
+import { getUserList } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
