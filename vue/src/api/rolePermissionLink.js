@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改角色、权限关系
  * @param data 角色、权限关系
  * @returns {*} 结果
  */
-export const saveRolePermissionLink = (data) => {
-    return request({
-        url: '/role/permission/link', method: 'POST', data: data
-    })
+export const saveRolePermissionLink = data => {
+	return request({
+		url: '/role/permission/link',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveRolePermissionLink = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeRolePermissionLinkBatchByIds = (ids) => {
-    return request({
-        url: `/role/permission/link/${ids}`, method: 'DELETE'
-    })
+export const removeRolePermissionLinkBatchByIds = ids => {
+	return request({
+		url: `/role/permission/link/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeRolePermissionLinkBatchByIds = (ids) => {
  * @param params 角色、权限关系
  * @returns {*} 结果
  */
-export const getRolePermissionLinkList = (params) => {
-    return request({
-        url: '/role/permission/link/list', method: 'GET', params: params
-    })
+export const getRolePermissionLinkList = params => {
+	return request({
+		url: '/role/permission/link/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getRolePermissionLinkList = (params) => {
  * @param params 角色、权限关系
  * @returns {*} 结果
  */
-export const getRolePermissionLinkPage = (params) => {
-    return request({
-        url: '/role/permission/link/page', method: 'GET', params: params
-    })
+export const getRolePermissionLinkPage = params => {
+	return request({
+		url: '/role/permission/link/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,10 +56,11 @@ export const getRolePermissionLinkPage = (params) => {
  * @param id 主键ID
  * @returns {*} 结果
  */
-export const getRolePermissionLinkById = (id) => {
-    return request({
-        url: `/role/permission/link/${id}`, method: 'GET'
-    })
+export const getRolePermissionLinkById = id => {
+	return request({
+		url: `/role/permission/link/${id}`,
+		method: 'GET'
+	})
 }
 
 /**
@@ -60,8 +68,10 @@ export const getRolePermissionLinkById = (id) => {
  * @param params 角色、权限关系
  * @returns {*} 结果
  */
-export const getRolePermissionLinkOne = (params) => {
-    return request({
-        url: '/role/permission/link', method: 'GET', params: params
-    })
+export const getRolePermissionLinkOne = params => {
+	return request({
+		url: '/role/permission/link',
+		method: 'GET',
+		params: params
+	})
 }

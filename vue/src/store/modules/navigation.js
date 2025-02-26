@@ -1,15 +1,15 @@
-import {defineStore} from 'pinia'
+import { defineStore } from 'pinia'
 
 const useNavigationStore = defineStore('navigation', {
-    state: () => ({
-        menu: '/dashboard'
-    }),
-    actions: {
-        setMenu (menu) {
-            this.menu = menu
-        }
-    },
-    persist: true
+	state: () => ({
+		menu: '/dashboard'
+	}),
+	actions: {
+		setMenu(menu) {
+			this.menu = menu
+		}
+	},
+	persist: true
 })
 
 export default useNavigationStore

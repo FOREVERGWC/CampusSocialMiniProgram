@@ -5,9 +5,11 @@ import request from '@/utils/request'
  * @param params 参数
  * @returns {*} 结果
  */
-export const checkFile = (params) => {
+export const checkFile = params => {
 	return request({
-		url: '/file/check', method: 'GET', params: params
+		url: '/file/check',
+		method: 'GET',
+		params: params
 	})
 }
 
@@ -16,7 +18,7 @@ export const checkFile = (params) => {
  * @param data 文件
  * @returns {*} 结果
  */
-export const uploadFile = (data) => {
+export const uploadFile = data => {
 	return request({
 		url: '/file/upload',
 		method: 'POST',

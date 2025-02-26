@@ -33,13 +33,11 @@ const getList = () => {
 	})
 }
 
-const getData = (value) => dictDataList.value.find(item => item.value === value || +item.value === value)
+const getData = value => dictDataList.value.find(item => item.value === value || +item.value === value)
 
 onMounted(() => {
 	getList()
 })
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

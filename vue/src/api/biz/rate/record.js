@@ -1,14 +1,16 @@
-import request from '@/utils/request.js';
+import request from '@/utils/request.js'
 
 /**
  * 添加、修改评分记录
  * @param data 评分记录
  * @returns {*} 结果
  */
-export const saveRateRecord = (data) => {
-    return request({
-        url: '/rate/record', method: 'POST', data: data
-    })
+export const saveRateRecord = data => {
+	return request({
+		url: '/rate/record',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveRateRecord = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeRateRecordBatchByIds = (ids) => {
-    return request({
-        url: `/rate/record/${ids}`, method: 'DELETE'
-    })
+export const removeRateRecordBatchByIds = ids => {
+	return request({
+		url: `/rate/record/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeRateRecordBatchByIds = (ids) => {
  * @param params 评分记录
  * @returns {*} 结果
  */
-export const getRateRecordList = (params) => {
-    return request({
-        url: '/rate/record/list', method: 'GET', params: params
-    })
+export const getRateRecordList = params => {
+	return request({
+		url: '/rate/record/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getRateRecordList = (params) => {
  * @param params 评分记录
  * @returns {*} 结果
  */
-export const getRateRecordPage = (params) => {
-    return request({
-        url: '/rate/record/page', method: 'GET', params: params
-    })
+export const getRateRecordPage = params => {
+	return request({
+		url: '/rate/record/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getRateRecordPage = (params) => {
  * @param params 评分记录
  * @returns {*} 结果
  */
-export const getRateRecordOne = (params) => {
-    return request({
-        url: '/rate/record', method: 'GET', params: params
-    })
+export const getRateRecordOne = params => {
+	return request({
+		url: '/rate/record',
+		method: 'GET',
+		params: params
+	})
 }

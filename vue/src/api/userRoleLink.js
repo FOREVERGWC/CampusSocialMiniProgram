@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改用户、角色关系
  * @param data 用户、角色关系
  * @returns {*} 结果
  */
-export const saveUserRoleLink = (data) => {
-    return request({
-        url: '/user/role/link', method: 'POST', data: data
-    })
+export const saveUserRoleLink = data => {
+	return request({
+		url: '/user/role/link',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveUserRoleLink = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeUserRoleLinkBatchByIds = (ids) => {
-    return request({
-        url: `/user/role/link/${ids}`, method: 'DELETE'
-    })
+export const removeUserRoleLinkBatchByIds = ids => {
+	return request({
+		url: `/user/role/link/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeUserRoleLinkBatchByIds = (ids) => {
  * @param params 用户、角色关系
  * @returns {*} 结果
  */
-export const getUserRoleLinkList = (params) => {
-    return request({
-        url: '/user/role/link/list', method: 'GET', params: params
-    })
+export const getUserRoleLinkList = params => {
+	return request({
+		url: '/user/role/link/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getUserRoleLinkList = (params) => {
  * @param params 用户、角色关系
  * @returns {*} 结果
  */
-export const getUserRoleLinkPage = (params) => {
-    return request({
-        url: '/user/role/link/page', method: 'GET', params: params
-    })
+export const getUserRoleLinkPage = params => {
+	return request({
+		url: '/user/role/link/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,10 +56,11 @@ export const getUserRoleLinkPage = (params) => {
  * @param id 主键ID
  * @returns {*} 结果
  */
-export const getUserRoleLinkById = (id) => {
-    return request({
-        url: `/user/role/link/${id}`, method: 'GET'
-    })
+export const getUserRoleLinkById = id => {
+	return request({
+		url: `/user/role/link/${id}`,
+		method: 'GET'
+	})
 }
 
 /**
@@ -60,8 +68,10 @@ export const getUserRoleLinkById = (id) => {
  * @param params 用户、角色关系
  * @returns {*} 结果
  */
-export const getUserRoleLinkOne = (params) => {
-    return request({
-        url: '/user/role/link', method: 'GET', params: params
-    })
+export const getUserRoleLinkOne = params => {
+	return request({
+		url: '/user/role/link',
+		method: 'GET',
+		params: params
+	})
 }

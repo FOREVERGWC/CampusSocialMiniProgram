@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改附件
  * @param data 附件
  * @returns {*} 结果
  */
-export const saveAttachment = (data) => {
-    return request({
-        url: '/attachment', method: 'POST', data: data
-    })
+export const saveAttachment = data => {
+	return request({
+		url: '/attachment',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveAttachment = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeAttachmentBatchByIds = (ids) => {
-    return request({
-        url: `/attachment/${ids}`, method: 'DELETE'
-    })
+export const removeAttachmentBatchByIds = ids => {
+	return request({
+		url: `/attachment/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeAttachmentBatchByIds = (ids) => {
  * @param params 附件
  * @returns {*} 结果
  */
-export const getAttachmentList = (params) => {
-    return request({
-        url: '/attachment/list', method: 'GET', params: params
-    })
+export const getAttachmentList = params => {
+	return request({
+		url: '/attachment/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getAttachmentList = (params) => {
  * @param params 附件
  * @returns {*} 结果
  */
-export const getAttachmentPage = (params) => {
-    return request({
-        url: '/attachment/page', method: 'GET', params: params
-    })
+export const getAttachmentPage = params => {
+	return request({
+		url: '/attachment/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getAttachmentPage = (params) => {
  * @param params 附件
  * @returns {*} 结果
  */
-export const getAttachmentOne = (params) => {
-    return request({
-        url: '/attachment', method: 'GET', params: params
-    })
+export const getAttachmentOne = params => {
+	return request({
+		url: '/attachment',
+		method: 'GET',
+		params: params
+	})
 }

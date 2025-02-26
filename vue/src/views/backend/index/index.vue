@@ -1,13 +1,7 @@
 <template>
-<div>
-  嘛也没有
-</div>
+	<div>嘛也没有</div>
 </template>
 
-<script setup>
+<script setup></script>
 
-</script>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

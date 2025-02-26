@@ -1,36 +1,36 @@
-import {reactive, toRefs} from "vue";
+import { reactive, toRefs } from 'vue'
 
-export const usePagination = (callback, option = {pageSize: 20}) => {
-    const pagination = reactive({
-        current: 1,
-        pageSize: option.pageSize,
-        total: 0,
-        onCurrentChange: (val) => {
-            pagination.current = val
-            callback && callback()
-        },
-        onPageSizeChange: (val) => {
-            pagination.current = 1
-            pagination.pageSize = val
-            callback && callback()
-        }
-    })
+export const usePagination = (callback, option = { pageSize: 20 }) => {
+	const pagination = reactive({
+		current: 1,
+		pageSize: option.pageSize,
+		total: 0,
+		onCurrentChange: val => {
+			pagination.current = val
+			callback && callback()
+		},
+		onPageSizeChange: val => {
+			pagination.current = 1
+			pagination.pageSize = val
+			callback && callback()
+		}
+	})
 
-    const handleCurrentChange = option.onCurrentChange
-    const handleSizeChange = option.onPageSizeChange
-    const setTotal = (val) => {
-        pagination.total = val
-    }
+	const handleCurrentChange = option.onCurrentChange
+	const handleSizeChange = option.onPageSizeChange
+	const setTotal = val => {
+		pagination.total = val
+	}
 
-    const {current, pageSize, total} = toRefs(pagination)
+	const { current, pageSize, total } = toRefs(pagination)
 
-    return {
-        current,
-        pageSize,
-        total,
-        pagination,
-        handleCurrentChange,
-        handleSizeChange,
-        setTotal
-    }
+	return {
+		current,
+		pageSize,
+		total,
+		pagination,
+		handleCurrentChange,
+		handleSizeChange,
+		setTotal
+	}
 }

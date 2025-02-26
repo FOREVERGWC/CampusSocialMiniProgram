@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改角色、菜单关系
  * @param data 角色、菜单关系
  * @returns {*} 结果
  */
-export const saveRoleMenuLink = (data) => {
-    return request({
-        url: '/role/menu/link', method: 'POST', data: data
-    })
+export const saveRoleMenuLink = data => {
+	return request({
+		url: '/role/menu/link',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveRoleMenuLink = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeRoleMenuLinkBatchByIds = (ids) => {
-    return request({
-        url: `/role/menu/link/${ids}`, method: 'DELETE'
-    })
+export const removeRoleMenuLinkBatchByIds = ids => {
+	return request({
+		url: `/role/menu/link/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeRoleMenuLinkBatchByIds = (ids) => {
  * @param params 角色、菜单关系
  * @returns {*} 结果
  */
-export const getRoleMenuLinkList = (params) => {
-    return request({
-        url: '/role/menu/link/list', method: 'GET', params: params
-    })
+export const getRoleMenuLinkList = params => {
+	return request({
+		url: '/role/menu/link/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getRoleMenuLinkList = (params) => {
  * @param params 角色、菜单关系
  * @returns {*} 结果
  */
-export const getRoleMenuLinkPage = (params) => {
-    return request({
-        url: '/role/menu/link/page', method: 'GET', params: params
-    })
+export const getRoleMenuLinkPage = params => {
+	return request({
+		url: '/role/menu/link/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,10 +56,11 @@ export const getRoleMenuLinkPage = (params) => {
  * @param id 主键ID
  * @returns {*} 结果
  */
-export const getRoleMenuLinkById = (id) => {
-    return request({
-        url: `/role/menu/link/${id}`, method: 'GET'
-    })
+export const getRoleMenuLinkById = id => {
+	return request({
+		url: `/role/menu/link/${id}`,
+		method: 'GET'
+	})
 }
 
 /**
@@ -60,8 +68,10 @@ export const getRoleMenuLinkById = (id) => {
  * @param params 角色、菜单关系
  * @returns {*} 结果
  */
-export const getRoleMenuLinkOne = (params) => {
-    return request({
-        url: '/role/menu/link', method: 'GET', params: params
-    })
+export const getRoleMenuLinkOne = params => {
+	return request({
+		url: '/role/menu/link',
+		method: 'GET',
+		params: params
+	})
 }

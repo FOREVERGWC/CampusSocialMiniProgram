@@ -1,10 +1,5 @@
 <template>
-	<el-upload
-		class="avatar-uploader"
-		:show-file-list="false"
-		:before-upload="beforeUpload"
-		:http-request="customUpload"
-	>
+	<el-upload class="avatar-uploader" :show-file-list="false" :before-upload="beforeUpload" :http-request="customUpload">
 		<el-avatar shape="square" v-if="url" :src="url" alt="" class="avatar" @error="() => true">
 			<img alt="" src="@/assets/imgs/profile.png" />
 		</el-avatar>
@@ -26,14 +21,14 @@ const props = defineProps({
 		required: false,
 		default: ''
 	},
-  bizId: {
-    type: [String, Number],
-    required: true
-  },
-  bizType: {
-    type: [String, Number],
-    default: 0
-  }
+	bizId: {
+		type: [String, Number],
+		required: true
+	},
+	bizType: {
+		type: [String, Number],
+		default: 0
+	}
 })
 
 const emit = defineEmits(['update:modelValue', 'success'])
@@ -46,7 +41,7 @@ const updateUrl = () => {
 	}
 }
 
-const beforeUpload = (file) => {
+const beforeUpload = file => {
 	const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp']
 
 	if (!allowedTypes.includes(file.type)) {
@@ -62,7 +57,7 @@ const beforeUpload = (file) => {
 	return true
 }
 
-const customUpload = async (params) => {
+const customUpload = async params => {
 	const fileName = params.file.name
 	const fileSize = params.file.size
 	const chunks = createChunks(params.file, chunkSize.value)
@@ -70,8 +65,8 @@ const customUpload = async (params) => {
 	const chunkTotal = chunks.length
 	const checkParams = {
 		hashCode: hashCode,
-    bizId: props.bizId,
-    bizType: props.bizType,
+		bizId: props.bizId,
+		bizType: props.bizType,
 		chunkTotal: chunkTotal
 	}
 	const data = await checkFile(checkParams).then(res => {
@@ -113,49 +108,49 @@ const createChunks = (file, chunkSize) => {
 	)
 }
 
-const getHashCode = (chunks) => {
-  return new Promise(resolve => {
-    const spark = new SparkMD5.ArrayBuffer();
+const getHashCode = chunks => {
+	return new Promise(resolve => {
+		const spark = new SparkMD5.ArrayBuffer()
 
-    const read = (i) => {
-      if (i >= chunks.length) {
-        const result = spark.end();
-        console.log('Final hash:', result);
-        resolve(result);
-        return;
-      }
+		const read = i => {
+			if (i >= chunks.length) {
+				const result = spark.end()
+				console.log('Final hash:', result)
+				resolve(result)
+				return
+			}
 
-      const blob = chunks[i];
-      const reader = new FileReader();
+			const blob = chunks[i]
+			const reader = new FileReader()
 
-      reader.onload = e => {
-        const arrayBuffer = e.target.result;
-        console.log(`Processing chunk ${i}:`, {
-          chunkSize: blob.size,
-          arrayBufferSize: arrayBuffer.byteLength,
-          chunkType: blob.type
-        });
+			reader.onload = e => {
+				const arrayBuffer = e.target.result
+				console.log(`Processing chunk ${i}:`, {
+					chunkSize: blob.size,
+					arrayBufferSize: arrayBuffer.byteLength,
+					chunkType: blob.type
+				})
 
-        spark.append(arrayBuffer);
-        read(i + 1);
-      };
+				spark.append(arrayBuffer)
+				read(i + 1)
+			}
 
-      reader.onerror = (error) => {
-        console.error('Error reading chunk:', error);
-      };
+			reader.onerror = error => {
+				console.error('Error reading chunk:', error)
+			}
 
-      reader.readAsArrayBuffer(blob);
-    };
+			reader.readAsArrayBuffer(blob)
+		}
 
-    read(0);
-  });
-};
+		read(0)
+	})
+}
 
 const uploadChunk = (chunk, hashCode, fileName, fileSize, chunkSize, chunkIndex, chunkTotal) => {
 	const form = new FormData()
 	form.append('file', chunk)
-  form.append('bizId', props.bizId)
-  form.append('bizType', props.bizType)
+	form.append('bizId', props.bizId)
+	form.append('bizType', props.bizType)
 	form.append('hashCode', hashCode)
 	form.append('fileName', fileName)
 	form.append('fileSize', fileSize)

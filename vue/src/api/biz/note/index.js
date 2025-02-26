@@ -1,14 +1,16 @@
-import request from '@/utils/request.js';
+import request from '@/utils/request.js'
 
 /**
  * 添加、修改笔记
  * @param data 笔记
  * @returns {*} 结果
  */
-export const saveNote = (data) => {
-    return request({
-        url: '/note', method: 'POST', data: data
-    })
+export const saveNote = data => {
+	return request({
+		url: '/note',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveNote = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeNoteBatchByIds = (ids) => {
-    return request({
-        url: `/note/${ids}`, method: 'DELETE'
-    })
+export const removeNoteBatchByIds = ids => {
+	return request({
+		url: `/note/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeNoteBatchByIds = (ids) => {
  * @param params 笔记
  * @returns {*} 结果
  */
-export const getNoteList = (params) => {
-    return request({
-        url: '/note/list', method: 'GET', params: params
-    })
+export const getNoteList = params => {
+	return request({
+		url: '/note/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getNoteList = (params) => {
  * @param params 笔记
  * @returns {*} 结果
  */
-export const getNotePage = (params) => {
-    return request({
-        url: '/note/page', method: 'GET', params: params
-    })
+export const getNotePage = params => {
+	return request({
+		url: '/note/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,10 +56,12 @@ export const getNotePage = (params) => {
  * @param params 笔记
  * @returns {*} 结果
  */
-export const getNoteOne = (params) => {
-    return request({
-        url: '/note', method: 'GET', params: params
-    })
+export const getNoteOne = params => {
+	return request({
+		url: '/note',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -60,11 +69,11 @@ export const getNoteOne = (params) => {
  * @param id 笔记ID
  * @returns {*} 结果
  */
-export const handleTopNote = (id) => {
-    return request({
-        url: `/note/top/${id}`,
-        method: 'PUT'
-    })
+export const handleTopNote = id => {
+	return request({
+		url: `/note/top/${id}`,
+		method: 'PUT'
+	})
 }
 
 /**
@@ -72,10 +81,9 @@ export const handleTopNote = (id) => {
  * @param id 笔记ID
  * @returns {*} 结果
  */
-export const handleCommentNote = (id) => {
-    return request({
-        url: `/note/comment/${id}`,
-        method: 'PUT'
-    })
+export const handleCommentNote = id => {
+	return request({
+		url: `/note/comment/${id}`,
+		method: 'PUT'
+	})
 }
-

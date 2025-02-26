@@ -1,14 +1,16 @@
-import request from '@/utils/request.js';
+import request from '@/utils/request.js'
 
 /**
  * 添加、修改活动类别
  * @param data 活动类别
  * @returns {*} 结果
  */
-export const saveActivityCategory = (data) => {
-    return request({
-        url: '/activity/category', method: 'POST', data: data
-    })
+export const saveActivityCategory = data => {
+	return request({
+		url: '/activity/category',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveActivityCategory = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeActivityCategoryBatchByIds = (ids) => {
-    return request({
-        url: `/activity/category/${ids}`, method: 'DELETE'
-    })
+export const removeActivityCategoryBatchByIds = ids => {
+	return request({
+		url: `/activity/category/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeActivityCategoryBatchByIds = (ids) => {
  * @param params 活动类别
  * @returns {*} 结果
  */
-export const getActivityCategoryList = (params) => {
-    return request({
-        url: '/activity/category/list', method: 'GET', params: params
-    })
+export const getActivityCategoryList = params => {
+	return request({
+		url: '/activity/category/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getActivityCategoryList = (params) => {
  * @param params 活动类别
  * @returns {*} 结果
  */
-export const getActivityCategoryPage = (params) => {
-    return request({
-        url: '/activity/category/page', method: 'GET', params: params
-    })
+export const getActivityCategoryPage = params => {
+	return request({
+		url: '/activity/category/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getActivityCategoryPage = (params) => {
  * @param params 活动类别
  * @returns {*} 结果
  */
-export const getActivityCategoryOne = (params) => {
-    return request({
-        url: '/activity/category', method: 'GET', params: params
-    })
+export const getActivityCategoryOne = params => {
+	return request({
+		url: '/activity/category',
+		method: 'GET',
+		params: params
+	})
 }

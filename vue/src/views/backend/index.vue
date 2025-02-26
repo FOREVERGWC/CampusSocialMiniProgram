@@ -10,10 +10,7 @@
 					</el-icon>
 				</div>
 
-				<menu-item v-for="(item, index) in menuList"
-									 :key="index"
-									 :item="item"
-									 @click="handleClickMenu" />
+				<menu-item v-for="(item, index) in menuList" :key="index" :item="item" @click="handleClickMenu" />
 			</el-menu>
 		</el-aside>
 		<el-container>
@@ -21,25 +18,20 @@
 				<Breadcrumb />
 
 				<div class="right-container">
-					<el-button
-						size="large"
-						icon="FullScreen"
-						circle
-						@click="handleFullScreen">
-					</el-button>
+					<el-button size="large" icon="FullScreen" circle @click="handleFullScreen"></el-button>
 					<el-dropdown @command="handleCommand">
-          <span class="header-dropdown">
-            <el-avatar :src="avatar" alt="" @error="() => true">
-              <img alt="" src="@/assets/imgs/profile.png" />
-            </el-avatar>
-            <span class="header-username">{{ username }}</span>
-            <el-icon class="el-icon--right">
-              <ArrowDown />
-            </el-icon>
-          </span>
+						<span class="header-dropdown">
+							<el-avatar :src="avatar" alt="" @error="() => true">
+								<img alt="" src="@/assets/imgs/profile.png" />
+							</el-avatar>
+							<span class="header-username">{{ username }}</span>
+							<el-icon class="el-icon--right">
+								<ArrowDown />
+							</el-icon>
+						</span>
 						<template #dropdown>
 							<el-dropdown-menu>
-								<el-dropdown-item @click.native.prevent='toFrontend'>
+								<el-dropdown-item @click.native.prevent="toFrontend">
 									<span>前台</span>
 								</el-dropdown-item>
 								<el-dropdown-item divided command="profile">
@@ -59,29 +51,28 @@
 			</el-main>
 
 			<el-footer class="hidden-md-and-up">
-				<el-menu :default-active='menu' mode="horizontal" router>
+				<el-menu :default-active="menu" mode="horizontal" router>
 					<div v-for="(item, index) in menuList" :key="index">
-						<el-sub-menu v-if="item?.children?.length > 0"
-												 v-show='item.hidden'
-												 :index='item.path'>
+						<el-sub-menu v-if="item?.children?.length > 0" v-show="item.hidden" :index="item.path">
 							<template #title>
 								<el-icon>
 									<component :is="item.icon" />
 								</el-icon>
 								<span>{{ item.name }}</span>
 							</template>
-							<el-menu-item v-for='(item, index) in item.children'
-														v-show='item.visible'
-														:key='index' :index='item.path'
-														@click='handleClickMenu(item.path)'>
+							<el-menu-item
+								v-for="(item, index) in item.children"
+								v-show="item.visible"
+								:key="index"
+								:index="item.path"
+								@click="handleClickMenu(item.path)">
 								<el-icon>
 									<component :is="item.icon" />
 								</el-icon>
 								{{ item.name }}
 							</el-menu-item>
 						</el-sub-menu>
-						<el-menu-item v-else v-show='item.visible' :index="item.path"
-													@click='handleClickMenu(item.path)'>
+						<el-menu-item v-else v-show="item.visible" :index="item.path" @click="handleClickMenu(item.path)">
 							<el-icon>
 								<component :is="item.icon" />
 							</el-icon>
@@ -120,7 +111,7 @@ const isCollapse = ref(false)
 const username = ref(userStore.username)
 const avatar = computed(() => import.meta.env.VITE_APP_BASE_API + userStore.avatar)
 
-const handleClickMenu = (item) => {
+const handleClickMenu = item => {
 	console.log(item)
 }
 
@@ -141,7 +132,7 @@ const toFrontend = () => {
 	router.push('/')
 }
 
-const handleCommand = (value) => {
+const handleCommand = value => {
 	switch (value) {
 		case 'profile':
 			router.push('/profile')
@@ -169,6 +160,7 @@ const getRole = () => {
 }
 
 router.afterEach((to, from) => {
+	console.log(from)
 	breadcrumbStore.setItemList(to)
 	navigationStore.setMenu(to.path)
 })
@@ -180,6 +172,7 @@ onMounted(() => {
 watch(
 	() => router,
 	(newValue, oldValue) => {
+		console.log(oldValue)
 		menu.value = newValue.currentRoute.value.fullPath
 	},
 	{ immediate: true }
@@ -225,7 +218,7 @@ watch(
 				}
 
 				.el-icon:hover {
-					color: #409EFF;
+					color: #409eff;
 				}
 			}
 		}
@@ -263,7 +256,7 @@ watch(
 		}
 
 		.el-main {
-			background-color: #F3F8FF;
+			background-color: #f3f8ff;
 			padding: 16px;
 		}
 	}

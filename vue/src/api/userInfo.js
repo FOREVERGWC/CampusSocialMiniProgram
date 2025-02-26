@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改用户信息
  * @param data 用户信息
  * @returns {*} 结果
  */
-export const saveUserInfo = (data) => {
-    return request({
-        url: '/userInfo', method: 'POST', data: data
-    })
+export const saveUserInfo = data => {
+	return request({
+		url: '/userInfo',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveUserInfo = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeUserInfoBatchByIds = (ids) => {
-    return request({
-        url: `/userInfo/${ids}`, method: 'DELETE'
-    })
+export const removeUserInfoBatchByIds = ids => {
+	return request({
+		url: `/userInfo/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeUserInfoBatchByIds = (ids) => {
  * @param params 用户信息
  * @returns {*} 结果
  */
-export const getUserInfoList = (params) => {
-    return request({
-        url: '/userInfo/list', method: 'GET', params: params
-    })
+export const getUserInfoList = params => {
+	return request({
+		url: '/userInfo/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getUserInfoList = (params) => {
  * @param params 用户信息
  * @returns {*} 结果
  */
-export const getUserInfoPage = (params) => {
-    return request({
-        url: '/userInfo/page', method: 'GET', params: params
-    })
+export const getUserInfoPage = params => {
+	return request({
+		url: '/userInfo/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getUserInfoPage = (params) => {
  * @param params 用户信息
  * @returns {*} 结果
  */
-export const getUserInfoOne = (params) => {
-    return request({
-        url: '/userInfo', method: 'GET', params: params
-    })
+export const getUserInfoOne = params => {
+	return request({
+		url: '/userInfo',
+		method: 'GET',
+		params: params
+	})
 }

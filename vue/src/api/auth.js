@@ -1,14 +1,16 @@
-import request from "@/utils/request";
+import request from '@/utils/request'
 
 /**
  * PC端登录
  * @param data PC端登录请求体
  * @returns {*} 结果
  */
-export const login = (data) => {
-    return request({
-        url: '/login', method: 'POST', data: data
-    })
+export const login = data => {
+	return request({
+		url: '/login',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,12 @@ export const login = (data) => {
  * @param data 用户信息
  * @returns {*} 结果
  */
-export const register = (data) => {
-    return request({
-        url: '/register', method: 'POST', data: data
-    })
+export const register = data => {
+	return request({
+		url: '/register',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -27,9 +31,10 @@ export const register = (data) => {
  * @returns {*} 结果
  */
 export const logout = () => {
-    return request({
-        url: '/logout', method: 'POST'
-    })
+	return request({
+		url: '/logout',
+		method: 'POST'
+	})
 }
 
 /**
@@ -37,9 +42,10 @@ export const logout = () => {
  * @returns {*} 结果
  */
 export const getByToken = () => {
-    return request({
-        url: '/token', method: 'GET'
-    })
+	return request({
+		url: '/token',
+		method: 'GET'
+	})
 }
 
 /**
@@ -47,9 +53,10 @@ export const getByToken = () => {
  * @returns {*} 结果
  */
 export const getRoute = () => {
-    return request({
-        url: '/route', method: 'GET'
-    })
+	return request({
+		url: '/route',
+		method: 'GET'
+	})
 }
 
 /**
@@ -57,9 +64,10 @@ export const getRoute = () => {
  * @returns {*} 结果
  */
 export const getCaptcha = () => {
-    return request({
-        url: '/captcha', method: 'GET'
-    })
+	return request({
+		url: '/captcha',
+		method: 'GET'
+	})
 }
 
 /**
@@ -67,8 +75,10 @@ export const getCaptcha = () => {
  * @param data 密码信息
  * @returns {*} 结果
  */
-export const resetPassword = (data) => {
-    return request({
-        url: '/password/reset', method: 'PUT', data: data
-    })
+export const resetPassword = data => {
+	return request({
+		url: '/password/reset',
+		method: 'PUT',
+		data: data
+	})
 }

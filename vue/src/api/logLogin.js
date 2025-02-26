@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改登录日志
  * @param data 登录日志
  * @returns {*} 结果
  */
-export const saveLogLogin = (data) => {
-    return request({
-        url: '/log/login', method: 'POST', data: data
-    })
+export const saveLogLogin = data => {
+	return request({
+		url: '/log/login',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveLogLogin = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeLogLoginBatchByIds = (ids) => {
-    return request({
-        url: `/log/login/${ids}`, method: 'DELETE'
-    })
+export const removeLogLoginBatchByIds = ids => {
+	return request({
+		url: `/log/login/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeLogLoginBatchByIds = (ids) => {
  * @param params 登录日志
  * @returns {*} 结果
  */
-export const getLogLoginList = (params) => {
-    return request({
-        url: '/log/login/list', method: 'GET', params: params
-    })
+export const getLogLoginList = params => {
+	return request({
+		url: '/log/login/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getLogLoginList = (params) => {
  * @param params 登录日志
  * @returns {*} 结果
  */
-export const getLogLoginPage = (params) => {
-    return request({
-        url: '/log/login/page', method: 'GET', params: params
-    })
+export const getLogLoginPage = params => {
+	return request({
+		url: '/log/login/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,10 +56,11 @@ export const getLogLoginPage = (params) => {
  * @param id 主键ID
  * @returns {*} 结果
  */
-export const getLogLoginById = (id) => {
-    return request({
-        url: `/log/login/${id}`, method: 'GET'
-    })
+export const getLogLoginById = id => {
+	return request({
+		url: `/log/login/${id}`,
+		method: 'GET'
+	})
 }
 
 /**
@@ -60,10 +68,12 @@ export const getLogLoginById = (id) => {
  * @param params 登录日志
  * @returns {*} 结果
  */
-export const getLogLoginOne = (params) => {
-    return request({
-        url: '/log/login', method: 'GET', params: params
-    })
+export const getLogLoginOne = params => {
+	return request({
+		url: '/log/login',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -71,8 +81,11 @@ export const getLogLoginOne = (params) => {
  * @param params 登录日志
  * @returns {*} 结果
  */
-export const exportLogLoginExcel = (params) => {
-    return request({
-        url: '/log/login/export', method: 'GET', responseType: 'blob', params: params
-    })
+export const exportLogLoginExcel = params => {
+	return request({
+		url: '/log/login/export',
+		method: 'GET',
+		responseType: 'blob',
+		params: params
+	})
 }

@@ -1,4 +1,7 @@
 import {
+  getActivityCategoryList
+} from '../../../api/activity/category'
+import {
   saveActivity
 } from "../../../api/activity/index";
 
@@ -11,6 +14,10 @@ Page({
   data: {
     title: '',
     content: '',
+    categoryList: [],
+    categoryVisible: false,
+    categoryValue: [],
+    categoryLabel: '',
     detail: {},
     start: new Date().getTime(),
     startDatetimeVisible: false,
@@ -20,7 +27,19 @@ Page({
     endDatetimeValue: null,
     endDatetimeLabel: '',
     location: '',
+    props: {
+      label: 'name',
+      value: 'id'
+    },
     loading: false
+  },
+
+  getRecords() {
+    getActivityCategoryList({}).then(res => {
+      this.setData({
+        categoryList: res || []
+      })
+    })
   },
 
   onInput(e) {
@@ -47,6 +66,17 @@ Page({
     });
   },
 
+  onPickerChange(e) {
+    const key = e.currentTarget.dataset.key;
+    const label = e.detail.label
+    const value = e.detail.value;
+    this.setData({
+      [`${key}Visible`]: false,
+      [`${key}Value`]: value,
+      [`${key}Label`]: label[0],
+    });
+  },
+
   onPickerCancel(e) {
     const key = e.currentTarget.dataset.key;
     this.setData({
@@ -61,6 +91,7 @@ Page({
     const data = {
       title: this.data.title,
       content: this.data.content,
+      categoryId: this.data.categoryValue[0],
       startDatetime: this.data.startDatetimeValue,
       endDatetime: this.data.endDatetimeValue,
       location: this.data.location
@@ -101,7 +132,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getRecords()
   },
 
   /**

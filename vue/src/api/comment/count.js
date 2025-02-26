@@ -1,14 +1,16 @@
-import request from '@/utils/request.js';
+import request from '@/utils/request.js'
 
 /**
  * 添加、修改评论量
  * @param data 评论量
  * @returns {*} 结果
  */
-export const saveCountComment = (data) => {
-    return request({
-        url: '/countComment', method: 'POST', data: data
-    })
+export const saveCountComment = data => {
+	return request({
+		url: '/countComment',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveCountComment = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeCountCommentBatchByIds = (ids) => {
-    return request({
-        url: `/countComment/${ids}`, method: 'DELETE'
-    })
+export const removeCountCommentBatchByIds = ids => {
+	return request({
+		url: `/countComment/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeCountCommentBatchByIds = (ids) => {
  * @param params 评论量
  * @returns {*} 结果
  */
-export const getCountCommentList = (params) => {
-    return request({
-        url: '/countComment/list', method: 'GET', params: params
-    })
+export const getCountCommentList = params => {
+	return request({
+		url: '/countComment/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getCountCommentList = (params) => {
  * @param params 评论量
  * @returns {*} 结果
  */
-export const getCountCommentPage = (params) => {
-    return request({
-        url: '/countComment/page', method: 'GET', params: params
-    })
+export const getCountCommentPage = params => {
+	return request({
+		url: '/countComment/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getCountCommentPage = (params) => {
  * @param params 评论量
  * @returns {*} 结果
  */
-export const getCountCommentOne = (params) => {
-    return request({
-        url: '/countComment', method: 'GET', params: params
-    })
+export const getCountCommentOne = params => {
+	return request({
+		url: '/countComment',
+		method: 'GET',
+		params: params
+	})
 }

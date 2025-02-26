@@ -1,14 +1,16 @@
-import request from '@/utils/request.js';
+import request from '@/utils/request.js'
 
 /**
  * 添加、修改收藏量
  * @param data 收藏量
  * @returns {*} 结果
  */
-export const saveCountFavorite = (data) => {
-    return request({
-        url: '/countFavorite', method: 'POST', data: data
-    })
+export const saveCountFavorite = data => {
+	return request({
+		url: '/countFavorite',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveCountFavorite = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeCountFavoriteBatchByIds = (ids) => {
-    return request({
-        url: `/countFavorite/${ids}`, method: 'DELETE'
-    })
+export const removeCountFavoriteBatchByIds = ids => {
+	return request({
+		url: `/countFavorite/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeCountFavoriteBatchByIds = (ids) => {
  * @param params 收藏量
  * @returns {*} 结果
  */
-export const getCountFavoriteList = (params) => {
-    return request({
-        url: '/countFavorite/list', method: 'GET', params: params
-    })
+export const getCountFavoriteList = params => {
+	return request({
+		url: '/countFavorite/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getCountFavoriteList = (params) => {
  * @param params 收藏量
  * @returns {*} 结果
  */
-export const getCountFavoritePage = (params) => {
-    return request({
-        url: '/countFavorite/page', method: 'GET', params: params
-    })
+export const getCountFavoritePage = params => {
+	return request({
+		url: '/countFavorite/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getCountFavoritePage = (params) => {
  * @param params 收藏量
  * @returns {*} 结果
  */
-export const getCountFavoriteOne = (params) => {
-    return request({
-        url: '/countFavorite', method: 'GET', params: params
-    })
+export const getCountFavoriteOne = params => {
+	return request({
+		url: '/countFavorite',
+		method: 'GET',
+		params: params
+	})
 }

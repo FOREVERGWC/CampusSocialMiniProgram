@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改用户信息
  * @param data 用户信息
  * @returns {*} 结果
  */
-export const saveUser = (data) => {
-    return request({
-        url: '/user', method: 'POST', data: data
-    })
+export const saveUser = data => {
+	return request({
+		url: '/user',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveUser = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeUserBatchByIds = (ids) => {
-    return request({
-        url: `/user/${ids}`, method: 'DELETE'
-    })
+export const removeUserBatchByIds = ids => {
+	return request({
+		url: `/user/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeUserBatchByIds = (ids) => {
  * @param params 用户信息
  * @returns {*} 结果
  */
-export const getUserList = (params) => {
-    return request({
-        url: '/user/list', method: 'GET', params: params
-    })
+export const getUserList = params => {
+	return request({
+		url: '/user/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getUserList = (params) => {
  * @param params 用户信息
  * @returns {*} 结果
  */
-export const getUserPage = (params) => {
-    return request({
-        url: '/user/page', method: 'GET', params: params
-    })
+export const getUserPage = params => {
+	return request({
+		url: '/user/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,10 +56,11 @@ export const getUserPage = (params) => {
  * @param id 主键ID
  * @returns {*} 结果
  */
-export const getUserById = (id) => {
-    return request({
-        url: `/user`, method: 'GET'
-    })
+export const getUserById = id => {
+	return request({
+		url: `/user/${id}`,
+		method: 'GET'
+	})
 }
 
 /**
@@ -60,10 +68,12 @@ export const getUserById = (id) => {
  * @param params 用户信息
  * @returns {*} 结果
  */
-export const getUserOne = (params) => {
-    return request({
-        url: '/user', method: 'GET', params: params
-    })
+export const getUserOne = params => {
+	return request({
+		url: '/user',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -71,10 +81,13 @@ export const getUserOne = (params) => {
  * @param params 用户
  * @returns {*} 结果
  */
-export const exportUserExcel = (params) => {
-    return request({
-        url: '/user/export', method: 'GET', responseType: 'blob', params: params
-    })
+export const exportUserExcel = params => {
+	return request({
+		url: '/user/export',
+		method: 'GET',
+		responseType: 'blob',
+		params: params
+	})
 }
 
 /**
@@ -82,10 +95,11 @@ export const exportUserExcel = (params) => {
  * @param id 用户ID
  * @returns {*} 结果
  */
-export const handleStatusUser = (id) => {
-    return request({
-        url: `/user/status/${id}`, method: 'PUT'
-    })
+export const handleStatusUser = id => {
+	return request({
+		url: `/user/status/${id}`,
+		method: 'PUT'
+	})
 }
 
 /**
@@ -93,8 +107,10 @@ export const handleStatusUser = (id) => {
  * @param data 角色分配信息
  * @returns {*} 结果
  */
-export const handleUserRole = (data) => {
-    return request({
-        url: '/user/role', method: 'POST', data: data
-    })
+export const handleUserRole = data => {
+	return request({
+		url: '/user/role',
+		method: 'POST',
+		data: data
+	})
 }

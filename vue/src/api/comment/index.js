@@ -1,14 +1,16 @@
-import request from '@/utils/request.js';
+import request from '@/utils/request.js'
 
 /**
  * 添加、修改评论
  * @param data 评论
  * @returns {*} 结果
  */
-export const saveComment = (data) => {
-    return request({
-        url: '/comment', method: 'POST', data: data
-    })
+export const saveComment = data => {
+	return request({
+		url: '/comment',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveComment = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeCommentBatchByIds = (ids) => {
-    return request({
-        url: `/comment/${ids}`, method: 'DELETE'
-    })
+export const removeCommentBatchByIds = ids => {
+	return request({
+		url: `/comment/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeCommentBatchByIds = (ids) => {
  * @param params 评论
  * @returns {*} 结果
  */
-export const getCommentList = (params) => {
-    return request({
-        url: '/comment/list', method: 'GET', params: params
-    })
+export const getCommentList = params => {
+	return request({
+		url: '/comment/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getCommentList = (params) => {
  * @param params 评论
  * @returns {*} 结果
  */
-export const getCommentPage = (params) => {
-    return request({
-        url: '/comment/page', method: 'GET', params: params
-    })
+export const getCommentPage = params => {
+	return request({
+		url: '/comment/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getCommentPage = (params) => {
  * @param params 评论
  * @returns {*} 结果
  */
-export const getCommentOne = (params) => {
-    return request({
-        url: '/comment', method: 'GET', params: params
-    })
+export const getCommentOne = params => {
+	return request({
+		url: '/comment',
+		method: 'GET',
+		params: params
+	})
 }

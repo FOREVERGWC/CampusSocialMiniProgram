@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改字典类型
  * @param data 字典类型
  * @returns {*} 结果
  */
-export const saveDictType = (data) => {
-    return request({
-        url: '/dict/type', method: 'POST', data: data
-    })
+export const saveDictType = data => {
+	return request({
+		url: '/dict/type',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveDictType = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeDictTypeBatchByIds = (ids) => {
-    return request({
-        url: `/dict/type/${ids}`, method: 'DELETE'
-    })
+export const removeDictTypeBatchByIds = ids => {
+	return request({
+		url: `/dict/type/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeDictTypeBatchByIds = (ids) => {
  * @param params 字典类型
  * @returns {*} 结果
  */
-export const getDictTypeList = (params) => {
-    return request({
-        url: '/dict/type/list', method: 'GET', params: params
-    })
+export const getDictTypeList = params => {
+	return request({
+		url: '/dict/type/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getDictTypeList = (params) => {
  * @param params 字典类型
  * @returns {*} 结果
  */
-export const getDictTypePage = (params) => {
-    return request({
-        url: '/dict/type/page', method: 'GET', params: params
-    })
+export const getDictTypePage = params => {
+	return request({
+		url: '/dict/type/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,10 +56,11 @@ export const getDictTypePage = (params) => {
  * @param id 主键ID
  * @returns {*} 结果
  */
-export const getDictTypeById = (id) => {
-    return request({
-        url: `/dict/type/${id}`, method: 'GET'
-    })
+export const getDictTypeById = id => {
+	return request({
+		url: `/dict/type/${id}`,
+		method: 'GET'
+	})
 }
 
 /**
@@ -60,10 +68,12 @@ export const getDictTypeById = (id) => {
  * @param params 字典类型
  * @returns {*} 结果
  */
-export const getDictTypeOne = (params) => {
-    return request({
-        url: '/dict/type', method: 'GET', params: params
-    })
+export const getDictTypeOne = params => {
+	return request({
+		url: '/dict/type',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -71,10 +81,13 @@ export const getDictTypeOne = (params) => {
  * @param params 字典类型
  * @returns {*} 结果
  */
-export const exportDictTypeExcel = (params) => {
-    return request({
-        url: '/dict/type/export', method: 'GET', responseType: 'blob', params: params
-    })
+export const exportDictTypeExcel = params => {
+	return request({
+		url: '/dict/type/export',
+		method: 'GET',
+		responseType: 'blob',
+		params: params
+	})
 }
 
 /**
@@ -82,9 +95,9 @@ export const exportDictTypeExcel = (params) => {
  * @param id 字典类型ID
  * @returns {*} 结果
  */
-export const handleStatusDictType = (id) => {
-    return request({
-        url: `/dict/type/status/${id}`,
-        method: 'PUT'
-    })
+export const handleStatusDictType = id => {
+	return request({
+		url: `/dict/type/status/${id}`,
+		method: 'PUT'
+	})
 }

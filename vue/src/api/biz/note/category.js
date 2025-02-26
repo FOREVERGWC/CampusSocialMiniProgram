@@ -1,14 +1,16 @@
-import request from '@/utils/request.js';
+import request from '@/utils/request.js'
 
 /**
  * 添加、修改笔记类别
  * @param data 笔记类别
  * @returns {*} 结果
  */
-export const saveNoteCategory = (data) => {
-    return request({
-        url: '/note/category', method: 'POST', data: data
-    })
+export const saveNoteCategory = data => {
+	return request({
+		url: '/note/category',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveNoteCategory = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeNoteCategoryBatchByIds = (ids) => {
-    return request({
-        url: `/note/category/${ids}`, method: 'DELETE'
-    })
+export const removeNoteCategoryBatchByIds = ids => {
+	return request({
+		url: `/note/category/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeNoteCategoryBatchByIds = (ids) => {
  * @param params 笔记类别
  * @returns {*} 结果
  */
-export const getNoteCategoryList = (params) => {
-    return request({
-        url: '/note/category/list', method: 'GET', params: params
-    })
+export const getNoteCategoryList = params => {
+	return request({
+		url: '/note/category/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getNoteCategoryList = (params) => {
  * @param params 笔记类别
  * @returns {*} 结果
  */
-export const getNoteCategoryPage = (params) => {
-    return request({
-        url: '/note/category/page', method: 'GET', params: params
-    })
+export const getNoteCategoryPage = params => {
+	return request({
+		url: '/note/category/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getNoteCategoryPage = (params) => {
  * @param params 笔记类别
  * @returns {*} 结果
  */
-export const getNoteCategoryOne = (params) => {
-    return request({
-        url: '/note/category', method: 'GET', params: params
-    })
+export const getNoteCategoryOne = params => {
+	return request({
+		url: '/note/category',
+		method: 'GET',
+		params: params
+	})
 }

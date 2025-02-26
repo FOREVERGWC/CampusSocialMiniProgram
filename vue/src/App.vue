@@ -5,9 +5,7 @@
 	</div>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
 
 <style lang="scss">
 * {
@@ -16,7 +14,9 @@
 	box-sizing: border-box;
 }
 
-html, body, #app {
+html,
+body,
+#app {
 	height: 100%;
 	margin: 0;
 	font-size: 14px;

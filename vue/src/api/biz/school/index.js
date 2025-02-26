@@ -1,14 +1,16 @@
-import request from '@/utils/request.js';
+import request from '@/utils/request.js'
 
 /**
  * 添加、修改学校
  * @param data 学校
  * @returns {*} 结果
  */
-export const saveSchool = (data) => {
-    return request({
-        url: '/school', method: 'POST', data: data
-    })
+export const saveSchool = data => {
+	return request({
+		url: '/school',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const saveSchool = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removeSchoolBatchByIds = (ids) => {
-    return request({
-        url: `/school/${ids}`, method: 'DELETE'
-    })
+export const removeSchoolBatchByIds = ids => {
+	return request({
+		url: `/school/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removeSchoolBatchByIds = (ids) => {
  * @param params 学校
  * @returns {*} 结果
  */
-export const getSchoolList = (params) => {
-    return request({
-        url: '/school/list', method: 'GET', params: params
-    })
+export const getSchoolList = params => {
+	return request({
+		url: '/school/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getSchoolList = (params) => {
  * @param params 学校
  * @returns {*} 结果
  */
-export const getSchoolPage = (params) => {
-    return request({
-        url: '/school/page', method: 'GET', params: params
-    })
+export const getSchoolPage = params => {
+	return request({
+		url: '/school/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,8 +56,10 @@ export const getSchoolPage = (params) => {
  * @param params 学校
  * @returns {*} 结果
  */
-export const getSchoolOne = (params) => {
-    return request({
-        url: '/school', method: 'GET', params: params
-    })
+export const getSchoolOne = params => {
+	return request({
+		url: '/school',
+		method: 'GET',
+		params: params
+	})
 }

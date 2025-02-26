@@ -1,4 +1,4 @@
-import {createApp} from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import '@/router/permission.js'
@@ -29,38 +29,38 @@ import MenuItem from '@/components/MenuItem/index.js'
 // 面包屑导航组件
 import Breadcrumb from '@/components/Breadcrumb/index.js'
 // 头像上传组件
-import AvatarUpload from "@/components/AvatarUpload/index.js";
+import AvatarUpload from '@/components/AvatarUpload/index.js'
 // 图片上传组件
-import PictureUpload from "@/components/PictureUpload/index.js";
+import PictureUpload from '@/components/PictureUpload/index.js'
 // 图标选择组件
-import IconPicker from "@/components/IconPicker/index.js";
+import IconPicker from '@/components/IconPicker/index.js'
 // 倒计时按钮组件
-import CountDownButton from "@/components/CountDownButton/index.js";
+import CountDownButton from '@/components/CountDownButton/index.js'
 // 字典组件
-import DictItem from "@/components/DictItem/index.js";
-import DictSelect from "@/components/DictSelect/index.js";
+import DictItem from '@/components/DictItem/index.js'
+import DictSelect from '@/components/DictSelect/index.js'
 // 版权备案组件
-import CopyrightIcp from "@/components/CopyrightIcp/index.js";
+import CopyrightIcp from '@/components/CopyrightIcp/index.js'
 // 评论区组件
 import CommentList from '@/components/CommentList/index.js'
 // 自定义样式表
 import '@/assets/css/index.scss'
 
 VueMarkdownEditor.use(vuepressTheme, {
-    Prism
+	Prism
 })
 VMdPreview.use(githubTheme, {
-    Hljs: hljs
+	Hljs: hljs
 })
 
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
-app.use(ElementPlus, {size: 'small', locale: zhCn})
+app.use(ElementPlus, { size: 'small', locale: zhCn })
 // 禁止点击空白处关闭对话框
 app._context.components.ElDialog.props.closeOnClickModal.default = false
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    app.component(key, component)
+	app.component(key, component)
 }
 app.use(VueMarkdownEditor)
 app.use(VMdPreview)

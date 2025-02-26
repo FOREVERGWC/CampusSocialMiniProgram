@@ -1,14 +1,16 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
 /**
  * 添加、修改权限
  * @param data 权限
  * @returns {*} 结果
  */
-export const savePermission = (data) => {
-    return request({
-        url: '/permission', method: 'POST', data: data
-    })
+export const savePermission = data => {
+	return request({
+		url: '/permission',
+		method: 'POST',
+		data: data
+	})
 }
 
 /**
@@ -16,10 +18,11 @@ export const savePermission = (data) => {
  * @param ids ID列表
  * @returns {*} 结果
  */
-export const removePermissionBatchByIds = (ids) => {
-    return request({
-        url: `/permission/${ids}`, method: 'DELETE'
-    })
+export const removePermissionBatchByIds = ids => {
+	return request({
+		url: `/permission/${ids}`,
+		method: 'DELETE'
+	})
 }
 
 /**
@@ -27,10 +30,12 @@ export const removePermissionBatchByIds = (ids) => {
  * @param params 权限
  * @returns {*} 结果
  */
-export const getPermissionList = (params) => {
-    return request({
-        url: '/permission/list', method: 'GET', params: params
-    })
+export const getPermissionList = params => {
+	return request({
+		url: '/permission/list',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -38,10 +43,12 @@ export const getPermissionList = (params) => {
  * @param params 权限
  * @returns {*} 结果
  */
-export const getPermissionTree = (params) => {
-    return request({
-        url: '/permission/tree', method: 'GET', params: params
-    })
+export const getPermissionTree = params => {
+	return request({
+		url: '/permission/tree',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -49,10 +56,12 @@ export const getPermissionTree = (params) => {
  * @param params 权限
  * @returns {*} 结果
  */
-export const getPermissionPage = (params) => {
-    return request({
-        url: '/permission/page', method: 'GET', params: params
-    })
+export const getPermissionPage = params => {
+	return request({
+		url: '/permission/page',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -60,10 +69,11 @@ export const getPermissionPage = (params) => {
  * @param id 主键ID
  * @returns {*} 结果
  */
-export const getPermissionById = (id) => {
-    return request({
-        url: `/permission/${id}`, method: 'GET'
-    })
+export const getPermissionById = id => {
+	return request({
+		url: `/permission/${id}`,
+		method: 'GET'
+	})
 }
 
 /**
@@ -71,10 +81,12 @@ export const getPermissionById = (id) => {
  * @param params 权限
  * @returns {*} 结果
  */
-export const getPermissionOne = (params) => {
-    return request({
-        url: '/permission', method: 'GET', params: params
-    })
+export const getPermissionOne = params => {
+	return request({
+		url: '/permission',
+		method: 'GET',
+		params: params
+	})
 }
 
 /**
@@ -82,10 +94,13 @@ export const getPermissionOne = (params) => {
  * @param params 权限
  * @returns {*} 结果
  */
-export const exportPermissionExcel = (params) => {
-    return request({
-        url: '/permission/export', method: 'GET', responseType: 'blob', params: params
-    })
+export const exportPermissionExcel = params => {
+	return request({
+		url: '/permission/export',
+		method: 'GET',
+		responseType: 'blob',
+		params: params
+	})
 }
 
 /**
@@ -93,11 +108,11 @@ export const exportPermissionExcel = (params) => {
  * @param id 权限ID
  * @returns {*} 结果
  */
-export const handleStatusPermission = (id) => {
-    return request({
-        url: `/permission/status/${id}`,
-        method: 'PUT'
-    })
+export const handleStatusPermission = id => {
+	return request({
+		url: `/permission/status/${id}`,
+		method: 'PUT'
+	})
 }
 
 /**
@@ -105,9 +120,9 @@ export const handleStatusPermission = (id) => {
  * @param roleId 角色ID
  * @returns {*} 结果
  */
-export const getPermissionListByRoleId = (roleId) => {
-    return request({
-        url: `/permission/role/${roleId}`,
-        method: 'GET'
-    })
+export const getPermissionListByRoleId = roleId => {
+	return request({
+		url: `/permission/role/${roleId}`,
+		method: 'GET'
+	})
 }
