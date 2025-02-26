@@ -14,6 +14,19 @@ export const saveUser = data => {
 }
 
 /**
+ * 修改用户信息
+ * @param data 用户信息
+ * @returns {*} 结果
+ */
+export const editUser = data => {
+	return request({
+		url: '/user',
+		method: 'PATCH',
+		data: data
+	})
+}
+
+/**
  * 删除用户信息
  * @param ids ID列表
  * @returns {*} 结果
@@ -112,5 +125,17 @@ export const handleUserRole = data => {
 		url: '/user/role',
 		method: 'POST',
 		data: data
+	})
+}
+
+/**
+ * 重置密码
+ * @param id 用户ID
+ * @returns {*} 结果
+ */
+export const handleResetUserPassword = id => {
+	return request({
+		url: `/user/password/reset/${id}`,
+		method: 'PUT'
 	})
 }

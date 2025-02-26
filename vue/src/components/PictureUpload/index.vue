@@ -4,7 +4,9 @@
 		list-type="picture-card"
 		:file-list="fileList"
 		:before-upload="beforeUpload"
-		:http-request="customUpload">
+		:http-request="customUpload"
+		:on-success="handleSuccess"
+		:on-remove="handleRemove">
 		<el-icon class="avatar-uploader-icon">
 			<Plus />
 		</el-icon>
@@ -12,10 +14,11 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { checkFile, uploadFile } from '@/api/file'
 import SparkMD5 from 'spark-md5'
+import { removeAttachmentBatchByIds } from '@/api/sys/attachment/index.js'
 
 const props = defineProps({
 	modelValue: {
@@ -46,13 +49,14 @@ const updateUrl = () => {
 	if (props.modelValue instanceof String) {
 		fileList.value = [
 			{
-				name: props.modelValue,
+				name: '',
 				url: `${import.meta.env.VITE_APP_BASE_API}${props.modelValue}`
 			}
 		]
 	} else if (props.modelValue instanceof Array) {
 		props.modelValue.forEach(item => {
 			fileList.value.push({
+				id: item.id,
 				name: item.fileName,
 				url: `${import.meta.env.VITE_APP_BASE_API}${item.filePath}`
 			})
@@ -103,6 +107,7 @@ const customUpload = async params => {
 		return
 	}
 	let modelValue
+	let result = {}
 	for (let i = 0; i < chunkTotal; i++) {
 		if (data.indexList && data.indexList.length > 0 && !data.indexList.includes(i)) {
 			continue
@@ -112,23 +117,20 @@ const customUpload = async params => {
 			params.onError()
 			return
 		}
-		modelValue = res.data
+		modelValue = res.data.filePath
+		result = res.data
 	}
 	emit('update:modelValue', modelValue)
 	url.value = `${import.meta.env.VITE_APP_BASE_API}${modelValue}`
 	ElMessage.success('上传成功！')
-	params.onSuccess()
+	params.onSuccess(result)
 	emit('success', modelValue)
 }
 
 const createChunks = (file, chunkSize) => {
-	const chunks = Array.from({ length: Math.ceil(file.size / chunkSize) }, (_, index) => {
-		const chunk = file.slice(index * chunkSize, Math.min((index + 1) * chunkSize, file.size))
-		console.log(`Chunk ${index} size:`, chunk.size) // 添加日志
-		return chunk
+	return Array.from({ length: Math.ceil(file.size / chunkSize) }, (_, index) => {
+		return file.slice(index * chunkSize, Math.min((index + 1) * chunkSize, file.size))
 	})
-	console.log('Total chunks:', chunks.length) // 添加日志
-	return chunks
 }
 
 const getHashCode = chunks => {
@@ -138,7 +140,6 @@ const getHashCode = chunks => {
 		const read = i => {
 			if (i >= chunks.length) {
 				const result = spark.end()
-				console.log('Final hash:', result)
 				resolve(result)
 				return
 			}
@@ -148,12 +149,6 @@ const getHashCode = chunks => {
 
 			reader.onload = e => {
 				const arrayBuffer = e.target.result
-				console.log(`Processing chunk ${i}:`, {
-					chunkSize: blob.size,
-					arrayBufferSize: arrayBuffer.byteLength,
-					chunkType: blob.type
-				})
-
 				spark.append(arrayBuffer)
 				read(i + 1)
 			}
@@ -189,6 +184,21 @@ const uploadChunk = (chunk, hashCode, fileName, fileSize, chunkSize, chunkIndex,
 			resolve(res)
 		})
 	})
+}
+
+const handleSuccess = (response, uploadFile, uploadFiles) => {
+	console.log(response, uploadFile, uploadFiles)
+}
+
+const handleRemove = (uploadFile, uploadFiles) => {
+	removeAttachmentBatchByIds([uploadFile.id]).then(res => {
+		if (res.code !== 200) {
+			ElMessage.error(res.msg)
+			return
+		}
+		ElMessage.success('删除成功！')
+	})
+	console.log(uploadFiles)
 }
 
 watch(() => props.modelValue, updateUrl)

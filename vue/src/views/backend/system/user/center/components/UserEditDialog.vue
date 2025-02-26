@@ -29,7 +29,7 @@
 					<el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value" />
 				</el-select>
 			</el-form-item>
-			<el-form-item label="电话" prop="phone">
+			<el-form-item label="手机" prop="phone">
 				<el-input v-model="form.data.phone" autocomplete="new" />
 			</el-form-item>
 			<el-form-item label="邮箱" prop="email">

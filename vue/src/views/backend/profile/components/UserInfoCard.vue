@@ -22,8 +22,11 @@
 					<span v-else>
 						{{ field.value || '未填写' }}
 					</span>
-					<el-icon class="edit-icon" @click="field.editing = true">
+					<el-icon v-if="field.key !== 'email'" class="edit-icon" @click="field.editing = true">
 						<Edit />
+					</el-icon>
+					<el-icon v-else class="lock-icon">
+						<Lock />
 					</el-icon>
 				</p>
 
@@ -47,7 +50,8 @@
 						type="date"
 						placeholder="请选择生日"
 						value-format="YYYY-MM-DD"
-						@blur="handleFieldSave(field)" />
+						@blur="handleFieldSave(field)"
+						:disabled-date="disabledAfterToday" />
 				</el-form-item>
 			</div>
 		</div>
@@ -59,7 +63,8 @@ import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Edit } from '@element-plus/icons-vue'
 import AvatarUpload from '@/components/AvatarUpload/index.js'
-import { saveUser } from '@/api/sys/user/index.js'
+import { saveUser, editUser } from '@/api/sys/user/index.js'
+import { disabledAfterToday, formatDate } from '@/utils/common.js'
 
 const props = defineProps({
 	user: {
@@ -86,7 +91,7 @@ const editableFields = ref([
 	{ key: 'name', label: '姓名', value: localUser.value.name, editing: false },
 	{ key: 'gender', label: '性别', value: localUser.value.gender, editing: false },
 	{ key: 'email', label: '邮箱', value: localUser.value.email, editing: false },
-	{ key: 'phone', label: '电话', value: localUser.value.phone, editing: false },
+	{ key: 'phone', label: '手机', value: localUser.value.phone, editing: false },
 	{ key: 'birthday', label: '生日', value: localUser.value.birthday, editing: false }
 ])
 
@@ -106,10 +111,14 @@ const handleFieldSave = field => {
 	field.editing = false
 	const data = { id: localUser.value.id, [field.key]: field.value }
 
-	saveUser(data)
-		.then(() => {
+	editUser(data)
+		.then(res => {
+			if (res.code !== 200) {
+				ElMessage.error(`${field.label}更新失败！${res.msg}`)
+				return
+			}
 			ElMessage.success(`${field.label}更新成功`)
-			emit('refreshUser') // 触发父组件的刷新函数
+			emit('refreshUser')
 		})
 		.catch(() => {
 			ElMessage.error(`${field.label}更新失败`)
@@ -142,6 +151,10 @@ const handleAvatarUploadSuccess = response => {
 
 	.edit-icon {
 		cursor: pointer;
+		margin-left: 8px;
+	}
+
+	.lock-icon {
 		margin-left: 8px;
 	}
 

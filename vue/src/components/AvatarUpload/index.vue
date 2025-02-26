@@ -80,7 +80,12 @@ const customUpload = async params => {
 		})
 	})
 	if (data.hasUpload) {
+		let modelValue = data.attachment.filePath
+		emit('update:modelValue', modelValue)
+		url.value = `${import.meta.env.VITE_APP_BASE_API}${modelValue}`
 		ElMessage.success('上传成功！')
+		params.onSuccess()
+		emit('success', modelValue)
 		return
 	}
 	let modelValue
@@ -93,7 +98,7 @@ const customUpload = async params => {
 			params.onError()
 			return
 		}
-		modelValue = res.data
+		modelValue = res.data.filePath
 	}
 	emit('update:modelValue', modelValue)
 	url.value = `${import.meta.env.VITE_APP_BASE_API}${modelValue}`
@@ -115,7 +120,6 @@ const getHashCode = chunks => {
 		const read = i => {
 			if (i >= chunks.length) {
 				const result = spark.end()
-				console.log('Final hash:', result)
 				resolve(result)
 				return
 			}
@@ -125,12 +129,6 @@ const getHashCode = chunks => {
 
 			reader.onload = e => {
 				const arrayBuffer = e.target.result
-				console.log(`Processing chunk ${i}:`, {
-					chunkSize: blob.size,
-					arrayBufferSize: arrayBuffer.byteLength,
-					chunkType: blob.type
-				})
-
 				spark.append(arrayBuffer)
 				read(i + 1)
 			}

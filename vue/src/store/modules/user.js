@@ -72,10 +72,20 @@ const useUserStore = defineStore('user', {
 			return new Promise((resolve, reject) => {
 				logout()
 					.then(() => {
+						this.user = {}
 						this.id = ''
 						this.username = ''
 						this.nickname = ''
 						this.name = ''
+						this.avatar = ''
+						this.gender = ''
+						this.birthday = ''
+						this.status = ''
+						this.phone = ''
+						this.email = ''
+						this.openId = ''
+						this.loginIp = ''
+						this.loginTime = ''
 						this.token = ''
 						this.roleIdList = []
 						resolve()

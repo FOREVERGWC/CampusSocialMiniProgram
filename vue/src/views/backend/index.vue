@@ -18,7 +18,7 @@
 				<Breadcrumb />
 
 				<div class="right-container">
-					<el-button size="large" icon="FullScreen" circle @click="handleFullScreen"></el-button>
+					<el-button size="large" icon="FullScreen" circle @click="handleFullScreen" />
 					<el-dropdown @command="handleCommand">
 						<span class="header-dropdown">
 							<el-avatar :src="avatar" alt="" @error="() => true">
@@ -109,7 +109,7 @@ const menu = ref(router.currentRoute.value.fullPath)
 const menuList = computed(() => permissionStore.sidebarRouters)
 const isCollapse = ref(false)
 const username = ref(userStore.username)
-const avatar = computed(() => import.meta.env.VITE_APP_BASE_API + userStore.avatar)
+const avatar = computed(() => import.meta.env.VITE_APP_BASE_API + userStore.user.avatar)
 
 const handleClickMenu = item => {
 	console.log(item)
@@ -154,7 +154,10 @@ const handleCommand = value => {
 }
 
 const getRole = () => {
-	getRoleList({}).then(res => {
+	const params = {
+		status: 1
+	}
+	getRoleList(params).then(res => {
 		roleStore.setRoleList(res.data)
 	})
 }

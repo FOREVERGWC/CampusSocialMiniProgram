@@ -3,12 +3,12 @@
 		<el-row :gutter="8">
 			<el-col :lg="6" :md="6" :sm="12" :xl="6" :xs="12">
 				<el-card>
-					<el-statistic :value="info.articleCount">
+					<el-statistic :value="info.noteCount">
 						<template #title>
 							<el-icon>
 								<Notebook />
 							</el-icon>
-							文章
+							帖子
 						</template>
 					</el-statistic>
 				</el-card>
@@ -79,7 +79,7 @@ import { onMounted, ref } from 'vue'
 import { getDashboardInfo } from '@/api/biz/statistics/index.js'
 
 const info = ref({
-	articleCount: 0,
+	noteCount: 0,
 	userCount: 0,
 	commentCount: 0,
 	viewCount: 0

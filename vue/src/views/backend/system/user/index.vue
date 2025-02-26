@@ -30,7 +30,7 @@
 							</el-select>
 						</el-col>
 						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.phone" clearable placeholder="请输入电话" />
+							<el-input v-model="queryParams.phone" clearable placeholder="请输入手机" />
 						</el-col>
 						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
 							<el-input v-model="queryParams.email" clearable placeholder="请输入邮箱" />
@@ -197,7 +197,7 @@
 						</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="电话" prop="phone" />
+				<el-table-column label="手机" prop="phone" />
 				<el-table-column label="邮箱" prop="email" />
 				<el-table-column label="最后登录IP" prop="loginIp" />
 				<el-table-column label="最后登录时间" prop="loginTime" width="150" />
@@ -205,7 +205,7 @@
 				<el-table-column label="操作" width="380">
 					<template v-slot="{ row }">
 						<el-button icon="EditPen" @click="showAssign(row)">分配</el-button>
-						<el-button icon="EditPen" @click="showAssign(row)">重置</el-button>
+						<el-button icon="EditPen" @click="handleResetPassword(row)">重置</el-button>
 						<el-button icon="Edit" plain type="primary" @click="showEdit(row)">编辑</el-button>
 						<el-popconfirm title="确认删除该行吗？" @confirm="handleDelete(row.id)">
 							<template #reference>
@@ -256,7 +256,7 @@
 						<el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value" />
 					</el-select>
 				</el-form-item>
-				<el-form-item label="电话" prop="phone">
+				<el-form-item label="手机" prop="phone">
 					<el-input v-model="form.data.phone" autocomplete="new" />
 				</el-form-item>
 				<el-form-item label="邮箱" prop="email">
@@ -289,7 +289,14 @@
 <script setup>
 import RoleAssign from './components/RoleAssign.vue'
 import { computed, nextTick, onMounted, reactive, ref } from 'vue'
-import { getUserOne, getUserPage, handleStatusUser, removeUserBatchByIds, saveUser } from '@/api/sys/user/index.js'
+import {
+	getUserOne,
+	getUserPage,
+	handleStatusUser,
+	removeUserBatchByIds,
+	saveUser,
+	handleResetUserPassword
+} from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 import { addDataRange, disabledAfterToday, downloadFile, genderList, statusList } from '@/utils/common.js'
 import useRoleStore from '@/store/modules/role.js'
@@ -338,7 +345,7 @@ const rules = {
 	username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
 	password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
 	status: [{ required: true, message: '请选择状态', trigger: 'change' }],
-	phone: [{ required: true, message: '请输入电话', trigger: 'blur' }],
+	phone: [{ required: true, message: '请输入手机', trigger: 'blur' }],
 	email: [{ required: true, message: '请输入邮箱', trigger: 'blur' }],
 	balance: [{ required: true, message: '请输入余额', trigger: 'blur' }]
 }
@@ -412,6 +419,17 @@ const handleSearch = () => {
 	addDataRange(queryParams, loginTimeRange.value, 'LoginTime')
 	addDataRange(queryParams, createTimeRange.value, 'CreateTime')
 	getRecords()
+}
+
+const handleResetPassword = id => {
+	const params = id || ids.value
+	handleResetUserPassword(params).then(res => {
+		if (res.code !== 200) {
+			ElMessage.error(res.msg)
+			return
+		}
+		ElMessage.success('重置成功！')
+	})
 }
 
 const handleReset = () => {

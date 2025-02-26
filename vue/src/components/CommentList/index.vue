@@ -33,11 +33,9 @@
 									<span class="font-medium">{{ reply.user?.name }}</span>
 									<span class="text-gray-400" v-if="reply.replyId !== item.id">回复</span>
 									<span class="font-medium" v-if="reply.replyId !== item.id">
-										{{
-											reply.replyUserId === item.userId
-												? item.user?.name
-												: getReplyUser(item.children, reply.replyUserId)?.name
-										}}
+										{{ reply.replyUserId === item.userId
+										? item.user?.name
+										: getReplyUser(item.children, reply.replyUserId)?.name }}
 									</span>
 								</div>
 								<p class="mt-1 text-gray-700">{{ reply.content }}</p>
@@ -81,7 +79,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { getCommentPage, saveComment } from '@/api/sys/comment/index.js'
 

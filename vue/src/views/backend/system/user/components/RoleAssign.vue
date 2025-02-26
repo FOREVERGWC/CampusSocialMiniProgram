@@ -22,9 +22,9 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue'
-import useRoleStore from '@/store/modules/role.js'
 import { getUserOne, handleUserRole } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
+import { getRoleList } from '@/api/sys/role/index.js'
 
 const props = defineProps({
 	id: String,
@@ -33,8 +33,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:visible', 'refresh'])
 
-const roleStore = useRoleStore()
-const roleList = ref(roleStore.roleList)
+const roleList = ref([])
 
 const form = reactive({
 	visible: props.visible,
@@ -47,6 +46,12 @@ const rules = {
 }
 
 const getUserInfo = () => {
+	const params = {
+		status: 1
+	}
+	getRoleList(params).then(res => {
+		roleList.value = res.data || []
+	})
 	getUserOne({ id: props.id }).then(res => {
 		if (res.code !== 200) {
 			ElMessage.error(res.msg)
