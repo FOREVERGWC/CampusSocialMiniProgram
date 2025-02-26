@@ -42,6 +42,7 @@ export default [
 			...pluginVue.configs['flat/essential'].rules,
 			'vue/multi-word-component-names': 'off',
 			'prettier/prettier': ['error', prettierConfig],
+			'arrow-parens': ['error', 'as-needed'],
 			'arrow-body-style': 'off',
 			'prefer-arrow-callback': 'off'
 		}
@@ -63,6 +64,7 @@ export default [
 		rules: {
 			...pluginJs.configs.recommended.rules,
 			'prettier/prettier': ['error', prettierConfig],
+			'arrow-parens': ['error', 'as-needed'],
 			'arrow-body-style': 'off',
 			'prefer-arrow-callback': 'off'
 		}
