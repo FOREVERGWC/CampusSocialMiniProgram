@@ -109,7 +109,7 @@ const menu = ref(router.currentRoute.value.fullPath)
 const menuList = computed(() => permissionStore.sidebarRouters)
 const isCollapse = ref(false)
 const username = ref(userStore.username)
-const avatar = computed(() => import.meta.env.VITE_APP_BASE_API + userStore.user.avatar)
+const avatar = computed(() => import.meta.env.VITE_APP_BASE_API + userStore.avatar)
 
 const handleClickMenu = item => {
 	console.log(item)

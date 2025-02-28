@@ -72,12 +72,24 @@ export const getCaptcha = () => {
 
 /**
  * 重置密码
- * @param data 密码信息
  * @returns {*} 结果
  */
 export const resetPassword = data => {
 	return request({
 		url: '/password/reset',
+		method: 'PUT',
+		data: data
+	})
+}
+
+/**
+ * 修改邮箱
+ * @param data 邮箱信息
+ * @returns {*} 结果
+ */
+export const updateEmail = data => {
+	return request({
+		url: '/email/update',
 		method: 'PUT',
 		data: data
 	})

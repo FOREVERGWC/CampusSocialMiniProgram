@@ -25,8 +25,4 @@ body,
 a {
 	text-decoration: none;
 }
-
-.el-tag {
-	margin-right: 8px;
-}
 </style>
