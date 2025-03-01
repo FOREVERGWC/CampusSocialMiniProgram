@@ -26,9 +26,12 @@ export const option = {
 			field: 'replyId'
 		},
 		{
-			type: 'input',
+			type: 'dict-select',
 			label: '用户',
-			field: 'userId'
+			field: 'userId',
+			props: {
+				type: 'sys_user,username,id'
+			}
 		},
 		{
 			type: 'input',
@@ -37,8 +40,8 @@ export const option = {
 		},
 		{
 			type: 'input',
-			label: 'ip',
-			field: 'IP'
+			label: 'IP',
+			field: 'ip'
 		},
 		{
 			type: 'input',
