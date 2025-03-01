@@ -13,110 +13,24 @@ export const genderList = [
 	{ label: '未知', value: '2' }
 ]
 
-export const brandList = [
-	{ id: 1, name: '奔驰' },
-	{ id: 2, name: '宝马' },
-	{ id: 3, name: '奥迪' },
-	{ id: 4, name: '本田' },
-	{ id: 5, name: '保时捷' },
-	{ id: 6, name: '桑塔纳' },
-	{ id: 7, name: '五菱宏光' },
-	{ id: 8, name: '比亚迪' },
-	{ id: 9, name: '别克' },
-	{ id: 10, name: '宾利' },
-	{ id: 11, name: '凯迪拉克' },
-	{ id: 12, name: '东风' },
-	{ id: 13, name: '大众' },
-	{ id: 14, name: '小米' }
-]
+/**
+ * 格式化文件大小
+ * @param fileSize 文件大小
+ * @returns {string} 结果
+ */
+export const formatFileSize = fileSize => {
+	const units = ['B', 'KB', 'MB', 'GB', 'TB']
+	let size = fileSize
+	let unitIndex = 0
 
-export const modelMap = {
-	奔驰: [
-		{ id: 1, name: '奔驰A级' },
-		{ id: 2, name: '奔驰C级' },
-		{ id: 3, name: '奔驰E级' },
-		{ id: 4, name: '奔驰GLA' },
-		{ id: 5, name: '奔驰GLB' },
-		{ id: 6, name: '奔驰GLC' },
-		{ id: 7, name: '奔驰A级AMG' },
-		{ id: 8, name: '奔驰EQA' },
-		{ id: 9, name: '奔驰EQB' },
-		{ id: 10, name: '奔驰EQC' },
-		{ id: 11, name: '奔驰EQE' },
-		{ id: 12, name: '奔驰C级新能源' },
-		{ id: 13, name: '奔驰E级新能源' }
-	],
-	宝马: [
-		{ id: 1, name: '1系' },
-		{ id: 2, name: '2系' },
-		{ id: 3, name: '3系' },
-		{ id: 4, name: '4系' },
-		{ id: 5, name: '5系' },
-		{ id: 6, name: '6系' },
-		{ id: 7, name: '7系' },
-		{ id: 8, name: 'X1' },
-		{ id: 9, name: 'X2' },
-		{ id: 10, name: 'X3' },
-		{ id: 11, name: 'X4' },
-		{ id: 12, name: 'X5' },
-		{ id: 13, name: 'X6' },
-		{ id: 14, name: 'X7' },
-		{ id: 15, name: 'Z4' },
-		{ id: 16, name: 'M2' },
-		{ id: 17, name: 'M3' },
-		{ id: 18, name: 'M4' },
-		{ id: 19, name: 'M5' },
-		{ id: 20, name: 'i3' },
-		{ id: 21, name: 'i8' },
-		{ id: 22, name: '3系GT' },
-		{ id: 23, name: '5系GT' },
-		{ id: 24, name: '6系GT12' }
-	],
-	奥迪: [
-		{ id: 1, name: 'A3' },
-		{ id: 2, name: 'A4' },
-		{ id: 3, name: 'A5' },
-		{ id: 4, name: 'A6' },
-		{ id: 5, name: 'A7' },
-		{ id: 6, name: 'A8' },
-		{ id: 7, name: 'Q2' },
-		{ id: 8, name: 'Q3' },
-		{ id: 9, name: 'Q4' },
-		{ id: 10, name: 'Q5' },
-		{ id: 11, name: 'Q7' },
-		{ id: 12, name: 'Q8' },
-		{ id: 13, name: 'S' },
-		{ id: 14, name: 'RS' },
-		{ id: 15, name: 'e-tron' },
-		{ id: 16, name: 'e-tron GT' }
-	],
-	4: [],
-	5: [],
-	6: [],
-	7: [],
-	比亚迪: [
-		{ id: 1, name: '秦' },
-		{ id: 2, name: '汉' },
-		{ id: 3, name: '唐' },
-		{ id: 4, name: '宋' },
-		{ id: 5, name: '元' },
-		{ id: 6, name: '海豚' },
-		{ id: 7, name: '海豹' },
-		{ id: 8, name: '海鸥' },
-		{ id: 9, name: '驱逐舰05' },
-		{ id: 10, name: '护卫舰07' }
-	],
-	9: [],
-	10: [],
-	11: [],
-	12: [],
-	13: [],
-	小米: [
-		{ id: 1, name: 'SU7' },
-		{ id: 2, name: 'SU7 Pro' },
-		{ id: 3, name: 'SU7 Max' }
-	]
+	while (size >= 1024 && unitIndex < units.length - 1) {
+		size /= 1024
+		unitIndex++
+	}
+
+	return `${size.toFixed(2)} ${units[unitIndex]}`
 }
+
 export const formatDate = datetime => {
 	return _.split(datetime, ' ')[0]
 }

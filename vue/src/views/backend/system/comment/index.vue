@@ -3,44 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.bizId" clearable filterable placeholder="请选择业务">
-								<el-option v-for="item in bizList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.bizKey" clearable placeholder="请输入业务类型" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.content" clearable placeholder="请输入内容" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.replyId" clearable filterable placeholder="请选择回复">
-								<el-option v-for="item in replyList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.userId" clearable filterable placeholder="请选择用户">
-								<el-option v-for="item in userList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.os" clearable placeholder="请输入操作系统" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.ip" clearable placeholder="请输入IP" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.location" clearable placeholder="请输入IP属地" />
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -157,9 +125,9 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import {
+	getCommentList,
 	getCommentOne,
 	getCommentPage,
-	getCommentList,
 	removeCommentBatchByIds,
 	saveComment
 } from '@/api/sys/comment/index.js'
@@ -167,6 +135,8 @@ import { getUserList } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { option } from './index.js'
 
 const queryParams = reactive({
 	bizId: null,

@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<el-card>
-			<my-form v-model="queryParams" :option="option" @search="handleSearch" @reset="handleReset" />
+			<component :is="SearchForm" v-model="queryParams" :option="option" @search="handleSearch" @reset="handleReset" />
 		</el-card>
 
 		<el-card>
@@ -137,7 +137,7 @@
 </template>
 
 <script setup>
-import MyForm from '@/components/MyForm/index.js'
+import SearchForm from '@/components/SearchForm/index.js'
 import { computed, onMounted, reactive, ref } from 'vue'
 import useRoleStore from '@/store/modules/role.js'
 import { useTable } from '@/hooks/useTable/index.js'

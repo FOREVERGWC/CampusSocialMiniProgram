@@ -3,48 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.hashCode" clearable placeholder="请输入散列值" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.bizId" clearable filterable placeholder="请选择业务">
-								<el-option v-for="item in bizList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.bizType" clearable placeholder="请输入业务类型" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.bucketName" clearable placeholder="请输入桶名" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.filePath" clearable placeholder="请输入文件路径" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.fileName" clearable placeholder="请输入文件名称" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.fileSize" clearable placeholder="请输入文件大小" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.chunkTotal" clearable placeholder="请输入分片数量" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.chunkSize" clearable placeholder="请输入分片大小" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.status" clearable filterable placeholder="请选择是否上传状态">
-								<el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value" />
-							</el-select>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -90,9 +54,17 @@
 				<el-table-column label="桶名" prop="bucketName" />
 				<el-table-column label="文件路径" prop="filePath" />
 				<el-table-column label="文件名称" prop="fileName" />
-				<el-table-column label="文件大小" prop="fileSize" />
+				<el-table-column label="文件大小">
+					<template v-slot="{ row }">
+						{{ formatFileSize(row.fileSize) }}
+					</template>
+				</el-table-column>
 				<el-table-column label="分片数量" prop="chunkTotal" />
-				<el-table-column label="分片大小" prop="chunkSize" />
+				<el-table-column label="分片大小">
+					<template v-slot="{ row }">
+						{{ formatFileSize(row.chunkSize) }}
+					</template>
+				</el-table-column>
 				<el-table-column label="上传状态" prop="status" />
 				<el-table-column label="操作" width="180">
 					<template v-slot="{ row }">
@@ -169,7 +141,9 @@ import { nextTick, onMounted, reactive, ref } from 'vue'
 import { getAttachmentOne, getAttachmentPage, removeAttachmentBatchByIds, saveAttachment } from '@/api/sys/attachment'
 import { ElMessage } from 'element-plus'
 import { useTable } from '@/hooks/useTable/index.js'
-import { downloadFile } from '@/utils/common.js'
+import { downloadFile, formatFileSize } from '@/utils/common.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { option, statusList } from './index.js'
 
 const queryParams = reactive({
 	hashCode: '',
@@ -184,10 +158,6 @@ const queryParams = reactive({
 	status: null
 })
 const bizList = ref([])
-const statusList = [
-	{ label: '是', value: true },
-	{ label: '否', value: false }
-]
 const { loading, records, getRecords, pagination, selectedKeys, single, multiple, handleSelectionChange, onDelete } =
 	useTable(page => getAttachmentPage({ ...queryParams, pageNo: page.pageNo, pageSize: page.pageSize }), {
 		immediate: false

@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import MyForm from '@/components/MyForm/index.js'
+import MyForm from '@/components/SearchForm/index.js'
 import { reactive } from 'vue'
 import { useForm } from '@/hooks/useForm/index.js'
 
