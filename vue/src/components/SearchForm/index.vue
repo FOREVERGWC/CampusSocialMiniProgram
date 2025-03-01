@@ -25,6 +25,14 @@
 									:options="item.options"
 									:placeholder="`请选择${item.label}`" />
 							</template>
+							<template v-else-if="item.type === 'dict-select'">
+								<dict-select
+									v-model="modelValue[item.field]"
+									v-bind="item.props"
+									clearable
+									filterable
+									:placeholder="`请选择${item.label}`" />
+							</template>
 							<template v-else-if="item.type === 'date-picker'">
 								<el-date-picker
 									v-model="modelValue[item.field]"

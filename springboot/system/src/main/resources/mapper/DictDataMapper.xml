@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.springboot.system.mapper.DictDataMapper">
+    <!-- TODO 解决SQL注入，过滤敏感信息 -->
+    <select id="selectListByTableName" resultType="org.example.springboot.system.domain.vo.DictDataVo">
+        <![CDATA[
+        SELECT ${label} AS label, ${value} AS value
+        FROM ${tableName};
+        ]]>
+    </select>
+</mapper>

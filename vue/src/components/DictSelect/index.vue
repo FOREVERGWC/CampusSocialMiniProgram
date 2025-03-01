@@ -1,7 +1,5 @@
 <template>
-	<el-select size="large" v-model="value" clearable filterable :placeholder="props.placeholder">
-		<el-option v-for="item in optionList" :key="item.value" :label="item.label" :value="item.value" />
-	</el-select>
+	<el-select-v2 v-model="value" v-bind="setting" :options="optionList" />
 </template>
 
 <script setup>
@@ -9,22 +7,15 @@ import { onMounted, ref, watch } from 'vue'
 import { getDictDataList } from '@/api/sys/dict/data/index.js'
 
 const props = defineProps({
+	modelValue: {
+		type: [String, Number, null],
+		required: true
+	},
 	type: {
 		type: String,
 		required: true
 	},
-	size: {
-		type: String,
-		default: 'default'
-	},
-	modelValue: {
-		type: [String, Number],
-		required: true
-	},
-	placeholder: {
-		type: String,
-		default: '请选择'
-	}
+	setting: Object
 })
 
 const value = ref(props.modelValue)

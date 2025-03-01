@@ -59,21 +59,30 @@ public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> i
 
     @Override
     public List<DictDataVo> getList(DictDataDto dto) {
-        List<DictData> list = getWrapper(dto).list();
-        if (CollectionUtil.isEmpty(list)) {
-            return List.of();
+        String code = dto.getCode();
+        if (StrUtil.isNotBlank(code) && code.contains(StrUtil.COMMA)) {
+            String[] split = code.split(StrUtil.COMMA);
+            if (split.length != 3) {
+                return List.of();
+            }
+            return baseMapper.selectListByTableName(split[0], split[1], split[2]);
+        } else {
+            List<DictData> list = getWrapper(dto).list();
+            if (CollectionUtil.isEmpty(list)) {
+                return List.of();
+            }
+            // 类型
+            List<Long> typeIdList = list.stream().map(DictData::getTypeId).toList();
+            List<DictType> typeList = dictTypeService.listByIds(typeIdList);
+            Map<Long, DictType> typeMap = typeList.stream().collect(Collectors.toMap(DictType::getId, item -> item));
+            // 组装VO
+            return list.stream().map(item -> {
+                DictDataVo vo = new DictDataVo();
+                BeanUtils.copyProperties(item, vo);
+                vo.setType(typeMap.getOrDefault(item.getTypeId(), DictType.builder().name("已删除").build()));
+                return vo;
+            }).toList();
         }
-        // 类型
-        List<Long> typeIdList = list.stream().map(DictData::getTypeId).toList();
-        List<DictType> typeList = dictTypeService.listByIds(typeIdList);
-        Map<Long, DictType> typeMap = typeList.stream().collect(Collectors.toMap(DictType::getId, item -> item));
-        // 组装VO
-        return list.stream().map(item -> {
-            DictDataVo vo = new DictDataVo();
-            BeanUtils.copyProperties(item, vo);
-            vo.setType(typeMap.getOrDefault(item.getTypeId(), DictType.builder().name("已删除").build()));
-            return vo;
-        }).toList();
     }
 
     @Override
