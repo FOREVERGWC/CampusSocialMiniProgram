@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/login/index",
+    "pages/register/index",
     "pages/test/index",
     "pages/search/index",
     "pages/search/detail/index",
@@ -32,7 +34,6 @@
     "pages/profile/edit/area/index",
     "pages/profile/edit/career/index",
     "pages/profile/edit/school/index",
-    "pages/login/index",
     "pages/setting/index"
   ],
   "window": {
