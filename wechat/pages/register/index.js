@@ -1,11 +1,87 @@
 // pages/register/index.js
+import {
+  sendRegisterCode
+} from '../../api/email/index.js'
+import {
+  register
+} from '../../api/auth.js'
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    username: '',
+    password: '',
+    confirmPwd: '',
+    email: '',
+    code: ''
+  },
 
+  onInput(e) {
+    const key = e.currentTarget.dataset.key;
+    this.setData({
+      [`${key}`]: e.detail.value
+    })
+  },
+
+  handleCaptcha() {
+    if (!this.data.email) {
+      wx.showToast({
+        title: '请输入邮箱',
+        icon: 'none'
+      })
+      return
+    }
+
+    const data = {
+      email: this.data.email
+    }
+
+    sendRegisterCode(data).then(res => {
+      wx.showToast({
+        title: '发送成功！请注意查收',
+        icon: 'none'
+      })
+    })
+  },
+
+  handleRegister() {
+    if (!this.data.username || !this.data.password || !this.data.confirmPwd || !this.data.email || !this.data.code) {
+      wx.showToast({
+        title: '请填写参数',
+        icon: 'none'
+      })
+      return
+    }
+
+    const data = {
+      username: this.data.username,
+      password: this.data.password,
+      confirmPwd: this.data.confirmPwd,
+      email: this.data.email,
+      code: this.data.code
+    }
+
+    register(data).then(res => {
+      wx.showToast({
+        title: '注册成功！请登录',
+        icon: 'none'
+      })
+    })
+  },
+
+  navigateToLogin() {
+    wx.navigateTo({
+      url: '/pages/login/index'
+    })
+  },
+
+  navigateToForget() {
+    wx.navigateTo({
+      url: '/pages/forget/index'
+    })
   },
 
   /**

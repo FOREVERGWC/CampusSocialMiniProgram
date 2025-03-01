@@ -43,6 +43,19 @@ public class AuthController {
     }
 
     /**
+     * 登出
+     *
+     * @return 结果
+     */
+    @PostMapping("/logout")
+    @Operation(summary = "登出", description = "登出", method = "POST")
+    public Result<String> logout() {
+        LoginUser user = UserUtils.getLoginUser();
+        authService.logout(user);
+        return Result.success();
+    }
+
+    /**
      * 注册用户
      *
      * @param body PC端注册请求体

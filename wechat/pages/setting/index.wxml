@@ -58,7 +58,7 @@
     <view class="padding-tb-xl padding-lr">
       <t-button block theme="light" bind:tap="switchAccount">切换账号</t-button>
       <view class="padding-xs" />
-      <t-button block theme="light" bind:tap="logout">退出登录</t-button>
+      <t-button block theme="light" bind:tap="handleLogout">退出登录</t-button>
     </view>
 
     <!-- 底部信息 -->

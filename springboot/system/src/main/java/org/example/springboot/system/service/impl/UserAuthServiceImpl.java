@@ -105,6 +105,13 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
     }
 
     @Override
+    public void removeByUserId(Long userId) {
+        lambdaUpdate()
+                .eq(UserAuth::getUserId, userId)
+                .remove();
+    }
+
+    @Override
     public UserAuth getByAuthTypeAndOpenIdAnd(Integer authType, String openId) {
         return lambdaQuery()
                 .eq(UserAuth::getAuthType, authType)

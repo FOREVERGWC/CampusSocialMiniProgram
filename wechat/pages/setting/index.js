@@ -1,5 +1,8 @@
 // pages/setting/index.js
 import {
+  logout
+} from '../../api/auth'
+import {
   formatFileSize
 } from '../../utils/common'
 
@@ -91,15 +94,14 @@ Page({
     });
   },
 
-  logout() {
+  handleLogout() {
     wx.showModal({
       title: '提示',
       content: '确定要退出登录吗？',
-      success: (res) => {
+      success: async (res) => {
         if (res.confirm) {
-          // 清除用户信息
           wx.clearStorageSync();
-          // 跳转到登录页
+          await logout()
           wx.reLaunch({
             url: '/pages/login/index'
           });

@@ -56,6 +56,13 @@ public interface IUserAuthService extends IService<UserAuth> {
     UserAuth getByOpenId(String openId);
 
     /**
+     * 根据用户ID移除用户三方授权
+     *
+     * @param userId 用户ID
+     */
+    void removeByUserId(Long userId);
+
+    /**
      * 根据认证方式和唯一标识查询用户三方授权
      *
      * @param authType 认证方式

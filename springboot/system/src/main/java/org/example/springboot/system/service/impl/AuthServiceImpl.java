@@ -76,6 +76,9 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public void logout(LoginUser user) {
         // TODO 把LogoutSuccessHandlerImpl逻辑移过来
+        // TODO 移除Redis Key，记录登出日志，移除Spring Security认证
+        // TODO 移除当前绑定的微信
+        System.out.println("ssss");
     }
 
     @Transactional

@@ -1,2 +1,34 @@
 <!--pages/register/index.wxml-->
-<text>pages/register/index.wxml</text>
+<view class="bg-white flex align-center justify-center" style="height: 100vh;">
+  <view class="basis-xl">
+    <view class="text-center padding-bottom">
+      <view class="text-xl">邮箱注册</view>
+    </view>
+
+    <view>
+      <t-input value="{{ username }}" placeholder="请输入用户名" data-key="username" bind:change="onInput" prefixIcon="user" clearable />
+
+      <t-input value="{{ password }}" placeholder="请输入密码" data-key="password" bind:change="onInput" prefixIcon="lock-on" type="password" clearable />
+
+      <t-input value="{{ confirmPwd }}" placeholder="请输入确认密码" data-key="confirmPwd" bind:change="onInput" prefixIcon="lock-on" type="password" clearable />
+
+      <t-input value="{{ email }}" placeholder="请输入邮箱" type="number" data-key="email" bind:change="onInput" prefixIcon="mail" clearable>
+        <view slot="suffix" style="display: flex; align-items: center">
+          <view class="suffix--line"></view>
+          <view class="verify" aria-role="button" bind:tap="handleCaptcha">发送</view>
+        </view>
+      </t-input>
+
+      <t-input value="{{ code }}" placeholder="请输入验证码" data-key="code" bind:change="onInput" prefixIcon="shield-error" clearable />
+
+      <t-button theme="primary" size="large" block bind:tap="handleRegister">
+        注册
+      </t-button>
+
+      <view class="flex justify-between padding-top">
+        <view class="text-blue" bindtap="navigateToLogin">登录</view>
+        <view class="text-blue" bindtap="navigateToForget">忘记密码</view>
+      </view>
+    </view>
+  </view>
+</view>
