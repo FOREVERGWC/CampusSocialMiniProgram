@@ -3,68 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.username" clearable placeholder="请输入用户名" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.name" clearable placeholder="请输入姓名" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-date-picker
-								v-model="queryParams.birthday"
-								placeholder="请选择生日"
-								clearable
-								type="date"
-								value-format="YYYY-MM-DD"
-								:disabled-date="disabledAfterToday" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.status" clearable filterable placeholder="请选择状态">
-								<el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.role" clearable filterable placeholder="请选择角色">
-								<el-option v-for="item in roleList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.phone" clearable placeholder="请输入手机" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.email" clearable placeholder="请输入邮箱" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.loginIp" clearable placeholder="请输入最后登录IP" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-date-picker
-								v-model="loginTimeRange"
-								clearable
-								type="datetimerange"
-								start-placeholder="最后登录开始时间"
-								end-placeholder="最后登录结束时间"
-								value-format="YYYY-MM-DD HH:mm:ss"
-								unlink-panels />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-date-picker
-								v-model="createTimeRange"
-								clearable
-								type="datetimerange"
-								start-placeholder="注册开始时间"
-								end-placeholder="注册结束时间"
-								value-format="YYYY-MM-DD HH:mm:ss"
-								unlink-panels />
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -173,11 +117,7 @@
 				<el-table-column label="头像">
 					<template v-slot="{ row }">
 						<div style="display: flex; align-items: center; justify-content: center">
-							<el-image
-								v-if="row.avatar"
-								:preview-src-list="[getUrl(row.avatar)]"
-								:src="getUrl(row.avatar)"
-								preview-teleported>
+							<el-image :preview-src-list="[getUrl(row.avatar)]" :src="getUrl(row.avatar)" preview-teleported>
 								<template #error>
 									<img alt="" src="@/assets/imgs/profile.png" />
 								</template>
@@ -278,7 +218,8 @@
 			</template>
 		</el-dialog>
 
-		<RoleAssign
+		<component
+			:is="RoleAssign"
 			:id="assignForm.userId"
 			:visible="assignForm.visible"
 			@update:visible="assignForm.visible = $event"
@@ -292,20 +233,17 @@ import { computed, nextTick, onMounted, reactive, ref } from 'vue'
 import {
 	getUserOne,
 	getUserPage,
+	handleResetUserPassword,
 	handleStatusUser,
 	removeUserBatchByIds,
-	saveUser,
-	handleResetUserPassword
+	saveUser
 } from '@/api/sys/user/index.js'
 import { ElMessage } from 'element-plus'
 import { addDataRange, disabledAfterToday, downloadFile, genderList, statusList } from '@/utils/common.js'
-import useRoleStore from '@/store/modules/role.js'
 import { useTable } from '@/hooks/useTable/index.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { option } from './index.js'
 
-const roleStore = useRoleStore()
-
-const loginTimeRange = ref([])
-const createTimeRange = ref([])
 const queryParams = reactive({
 	username: '',
 	name: '',
@@ -319,18 +257,19 @@ const queryParams = reactive({
 	balance: null,
 	loginIp: '',
 	loginTime: '',
-	params: {}
+	params: {},
+	loginTimeRange: [],
+	createTimeRange: []
 })
 const { loading, records, getRecords, pagination, selectedKeys, single, multiple, handleSelectionChange, onDelete } =
 	useTable(
 		page => {
-			addDataRange(queryParams, loginTimeRange.value, 'LoginTime')
-			addDataRange(queryParams, createTimeRange.value, 'CreateTime')
+			addDataRange(queryParams, queryParams.loginTimeRange, 'LoginTime')
+			addDataRange(queryParams, queryParams.createTimeRange, 'CreateTime')
 			return getUserPage({ ...queryParams, pageNo: page.pageNo, pageSize: page.pageSize })
 		},
 		{ immediate: false }
 	)
-const roleList = ref(roleStore.roleList)
 const form = ref({
 	visible: false,
 	title: '',
@@ -416,13 +355,13 @@ const handleSave = () => {
 }
 
 const handleSearch = () => {
-	addDataRange(queryParams, loginTimeRange.value, 'LoginTime')
-	addDataRange(queryParams, createTimeRange.value, 'CreateTime')
+	addDataRange(queryParams, queryParams.loginTimeRange, 'LoginTime')
+	addDataRange(queryParams, queryParams.createTimeRange, 'CreateTime')
 	getRecords()
 }
 
 const handleResetPassword = id => {
-	const params = id || ids.value
+	const params = id || selectedKeys.value
 	handleResetUserPassword(params).then(res => {
 		if (res.code !== 200) {
 			ElMessage.error(res.msg)
@@ -433,8 +372,6 @@ const handleResetPassword = id => {
 }
 
 const handleReset = () => {
-	loginTimeRange.value = []
-	createTimeRange.value = []
 	queryParams.username = ''
 	queryParams.name = ''
 	queryParams.gender = ''
@@ -447,6 +384,8 @@ const handleReset = () => {
 	queryParams.balance = null
 	queryParams.loginIp = ''
 	queryParams.loginTime = ''
+	queryParams.loginTimeRange = []
+	queryParams.createTimeRange = []
 	getRecords()
 }
 

@@ -3,22 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.name" clearable placeholder="请输入角色名称" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.status" clearable placeholder="请选择状态">
-								<el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value" />
-							</el-select>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -116,12 +106,14 @@
 			</template>
 		</el-dialog>
 
-		<MenuAssign
+		<component
+			:is="MenuAssign"
 			:id="assignMenuForm.roleId"
 			:visible="assignMenuForm.visible"
 			@update:visible="assignMenuForm.visible = $event"
 			@refresh="getRecords" />
-		<PermissionAssign
+		<component
+			:is="PermissionAssign"
 			:id="assignPermissionForm.roleId"
 			:visible="assignPermissionForm.visible"
 			@update:visible="assignPermissionForm.visible = $event"
@@ -137,6 +129,8 @@ import MenuAssign from './components/MenuAssign.vue'
 import PermissionAssign from './components/PermissionAssign.vue'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { option, statusList } from './index.js'
 
 const queryParams = reactive({
 	name: '',
@@ -144,10 +138,6 @@ const queryParams = reactive({
 })
 const { loading, records, getRecords, pagination, selectedKeys, single, multiple, handleSelectionChange, onDelete } =
 	useTable(page => getRolePage({ ...queryParams, pageNo: page.pageNo, pageSize: page.pageSize }), { immediate: false })
-const statusList = [
-	{ label: '禁用', value: '0' },
-	{ label: '正常', value: '1' }
-]
 const form = ref({
 	visible: false,
 	title: '',

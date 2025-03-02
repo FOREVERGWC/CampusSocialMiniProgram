@@ -3,25 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.rateId" clearable filterable placeholder="请选择评分">
-								<el-option v-for="item in rateList" :key="item.id" :label="item.title" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.title" clearable placeholder="请输入标题" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.content" clearable placeholder="请输入内容" />
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -122,6 +109,8 @@ import { getRateList } from '@/api/biz/rate/index.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { option } from './index.js'
 
 const queryParams = reactive({
 	rateId: null,

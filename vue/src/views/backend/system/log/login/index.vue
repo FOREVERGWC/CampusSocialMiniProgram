@@ -3,44 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.os" clearable placeholder="请输入操作系统" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.browser" clearable placeholder="请输入浏览器" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.ip" clearable placeholder="请输入IP" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.location" clearable placeholder="请输入IP属地" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.status" clearable filterable placeholder="请选择是否状态">
-								<el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.msg" clearable placeholder="请输入消息" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-date-picker
-								v-model="createTimeRange"
-								clearable
-								type="datetimerange"
-								start-placeholder="登录开始时间"
-								end-placeholder="登录结束时间"
-								value-format="YYYY-MM-DD HH:mm:ss"
-								unlink-panels />
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -116,28 +84,26 @@ import { getLogLoginPage, removeLogLoginBatchByIds } from '@/api/sys/log/login/i
 import { getUserList } from '@/api/sys/user/index.js'
 import { addDataRange, downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { option } from './index.js'
 
-const createTimeRange = ref([])
 const queryParams = reactive({
 	os: '',
 	browser: '',
 	ip: '',
 	location: '',
 	status: null,
-	msg: ''
+	msg: '',
+	createTimeRange: []
 })
 const { loading, records, getRecords, pagination, selectedKeys, multiple, handleSelectionChange, onDelete } = useTable(
 	page => getLogLoginPage({ ...queryParams, pageNo: page.pageNo, pageSize: page.pageSize }),
 	{ immediate: false }
 )
 const userList = ref([])
-const statusList = [
-	{ label: '是', value: true },
-	{ label: '否', value: false }
-]
 
 const handleSearch = () => {
-	addDataRange(queryParams, createTimeRange.value, 'CreateTime')
+	addDataRange(queryParams, queryParams.createTimeRange, 'CreateTime')
 	getRecords()
 }
 
@@ -151,7 +117,7 @@ const handleReset = () => {
 	queryParams.location = ''
 	queryParams.status = null
 	queryParams.msg = ''
-	createTimeRange.value = []
+	queryParams.createTimeRange = []
 	getRecords()
 }
 

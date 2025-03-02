@@ -3,38 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.title" clearable placeholder="请输入标题" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.content" clearable placeholder="请输入内容" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.categoryId" clearable filterable placeholder="请选择类别">
-								<el-option v-for="item in categoryList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-date-picker
-								v-model="activityDateTimeRange"
-								clearable
-								type="datetimerange"
-								start-placeholder="活动开始时间"
-								end-placeholder="活动结束时间"
-								value-format="YYYY-MM-DD HH:mm:ss"
-								unlink-panels />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.location" clearable placeholder="请输入地点" />
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -150,13 +124,15 @@ import { getActivityCategoryList } from '@/api/biz/activity/category.js'
 import { ElMessage } from 'element-plus'
 import { addDataRange, downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { option } from './index.js'
 
-const activityDateTimeRange = ref([])
 const queryParams = reactive({
 	title: '',
 	content: '',
 	categoryId: null,
-	location: ''
+	location: '',
+	activityDateTimeRange: []
 })
 const categoryList = ref([])
 const { loading, records, getRecords, pagination, selectedKeys, single, multiple, handleSelectionChange, onDelete } =
@@ -235,7 +211,7 @@ const handleSave = () => {
 }
 
 const handleSearch = () => {
-	addDataRange(queryParams, activityDateTimeRange.value, 'ActivityDateTime')
+	addDataRange(queryParams, queryParams.activityDateTimeRange, 'ActivityDateTime')
 	getRecords()
 }
 
@@ -244,7 +220,8 @@ const handleReset = () => {
 	queryParams.content = ''
 	queryParams.categoryId = null
 	queryParams.location = ''
-	activityDateTimeRange.value = []
+	queryParams.activityDateTimeRange = []
+	queryParams.params = {}
 	getRecords()
 }
 

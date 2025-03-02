@@ -271,6 +271,12 @@ public class PartnerServiceImpl extends ServiceImpl<PartnerMapper, Partner> impl
             wrapper.between(ObjectUtil.isAllNotEmpty(startCreateTime, endCreateTime),
                     Partner::getCreateTime,
                     startCreateTime, endCreateTime);
+            // 截止时间
+            Object startEndTime = params == null ? null : params.get("startEndTime");
+            Object endEndTime = params == null ? null : params.get("endEndTime");
+            if (ObjectUtil.isAllNotEmpty(startEndTime, endEndTime)) {
+                wrapper.between(Partner::getEndTime, startEndTime, endEndTime);
+            }
             // 排序
             String orderBy = dto.getOrderBy();
             Boolean isAsc = dto.getIsAsc();

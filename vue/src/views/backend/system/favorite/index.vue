@@ -3,22 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.bizId" clearable filterable placeholder="请选择业务">
-								<el-option v-for="item in bizList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.bizType" clearable placeholder="请输入业务类型" />
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -111,6 +101,8 @@ import { getFavoriteOne, getFavoritePage, removeFavoriteBatchByIds, saveFavorite
 import { ElMessage } from 'element-plus'
 import { useTable } from '@/hooks/useTable/index.js'
 import { downloadFile } from '@/utils/common.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { option } from './index.js'
 
 const queryParams = reactive({
 	bizId: null,

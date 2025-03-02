@@ -3,50 +3,12 @@
 		<el-row>
 			<el-col :span="24">
 				<el-card>
-					<el-row :gutter="20">
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.userId" clearable filterable placeholder="请选择用户">
-								<el-option v-for="item in userList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.title" clearable placeholder="请输入标题" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-input v-model="queryParams.content" clearable placeholder="请输入内容" />
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.categoryId" clearable filterable placeholder="请选择类别">
-								<el-option v-for="item in categoryList" :key="item.id" :label="item.name" :value="item.id" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.top" clearable filterable placeholder="请选择是否置顶">
-								<el-option v-for="item in topList" :key="item.value" :label="item.label" :value="item.value" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.visible" clearable filterable placeholder="请选择可见性">
-								<el-option v-for="item in visibleList" :key="item.value" :label="item.label" :value="item.value" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.commentable" clearable filterable placeholder="请选择是否允许评论">
-								<el-option v-for="item in commentableList" :key="item.value" :label="item.label" :value="item.value" />
-							</el-select>
-						</el-col>
-						<el-col :lg="4" :md="4" :sm="12" :xl="4" :xs="12">
-							<el-select v-model="queryParams.status" clearable filterable placeholder="请选择状态">
-								<el-option v-for="item in statusList" :key="item.value" :label="item.label" :value="item.value" />
-							</el-select>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Search" plain type="info" @click="handleSearch">查询</el-button>
-						</el-col>
-						<el-col :lg="2" :md="2" :sm="12" :xl="2" :xs="12">
-							<el-button icon="Refresh" plain type="warning" @click="handleReset">重置</el-button>
-						</el-col>
-					</el-row>
+					<component
+						:is="SearchForm"
+						v-model="queryParams"
+						:option="option"
+						@search="handleSearch"
+						@reset="handleReset" />
 				</el-card>
 			</el-col>
 		</el-row>
@@ -196,6 +158,8 @@ import { getNoteCategoryList } from '@/api/biz/note/category.js'
 import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
+import SearchForm from '@/components/SearchForm/index.js'
+import { commentableList, option, statusList, topList, visibleList } from './index.js'
 
 const queryParams = reactive({
 	userId: null,
@@ -211,22 +175,7 @@ const { loading, records, getRecords, pagination, selectedKeys, single, multiple
 	useTable(page => getNotePage({ ...queryParams, pageNo: page.pageNo, pageSize: page.pageSize }), { immediate: false })
 const userList = ref([])
 const categoryList = ref([])
-const topList = [
-	{ label: '是', value: true },
-	{ label: '否', value: false }
-]
-const visibleList = [
-	{ label: '私有', value: '0' },
-	{ label: '公开', value: '1' }
-]
-const commentableList = [
-	{ label: '是', value: true },
-	{ label: '否', value: false }
-]
-const statusList = [
-	{ label: '未发布', value: '0' },
-	{ label: '已发布', value: '1' }
-]
+
 const form = ref({
 	visible: false,
 	title: '',

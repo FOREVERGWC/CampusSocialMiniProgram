@@ -22,7 +22,7 @@
 									v-bind="item.props"
 									clearable
 									filterable
-									:options="item.options"
+									:options="item?.options || []"
 									:placeholder="`请选择${item.label}`" />
 							</template>
 							<template v-else-if="item.type === 'dict-select'">
@@ -37,8 +37,8 @@
 								<el-date-picker
 									v-model="modelValue[item.field]"
 									v-bind="item.props"
-									type="date"
-									value-format="YYYY-MM-DD"
+									:type="item.props?.type || 'date'"
+									:value-format="item.props?.valueFormat || 'YYYY-MM-DD'"
 									:placeholder="`请选择${item.label}`" />
 							</template>
 							<template v-else-if="item.type === 'textarea'">
