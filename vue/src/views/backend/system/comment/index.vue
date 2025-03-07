@@ -49,13 +49,18 @@
 				<el-table-column type="selection" width="55" />
 				<el-table-column label="序号" type="index" width="70" />
 				<el-table-column label="业务ID" prop="bizId" />
-				<el-table-column label="业务类型" prop="bizKey" />
+				<el-table-column label="业务类型" prop="bizType">
+					<template v-slot="{ row }">
+						<span v-if="row.bizType === 8">笔记</span>
+						<span v-else-if="row.bizType === 9">评分</span>
+						<span v-else-if="row.bizType === 10">评分项</span>
+						<span v-else-if="row.bizType === 11">组局</span>
+						<span v-else-if="row.bizType === 12">活动</span>
+					</template>
+				</el-table-column>
 				<el-table-column label="内容" prop="content" />
 				<el-table-column label="回复ID" prop="replyId" />
-				<el-table-column label="用户ID" prop="userId" />
-				<el-table-column label="操作系统" prop="os" />
-				<el-table-column label="IP" prop="ip" />
-				<el-table-column label="IP属地" prop="location" />
+				<el-table-column label="用户" prop="user.username" />
 				<el-table-column label="操作" width="180">
 					<template v-slot="{ row }">
 						<el-button icon="Edit" plain type="primary" @click="showEdit(row)">编辑</el-button>
@@ -80,13 +85,13 @@
 
 		<el-dialog v-model="form.visible" :title="form.title" destroy-on-close width="40%">
 			<el-form ref="formRef" :model="form.data" :rules="rules" label-width="80px">
-				<el-form-item label="业务" prop="bizId">
-					<el-select v-model="form.data.bizId" clearable filterable placeholder="请选择业务">
-						<el-option v-for="item in bizList" :key="item.id" :label="item.name" :value="item.id" />
-					</el-select>
+				<el-form-item label="业务ID" prop="bizId">
+					<el-input v-model="form.data.bizId" autocomplete="new" placeholder="请选择业务ID" />
 				</el-form-item>
-				<el-form-item label="业务类型" prop="bizKey">
-					<el-input v-model="form.data.bizKey" autocomplete="new" />
+				<el-form-item label="业务类型" prop="bizType">
+					<el-select v-model="form.data.bizType" clearable filterable placeholder="请选择业务类型">
+						<el-option v-for="item in bizTypeList" :key="item.value" :label="item.label" :value="item.value" />
+					</el-select>
 				</el-form-item>
 				<el-form-item label="内容" prop="content">
 					<el-input v-model="form.data.content" autocomplete="new" />
@@ -100,15 +105,6 @@
 					<el-select v-model="form.data.userId" clearable filterable placeholder="请选择用户">
 						<el-option v-for="item in userList" :key="item.id" :label="item.name" :value="item.id" />
 					</el-select>
-				</el-form-item>
-				<el-form-item label="操作系统" prop="os">
-					<el-input v-model="form.data.os" autocomplete="new" />
-				</el-form-item>
-				<el-form-item label="IP" prop="ip">
-					<el-input v-model="form.data.ip" autocomplete="new" />
-				</el-form-item>
-				<el-form-item label="IP属地" prop="location">
-					<el-input v-model="form.data.location" autocomplete="new" />
 				</el-form-item>
 				<el-form-item label="备注" prop="remark">
 					<el-input v-model="form.data.remark" :rows="5" autocomplete="new" type="textarea" />
@@ -136,11 +132,11 @@ import { ElMessage } from 'element-plus'
 import { downloadFile } from '@/utils/common.js'
 import { useTable } from '@/hooks/useTable/index.js'
 import SearchForm from '@/components/SearchForm/index.js'
-import { option } from './index.js'
+import { bizTypeList, option } from './index.js'
 
 const queryParams = reactive({
 	bizId: null,
-	bizKey: '',
+	bizType: '',
 	content: '',
 	replyId: null,
 	userId: null,
@@ -152,7 +148,6 @@ const { loading, records, getRecords, pagination, selectedKeys, single, multiple
 	useTable(page => getCommentPage({ ...queryParams, pageNo: page.pageNo, pageSize: page.pageSize }), {
 		immediate: false
 	})
-const bizList = ref([])
 const replyList = ref([])
 const userList = ref([])
 const form = ref({
@@ -163,9 +158,9 @@ const form = ref({
 const formRef = ref(null)
 const rules = {
 	bizId: [{ required: true, message: '请输入业务ID', trigger: 'blur' }],
-	bizKey: [{ required: true, message: '请输入业务类型', trigger: 'blur' }],
+	bizType: [{ required: true, message: '请选择业务类型', trigger: 'change' }],
 	content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
-	replyId: [{ required: true, message: '请输入回复ID', trigger: 'blur' }],
+	// replyId: [{ required: true, message: '请输入回复ID', trigger: 'blur' }],
 	userId: [{ required: true, message: '请输入用户ID', trigger: 'blur' }],
 	os: [{ required: true, message: '请输入操作系统', trigger: 'blur' }],
 	ip: [{ required: true, message: '请输入IP', trigger: 'blur' }],
@@ -182,7 +177,7 @@ const showAdd = () => {
 		title: '添加评论',
 		data: {
 			bizId: null,
-			bizKey: '',
+			bizType: '',
 			content: '',
 			replyId: null,
 			userId: null,
@@ -236,7 +231,7 @@ const handleSearch = () => {
 
 const handleReset = () => {
 	queryParams.bizId = null
-	queryParams.bizKey = ''
+	queryParams.bizType = ''
 	queryParams.content = ''
 	queryParams.replyId = null
 	queryParams.userId = null

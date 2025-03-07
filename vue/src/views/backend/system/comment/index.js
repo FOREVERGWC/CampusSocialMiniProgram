@@ -1,3 +1,11 @@
+export const bizTypeList = [
+	{ label: '笔记', value: 8 },
+	{ label: '评分', value: 9 },
+	{ label: '评分项', value: 10 },
+	{ label: '组局', value: 11 },
+	{ label: '活动', value: 12 }
+]
+
 export const option = {
 	fold: {
 		enable: true,
@@ -12,8 +20,8 @@ export const option = {
 		{
 			type: 'select',
 			label: '业务类型',
-			field: 'bizKey',
-			options: []
+			field: 'bizType',
+			options: bizTypeList
 		},
 		{
 			type: 'input',
@@ -32,21 +40,6 @@ export const option = {
 			props: {
 				type: 'sys_user,username,id'
 			}
-		},
-		{
-			type: 'input',
-			label: '操作系统',
-			field: 'os'
-		},
-		{
-			type: 'input',
-			label: 'IP',
-			field: 'ip'
-		},
-		{
-			type: 'input',
-			label: 'IP属地',
-			field: 'location'
 		}
 	]
 }
