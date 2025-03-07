@@ -175,7 +175,7 @@
 					<el-input v-model="form.data.name" autocomplete="new" />
 				</el-form-item>
 				<el-form-item label="头像">
-					<AvatarUpload v-model="form.data.avatar" />
+					<AvatarUpload v-model="form.data.avatar" :bizId="form.data.id" bizType="1" />
 				</el-form-item>
 				<el-form-item label="性别">
 					<el-select v-model="form.data.gender" clearable filterable placeholder="请选择性别">

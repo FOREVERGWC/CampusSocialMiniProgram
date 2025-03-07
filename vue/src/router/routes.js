@@ -3,7 +3,7 @@ export const constantRoutes = [
 		path: '/',
 		name: 'Admin',
 		meta: { title: '首页', icon: 'dashboard', hidden: true },
-		redirect: '/index',
+		redirect: '/dashboard',
 		component: () => import('@/views/backend/index.vue'),
 		children: [
 			{
