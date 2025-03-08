@@ -11,6 +11,8 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.Objects;
+
 public class ServletUtils {
     /**
      * 写入消息到响应对象
@@ -48,7 +50,13 @@ public class ServletUtils {
      * @return 用户IP
      */
     public static String getUserIp(HttpServletRequest request) {
-        return JakartaServletUtil.getClientIP(request);
+        String ip = JakartaServletUtil.getClientIP(request);
+
+        if (Objects.equals(ip, "0:0:0:0:0:0:0:1")) {
+            return "127.0.0.1";
+        }
+
+        return ip;
     }
 
     /**
@@ -57,7 +65,7 @@ public class ServletUtils {
      * @return 用户IP
      */
     public static String getUserIp() {
-        return JakartaServletUtil.getClientIP(getRequest());
+        return getUserIp(getRequest());
     }
 
     /**
