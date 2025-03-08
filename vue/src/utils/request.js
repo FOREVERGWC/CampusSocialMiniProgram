@@ -27,7 +27,6 @@ request.interceptors.request.use(
 		return config
 	},
 	error => {
-		console.error(`请求错误：${error}`)
 		return Promise.reject(error)
 	}
 )
@@ -49,6 +48,9 @@ request.interceptors.response.use(
 					location.href = router.resolve('/index').href
 				})
 			// router.push('/login')
+		} else if (res.code === 500) {
+			ElMessage.error(res.msg)
+			return Promise.reject(res?.msg || '操作失败！业务异常')
 		}
 		return res
 	},
