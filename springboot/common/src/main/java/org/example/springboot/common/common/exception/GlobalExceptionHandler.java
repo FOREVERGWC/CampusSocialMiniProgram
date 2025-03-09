@@ -5,6 +5,7 @@ import org.example.springboot.common.common.enums.ResultCode;
 import org.example.springboot.common.domain.Result;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
@@ -164,6 +165,19 @@ public class GlobalExceptionHandler {
         log.error("异常：SQLException");
         log.error("信息：{}", e.getMessage());
         return Result.error(ResultCode.SYSTEM_ERROR);
+    }
+
+    /**
+     * 重复键异常
+     *
+     * @param e 重复键异常
+     * @return 结果
+     */
+    @ExceptionHandler(value = DuplicateKeyException.class)
+    public Result<Void> handleDuplicateKeyException(DuplicateKeyException e) {
+        log.error("异常：DuplicateKeyException");
+        log.error("信息：{}", e.getMessage());
+        return Result.error(ResultCode.RECORD_HAS_EXIST_ERROR);
     }
 
     /**

@@ -106,6 +106,10 @@ public enum ResultCode {
      */
     SYSTEM_ERROR(500, "系统异常"),
     /**
+     * 插入失败！该记录已存在
+     */
+    RECORD_HAS_EXIST_ERROR(500, "插入失败！该记录已存在"),
+    /**
      * 操作失败！用户不存在
      */
     USER_NOT_FOUND_ERROR(1000, "操作失败！用户不存在"),
