@@ -121,15 +121,3 @@ knife4j:
 
 captcha:
   enabled: false
-
-alipay:
-  appId: 11111
-  pid: 1111
-  privateKey: aaa
-  publicKey: bbbb
-  notifyUrl: http://localhost:${server.port}/alipay/callback
-  returnUrl: http://localhost:8082/#/paySuccess
-  signType: RSA2
-  charset: utf-8
-  format: json
-  gateway: https://openapi-sandbox.dl.alipaydev.com/gateway.do
