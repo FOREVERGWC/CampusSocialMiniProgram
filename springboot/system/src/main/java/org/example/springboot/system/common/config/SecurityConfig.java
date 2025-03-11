@@ -92,7 +92,6 @@ public class SecurityConfig {
                                 .requestMatchers("/captcha", "/email/**").permitAll()
                                 .requestMatchers("/login", "/login/wechat", "/register", "/password/reset").permitAll()
                                 .requestMatchers("/dict/data/list").permitAll()
-                                .requestMatchers("/car/page", "/rank/car/**").permitAll()
                                 .requestMatchers("/static/**", "/file/**").permitAll()
                                 .requestMatchers("/doc.html", "/favicon.ico", "/webjars/**", "/swagger-resources", "/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated()

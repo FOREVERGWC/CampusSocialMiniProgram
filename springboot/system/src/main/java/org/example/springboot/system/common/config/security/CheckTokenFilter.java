@@ -39,8 +39,6 @@ public class CheckTokenFilter extends OncePerRequestFilter {
             "/captcha", "/email/**",
             "/login", "/login/wechat", "/register", "/password/reset",
             "/dict/data/list",
-            "/car/page",
-            "/rank/car/brand",
             "/static/**", "/file/**",
             "/doc.html", "/favicon.ico", "/webjars/**", "/swagger-resources", "/v3/api-docs/**"
     };

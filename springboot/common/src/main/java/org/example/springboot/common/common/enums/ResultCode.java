@@ -172,27 +172,7 @@ public enum ResultCode {
     /**
      * 操作失败！笔记不存在
      */
-    NOTE_NOT_FOUND_ERROR(500, "操作失败！笔记不存在"),
-    /**
-     * 操作失败！订单不存在
-     */
-    ORDER_NOT_FOUND_ERROR(500, "操作失败！订单不存在"),
-    /**
-     * 操作失败！订单付款状态异常
-     */
-    ORDER_PAY_STATUS_ERROR(500, "操作失败！订单付款状态异常"),
-    /**
-     * 操作失败！订单退款状态异常
-     */
-    ORDER_REFUND_STATUS_ERROR(500, "操作失败！订单退款状态异常"),
-    /**
-     * 操作失败！验车状态异常
-     */
-    CAR_AUDITE_STATUS_ERROR(500, "操作失败！验车状态异常"),
-    /**
-     * 下单失败！当前车辆未经审查
-     */
-    ORDER_ADD_ERROR(500, "下单失败！当前车辆未经审查");
+    NOTE_NOT_FOUND_ERROR(500, "操作失败！笔记不存在");
 
     private final Integer code;
     private final String msg;
