@@ -220,6 +220,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         // ID列表
         List<Long> idList = info.getRecords().stream().map(Like::getBizId).toList();
         dto.setIdList(idList);
+        dto.setUserId(null);
         List<NoteVo> list = getList(dto);
         if (CollectionUtil.isEmpty(list)) {
             return new Page<>(dto.getPageNo(), dto.getPageSize(), 0);
@@ -244,6 +245,7 @@ public class NoteServiceImpl extends ServiceImpl<NoteMapper, Note> implements IN
         // ID列表
         List<Long> idList = info.getRecords().stream().map(FavoriteVo::getBizId).toList();
         dto.setIdList(idList);
+        dto.setUserId(null);
         List<NoteVo> list = getList(dto);
         if (CollectionUtil.isEmpty(list)) {
             return new Page<>(dto.getPageNo(), dto.getPageSize(), 0);

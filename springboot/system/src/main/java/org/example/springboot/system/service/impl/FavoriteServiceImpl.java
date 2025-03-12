@@ -150,7 +150,8 @@ public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> i
         LambdaQueryChainWrapper<Favorite> wrapper = lambdaQuery()
                 .eq(entity.getId() != null, Favorite::getId, entity.getId())
                 .eq(entity.getBizId() != null, Favorite::getBizId, entity.getBizId())
-                .eq(entity.getBizType() != null, Favorite::getBizType, entity.getBizType());
+                .eq(entity.getBizType() != null, Favorite::getBizType, entity.getBizType())
+                .eq(entity.getUserId() != null, Favorite::getUserId, entity.getUserId());
         if (entity instanceof FavoriteDto dto) {
             Map<String, Object> params = dto.getParams();
             // 创建时间
