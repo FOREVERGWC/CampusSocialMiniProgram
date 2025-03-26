@@ -103,7 +103,7 @@
 				</el-form-item>
 				<el-form-item label="用户" prop="userId">
 					<el-select v-model="form.data.userId" clearable filterable placeholder="请选择用户">
-						<el-option v-for="item in userList" :key="item.id" :label="item.name" :value="item.id" />
+						<el-option v-for="item in userList" :key="item.id" :label="item.username" :value="item.id" />
 					</el-select>
 				</el-form-item>
 				<el-form-item label="备注" prop="remark">
